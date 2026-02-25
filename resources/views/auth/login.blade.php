@@ -26,7 +26,7 @@
 
 <main class="page">
     <section class="card" aria-labelledby="login-title">
-        <h1 id="login-title" class="title">Welcome Buddy!</h1>
+        <h1 id="login-title" class="title">Welcome Campus Buddy!</h1>
 
         <form method="POST" action="{{ url('/login') }}" class="form" novalidate>
             @csrf
