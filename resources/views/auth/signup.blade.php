@@ -21,7 +21,7 @@
             </svg>
         </span>
         <span class="brand__text">
-            <span class="brand__name">Campus Buddy</span>
+            <span class="brand__name">Join Campus Buddy</span>
         </span>
     </a>
 </header>
