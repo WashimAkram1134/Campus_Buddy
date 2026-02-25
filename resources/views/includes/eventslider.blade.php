@@ -1,0 +1,41 @@
+{{-- Campus Buddy Event Image Slider --}}
+<div class="event-slider-section">
+  <h2>Recent Events</h2>
+  <div class="slider-container">
+    <div class="slider-track">
+      @php
+        $imageDir = public_path('images/eventImage/');
+        $images = [];
+        if (is_dir($imageDir)) {
+            foreach (['jpg','jpeg','png','gif','webp'] as $ext) {
+                $images = array_merge($images, glob($imageDir . "*.$ext"));
+            }
+        }
+        // Duplicate images for seamless infinite scroll
+        $displayImages = $images;
+        while (count($displayImages) < 10 && !empty($images)) {
+            $displayImages = array_merge($displayImages, $images);
+        }
+        if (count($displayImages) > 20) {
+            $displayImages = array_slice($displayImages, 0, 20);
+        }
+      @endphp
+
+      @forelse($displayImages as $image)
+        <div class="slide">
+          <img src="{{ asset('images/eventImage/' . basename($image)) }}" alt="Event Image">
+        </div>
+      @empty
+        <p class="no-events">No event images found.</p>
+      @endforelse
+    </div>
+  </div>
+</div>
+
+<!-- FULL SCREEN IMAGE VIEWER -->
+<div class="image-viewer" id="imageViewer">
+  <span class="close-btn">&times;</span>
+  <span class="nav-btn nav-prev">&#8249;</span>
+  <span class="nav-btn nav-next">&#8250;</span>
+  <img src="" alt="Full size event image">
+</div>

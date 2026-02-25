@@ -25,5 +25,5 @@ Route::post('/login/guest', function () {
 })->name('login.guest');
 
 Route::get('/dashboard', function () {
-    return 'Dashboard - You are logged in!';
+    return view('dashboard');
 })->name('dashboard')->middleware('auth');
