@@ -11,17 +11,9 @@
                 $images = array_merge($images, glob($imageDir . "*.$ext"));
             }
         }
-        // Duplicate images for seamless infinite scroll
-        $displayImages = $images;
-        while (count($displayImages) < 10 && !empty($images)) {
-            $displayImages = array_merge($displayImages, $images);
-        }
-        if (count($displayImages) > 20) {
-            $displayImages = array_slice($displayImages, 0, 20);
-        }
       @endphp
 
-      @forelse($displayImages as $image)
+      @forelse($images as $image)
         <div class="slide">
           <img src="{{ asset('images/eventImage/' . basename($image)) }}" alt="Event Image">
         </div>

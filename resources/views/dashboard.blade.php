@@ -203,6 +203,29 @@ document.addEventListener('DOMContentLoaded', function() {
             expandBtn.textContent = isCollapsed ? 'Expand ▼' : 'Collapse ▲';
         });
     }
+    // ================= SCROLL ANIMATIONS =================
+    const animateObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate the section itself
+                entry.target.classList.add('animate-in');
+
+                // Animate children (cards or slides)
+                const children = entry.target.querySelectorAll('.card, .slide');
+                children.forEach(child => {
+                    child.classList.add('animate-in');
+                });
+
+                animateObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    // Observe sections
+    const dashCards = document.querySelector('.dash-cards');
+    const eventSection = document.querySelector('.event-slider-section');
+    if (dashCards) animateObserver.observe(dashCards);
+    if (eventSection) animateObserver.observe(eventSection);
 });
 </script>
 
