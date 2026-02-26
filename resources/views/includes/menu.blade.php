@@ -28,7 +28,7 @@
     <img src="{{ asset('images/menuicons/pdf&Notes.png') }}" alt="Notes & Pdf" width="20" height="20" style="vertical-align: middle;">
     <span>Notes & Pdf</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('community') }}" class="{{ $currentRoute === 'community' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/community.png') }}" alt="Community" width="20" height="20" style="vertical-align: middle;">
     <span>Community</span>
   </a>
@@ -69,7 +69,7 @@
     <img src="{{ asset('images/menuicons/pdf&Notes.png') }}" alt="Notes & Pdf" width="20" height="20" style="vertical-align: middle;">
     <p>Notes & Pdf</p>
   </a>
-  <a href="#" class="menu">
+  <a href="{{ route('community') }}" class="menu {{ $currentRoute === 'community' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/community.png') }}" alt="Community" width="20" height="20" style="vertical-align: middle;">
     <p>Community</p>
   </a>

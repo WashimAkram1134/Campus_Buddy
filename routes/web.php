@@ -31,3 +31,7 @@ Route::get('/dashboard', function () {
 Route::get('/question-bank', function () {
     return view('questionbank');
 })->name('question-bank')->middleware('auth');
+
+Route::get('/community', function () {
+    return view('community');
+})->name('community')->middleware('auth');
