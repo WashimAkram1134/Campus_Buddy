@@ -49,7 +49,33 @@
         <button>More Questions</button>
       </div>
 
-      <div class="card">
+      <!-- More Features Book Card (shows after card 3 on mobile) -->
+      <div class="card more-features-card" id="moreFeatures">
+        <h3>More Features</h3>
+        <div class="book-scene">
+          <div class="book-3d">
+            <div class="book-page book-front" id="bookFront">
+              <div class="page-content-inner">
+                <span class="page-icon">📝</span>
+                <h4>Notes</h4>
+                <p>AI Lecture-1</p>
+              </div>
+            </div>
+            <div class="book-page book-back" id="bookBack">
+              <div class="page-content-inner">
+                <span class="page-icon">📰</span>
+                <h4>Campus News</h4>
+                <p>Latest Updates</p>
+              </div>
+            </div>
+            <div class="book-spine"></div>
+          </div>
+        </div>
+        <button class="expand-btn" id="expandBtn">Expand</button>
+      </div>
+
+      <!-- These cards are hidden on mobile until Expand is clicked -->
+      <div class="card expandable-card">
         <h3>Notes</h3>
         <div class="card-box">
           <b>AI</b><br>Lecture-1
@@ -57,13 +83,13 @@
         <button>View Notes</button>
       </div>
 
-      <div class="card hide-mobile">
+      <div class="card expandable-card">
         <h3>Campus News</h3>
         <div class="card-box">AI Hackathon this week</div>
         <button>Read More</button>
       </div>
 
-      <div class="card hide-mobile">
+      <div class="card expandable-card">
         <h3>Community</h3>
         <div class="card-box">Meet Seniors & Alumni</div>
         <button>Explore</button>
@@ -176,6 +202,80 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         }, 500);
     }
+
+    // ================= EXPAND BUTTON TOGGLE =================
+    const expandBtn = document.getElementById('expandBtn');
+    const expandableCards = document.querySelectorAll('.expandable-card');
+    let isExpanded = false;
+
+    if (expandBtn) {
+        const moreFeaturesCard = document.getElementById('moreFeatures');
+        expandBtn.addEventListener('click', function() {
+            isExpanded = !isExpanded;
+            expandableCards.forEach((card, i) => {
+                if (isExpanded) {
+                    setTimeout(() => {
+                        card.classList.add('expanded');
+                    }, i * 100);
+                } else {
+                    card.classList.remove('expanded');
+                }
+            });
+            // Move More Features to end when expanded, back to after card 3 when collapsed
+            if (moreFeaturesCard) {
+                moreFeaturesCard.classList.toggle('repositioned', isExpanded);
+            }
+            expandBtn.textContent = isExpanded ? 'Collapse' : 'Expand';
+        });
+    }
+
+    // ================= BOOK PAGE CYCLING =================
+    const bookFront = document.getElementById('bookFront');
+    const bookBack = document.getElementById('bookBack');
+
+    const hiddenCards = [
+        { icon: '📝', name: 'Notes', desc: 'AI Lecture-1' },
+        { icon: '📰', name: 'Campus News', desc: 'Latest Updates' },
+        { icon: '👥', name: 'Community', desc: 'Meet Seniors' }
+    ];
+
+    let cardIndex = 0;
+
+    function updateBookPages() {
+        if (!bookFront || !bookBack) return;
+
+        const frontContent = bookFront.querySelector('.page-content-inner');
+        const backContent = bookBack.querySelector('.page-content-inner');
+
+        // Fade out
+        frontContent.classList.add('fading');
+        backContent.classList.add('fading');
+
+        setTimeout(() => {
+            // Update front page
+            const frontCard = hiddenCards[cardIndex];
+            frontContent.querySelector('.page-icon').textContent = frontCard.icon;
+            frontContent.querySelector('h4').textContent = frontCard.name;
+            frontContent.querySelector('p').textContent = frontCard.desc;
+
+            // Update back page (next card)
+            const nextIndex = (cardIndex + 1) % hiddenCards.length;
+            const backCard = hiddenCards[nextIndex];
+            backContent.querySelector('.page-icon').textContent = backCard.icon;
+            backContent.querySelector('h4').textContent = backCard.name;
+            backContent.querySelector('p').textContent = backCard.desc;
+
+            // Fade in
+            frontContent.classList.remove('fading');
+            backContent.classList.remove('fading');
+
+            // Move to next pair
+            cardIndex = (cardIndex + 1) % hiddenCards.length;
+        }, 500);
+    }
+
+    // Cycle every 8 seconds (same pace as the book animation)
+    setInterval(updateBookPages, 8000);
 });
 </script>
 

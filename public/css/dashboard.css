@@ -116,7 +116,187 @@ body {
     transform: scale(1.05);
 }
 
-/* ================= EVENT SLIDER ================= */
+/* ================= MORE FEATURES - FLOATING BOOK CARD ================= */
+.more-features-card {
+    border: 2px dashed #00aaff;
+    background: white;
+}
+
+.more-features-card h3 {
+    color: #1b5c7a;
+}
+
+/* 3D Book Scene */
+.book-scene {
+    perspective: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    margin-bottom: 15px;
+}
+
+.book-3d {
+    position: relative;
+    width: 190px;
+    height: 120px;
+    transform-style: preserve-3d;
+    animation: bookFloat 8s ease-in-out infinite;
+}
+
+/* Book pages */
+.book-page {
+    position: absolute;
+    width: 95px;
+    height: 120px;
+    background: linear-gradient(135deg, #f8fbff, #edf4fb);
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    border: 1px solid #e0ecf5;
+}
+
+.book-front {
+    left: 0;
+    transform-origin: right center;
+    animation: pageTurnFront 8s ease-in-out infinite;
+    z-index: 2;
+}
+
+.book-back {
+    right: 0;
+    border-left: 2px solid #d0dfe8;
+    z-index: 1;
+}
+
+/* Book spine */
+.book-spine {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 120px;
+    background: linear-gradient(180deg, #c5dce8, #a8c8d8);
+    border-radius: 3px;
+    z-index: 3;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Page inner content */
+.page-content-inner {
+    text-align: center;
+    padding: 15px;
+}
+
+.page-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.page-content-inner h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1b5c7a;
+    margin-bottom: 4px;
+}
+
+.page-content-inner p {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Floating + page turn animation */
+@keyframes bookFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotateY(0deg);
+    }
+
+    25% {
+        transform: translateY(-12px) rotateY(-5deg);
+    }
+
+    50% {
+        transform: translateY(-6px) rotateY(0deg);
+    }
+
+    75% {
+        transform: translateY(-15px) rotateY(5deg);
+    }
+}
+
+@keyframes pageTurnFront {
+
+    0%,
+    40% {
+        transform: rotateY(0deg);
+    }
+
+    50%,
+    60% {
+        transform: rotateY(-45deg);
+    }
+
+    70%,
+    100% {
+        transform: rotateY(0deg);
+    }
+}
+
+/* Expand button */
+.expand-btn {
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+}
+
+.expand-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+}
+
+.expand-btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile responsive for book card */
+@media (max-width: 768px) {
+    .more-features-card {
+        padding: 20px;
+        margin-top: 25px;
+    }
+
+    .book-3d {
+        width: 200px;
+        height: 140px;
+    }
+
+    .book-page {
+        width: 100px;
+        height: 140px;
+    }
+
+    .book-spine {
+        height: 140px;
+    }
+
+    .book-scene {
+        height: 170px;
+    }
+}
+
 .event-slider-section {
     margin-top: 40px;
     margin-bottom: 30px;
@@ -196,6 +376,15 @@ body {
 
 /* ================= RESPONSIVE MEDIA QUERIES ================= */
 
+/* Page content fade for cycling */
+.page-content-inner {
+    transition: opacity 0.5s ease;
+}
+
+.page-content-inner.fading {
+    opacity: 0;
+}
+
 @media (max-width: 768px) {
     .layout {
         padding-top: 140px !important;
@@ -233,13 +422,41 @@ body {
         width: 100%;
     }
 
-    .hide-mobile {
-        display: block;
+    /* More Features card appears after card 3 (order 4) */
+    .more-features-card {
+        order: 4;
+    }
+
+    .more-features-card.repositioned {
+        order: 10 !important;
+    }
+
+    /* Expandable cards hidden on mobile by default */
+    .expandable-card {
+        display: none !important;
+        order: 5;
+    }
+
+    .expandable-card.expanded {
+        display: block !important;
+        animation: slideDown 0.4s ease forwards;
     }
 
     .slide {
         width: 350px;
         height: 220px;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
