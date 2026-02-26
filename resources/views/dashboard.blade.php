@@ -18,8 +18,17 @@
 
     <!-- ================= HERO SECTION ================= -->
     <section class="dash-hero">
-      <img src="{{ asset('images/community/dashboardBG.webp') }}" alt="Campus" class="dash-hero-bg">
+      <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Campus" class="dash-hero-bg">
       <div class="dash-hero-overlay"></div>
+
+      <!-- Campus Buddy Headline -->
+      <div class="campus-headline">
+        <h1 class="campus-title">
+          <span class="title-campus">Campus</span>
+          <span class="title-buddy">Buddy</span>
+        </h1>
+        <p class="campus-subtitle">Your AI-Powered Academic Companion</p>
+      </div>
 
       <div class="hero-split">
         <!-- LEFT: Welcome text + cards -->
