@@ -18,8 +18,8 @@ body {
 /* ===== LAYOUT ===== */
 .layout {
     display: flex;
-    margin-left: 200px;
-    padding-top: 70px;
+    margin-left: 0;
+    padding-top: 56px;
 }
 
 .main {
@@ -452,7 +452,7 @@ body {
     .layout {
         display: block !important;
         margin-left: 0 !important;
-        padding-top: 140px !important;
+        padding-top: 0 !important;
     }
 
     .main {

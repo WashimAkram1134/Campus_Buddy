@@ -174,8 +174,9 @@ nav.mobile-menu a.active::after {
     color: #00aaff !important;
 }
 
-/* ================= DESKTOP SIDEBAR ================= */
+/* ================= DESKTOP SIDEBAR (hidden - menu moved to topbar) ================= */
 .sidebar {
+    display: none;
     position: fixed;
     top: 70px;
     left: 0;
@@ -187,8 +188,9 @@ nav.mobile-menu a.active::after {
     overflow-x: hidden;
 }
 
-/* ================= BUDDY BOX ================= */
+/* ================= BUDDY BOX (hidden) ================= */
 .buddy-box {
+    display: none;
     padding: 15px;
     text-align: center;
     border-bottom: 1px solid #d0e8f5;
@@ -274,6 +276,12 @@ nav.mobile-menu a.active::after {
 
     .mobile-menu {
         display: flex !important;
+        position: static;
+        top: auto;
+    }
+
+    .social-footer {
+        display: none !important;
     }
 }
 

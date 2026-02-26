@@ -14,102 +14,92 @@
 @include('includes.menu')
 
 <div class="layout">
-  <!-- MAIN -->
   <main class="main">
 
-    <div class="header-row">
-      <h1>Hello {{ Auth::user()->name ?? 'User' }}!</h1>
-      @if(Auth::user()->role === 'cr')
-        <a href="#" class="cr-btn">CR Panel</a>
-      @endif
-    </div>
+    <!-- ================= HERO SECTION ================= -->
+    <section class="dash-hero">
+      <img src="{{ asset('images/community/dashboardBG.webp') }}" alt="Campus" class="dash-hero-bg">
+      <div class="dash-hero-overlay"></div>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Today's Study Plan</h3>
-        <div class="card-box">
-          <b>9:00 AM</b><br>Data Structure<br>Room 713
-        </div>
-        <button>AI Schedule Tips</button>
-      </div>
+      <div class="hero-split">
+        <!-- LEFT: Welcome text + cards -->
+        <div class="hero-left">
+          <span class="hero-tag">YOUR PERSONALIZED LEARNING HUB</span>
+          <h1>Start your day with <br><span>campusBuddy,</span> {{ Auth::user()->name ?? 'User' }}!</h1>
+          @if(Auth::user()->role === 'cr')
+            <a href="#" class="cr-btn">CR Panel</a>
+          @endif
 
-      <div class="card">
-        <h3>Upcoming Tasks</h3>
-        <div class="card-box">
-          <b>Machine Learning</b><br>Quiz-1<br>11:00 AM
-        </div>
-        <button>AI Reminder</button>
-      </div>
-
-      <div class="card">
-        <h3>Question Bank</h3>
-        <div class="card-box">
-          <b>OOP - Fall25</b><br>Mid-term
-        </div>
-        <button>More Questions</button>
-      </div>
-
-      <!-- More Features Book Card (shows after card 3 on mobile) -->
-      <div class="card more-features-card" id="moreFeatures">
-        <h3>More Features</h3>
-        <div class="book-scene">
-          <div class="book-3d">
-            <div class="book-page book-front" id="bookFront">
-              <div class="page-content-inner">
-                <span class="page-icon">📝</span>
-                <h4>Notes</h4>
-                <p>AI Lecture-1</p>
-              </div>
+          <!-- Cards inside hero -->
+          <div class="hero-cards">
+            <div class="hero-card">
+              <h4>📅 Today's Study Plan</h4>
+              <p><b>9:00 AM</b> — Data Structure, Room 713</p>
+              <button>AI Schedule Tips</button>
             </div>
-            <div class="book-page book-back" id="bookBack">
-              <div class="page-content-inner">
-                <span class="page-icon">📰</span>
-                <h4>Campus News</h4>
-                <p>Latest Updates</p>
-              </div>
+            <div class="hero-card">
+              <h4>📝 Upcoming Tasks</h4>
+              <p><b>Machine Learning</b> — Quiz-1, 11:00 AM</p>
+              <button>AI Reminder</button>
             </div>
-            <div class="book-spine"></div>
+            <div class="hero-card">
+              <h4>❓ Question Bank</h4>
+              <p><b>OOP - Fall25</b> — Mid-term</p>
+              <button>More Questions</button>
+            </div>
           </div>
         </div>
-        <button class="expand-btn" id="expandBtn">Expand</button>
-      </div>
 
-      <!-- These cards are hidden on mobile until Expand is clicked -->
-      <div class="card expandable-card">
-        <h3>Notes</h3>
-        <div class="card-box">
-          <b>AI</b><br>Lecture-1
+        <!-- RIGHT: Buddy mascot (slides in from right) -->
+        <div class="hero-right" id="buddyContainer">
+          <div class="speech-bubble" id="speechBubble">
+            <p>Hi {{ Auth::user()->name ?? 'there' }}! 👋<br>Ready to learn today?</p>
+          </div>
+          <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Campus Buddy" class="buddy-float" id="buddyImg">
         </div>
-        <button>View Notes</button>
+      </div>
+    </section>
+
+    <!-- ================= CARDS BELOW HERO ================= -->
+    <section class="dash-cards" id="dashCards">
+      <div class="cards-header">
+        <h2>🎯 More Features</h2>
+        <button class="expand-btn" id="expandBtn">Collapse ▲</button>
       </div>
 
-      <div class="card expandable-card">
-        <h3>Campus News</h3>
-        <div class="card-box">AI Hackathon this week</div>
-        <button>Read More</button>
-      </div>
+      <div class="cards-row" id="expandableCards">
+        <div class="card">
+          <h3>📝 Notes</h3>
+          <div class="card-box">
+            <b>AI</b><br>Lecture 1
+          </div>
+          <button>View Notes</button>
+        </div>
 
-      <div class="card expandable-card">
-        <h3>Community</h3>
-        <div class="card-box">Meet Seniors & Alumni</div>
-        <button>Explore</button>
+        <div class="card">
+          <h3>📰 Campus News</h3>
+          <div class="card-box">AI Hackathon this week</div>
+          <button>Read More</button>
+        </div>
+
+        <div class="card">
+          <h3>👥 Community</h3>
+          <div class="card-box">Meet Seniors & Alumni</div>
+          <a href="{{ route('community') }}"><button>Explore</button></a>
+        </div>
+
+        <div class="card">
+          <h3>🏆 AI Hackathon</h3>
+          <div class="card-box">AI Hackathon this week</div>
+          <button>Read More</button>
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- EVENT IMAGES SLIDER -->
     @include('includes.eventslider')
 
   </main>
-</div>
-
-<!-- ================= ANIMATED AI BUDDY ================= -->
-<div class="ai-buddy-container">
-  <div class="ai-buddy" id="aiBuddy">
-    <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="AI Buddy" class="buddy-image">
-    <div class="speech-bubble" id="speechBubble">
-      <p>Hi {{ Auth::user()->name ?? 'there' }} 👋 Ready to study?</p>
-    </div>
-  </div>
 </div>
 
 @include('includes.footer')
@@ -161,7 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
     nextBtn.addEventListener('click', function(e) { e.stopPropagation(); navigateImage('next'); });
     imageViewer.addEventListener('click', function(e) { if (e.target === imageViewer) closeViewer(); });
 
-    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (!imageViewer.classList.contains('active')) return;
         switch(e.key) {
@@ -171,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Touch gestures
     let touchStartX = 0, touchEndX = 0;
     imageViewer.addEventListener('touchstart', function(e) { touchStartX = e.changedTouches[0].screenX; });
     imageViewer.addEventListener('touchend', function(e) {
@@ -182,100 +170,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // ================= AI BUDDY ANIMATION =================
-    const aiBuddy = document.getElementById('aiBuddy');
+    // ================= BUDDY SLIDE-IN ANIMATION =================
+    const buddyContainer = document.getElementById('buddyContainer');
     const speechBubble = document.getElementById('speechBubble');
 
-    if (aiBuddy && speechBubble) {
+    if (buddyContainer) {
+        // Slide buddy in from right after 1.5s
         setTimeout(() => {
-            aiBuddy.classList.add('slide-in');
+            buddyContainer.classList.add('slide-in');
+
+            // Show speech bubble after buddy slides in
             setTimeout(() => {
-                speechBubble.classList.add('show');
+                if (speechBubble) speechBubble.classList.add('show');
+
+                // Hide speech bubble after 4s
                 setTimeout(() => {
-                    aiBuddy.classList.add('waving');
-                    setTimeout(() => {
-                        aiBuddy.classList.remove('waving');
-                        setTimeout(() => { aiBuddy.classList.add('rotating'); }, 500);
-                    }, 1800);
-                }, 500);
-                setTimeout(() => { speechBubble.classList.remove('show'); }, 4000);
+                    if (speechBubble) speechBubble.classList.remove('show');
+                }, 4000);
             }, 1000);
-        }, 500);
+        }, 1500);
     }
 
-    // ================= EXPAND BUTTON TOGGLE =================
+    // ================= COLLAPSE / EXPAND =================
     const expandBtn = document.getElementById('expandBtn');
-    const expandableCards = document.querySelectorAll('.expandable-card');
-    let isExpanded = false;
+    const expandableCards = document.getElementById('expandableCards');
+    let isCollapsed = false;
 
-    if (expandBtn) {
-        const moreFeaturesCard = document.getElementById('moreFeatures');
+    if (expandBtn && expandableCards) {
         expandBtn.addEventListener('click', function() {
-            isExpanded = !isExpanded;
-            expandableCards.forEach((card, i) => {
-                if (isExpanded) {
-                    setTimeout(() => {
-                        card.classList.add('expanded');
-                    }, i * 100);
-                } else {
-                    card.classList.remove('expanded');
-                }
-            });
-            // Move More Features to end when expanded, back to after card 3 when collapsed
-            if (moreFeaturesCard) {
-                moreFeaturesCard.classList.toggle('repositioned', isExpanded);
-            }
-            expandBtn.textContent = isExpanded ? 'Collapse' : 'Expand';
+            isCollapsed = !isCollapsed;
+            expandableCards.classList.toggle('collapsed', isCollapsed);
+            expandBtn.textContent = isCollapsed ? 'Expand ▼' : 'Collapse ▲';
         });
     }
-
-    // ================= BOOK PAGE CYCLING =================
-    const bookFront = document.getElementById('bookFront');
-    const bookBack = document.getElementById('bookBack');
-
-    const hiddenCards = [
-        { icon: '📝', name: 'Notes', desc: 'AI Lecture-1' },
-        { icon: '📰', name: 'Campus News', desc: 'Latest Updates' },
-        { icon: '👥', name: 'Community', desc: 'Meet Seniors' }
-    ];
-
-    let cardIndex = 0;
-
-    function updateBookPages() {
-        if (!bookFront || !bookBack) return;
-
-        const frontContent = bookFront.querySelector('.page-content-inner');
-        const backContent = bookBack.querySelector('.page-content-inner');
-
-        // Fade out
-        frontContent.classList.add('fading');
-        backContent.classList.add('fading');
-
-        setTimeout(() => {
-            // Update front page
-            const frontCard = hiddenCards[cardIndex];
-            frontContent.querySelector('.page-icon').textContent = frontCard.icon;
-            frontContent.querySelector('h4').textContent = frontCard.name;
-            frontContent.querySelector('p').textContent = frontCard.desc;
-
-            // Update back page (next card)
-            const nextIndex = (cardIndex + 1) % hiddenCards.length;
-            const backCard = hiddenCards[nextIndex];
-            backContent.querySelector('.page-icon').textContent = backCard.icon;
-            backContent.querySelector('h4').textContent = backCard.name;
-            backContent.querySelector('p').textContent = backCard.desc;
-
-            // Fade in
-            frontContent.classList.remove('fading');
-            backContent.classList.remove('fading');
-
-            // Move to next pair
-            cardIndex = (cardIndex + 1) % hiddenCards.length;
-        }, 500);
-    }
-
-    // Cycle every 8 seconds (same pace as the book animation)
-    setInterval(updateBookPages, 8000);
 });
 </script>
 

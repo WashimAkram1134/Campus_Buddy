@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 70px;
+    height: 56px;
     width: 100%;
     background: #eaf5fb;
     display: flex;
@@ -28,7 +28,7 @@
 }
 
 .logo-img {
-    height: 50px;
+    height: 30px;
     width: auto;
     transition: transform 0.2s ease;
 }
@@ -39,7 +39,7 @@
 
 .logo-text {
     display: block !important;
-    font-size: 14px !important;
+    font-size: 11px !important;
     margin-top: 0px !important;
     font-weight: bold !important;
     color: #1b5c7a !important;
@@ -48,6 +48,39 @@
     line-height: 1 !important;
 }
 
+/* ================= DESKTOP INLINE NAV ================= */
+.desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.desktop-nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.desktop-nav a:hover {
+    background: rgba(0, 170, 255, 0.1);
+    color: #1b5c7a;
+}
+
+.desktop-nav a.active {
+    background: #00aaff;
+    color: white;
+    font-weight: 600;
+}
+
+/* ================= TOP ICONS ================= */
 .top-icons {
     font-size: 16px;
     cursor: pointer;
@@ -66,4 +99,36 @@
 .top-icon:hover {
     transform: scale(1.1);
     filter: brightness(1);
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .topbar {
+        height: 50px;
+        padding: 0 12px;
+        position: static;
+        background: #d8edf7;
+    }
+
+    .logo-img {
+        height: 28px;
+    }
+
+    .logo-text {
+        font-size: 11px !important;
+    }
+
+    .top-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .top-icons {
+        gap: 8px;
+    }
+
+    /* Hide desktop nav on mobile (mobile-menu is used instead) */
+    .desktop-nav {
+        display: none !important;
+    }
 }
