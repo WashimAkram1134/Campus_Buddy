@@ -36,7 +36,7 @@
     <img src="{{ asset('images/menuicons/alumni.png') }}" alt="Alumni" width="20" height="20" style="vertical-align: middle;">
     <span>Alumni</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('question-bank') }}" class="{{ $currentRoute === 'question-bank' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/questionBank.png') }}" alt="Question Bank" width="20" height="20" style="vertical-align: middle;">
     <span>Q Bank</span>
   </a>
@@ -79,7 +79,7 @@
     <img src="{{ asset('images/menuicons/alumni.png') }}" alt="Alumni" width="20" height="20" style="vertical-align: middle;">
     <p>Alumni</p>
   </a>
-  <a href="#" class="menu">
+  <a href="{{ route('question-bank') }}" class="menu {{ $currentRoute === 'question-bank' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/questionBank.png') }}" alt="Question Bank" width="20" height="20" style="vertical-align: middle;">
     <p>Q Bank</p>
   </a>

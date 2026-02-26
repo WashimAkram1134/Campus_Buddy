@@ -27,3 +27,7 @@ Route::post('/login/guest', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
+
+Route::get('/question-bank', function () {
+    return view('questionbank');
+})->name('question-bank')->middleware('auth');

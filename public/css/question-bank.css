@@ -1,0 +1,448 @@
+/* ================= RESET ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Segoe UI, sans-serif;
+}
+
+body {
+    background: #d9edf7;
+}
+
+/* ================= LAYOUT ================= */
+.layout {
+    display: flex;
+    margin-left: 200px;
+    padding-top: 70px;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1b5c7a;
+    font-size: 32px;
+}
+
+/* ================= FILTERS ================= */
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #00aaff, #0088cc);
+    transition: width 0.3s ease;
+}
+
+.filter-container:hover::before {
+    width: 6px;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.filter-input {
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: white;
+    flex: 1;
+    min-width: 150px;
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #00aaff;
+    box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.filter-input:hover {
+    border-color: #00aaff;
+    transform: translateY(-1px);
+}
+
+.filter-input::placeholder {
+    transition: opacity 0.3s ease;
+}
+
+.filter-input:focus::placeholder {
+    opacity: 0.5;
+}
+
+.filter-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 170, 255, 0.4);
+}
+
+.filter-btn:active {
+    transform: translateY(0);
+}
+
+/* ================= QUESTION CARD ================= */
+.question-card {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.question-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 170, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.question-card:hover::before {
+    left: 100%;
+}
+
+.question-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+.question-card:active {
+    transform: translateY(-4px) scale(1.01);
+    transition: all 0.1s ease;
+}
+
+/* Question Card Header */
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.question-header h3 {
+    margin: 0;
+    color: #1b5c7a;
+    font-size: 16px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.question-card:hover .question-header h3 {
+    color: #00aaff;
+}
+
+/* Difficulty Badges */
+.difficulty {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.difficulty.easy {
+    background: #d4edda;
+    color: #155724;
+}
+
+.difficulty.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.difficulty.hard {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Question Content */
+.question-content {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.question-content p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Question Footer */
+.question-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 12px;
+}
+
+.question-footer .course {
+    color: #00aaff;
+    font-weight: 500;
+}
+
+.question-footer .date {
+    color: #999;
+}
+
+/* Question Grid */
+.question-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* ================= LOAD MORE BUTTON ================= */
+.load-more {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.load-more-btn {
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+}
+
+.load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+}
+
+.load-more-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 170, 255, 0.3);
+}
+
+/* ================= BUDDY SECTION ================= */
+.buddy-section {
+    margin-top: 40px;
+}
+
+.buddy-card {
+    background: #d7ecf8;
+    padding: 25px;
+    border-radius: 14px;
+    margin: 20px 0;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.buddy-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 170, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.buddy-card:hover::before {
+    opacity: 1;
+}
+
+.buddy-card:hover {
+    background: #c8e6f5;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.buddy-card h3 {
+    color: #1b5c7a;
+    margin-bottom: 15px;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+}
+
+.buddy-card p {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 15px;
+    line-height: 1.4;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.buddy-card:hover p {
+    transform: translateY(-2px);
+    color: #1a5c7a;
+}
+
+.buddy-card .btn {
+    background: #00aaff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.buddy-card .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    z-index: -1;
+}
+
+.buddy-card .btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.buddy-card .btn:hover {
+    background: #0088cc;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+}
+
+.buddy-card .btn:active {
+    transform: translateY(-1px);
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+@media (max-width: 768px) {
+    .layout {
+        display: block !important;
+        margin-left: 0 !important;
+        padding-top: 140px !important;
+    }
+
+    .main {
+        padding: 15px !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .filter-input {
+        width: 100%;
+    }
+
+    .question-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .buddy-card {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 10px !important;
+    }
+
+    .question-card {
+        padding: 15px;
+    }
+
+    .question-header h3 {
+        font-size: 14px;
+    }
+
+    .buddy-card {
+        padding: 12px;
+    }
+}
