@@ -15,16 +15,29 @@
 
 <div class="layout">
   <main class="main">
-    <h1 class="title">Question Bank</h1>
-
-    <div class="filter-container">
-      <div class="filter-bar">
-        <input type="text" placeholder="Department" class="filter-input">
-        <input type="text" placeholder="Course" class="filter-input">
-        <input type="text" placeholder="Topic" class="filter-input">
-        <button class="filter-btn">Search</button>
+    <!-- ================= HERO BANNER ================= -->
+    <section class="hero-banner">
+      <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Study Groups" class="hero-bg">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-tag">PRACTICE & EXCEL</span>
+        <h1>Master your courses with the <em>Question Bank.</em></h1>
+        <p class="hero-desc">
+          Access past exams, midterms, finals, and quizzes to prepare effectively.
+          Filter by department, course, or specific topics to find exactly what you need.
+        </p>
       </div>
-    </div>
+    </section>
+
+    <div class="qb-content" id="qb-content">
+      <div class="filter-container animate-on-scroll">
+        <div class="filter-bar">
+          <input type="text" placeholder="Department" class="filter-input">
+          <input type="text" placeholder="Course" class="filter-input">
+          <input type="text" placeholder="Topic" class="filter-input">
+          <button class="filter-btn">Search</button>
+        </div>
+      </div>
 
     <div class="question-grid">
       <!-- Sample Questions -->
@@ -90,18 +103,45 @@
     </div>
 
     <!-- Buddy Section -->
-    <div class="buddy-section">
+    <div class="buddy-section animate-on-scroll">
       <div class="buddy-card">
         <h3>🤖 Need Help with Questions?</h3>
         <p>Based on your department, you might want to check the last 5 OOP quizzes.</p>
         <a href="#" class="btn">Ask Buddy</a>
       </div>
     </div>
+    
+    </div> <!-- End qb-content -->
 
   </main>
 </div>
 
 @include('includes.footer')
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate the section itself
+                entry.target.classList.add('animate-in');
+
+                // Animate children (cards)
+                const children = entry.target.querySelectorAll('.question-card');
+                children.forEach(child => {
+                    child.classList.add('animate-in');
+                });
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Observe all animated sections
+    const sections = document.querySelectorAll('.animate-on-scroll, .question-grid');
+    sections.forEach(section => observer.observe(section));
+});
+</script>
 
 </body>
 </html>

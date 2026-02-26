@@ -159,5 +159,32 @@
 
 @include('includes.footer')
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate the section itself
+                entry.target.classList.add('animate-in');
+
+                // Animate children (cards, posts, quick-action items)
+                const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox');
+                children.forEach(child => {
+                    child.classList.add('animate-in');
+                });
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Observe all animated sections
+    const sections = document.querySelectorAll(
+        '.community-cards, .quick-section, .recent-posts-heading, .posts, .trending-section'
+    );
+    sections.forEach(section => observer.observe(section));
+});
+</script>
+
 </body>
 </html>
