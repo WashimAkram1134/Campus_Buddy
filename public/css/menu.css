@@ -196,8 +196,8 @@ nav.mobile-menu a.active::after {
 }
 
 .buddy-box img {
-    width: 80px !important;
-    height: 80px !important;
+    width: 120px !important;
+    height: 120px !important;
     border-radius: 8px;
     object-fit: cover;
     margin-bottom: 8px;

@@ -44,12 +44,10 @@
 
 <!-- ================= DESKTOP SIDEBAR ================= -->
 <nav class="sidebar">
-  @if($currentRoute === 'dashboard')
-    <div class="buddy-box">
-      <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy">
-      <button>Chat With Buddy</button>
-    </div>
-  @endif
+  <div class="buddy-box">
+    <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy">
+    <button>Chat With Buddy</button>
+  </div>
 
   <a href="{{ route('dashboard') }}" class="menu {{ $currentRoute === 'dashboard' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/home.png') }}" alt="Home" width="20" height="20" style="vertical-align: middle;">
