@@ -52,10 +52,8 @@
 
         <!-- RIGHT: Buddy mascot (slides in from right) -->
         <div class="hero-right" id="buddyContainer">
-          <div class="speech-bubble" id="speechBubble">
-            <p>Hi {{ Auth::user()->name ?? 'there' }}! 👋<br>Ready to learn today?</p>
-          </div>
           <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Campus Buddy" class="buddy-float" id="buddyImg">
+          <a href="#" class="chat-buddy-btn">💬 Chat with Buddy</a>
         </div>
       </div>
     </section>
