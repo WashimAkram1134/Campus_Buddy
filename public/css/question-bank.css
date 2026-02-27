@@ -61,7 +61,7 @@ body {
 
 .hero-tag {
     display: inline-block;
-    color: #c8a45a;
+    color: #00AAFF;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 2px;
@@ -85,7 +85,7 @@ body {
 
 .hero-content h1 em {
     font-style: italic;
-    color: #c8a45a;
+    color: #00AAFF;
 }
 
 .hero-desc {
@@ -136,7 +136,7 @@ body {
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, #00aaff, #0088cc);
+    background: #00AAFF;
     transition: width 0.3s ease;
 }
 
@@ -164,13 +164,13 @@ body {
 
 .filter-input:focus {
     outline: none;
-    border-color: #00aaff;
+    border-color: #00AAFF;
     box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
     transform: translateY(-2px);
 }
 
 .filter-input:hover {
-    border-color: #00aaff;
+    border-color: #00AAFF;
     transform: translateY(-1px);
 }
 
@@ -184,7 +184,7 @@ body {
 
 .filter-btn {
     padding: 12px 24px;
-    background: linear-gradient(135deg, #00aaff, #0088cc);
+    background: #00AAFF;
     color: white;
     border: none;
     border-radius: 8px;
@@ -269,11 +269,40 @@ body {
 /* Question Card Header */
 .question-header {
     display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-meta .dept {
+    color: #888;
+}
+
+.card-meta .code {
+    background: #00AAFF;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.title-row {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
 }
 
 .question-header h3 {
@@ -285,7 +314,7 @@ body {
 }
 
 .question-card:hover .question-header h3 {
-    color: #00aaff;
+    color: #00AAFF;
 }
 
 /* Difficulty Badges */
@@ -342,7 +371,7 @@ body {
 
 .sub-questions li::before {
     content: "•";
-    color: #00aaff;
+    color: #00AAFF;
     position: absolute;
     left: 0;
     top: -2px;
@@ -357,7 +386,7 @@ body {
 
 .topic-tags span {
     background: #f0f8ff;
-    color: #00aaff;
+    color: #00AAFF;
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 11px;
@@ -367,9 +396,9 @@ body {
 }
 
 .question-card:hover .topic-tags span {
-    background: #00aaff;
+    background: #00AAFF;
     color: white;
-    border-color: #00aaff;
+    border-color: #00AAFF;
 }
 
 /* Question Footer */
@@ -391,7 +420,7 @@ body {
 }
 
 .question-footer .course {
-    color: #00aaff;
+    color: #00AAFF;
     font-weight: 500;
 }
 
@@ -433,7 +462,7 @@ body {
 
 .view-btn {
     background: #f0f8ff;
-    color: #00aaff;
+    color: #00AAFF;
     border: 1px solid #cce5ff;
 }
 
@@ -444,7 +473,7 @@ body {
 }
 
 .download-btn {
-    background: linear-gradient(135deg, #00aaff, #0088cc);
+    background: #00AAFF;
     color: white;
     box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
 }
@@ -462,6 +491,11 @@ body {
     margin-bottom: 30px;
 }
 
+/* Hide cards beyond initial count */
+.question-card.hidden {
+    display: none;
+}
+
 /* ================= LOAD MORE BUTTON ================= */
 .load-more {
     text-align: center;
@@ -469,7 +503,7 @@ body {
 }
 
 .load-more-btn {
-    background: linear-gradient(135deg, #00aaff, #0088cc);
+    background: #00AAFF;
     color: white;
     border: none;
     padding: 12px 30px;
@@ -582,7 +616,7 @@ body {
 }
 
 .buddy-card .btn {
-    background: #00aaff;
+    background: #00AAFF;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -617,9 +651,10 @@ body {
 }
 
 .buddy-card .btn:hover {
-    background: #0088cc;
+    background: #00AAFF;
+    /* Ensure hover color is strictly #00AAFF by user request */
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
 }
 
 .buddy-card .btn:active {
@@ -684,11 +719,26 @@ body {
         padding: 15px;
     }
 
-    .question-header h3 {
+    .question-header .title-row h3 {
         font-size: 14px;
     }
 
     .buddy-card {
         padding: 12px;
+    }
+}
+
+/* Base logic for hiding extra cards via CSS */
+/* On desktop (> 768px), hide cards from 5th onward initially */
+@media (min-width: 769px) {
+    .question-grid.collapsed .question-card:nth-child(n+5) {
+        display: none;
+    }
+}
+
+/* On mobile (<= 768px), hide cards from 4th onward initially */
+@media (max-width: 768px) {
+    .question-grid.collapsed .question-card:nth-child(n+4) {
+        display: none;
     }
 }
