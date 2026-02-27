@@ -47,11 +47,25 @@
           <span class="difficulty medium">Medium</span>
         </div>
         <div class="question-content">
-          <p>What is the difference between abstraction and encapsulation in Object-Oriented Programming?</p>
+          <p class="main-question"><strong>Q1: Object-Oriented Design Principles</strong></p>
+          <ul class="sub-questions">
+            <li>What is the difference between abstraction and encapsulation?</li>
+            <li>Provide a real-world example demonstrating both concepts using a modern language.</li>
+            <li>Explain the role of access modifiers in enforcing data hiding.</li>
+          </ul>
+          <div class="topic-tags">
+            <span>#Abstraction</span>
+            <span>#Encapsulation</span>
+            <span>#Polymorphism</span>
+          </div>
         </div>
         <div class="question-footer">
           <span class="course">Object Oriented Programming</span>
           <span class="date">2 days ago</span>
+        </div>
+        <div class="card-action-overlay">
+          <button class="action-btn view-btn">View</button>
+          <button class="action-btn download-btn">Download</button>
         </div>
       </div>
 
@@ -61,11 +75,25 @@
           <span class="difficulty hard">Hard</span>
         </div>
         <div class="question-content">
-          <p>Explain the time complexity of quicksort algorithm and provide a detailed analysis of its best, average, and worst cases.</p>
+          <p class="main-question"><strong>Q3: Sorting Algorithms & Complexity</strong></p>
+          <ul class="sub-questions">
+            <li>Explain the detailed time complexity of the quicksort algorithm.</li>
+            <li>Provide a complete analysis of its best, average, and worst-case scenarios.</li>
+            <li>How can the worst-case scenario be avoided using pivot selection methods?</li>
+          </ul>
+          <div class="topic-tags">
+            <span>#Sorting</span>
+            <span>#QuickSort</span>
+            <span>#Big-O</span>
+          </div>
         </div>
         <div class="question-footer">
           <span class="course">Data Structures</span>
           <span class="date">1 week ago</span>
+        </div>
+        <div class="card-action-overlay">
+          <button class="action-btn view-btn">View</button>
+          <button class="action-btn download-btn">Download</button>
         </div>
       </div>
 
@@ -75,11 +103,24 @@
           <span class="difficulty easy">Easy</span>
         </div>
         <div class="question-content">
-          <p>What are the differences between primary key and unique key in database management systems?</p>
+          <p class="main-question"><strong>Q2: Relational Database Keys & Integrity</strong></p>
+          <ul class="sub-questions">
+            <li>What are the core differences between a primary key and a unique key?</li>
+            <li>Can a table have multiple unique keys? Explain with a short SQL snippet.</li>
+            <li>How do foreign keys maintain referential integrity between tables?</li>
+          </ul>
+          <div class="topic-tags">
+            <span>#Keys</span>
+            <span>#SQL</span>
+            <span>#Integrity</span>
+          </div>
         </div>
         <div class="question-footer">
           <span class="course">Database Management</span>
           <span class="date">3 days ago</span>
+        </div>
+        <div class="card-action-overlay">
+          <button class="practice-btn">Practice Now <span>&rarr;</span></button>
         </div>
       </div>
 
@@ -89,11 +130,24 @@
           <span class="difficulty medium">Medium</span>
         </div>
         <div class="question-content">
-          <p>Implement a binary search algorithm and explain its time complexity analysis.</p>
+          <p class="main-question"><strong>Q1: Searching & Divide-and-Conquer</strong></p>
+          <ul class="sub-questions">
+            <li>Implement a binary search algorithm either recursively or iteratively.</li>
+            <li>Explain its time and space complexity analysis mathematically.</li>
+            <li>Why does binary search require a sorted array to function correctly?</li>
+          </ul>
+          <div class="topic-tags">
+            <span>#BinarySearch</span>
+            <span>#Algorithms</span>
+            <span>#Searching</span>
+          </div>
         </div>
         <div class="question-footer">
           <span class="course">Algorithm Analysis</span>
           <span class="date">5 days ago</span>
+        </div>
+        <div class="card-action-overlay">
+          <button class="practice-btn">Practice Now <span>&rarr;</span></button>
         </div>
       </div>
     </div>

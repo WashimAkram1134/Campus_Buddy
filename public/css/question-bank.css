@@ -207,7 +207,7 @@ body {
 /* ================= QUESTION CARD ================= */
 .question-card {
     background: #ffffff;
-    padding: 25px;
+    padding: 20px 20px 15px 20px;
     border-radius: 12px;
     text-align: center;
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -314,15 +314,62 @@ body {
 
 /* Question Content */
 .question-content {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-align: left;
 }
 
-.question-content p {
-    color: #666;
-    font-size: 14px;
-    line-height: 1.5;
-    margin: 0;
+.main-question {
+    color: #333;
+    font-size: 14.5px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.sub-questions {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 12px;
+}
+
+.sub-questions li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.sub-questions li::before {
+    content: "•";
+    color: #00aaff;
+    position: absolute;
+    left: 0;
+    top: -2px;
+    font-size: 16px;
+}
+
+.topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.topic-tags span {
+    background: #f0f8ff;
+    color: #00aaff;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid #cce5ff;
+    transition: all 0.3s ease;
+}
+
+.question-card:hover .topic-tags span {
+    background: #00aaff;
+    color: white;
+    border-color: #00aaff;
 }
 
 /* Question Footer */
@@ -333,6 +380,14 @@ body {
     padding-top: 10px;
     border-top: 1px solid #eee;
     font-size: 12px;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.question-card:hover .question-footer {
+    opacity: 0.3;
+    transform: translateY(10px);
 }
 
 .question-footer .course {
@@ -342,6 +397,61 @@ body {
 
 .question-footer .date {
     color: #999;
+}
+
+/* Card Action Overlay */
+.card-action-overlay {
+    position: absolute;
+    bottom: -65px;
+    left: 0;
+    width: 100%;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-top: 1px solid rgba(0, 170, 255, 0.1);
+    z-index: 2;
+}
+
+.question-card:hover .card-action-overlay {
+    bottom: 0;
+}
+
+.action-btn {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background: #f0f8ff;
+    color: #00aaff;
+    border: 1px solid #cce5ff;
+}
+
+.view-btn:hover {
+    background: #e6f2ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 170, 255, 0.2);
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #00aaff, #0088cc);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+}
+
+.download-btn:hover {
+    box-shadow: 0 6px 16px rgba(0, 170, 255, 0.4);
+    transform: translateY(-2px);
 }
 
 /* Question Grid */
