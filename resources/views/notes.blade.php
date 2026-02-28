@@ -17,11 +17,17 @@
 <div class="layout">
   <main class="main">
     
-    <!-- ================= HERO SECTION ================= -->
-    <section class="notes-hero">
+    <!-- ================= HERO BANNER ================= -->
+    <section class="hero-banner">
+      <img src="{{ asset('images/notes/notes_hero.png') }}" alt="PDF & Notes" class="hero-bg">
+      <div class="hero-overlay"></div>
       <div class="hero-content">
-        <h1>PDF & <span>Notes</span></h1>
-        <p>Your centralized repository for class materials and lecture notes.</p>
+        <span class="hero-tag">RESOURCES & MATERIALS</span>
+        <h1>Access your <span>PDF & Notes</span> <em>anytime, anywhere.</em></h1>
+        <p class="hero-desc">
+          Your centralized repository for class materials, lecture slides, and student-contributed notes.
+          Stay organized and prepare for your exams with ease.
+        </p>
         
         <div class="search-container">
           <div class="search-box">
