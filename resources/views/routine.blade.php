@@ -245,6 +245,15 @@
       </div>
     </section>
 
+    <!-- ================= PERSONALIZED ROUTINE BANNER ================= -->
+    <section class="personalized-banner">
+      <div class="banner-content">
+        <h2 class="banner-title">Personalized Routine</h2>
+        <a href="#" class="banner-chat-btn">Chat with Buddy</a>
+        <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy" class="banner-mascot">
+      </div>
+    </section>
+
   </main>
 </div>
 

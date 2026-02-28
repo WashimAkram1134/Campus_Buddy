@@ -757,6 +757,59 @@ body {
     }
 }
 
+/* ================= PERSONALIZED ROUTINE BANNER ================= */
+.personalized-banner {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.banner-content {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: visible;
+}
+
+.banner-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1e29;
+    margin: 0;
+}
+
+.banner-chat-btn {
+    background: #00AAFF;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 15px;
+    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.banner-chat-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.4);
+    background: #0088cc;
+}
+
+.banner-mascot {
+    height: 80px;
+    width: auto;
+    position: relative;
+    top: -10px;
+    margin-left: -10px;
+}
+
 /* ================= PRINT STYLES ================= */
 @media print {
     body {
@@ -771,7 +824,8 @@ body {
     .social-footer,
     footer,
     .download-btn,
-    .doc-download-btn {
+    .doc-download-btn,
+    .personalized-banner {
         display: none !important;
     }
 
