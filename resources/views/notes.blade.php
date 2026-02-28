@@ -49,56 +49,65 @@
 
         <div class="resources-grid">
           <!-- Card 1 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.1s">
-            <div class="card-top">
-              <span class="file-tag pdf">PDF</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card pdf-card animate-up" style="animation-delay: 0.1s">
+            <div class="pdf-visual">
+              <div class="pdf-corner"></div>
+              <div class="pdf-logo">PDF</div>
+              <div class="pdf-icon-symbol">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
             </div>
             <div class="card-info">
               <h3>Data Structures - L3</h3>
-              <p>Arrays & Linked Lists overview. Detailed complexity analysis...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 12, 2023</span>
-              <span class="size">2.4 MB</span>
+              <p>Arrays & Linked Lists overview.</p>
+              <div class="card-meta-row">
+                <span class="size-badge">2.4 MB</span>
+                <button class="mini-dl-btn pdf">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
           
           <!-- Card 2 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.2s">
-            <div class="card-top">
-              <span class="file-tag pdf">PDF</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card pdf-card animate-up" style="animation-delay: 0.2s">
+            <div class="pdf-visual">
+              <div class="pdf-corner"></div>
+              <div class="pdf-logo">PDF</div>
+              <div class="pdf-icon-symbol">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
             </div>
             <div class="card-info">
               <h3>Database Systems - Mid</h3>
-              <p>Mid-term preparation. Normalization & SQL Queries...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 15, 2023</span>
-              <span class="size">1.8 MB</span>
+              <p>Normalization & SQL Queries...</p>
+              <div class="card-meta-row">
+                <span class="size-badge">1.8 MB</span>
+                <button class="mini-dl-btn pdf">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.3s">
-            <div class="card-top">
-              <span class="file-tag pdf">PDF</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card pdf-card animate-up" style="animation-delay: 0.3s">
+            <div class="pdf-visual">
+              <div class="pdf-corner"></div>
+              <div class="pdf-logo">PDF</div>
+              <div class="pdf-icon-symbol">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
             </div>
             <div class="card-info">
               <h3>Algorithm Analysis - L5</h3>
               <p>Dynamic Programming and Greed Approaches...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 18, 2023</span>
-              <span class="size">3.2 MB</span>
+              <div class="card-meta-row">
+                <span class="size-badge">3.2 MB</span>
+                <button class="mini-dl-btn pdf">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -118,56 +127,68 @@
 
         <div class="resources-grid">
           <!-- Card 4 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.4s">
-            <div class="card-top">
-              <span class="file-tag note">NOTE</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card notebook-card animate-up" style="animation-delay: 0.4s">
+            <div class="notebook-visual">
+              <div class="notebook-rings">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="notebook-body">
+                <div class="notebook-text">Notes</div>
+              </div>
             </div>
             <div class="card-info">
               <h3>AI Lecture Summary</h3>
-              <p>Quick summary of neural network backpropagation steps...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 20, 2023</span>
-              <span class="size">0.5 MB</span>
+              <p>Neural network backpropagation steps...</p>
+              <div class="card-meta-row">
+                <span class="size-badge note">0.5 MB</span>
+                <button class="mini-dl-btn note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
           
           <!-- Card 5 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.5s">
-            <div class="card-top">
-              <span class="file-tag note">NOTE</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card notebook-card animate-up" style="animation-delay: 0.5s">
+            <div class="notebook-visual">
+              <div class="notebook-rings">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="notebook-body">
+                <div class="notebook-text">Notes</div>
+              </div>
             </div>
             <div class="card-info">
               <h3>Web Dev Shortcuts</h3>
-              <p>Essential React hooks tips and common pitfalls...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 22, 2023</span>
-              <span class="size">0.4 MB</span>
+              <p>Essential React hooks tips...</p>
+              <div class="card-meta-row">
+                <span class="size-badge note">0.4 MB</span>
+                <button class="mini-dl-btn note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Card 6 -->
-          <div class="resource-card animate-up" style="animation-delay: 0.6s">
-            <div class="card-top">
-              <span class="file-tag note">NOTE</span>
-              <button class="download-icon">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              </button>
+          <div class="resource-card notebook-card animate-up" style="animation-delay: 0.6s">
+            <div class="notebook-visual">
+              <div class="notebook-rings">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="notebook-body">
+                <div class="notebook-text">Notes</div>
+              </div>
             </div>
             <div class="card-info">
               <h3>OS Lab Commands</h3>
               <p>Helpful Linux commands for process management lab...</p>
-            </div>
-            <div class="card-footer">
-              <span class="date">Oct 25, 2023</span>
-              <span class="size">0.3 MB</span>
+              <div class="card-meta-row">
+                <span class="size-badge note">0.3 MB</span>
+                <button class="mini-dl-btn note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

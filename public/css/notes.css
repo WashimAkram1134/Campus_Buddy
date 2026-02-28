@@ -192,80 +192,197 @@ body {
     border-radius: 20px;
     padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .resource-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 170, 255, 0.08);
-    border-color: rgba(0, 170, 255, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 170, 255, 0.3);
 }
 
-.card-top {
+/* ================= PDF DOCUMENT DESIGN ================= */
+.pdf-visual {
+    width: 65px;
+    height: 85px;
+    background: #f8f9fa;
+    border: 3px solid #ff0000;
+    border-radius: 8px;
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    justify-content: center;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.file-tag {
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 8px;
-    border-radius: 6px;
-    text-transform: uppercase;
+.pdf-corner {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border-left: 3px solid #ff0000;
+    border-bottom: 3px solid #ff0000;
+    z-index: 5;
+    border-radius: 0 0 0 6px;
+}
+
+.pdf-icon-symbol {
+    width: 35px;
+    height: 35px;
+    color: #ff0000;
+    margin-top: 10px;
+}
+
+.pdf-logo {
+    background: #333;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-top: 5px;
     letter-spacing: 0.5px;
 }
 
-.file-tag.pdf {
-    background: #00AAFF;
-    color: white;
+.pdf-card:hover .pdf-visual {
+    border-color: #d00000;
+    transform: rotate(-2deg);
 }
 
-.file-tag.note {
-    background: #ff6b6b;
-    color: white;
+/* ================= NOTEBOOK DESIGN (NOTES) ================= */
+.notebook-visual {
+    width: 80px;
+    height: 85px;
+    background: #fff8e1;
+    border-radius: 12px;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05), inset 0 0 10px rgba(139, 69, 19, 0.05);
+    border: 1px solid #ffe082;
+    overflow: hidden;
 }
 
-.download-icon {
-    background: transparent;
-    border: none;
-    color: #a0aec0;
-    cursor: pointer;
-    transition: all 0.2s;
-    padding: 5px;
+.notebook-rings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background: #5d4037;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 5px;
 }
 
-.download-icon:hover {
-    color: #00AAFF;
-    transform: scale(1.1);
+.notebook-rings span {
+    width: 4px;
+    height: 12px;
+    background: #a1887f;
+    border-radius: 2px;
+}
+
+.notebook-body {
+    height: 100%;
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(#f0f0f0 1px, transparent 1px);
+    background-size: 100% 12px;
+}
+
+.notebook-text {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: #5d4037;
+    border-bottom: 2px solid #ef5350;
+    padding: 0 5px;
+    transform: rotate(-5deg);
+}
+
+/* ================= CARD INFO REFINEMENT ================= */
+.card-info {
+    flex: 1;
 }
 
 .card-info h3 {
     font-size: 17px;
     font-weight: 700;
     color: #2d3748;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .card-info p {
     font-size: 13px;
     color: #718096;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.4;
+    margin-bottom: 10px;
 }
 
-.card-footer {
+.card-meta-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: #a0aec0;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.size-badge {
+    font-size: 10px;
+    font-weight: 700;
+    background: #f1f3f5;
+    color: #495057;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.size-badge.note {
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.mini-dl-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: #00AAFF;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.mini-dl-btn:hover {
+    transform: scale(1.1);
+    background: #0088cc;
+}
+
+.mini-dl-btn.pdf {
+    background: #ff0000;
+}
+
+.mini-dl-btn.pdf:hover {
+    background: #d00000;
+}
+
+.mini-dl-btn.note {
+    background: #ff6b6b;
+}
+
+.mini-dl-btn.note:hover {
+    background: #ee5253;
 }
 
 /* ================= ANIMATIONS ================= */

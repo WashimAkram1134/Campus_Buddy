@@ -11,10 +11,10 @@
   <!-- Desktop inline nav -->
   <nav class="desktop-nav">
     <a href="{{ route('dashboard') }}" class="{{ $currentRoute === 'dashboard' ? 'active' : '' }}">Home</a>
-    <a href="#">Routine</a>
+    <a href="{{ route('routine') }}" class="{{ $currentRoute === 'routine' ? 'active' : '' }}">Routine</a>
     <a href="#">ClassTask</a>
     <a href="#">Clubs</a>
-    <a href="#">Notes</a>
+    <a href="{{ route('notes') }}" class="{{ $currentRoute === 'notes' ? 'active' : '' }}">Notes</a>
     <a href="{{ route('community') }}" class="{{ $currentRoute === 'community' ? 'active' : '' }}">Community</a>
     <a href="#">Alumni</a>
     <a href="{{ route('question-bank') }}" class="{{ $currentRoute === 'question-bank' ? 'active' : '' }}">Q Bank</a>
