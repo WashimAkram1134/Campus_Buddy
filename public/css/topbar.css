@@ -124,6 +124,8 @@
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-shrink: 0;
+    /* Prevent icons from being pushed off screen */
 }
 
 .top-icon {
@@ -143,7 +145,8 @@
     .topbar {
         height: 50px;
         padding: 0 12px;
-        position: static;
+        position: fixed;
+        /* Keep fixed even on mobile to match topbar-spacing logic */
         background: #d8edf7;
     }
 
