@@ -30,7 +30,7 @@
     <img src="{{ asset('images/menuicons/clubs.png') }}" alt="Clubs" width="20" height="20" style="vertical-align: middle;">
     <span>Clubs</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('notes') }}" class="{{ $currentRoute === 'notes' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/pdf&Notes.png') }}" alt="Notes & Pdf" width="20" height="20" style="vertical-align: middle;">
     <span>Notes & Pdf</span>
   </a>
@@ -77,7 +77,7 @@
     <img src="{{ asset('images/menuicons/clubs.png') }}" alt="Clubs" width="20" height="20" style="vertical-align: middle;">
     <p>Clubs</p>
   </a>
-  <a href="#" class="menu">
+  <a href="{{ route('notes') }}" class="menu {{ $currentRoute === 'notes' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/pdf&Notes.png') }}" alt="Notes & Pdf" width="20" height="20" style="vertical-align: middle;">
     <p>Notes & Pdf</p>
   </a>

@@ -43,3 +43,7 @@ Route::get('/question-bank', function () {
 Route::get('/community', function () {
     return view('community');
 })->name('community')->middleware('auth');
+
+Route::get('/notes', function () {
+    return view('notes');
+})->name('notes')->middleware('auth');
