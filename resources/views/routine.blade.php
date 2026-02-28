@@ -86,6 +86,8 @@
             <button class="day-tab" data-day="wednesday">Wed</button>
             <button class="day-tab" data-day="thursday">Thu</button>
             <button class="day-tab" data-day="friday">Fri</button>
+            <button class="day-tab" data-day="saturday">Sat</button>
+            <button class="day-tab" data-day="sunday">Sun</button>
           </div>
           <button class="download-btn" id="viewFullBtn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -128,15 +130,11 @@
 
           <div class="day-group" id="group-tuesday">
             <h3 class="day-heading">Tuesday</h3>
-            <div class="class-card">
-              <div class="class-time"><span class="time-start">10:00 AM</span><span class="time-end">11:30 AM</span></div>
+            <div class="class-card break-card">
+              <div class="class-time"><span class="time-start">Off Day</span></div>
               <div class="class-details">
-                <h3 class="subject">Database Management Systems</h3>
-                <p class="instructor">Prof. John Doe</p>
-                <div class="class-meta">
-                  <span class="venue">Room 301</span>
-                  <span class="type type-lecture">Lecture</span>
-                </div>
+                <h3 class="subject">Universal Break</h3>
+                <p>No Classes Scheduled</p>
               </div>
             </div>
           </div>
@@ -169,14 +167,40 @@
           
           <div class="day-group" id="group-friday">
             <h3 class="day-heading">Friday</h3>
-            <div class="class-card">
-              <div class="class-time"><span class="time-start">09:00 AM</span><span class="time-end">12:00 PM</span></div>
+            <div class="class-card break-card">
+              <div class="class-time"><span class="time-start">Off Day</span></div>
               <div class="class-details">
-                <h3 class="subject">AI Hackathon Prep</h3>
-                <p class="instructor">Mentors</p>
+                <h3 class="subject">Universal Break</h3>
+                <p class="instructor">No Classes Scheduled</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-group" id="group-saturday">
+            <h3 class="day-heading">Saturday</h3>
+            <div class="class-card">
+              <div class="class-time"><span class="time-start">10:00 AM</span><span class="time-end">01:00 PM</span></div>
+              <div class="class-details">
+                <h3 class="subject">Club Activities / Extra Curricular</h3>
+                <p class="instructor">Club Mentors</p>
+                <div class="class-meta">
+                  <span class="venue">Main Hall</span>
+                  <span class="type type-lab">Workshop</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="day-group" id="group-sunday">
+            <h3 class="day-heading">Sunday</h3>
+            <div class="class-card">
+              <div class="class-time"><span class="time-start">09:00 AM</span><span class="time-end">11:00 AM</span></div>
+              <div class="class-details">
+                <h3 class="subject">Special Seminar</h3>
+                <p class="instructor">Guest Speaker</p>
                 <div class="class-meta">
                   <span class="venue">Auditorium</span>
-                  <span class="type type-lab">Workshop</span>
+                  <span class="type type-lecture">Seminar</span>
                 </div>
               </div>
             </div>
