@@ -21,6 +21,10 @@
       <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Campus" class="dash-hero-bg">
       <div class="dash-hero-overlay"></div>
 
+      @if(view()->shared('user', Auth::user()) && Auth::user()->role === 'cr')
+        <a href="{{ route('cr-dashboard') }}" class="cr-btn-top-right">CR Panel</a>
+      @endif
+
       <!-- Campus Buddy Headline -->
       <div class="campus-headline">
         <h1 class="campus-title">
@@ -35,10 +39,6 @@
         <div class="hero-left">
           <span class="hero-tag">YOUR PERSONALIZED LEARNING HUB</span>
           <h1>Start your day with <br><span>campusBuddy,</span> {{ Auth::user()->name ?? 'User' }}!</h1>
-          @if(Auth::user()->role === 'cr')
-            <a href="#" class="cr-btn">CR Panel</a>
-          @endif
-
           <!-- Cards inside hero -->
           <div class="hero-cards">
             <div class="hero-card">

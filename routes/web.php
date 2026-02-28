@@ -28,6 +28,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
 
+Route::get('/cr-dashboard', function () {
+    return view('cr-dashboard');
+})->name('cr-dashboard')->middleware('auth');
+
+Route::get('/routine', function () {
+    return view('routine');
+})->name('routine')->middleware('auth');
+
 Route::get('/question-bank', function () {
     return view('questionbank');
 })->name('question-bank')->middleware('auth');

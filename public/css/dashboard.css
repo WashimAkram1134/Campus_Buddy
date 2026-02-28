@@ -158,22 +158,28 @@ body {
     color: #00AAFF;
 }
 
-.cr-btn {
+.cr-btn-top-right {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    z-index: 10;
     display: inline-block;
-    margin-bottom: 25px;
-    padding: 10px 28px;
-    border: 2px solid white;
+    padding: 10px 24px;
+    background: linear-gradient(135deg, #00aaff, #0077cc);
     color: white;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 1px;
+    border-radius: 25px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 18px rgba(0, 170, 255, 0.4);
     transition: all 0.3s ease;
 }
 
-.cr-btn:hover {
-    background: white;
-    color: #333;
+.cr-btn-top-right:hover {
+    background: linear-gradient(135deg, #0088cc, #005fa3);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0, 170, 255, 0.55);
 }
 
 /* Hero cards */

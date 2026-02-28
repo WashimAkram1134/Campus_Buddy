@@ -12,7 +12,13 @@
     <img src="{{ asset('images/menuicons/home.png') }}" alt="Home" width="20" height="20" style="vertical-align: middle;">
     <span>Home</span>
   </a>
-  <a href="#" class="">
+  @if(view()->shared('user', Auth::user()) && Auth::user() && Auth::user()->role === 'cr')
+  <a href="{{ route('cr-dashboard') }}" class="{{ $currentRoute === 'cr-dashboard' ? 'active' : '' }}">
+    <img src="{{ asset('images/menuicons/clubs.png') }}" alt="CR Portal" width="20" height="20" style="vertical-align: middle;">
+    <span>CR Portal</span>
+  </a>
+  @endif
+  <a href="{{ route('routine') }}" class="{{ $currentRoute === 'routine' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/routine.png') }}" alt="Routine" width="20" height="20" style="vertical-align: middle;">
     <span>Routine</span>
   </a>
@@ -53,7 +59,13 @@
     <img src="{{ asset('images/menuicons/home.png') }}" alt="Home" width="20" height="20" style="vertical-align: middle;">
     <p>Home</p>
   </a>
-  <a href="#" class="menu">
+  @if(view()->shared('user', Auth::user()) && Auth::user() && Auth::user()->role === 'cr')
+  <a href="{{ route('cr-dashboard') }}" class="menu {{ $currentRoute === 'cr-dashboard' ? 'active' : '' }}">
+    <img src="{{ asset('images/menuicons/clubs.png') }}" alt="CR Portal" width="20" height="20" style="vertical-align: middle;">
+    <p>CR Portal</p>
+  </a>
+  @endif
+  <a href="{{ route('routine') }}" class="menu {{ $currentRoute === 'routine' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/routine.png') }}" alt="Routine" width="20" height="20" style="vertical-align: middle;">
     <p>Routine</p>
   </a>
