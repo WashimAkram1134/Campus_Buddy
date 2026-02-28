@@ -91,6 +91,11 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             Full Routine
           </button>
+          
+          <button class="doc-download-btn" id="downloadPdfBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download PDF
+          </button>
         </div>
 
         <div class="schedule-timeline" id="routineTimeline">
@@ -178,6 +183,65 @@
           </div>
 
         </div>
+        
+        <!-- ================= FULL WEEK TABLE VIEW (HIDDEN BY DEFAULT) ================= -->
+        <div class="full-routine-table" id="fullRoutineTable">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-time">Time</th>
+                <th>Sunday</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-time">07:00</td>
+                <td></td><td></td><td class="off-day">Off Day</td><td></td><td></td><td class="off-day">Off Day</td><td></td>
+              </tr>
+              <tr>
+                <td class="col-time">08:00</td>
+                <td></td>
+                <td><div class="table-class">Operating Systems<br><span>Room 205</span></div></td>
+                <td class="off-day">Off Day</td><td></td><td></td>
+                <td class="off-day">Off Day</td><td></td>
+              </tr>
+              <tr>
+                <td class="col-time">09:00</td>
+                <td></td>
+                <td><div class="table-class">Data Structures<br><span>Room 713</span></div></td>
+                <td class="off-day">Off Day</td><td></td><td></td>
+                <td class="off-day">Off Day</td><td></td>
+              </tr>
+              <tr>
+                <td class="col-time">10:00</td>
+                <td></td><td></td>
+                <td class="off-day">Off Day</td>
+                <td><div class="table-class">DBMS<br><span>Room 301</span></div></td>
+                <td></td>
+                <td class="off-day">Off Day</td>
+                <td rowspan="2"><div class="table-class">AI Hackathon Prep<br><span>Auditorium</span></div></td>
+              </tr>
+              <tr>
+                <td class="col-time">11:00</td>
+                <td></td>
+                <td><div class="table-class highlight">Machine Learning<br><span>CSE Lab 2</span></div></td>
+                <td class="off-day">Off Day</td><td></td><td></td>
+                <td class="off-day">Off Day</td>
+              </tr>
+              <tr>
+                <td class="col-time">12:00</td>
+                <td></td><td></td><td class="off-day">Off Day</td><td></td><td></td><td class="off-day">Off Day</td><td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </section>
 
@@ -194,6 +258,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const viewFullBtn = document.getElementById('viewFullBtn');
     let isFullView = false;
 
+    const routineTimeline = document.getElementById('routineTimeline');
+    const fullRoutineTable = document.getElementById('fullRoutineTable');
+
     // Click on individual tab
     tabs.forEach(tab => {
       tab.addEventListener('click', function() {
@@ -202,6 +269,15 @@ document.addEventListener('DOMContentLoaded', function() {
             isFullView = false;
             viewFullBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Full Routine';
             viewFullBtn.classList.remove('active');
+            
+            // Revert layout modifications
+            document.getElementById('routineMain').classList.remove('full-view-active');
+            document.getElementById('downloadPdfBtn').style.display = 'none';
+
+            // Switch views
+            routineTimeline.style.display = 'flex';
+            fullRoutineTable.style.display = 'none';
+            document.querySelector('.day-tabs').style.display = 'flex'; // Show tabs back
         }
         
         // Update active tab styling
@@ -214,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function() {
         groups.forEach(group => {
             group.classList.remove('active');
             if(group.id === 'group-' + targetDay) {
-                // Add tiny delay for animation
                 setTimeout(() => {
                     group.classList.add('active');
                 }, 50);
@@ -227,28 +302,44 @@ document.addEventListener('DOMContentLoaded', function() {
     viewFullBtn.addEventListener('click', function() {
         if (!isFullView) {
             isFullView = true;
-            this.innerHTML = 'Collapse Routine';
+            this.innerHTML = 'Hide Routine';
             this.classList.add('active');
             
-            // Remove active style from tabs
+            // Modify layout to push sidebar left and reveal dedicated download button
+            document.getElementById('routineMain').classList.add('full-view-active');
+            document.getElementById('downloadPdfBtn').style.display = 'inline-flex';
+
+            // Remove active style from tabs and hide them visually
             tabs.forEach(t => t.classList.remove('active'));
+            document.querySelector('.day-tabs').style.display = 'none';
             
-            // Show all groups
-            groups.forEach(group => {
-                group.classList.add('active');
-            });
-            
-            // Trigger actual download/print dialog after a short delay so DOM renders all
-            setTimeout(() => {
-                window.print();
-            }, 500);
+            // Switch views
+            routineTimeline.style.display = 'none';
+            fullRoutineTable.style.display = 'block';
+
         } else {
-            // Revert back to Monday (or first tab)
+            // Revert back to active tab view
             isFullView = false;
             this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Full Routine';
             this.classList.remove('active');
-            tabs[0].click(); // Simulate click on first tab
+            
+            // Revert layout modifications
+            document.getElementById('routineMain').classList.remove('full-view-active');
+            document.getElementById('downloadPdfBtn').style.display = 'none';
+
+            // Switch views
+            routineTimeline.style.display = 'flex';
+            fullRoutineTable.style.display = 'none';
+            document.querySelector('.day-tabs').style.display = 'flex';
+            
+            // Click the first tab to reset state
+            tabs[0].click();
         }
+    });
+
+    // Dedicated Download Button
+    document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+        window.print();
     });
 
     // Entrance Animation
