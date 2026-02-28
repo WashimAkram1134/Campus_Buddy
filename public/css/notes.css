@@ -535,12 +535,33 @@ body {
 }
 
 @media (max-width: 768px) {
-    .main {
-        padding-top: 60px;
+    .layout {
+        display: block !important;
+        margin-left: 0 !important;
+        padding-top: 0 !important;
     }
 
-    .notes-hero {
-        padding: 60px 20px 100px;
+    .main {
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .hero-banner {
+        min-height: 360px;
+    }
+
+    .hero-content {
+        padding: 40px 20px;
+    }
+
+    .hero-content h1 {
+        font-size: 28px;
+    }
+
+    .notes-container {
+        margin-top: -50px;
+        position: relative;
+        z-index: 5;
     }
 
     .resources-grid {

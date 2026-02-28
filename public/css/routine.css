@@ -951,11 +951,21 @@ body {
     }
 
     .routine-hero {
-        min-height: 35vh;
+        min-height: 360px;
+    }
+
+    .routine-hero-content {
+        padding: 40px 20px;
     }
 
     .routine-hero-content h1 {
-        font-size: 36px;
+        font-size: 28px;
+    }
+
+    .routine-main {
+        margin-top: -50px;
+        position: relative;
+        z-index: 5;
     }
 
     .schedule-header {
