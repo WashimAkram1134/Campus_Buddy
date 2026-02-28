@@ -185,8 +185,8 @@ body {
 }
 
 .icon-box.note {
-    background: rgba(255, 107, 107, 0.1);
-    color: #ff6b6b;
+    background: rgba(0, 170, 255, 0.1);
+    color: #00AAFF;
 }
 
 .header-title h2 {
@@ -233,7 +233,7 @@ body {
     width: 65px;
     height: 85px;
     background: #f8f9fa;
-    border: 3px solid #ff0000;
+    border: 3px solid #00AAFF;
     border-radius: 8px;
     position: relative;
     flex-shrink: 0;
@@ -252,8 +252,8 @@ body {
     width: 25px;
     height: 25px;
     background: white;
-    border-left: 3px solid #ff0000;
-    border-bottom: 3px solid #ff0000;
+    border-left: 3px solid #00AAFF;
+    border-bottom: 3px solid #00AAFF;
     z-index: 5;
     border-radius: 0 0 0 6px;
 }
@@ -261,7 +261,7 @@ body {
 .pdf-icon-symbol {
     width: 35px;
     height: 35px;
-    color: #ff0000;
+    color: #00AAFF;
     margin-top: 10px;
 }
 
@@ -277,7 +277,7 @@ body {
 }
 
 .pdf-card:hover .pdf-visual {
-    border-color: #d00000;
+    border-color: #0088cc;
     transform: rotate(-2deg);
 }
 
@@ -329,7 +329,7 @@ body {
     font-weight: 900;
     font-size: 14px;
     color: #5d4037;
-    border-bottom: 2px solid #ef5350;
+    border-bottom: 2px solid #00AAFF;
     padding: 0 5px;
     transform: rotate(-5deg);
 }
@@ -394,19 +394,98 @@ body {
 }
 
 .mini-dl-btn.pdf {
-    background: #ff0000;
+    background: #00AAFF;
 }
 
 .mini-dl-btn.pdf:hover {
-    background: #d00000;
+    background: #0088cc;
 }
 
 .mini-dl-btn.note {
-    background: #ff6b6b;
+    background: #00AAFF;
 }
 
 .mini-dl-btn.note:hover {
-    background: #ee5253;
+    background: #0088cc;
+}
+
+.card-actions-mini {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.mini-view-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    background: transparent;
+    color: #4a5568;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    opacity: 0.7;
+}
+
+.mini-view-btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.mini-view-btn.pdf {
+    color: #00AAFF;
+    border-color: rgba(0, 170, 255, 0.3);
+}
+
+.mini-view-btn.pdf:hover {
+    background: rgba(0, 170, 255, 0.05);
+    border-color: #00AAFF;
+}
+
+.mini-view-btn.note {
+    color: #00AAFF;
+    border-color: rgba(0, 170, 255, 0.3);
+}
+
+.mini-view-btn.note:hover {
+    background: rgba(0, 170, 255, 0.05);
+    border-color: #00AAFF;
+}
+
+/* ================= VIEW MORE BUTTON ================= */
+.view-more-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.view-more-btn {
+    background: #edf2f7;
+    color: #00AAFF;
+    border: 1.5px solid #00AAFF;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-more-btn:hover {
+    background: #00AAFF;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 170, 255, 0.2);
+}
+
+.resources-grid.collapsed .resource-card:nth-child(n+3) {
+    display: none;
 }
 
 /* ================= ANIMATIONS ================= */
