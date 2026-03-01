@@ -20,15 +20,15 @@
         <section class="hero-banner reveal active">
             <div class="hero-content-wrapper">
                 <div class="hero-left">
-                    <span class="hero-tag">Start your bright career</span>
-                    <h1>Now learning from anywhere, and build your <span>bright career.</span></h1>
-                    <p>Connect with a global network of professionals who started exactly where you are. Get mentorship, job alerts, and industry insights from Campus Buddy alumni.</p>
-                    <a href="#alumni-network" class="hero-btn">Explore Network</a>
+                    <span class="hero-tag animate-item up stagger-1">Start your bright career</span>
+                    <h1 class="animate-item up stagger-2">Now learning from anywhere, and build your <span>bright career.</span></h1>
+                    <p class="animate-item up stagger-3">Connect with a global network of professionals who started exactly where you are. Get mentorship, job alerts, and industry insights from Campus Buddy alumni.</p>
+                    <a href="#alumni-network" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>
                 </div>
                 <div class="hero-right">
-                    <div class="hero-img-container">
+                    <div class="hero-img-container animate-item right stagger-2">
                         <img src="{{ asset('images/alumni/alumni_hero_group.jpg') }}" alt="Alumni Group" class="hero-img">
-                        <div class="hero-stats-badge">
+                        <div class="hero-stats-badge floating">
                             <span class="count">1,235</span>
                             <span class="label">Alumni</span>
                         </div>
@@ -40,16 +40,16 @@
         <!-- ================= ALUMNI NETWORK SECTION ================= -->
         <section id="alumni-network" class="alumni-header-section reveal">
             <div class="section-title-row">
-                <div class="section-title">
+                <div class="section-title animate-item left stagger-1">
                     <h2>Alumni <span>Network</span> of Campus Buddy</h2>
                 </div>
-                <div class="search-box">
+                <div class="search-box animate-item right stagger-1">
                     <input type="text" placeholder="Search alumni, companies, or skills...">
                     <button class="search-btn"><i class="fas fa-search"></i></button>
                 </div>
             </div>
 
-            <div class="filter-container">
+            <div class="filter-container animate-item up stagger-2">
                 <button class="scroll-btn prev" id="scrollPrev"><i class="fas fa-chevron-left"></i></button>
                 <div class="category-filters" id="categoryFilters">
                     <a href="#" class="filter-tag active" data-filter="all">All Categories</a>
@@ -599,12 +599,12 @@
         </div>
 
         <!-- ================= JOIN CTA SECTION ================= -->
-        <section class="join-mentor-section">
+        <section class="join-mentor-section reveal">
             <div class="cta-box">
                 <div class="cta-content">
-                    <h4>Become An Alumni Mentor</h4>
-                    <h2>You can join with <span>Campus Buddy</span> as a mentor?</h2>
-                    <a href="#" class="hero-btn">Register Today</a>
+                    <h4 class="animate-item left stagger-1">Become An Alumni Mentor</h4>
+                    <h2 class="animate-item left stagger-2">You can join with <span>Campus Buddy</span> as a mentor?</h2>
+                    <a href="#" class="hero-btn animate-item left stagger-3 pulse">Register Today</a>
                 </div>
                 <!-- Optional: Mascot or decoration can go here -->
             </div>
