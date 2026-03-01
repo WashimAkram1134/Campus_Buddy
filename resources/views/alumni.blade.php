@@ -399,7 +399,48 @@
                 </div>
             </div>
 
-            <!-- Alumni Card: Pharmacy (New) -->
+            <!-- Alumni Card: Pharmacy 2 (New) -->
+            <div class="alumni-card featured-card" data-category="pharmacy">
+                <div class="card-top">
+                    <!-- Renata PLC Background -->
+                    <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
+                        <img src="{{ asset('images/alumni/renata_logo.png') }}" alt="Renata PLC" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+                    </div>
+                    <div class="premium-badge" style="background: #004a99;">RENATA PLC</div>
+                    <div class="profile-img-wrap">
+                        <img src="{{ asset('images/alumni/alumni_pharmacy_2.png') }}" alt="Md. Mozahidul Islam" class="profile-img" style="object-position: center 10%;">
+                    </div>
+                    <div class="card-category">Pharmacy</div>
+                </div>
+                <div class="card-body">
+                    <h3>Officer - Product Development (Analytical) at Renata PLC</h3>
+                    <div class="alumni-details">
+                        <div class="detail-item">
+                            <i class="fas fa-university"></i>
+                            <span>Dept. of Pharmacy</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-flask"></i>
+                            <span>Product Development</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span>5.0</span>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md. Mozahidul Islam</div>
+                </div>
+            </div>
+
+            <!-- Alumni Card: Pharmacy 1 -->
             <div class="alumni-card" data-category="pharmacy">
                 <div class="card-top">
                     <div class="field-img-container" style="background: #1a3a5a; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">

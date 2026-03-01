@@ -1,21 +1,24 @@
 /* ================= ALUMNI PAGE STYLES ================= */
+.main {
+    padding: 0 !important;
+}
 
 /* ================= HERO SECTION ================= */
 .hero-banner {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    min-height: 520px;
+    min-height: 350px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     background: #eef9ff;
     /* Very light blue background like the reference image's mint */
     overflow: hidden;
-    padding: 60px 0;
+    padding: 40px 0 20px;
 }
 
 .hero-content-wrapper {
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
     width: 100%;
     padding: 0 40px;
@@ -35,7 +38,7 @@
     color: #00AAFF;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: block;
 }
 
