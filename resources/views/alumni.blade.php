@@ -600,13 +600,37 @@
 
         <!-- ================= JOIN CTA SECTION ================= -->
         <section class="join-mentor-section reveal">
-            <div class="cta-box">
+            <div class="cta-box new-cta-design">
+                <!-- Decorative top right yellow dashes -->
+                <div class="cta-decor top-right animate-item scale stagger-2">
+                    <svg width="60" height="45" viewBox="0 0 60 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 15L15 12M22 9L29 7M36 5L43 4M5 26L12 23M19 20L26 18M33 16L40 15M3 37L10 34M16 31L23 29" stroke="#FAC35A" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <!-- Decorative bottom left yellow dashes -->
+                <div class="cta-decor bottom-left animate-item scale stagger-2">
+                    <svg width="50" height="40" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 8L12 11M18 13L25 15M31 17L38 18M3 19L10 22M16 24L23 26M29 27L36 29M2 30L9 33M14 35L21 37" stroke="#FAC35A" stroke-width="3.5" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
                 <div class="cta-content">
                     <h4 class="animate-item left stagger-1">Become An Alumni Mentor</h4>
-                    <h2 class="animate-item left stagger-2">You can join with <span>Campus Buddy</span> as a mentor?</h2>
-                    <a href="#" class="hero-btn animate-item left stagger-3 pulse">Register Today</a>
+                    <h2 class="animate-item left stagger-2">
+                        You can join with Campus Buddy <br>
+                        as a <span class="highlight-text">mentor?<svg class="curved-underline" viewBox="0 0 160 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 13C40 4 100 2 158 8" stroke="#00AAFF" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+                    </h2>
                 </div>
-                <!-- Optional: Mascot or decoration can go here -->
+                
+                <div class="cta-arrow animate-item right stagger-3">
+                    <svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 58C35 55 65 35 115 15M102 12L118 13L110 26" stroke="#00AAFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <div class="cta-action animate-item right stagger-4">
+                    <a href="#" class="cta-btn new-cta-btn pulse-primary">Register Today</a>
+                </div>
             </div>
         </section>
 
