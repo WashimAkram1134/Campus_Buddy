@@ -20,7 +20,7 @@
     <img src="{{ asset('images/menuicons/Classtask.png') }}" alt="ClassTask" width="20" height="20" style="vertical-align: middle;">
     <span>ClassTask</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('clubs') }}" class="{{ $currentRoute === 'clubs' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/clubs.png') }}" alt="Clubs" width="20" height="20" style="vertical-align: middle;">
     <span>Clubs</span>
   </a>
