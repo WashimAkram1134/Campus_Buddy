@@ -115,6 +115,46 @@
                 </div>
             </div>
 
+            <!-- Alumni Card: CSE / Upay (New) -->
+            <div class="alumni-card featured-card" data-category="software-engineering data-science">
+                <div class="card-top">
+                    <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
+                        <img src="{{ asset('images/alumni/upay_logo.png') }}" alt="Upay Logo" style="width: 70%; object-fit: contain;">
+                    </div>
+                    <div class="premium-badge" style="background: #00AAFF;">SOFTWARE ENGINEER</div>
+                    <div class="profile-img-wrap">
+                        <img src="{{ asset('images/alumni/alumni_cse_harun.png') }}" alt="Md. Harun-Ur-Rashid" class="profile-img" style="object-position: center 10%;">
+                    </div>
+                    <div class="card-category">Engineering</div>
+                </div>
+                <div class="card-body">
+                    <h3>Software Engineer at Upay</h3>
+                    <div class="alumni-details">
+                        <div class="detail-item">
+                            <i class="fas fa-university"></i>
+                            <span>Dept. of Computer Science and Engineering</span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-code"></i>
+                            <span>FinTech Specialist</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="rating">
+                        <span>5.0</span>
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md. Harun-Ur-Rashid</div>
+                </div>
+            </div>
+
             <!-- Alumni Card: Research Excellence / SWE (New) -->
             <div class="alumni-card featured-card" data-category="software-engineering">
                 <div class="card-top">
