@@ -27,8 +27,9 @@ body {
 /* ================= HERO BANNER ================= */
 .hero-banner {
     position: relative;
-    width: 100%;
-    min-height: 460px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 480px;
     display: flex;
     align-items: center;
     overflow: hidden;

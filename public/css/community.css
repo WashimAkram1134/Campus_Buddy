@@ -31,8 +31,9 @@ body {
 /* ================= HERO BANNER ================= */
 .hero-banner {
     position: relative;
-    width: 100%;
-    min-height: 460px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 480px;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -578,7 +579,7 @@ body {
     .layout {
         display: block !important;
         margin-left: 0 !important;
-        padding-top: 120px !important;
+        padding-top: 0 !important;
     }
 
     .main {
