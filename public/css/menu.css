@@ -69,7 +69,7 @@ body {
 /* ================= MOBILE RESPONSIVE FOR MAIN CONTENT ================= */
 @media (max-width: 768px) {
     .main {
-        padding: 140px 15px 30px !important;
+        padding: 120px 15px 30px !important;
     }
 
     .header-row {
@@ -99,10 +99,10 @@ body {
     white-space: nowrap;
     width: 100%;
     position: fixed;
-    top: 70px;
+    top: 60px;
     left: 0;
     z-index: 1000;
-    height: 70px;
+    height: 60px;
     align-items: center;
     border-bottom: 1px solid #e0e0e0;
 }
@@ -126,7 +126,7 @@ body {
     color: #333;
     font-size: 14px;
     position: relative;
-    height: 70px;
+    height: 60px;
     font-family: "Segoe UI", Arial, sans-serif !important;
     font-weight: normal !important;
 }
@@ -185,7 +185,7 @@ nav.mobile-menu a.active::after {
     .mobile-menu {
         display: flex !important;
         position: fixed;
-        top: 50px;
+        top: 60px;
         left: 0;
         z-index: 1000;
     }
