@@ -76,9 +76,9 @@
         </section>
 
         <!-- ================= ALUMNI GRID ================= -->
-        <div class="alumni-grid">
+        <div class="alumni-grid reveal">
             <!-- Alumni Card: Journalism (New) -->
-            <div class="alumni-card featured-card" data-category="journalism">
+            <div class="alumni-card featured-card reveal animate-item up stagger-1" data-category="journalism">
                 <div class="card-top">
                     <img src="{{ asset('images/alumni/alumni_journalism.png') }}" alt="ATN News" class="field-img journalism-bg">
                     <div class="premium-badge">PREMIUM</div>
@@ -116,7 +116,7 @@
             </div>
 
             <!-- Alumni Card: CSE / Upay (New) -->
-            <div class="alumni-card featured-card" data-category="software-engineering data-science">
+            <div class="alumni-card featured-card reveal animate-item up stagger-2" data-category="software-engineering data-science">
                 <div class="card-top">
                     <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
                         <img src="{{ asset('images/alumni/upay_logo.png') }}" alt="Upay Logo" style="width: 70%; object-fit: contain;">
@@ -156,7 +156,7 @@
             </div>
 
             <!-- Alumni Card: Research Excellence / SWE (New) -->
-            <div class="alumni-card featured-card" data-category="software-engineering">
+            <div class="alumni-card featured-card reveal animate-item up stagger-3" data-category="software-engineering">
                 <div class="card-top">
                     <!-- DIU Building Background -->
                     <div class="field-img-container" style="background: #00AAFF; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
@@ -198,7 +198,7 @@
             </div>
 
             <!-- Alumni Card: NFE 2 (New) -->
-            <div class="alumni-card featured-card" data-category="nfe">
+            <div class="alumni-card featured-card reveal animate-item up stagger-4" data-category="nfe">
                 <div class="card-top">
                     <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
                         <img src="{{ asset('images/alumni/nestle_logo_blue.png') }}" alt="Nestle Logo" style="width: 80%; object-fit: contain;">
@@ -238,7 +238,7 @@
             </div>
 
             <!-- Alumni Card: NFE 1 -->
-            <div class="alumni-card featured-card" data-category="nfe">
+            <div class="alumni-card featured-card reveal animate-item up stagger-5" data-category="nfe">
                 <div class="card-top">
                     <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
                         <img src="{{ asset('images/alumni/nestle_logo.png') }}" alt="Nestle Logo" style="width: 80%; object-fit: contain;">
@@ -278,7 +278,7 @@
             </div>
 
             <!-- Alumni Card: BCS / Textile (New) -->
-            <div class="alumni-card featured-card" data-category="textile bcs-govt">
+            <div class="alumni-card featured-card reveal animate-item up stagger-6" data-category="textile bcs-govt">
                 <div class="card-top">
                     <!-- Government Seal Background -->
                     <div class="field-img-container" style="background: #006a4e; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
@@ -400,7 +400,7 @@
             </div>
 
             <!-- Alumni Card: Pharmacy 2 (New) -->
-            <div class="alumni-card featured-card" data-category="pharmacy">
+            <div class="alumni-card featured-card reveal animate-item up" data-category="pharmacy">
                 <div class="card-top">
                     <!-- Renata PLC Background -->
                     <div class="field-img-container" style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
@@ -441,7 +441,7 @@
             </div>
 
             <!-- Alumni Card: Pharmacy 1 -->
-            <div class="alumni-card" data-category="pharmacy">
+            <div class="alumni-card reveal animate-item up" data-category="pharmacy">
                 <div class="card-top">
                     <div class="field-img-container" style="background: #1a3a5a; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                         <img src="{{ asset('images/alumni/alumni_pharmacy_1.png') }}" alt="Pharmacy Background" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: blur(2px);">
@@ -481,7 +481,7 @@
             </div>
 
             <!-- Alumni Card 1 -->
-            <div class="alumni-card" data-category="software-engineering">
+            <div class="alumni-card reveal animate-item up" data-category="software-engineering">
                 <div class="card-top">
                     <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
                     <div class="premium-badge">PREMIUM</div>
@@ -519,7 +519,7 @@
             </div>
 
             <!-- Alumni Card 2 -->
-            <div class="alumni-card" data-category="uiux-design">
+            <div class="alumni-card reveal animate-item up" data-category="uiux-design">
                 <div class="card-top">
                     <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
                     <div class="premium-badge">PREMIUM</div>
@@ -557,7 +557,7 @@
             </div>
 
             <!-- Alumni Card 3 -->
-            <div class="alumni-card" data-category="finance">
+            <div class="alumni-card reveal animate-item up" data-category="finance">
                 <div class="card-top">
                     <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
                     <div class="profile-img-wrap">
@@ -660,16 +660,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 totalFiltered++;
                 if (visibleCount < itemsToShow) {
                     card.style.display = 'flex';
-                    // Trigger reflow for animation
-                    card.style.opacity = '1';
                     visibleCount++;
                 } else {
                     card.style.display = 'none';
-                    card.style.opacity = '0';
                 }
             } else {
                 card.style.display = 'none';
-                card.style.opacity = '0';
             }
         });
 
@@ -707,7 +703,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Intersection Observer for Reveal Animations
     const observerOptions = {
-        threshold: 0.15
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -718,7 +715,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function initReveal() {
+        document.querySelectorAll('.reveal:not(.active)').forEach(el => {
+            observer.observe(el);
+        });
+    }
+
+    // Call init after filtering or loading more
+    const originalUpdateCardVisibility = updateCardVisibility;
+    updateCardVisibility = function() {
+        originalUpdateCardVisibility();
+        initReveal();
+    };
+
+    initReveal();
 });
 </script>
 

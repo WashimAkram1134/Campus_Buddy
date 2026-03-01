@@ -5,12 +5,15 @@
 
 /* Scroll Reveal Animations */
 .reveal {
-    opacity: 0;
-    transform: translateY(30px);
     transition: all 0.8s ease-out;
 }
 
-.reveal.active {
+.reveal.animate-item {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.reveal.active.animate-item {
     opacity: 1;
     transform: translateY(0);
 }
@@ -116,15 +119,18 @@
 }
 
 /* Children Animation Classes (Triggered when parent .active) */
-.reveal .animate-item {
+.reveal .animate-item,
+.reveal.animate-item {
     opacity: 0;
 }
 
-.reveal.active .animate-item.up {
+.reveal.active .animate-item.up,
+.reveal.active.animate-item.up {
     animation: fadeInUp 0.8s ease forwards;
 }
 
-.reveal.active .animate-item.left {
+.reveal.active .animate-item.left,
+.reveal.active.animate-item.left {
     animation: fadeInLeft 0.8s ease forwards;
 }
 
@@ -436,8 +442,17 @@
 }
 
 .alumni-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 30px 60px rgba(0, 170, 255, 0.15);
+}
+
+.alumni-card:hover .field-img,
+.alumni-card:hover .field-img-container img {
+    transform: scale(1.1);
+}
+
+.alumni-card:hover .card-body h3 {
+    color: #00AAFF;
 }
 
 .card-top {
@@ -449,6 +464,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.field-img-container img {
+    transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .premium-badge {
@@ -492,6 +512,13 @@
     font-size: 11px;
     font-weight: 700;
     color: #00AAFF;
+    transition: all 0.3s ease;
+}
+
+.alumni-card:hover .card-category {
+    background: #00AAFF;
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 170, 255, 0.4);
 }
 
 .card-body {
