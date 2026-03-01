@@ -12,6 +12,9 @@
   <nav class="desktop-nav">
     <a href="{{ route('dashboard') }}" class="{{ $currentRoute === 'dashboard' ? 'active' : '' }}">Home</a>
     <a href="{{ route('routine') }}" class="{{ $currentRoute === 'routine' ? 'active' : '' }}">Routine</a>
+    @if(view()->shared('user', Auth::user()) && Auth::user() && Auth::user()->role === 'cr')
+      <a href="{{ route('cr-dashboard') }}" class="{{ $currentRoute === 'cr-dashboard' ? 'active' : '' }}">CR Portal</a>
+    @endif
     <a href="#">ClassTask</a>
     <a href="#">Clubs</a>
     <a href="{{ route('notes') }}" class="{{ $currentRoute === 'notes' ? 'active' : '' }}">Notes</a>

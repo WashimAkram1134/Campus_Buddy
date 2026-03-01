@@ -578,7 +578,7 @@ body {
     .layout {
         display: block !important;
         margin-left: 0 !important;
-        padding-top: 0 !important;
+        padding-top: 120px !important;
     }
 
     .main {
