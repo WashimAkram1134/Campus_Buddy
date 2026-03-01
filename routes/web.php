@@ -47,3 +47,7 @@ Route::get('/community', function () {
 Route::get('/notes', function () {
     return view('notes');
 })->name('notes')->middleware('auth');
+
+Route::get('/alumni', function () {
+    return view('alumni');
+})->name('alumni')->middleware('auth');

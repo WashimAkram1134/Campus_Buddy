@@ -32,7 +32,7 @@
     <img src="{{ asset('images/menuicons/community.png') }}" alt="Community" width="20" height="20" style="vertical-align: middle;">
     <span>Community</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('alumni') }}" class="{{ $currentRoute === 'alumni' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/alumni.png') }}" alt="Alumni" width="20" height="20" style="vertical-align: middle;">
     <span>Alumni</span>
   </a>
