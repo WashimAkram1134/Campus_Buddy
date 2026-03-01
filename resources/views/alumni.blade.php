@@ -17,7 +17,7 @@
 <div class="layout">
     <main class="main">
         <!-- ================= HERO SECTION ================= -->
-        <section class="hero-banner">
+        <section class="hero-banner reveal active">
             <div class="hero-content-wrapper">
                 <div class="hero-left">
                     <span class="hero-tag">Start your bright career</span>
@@ -38,7 +38,7 @@
         </section>
 
         <!-- ================= ALUMNI NETWORK SECTION ================= -->
-        <section id="alumni-network" class="alumni-header-section">
+        <section id="alumni-network" class="alumni-header-section reveal">
             <div class="section-title-row">
                 <div class="section-title">
                     <h2>Alumni <span>Network</span> of Campus Buddy</h2>
@@ -704,6 +704,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial check on load
     updateCardVisibility();
+
+    // Intersection Observer for Reveal Animations
+    const observerOptions = {
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 });
 </script>
 
