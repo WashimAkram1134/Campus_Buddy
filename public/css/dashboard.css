@@ -1,129 +1,189 @@
 /* ============================================================
-   CAMPUS BUDDY — STUDENT DASHBOARD
-   Premium modern design with dark-blue accents, glass effects
+   CAMPUS BUDDY — COMBINED DASHBOARD DESIGN
+   Layout from Pic 1 + Content from Pics 2 & 3
+   Clean white cards, contained hero, Buddy chatbox sidebar
    ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
     --primary: #1a237e;
     --primary-light: #3949ab;
     --accent: #00aaff;
     --accent-dark: #0088cc;
-    --accent-glow: rgba(0, 170, 255, 0.25);
-    --bg: #f0f4f8;
+    --bg: #eef2f8;
     --surface: #ffffff;
-    --text-primary: #1a202c;
-    --text-secondary: #4a5568;
-    --text-muted: #718096;
+    --surface-alt: #e8edf5;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --text-link: #2563eb;
     --border: #e2e8f0;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 50px rgba(0, 0, 0, 0.12);
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 20px;
-    --radius-xl: 24px;
-    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --shadow-card: 0 2px 16px rgba(26, 35, 126, 0.07);
+    --shadow-hover: 0 8px 28px rgba(26, 35, 126, 0.13);
+    --r-hero: 22px;
+    --r-card: 18px;
+    --r-btn: 50px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: var(--font);
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
-    color: var(--text-primary);
-    line-height: 1.6;
+    color: var(--text-dark);
 }
 
-/* Ensure layout compatibility with existing structure */
+/* ── Layout wrapper ─────────────────────────────────────── */
 .layout {
     padding-top: 56px;
-    width: 100%;
 }
 
-.main {
-    width: 100%;
+.dashboard-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
 }
 
 /* ============================================================
-   HERO BANNER
+   HERO BANNER  (Pic 1 shape + Pic 2/3 content)
    ============================================================ */
 .hero-banner {
     position: relative;
-    width: 100%;
-    padding: 80px 40px;
-    min-height: 350px;
+    border-radius: var(--r-hero);
     overflow: hidden;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    min-height: 230px;
+    padding: 44px 56px;
+    margin-bottom: 36px;
     background: var(--primary);
+    box-shadow: var(--shadow-card);
 }
 
-.hero-bg-image {
+/* blurred campus background */
+.hero-bg {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
-    filter: blur(2px) brightness(0.7);
-    transform: scale(1.1);
+    filter: blur(3px) brightness(0.55);
+    transform: scale(1.05);
+    z-index: 0;
 }
 
+/* dark gradient overlay */
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.4));
+    background: linear-gradient(105deg, rgba(26, 35, 126, 0.92) 50%, rgba(26, 35, 126, 0.55));
+    z-index: 1;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 10;
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+/* floating deco dots like Pic 1 */
+.hero-deco {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 2;
+    pointer-events: none;
 }
 
+.hero-deco-1 {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.08);
+    top: -15px;
+    right: 340px;
+}
+
+.hero-deco-2 {
+    width: 22px;
+    height: 22px;
+    background: #10b981;
+    bottom: 40px;
+    left: 42%;
+}
+
+.hero-deco-3 {
+    width: 14px;
+    height: 14px;
+    background: #3b82f6;
+    top: 45px;
+    right: 180px;
+}
+
+.hero-deco-4 {
+    width: 10px;
+    height: 10px;
+    background: #f59e0b;
+    top: 30px;
+    left: 55%;
+}
+
+/* hero text  (Pic 2/3 wording) */
 .hero-text {
-    flex: 1;
+    position: relative;
+    z-index: 3;
+    color: #fff;
+    max-width: 58%;
 }
 
 .hero-tag {
-    display: inline-block;
-    color: #00d4ff;
-    font-size: 14px;
+    display: block;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 2px;
+    color: #7dd3fc;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 14px;
+}
+
+.hero-date {
+    display: block;
+    font-size: 13px;
+    opacity: .7;
+    margin-bottom: 10px;
 }
 
 .hero-title {
-    font-size: 48px;
+    font-size: 34px;
     font-weight: 800;
-    color: white;
     line-height: 1.2;
+    margin-bottom: 8px;
 }
 
 .hero-highlight {
-    background: linear-gradient(to right, #00d4ff, #00aaff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #38bdf8;
 }
 
+.hero-subtitle {
+    font-size: 14px;
+    opacity: .75;
+}
+
+/* blue robot mascot — right side (Pic 2/3) */
 .hero-mascot {
+    position: relative;
+    z-index: 3;
     flex-shrink: 0;
-    margin-left: 50px;
+    margin-left: 30px;
+    display: flex;
+    align-items: flex-end;
 }
 
-.mascot-img {
-    width: 250px;
-    height: auto;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-    animation: float 4s ease-in-out infinite;
+.hero-mascot img {
+    height: 230px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, .35));
+    animation: mascotFloat 5s ease-in-out infinite;
 }
 
-@keyframes float {
+@keyframes mascotFloat {
 
     0%,
     100% {
@@ -131,238 +191,421 @@ body {
     }
 
     50% {
-        transform: translateY(-20px);
+        transform: translateY(-12px);
     }
 }
 
 /* ============================================================
-   MAIN DASHBOARD BODY
+   MAIN GRID
    ============================================================ */
-.dashboard-body {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 40px 20px;
+.dashboard-grid {
     display: flex;
-    flex-direction: row;
-    gap: 32px;
+    gap: 28px;
     align-items: flex-start;
 }
 
-.dashboard-left {
+.main-col {
     flex: 1;
     min-width: 0;
 }
 
-.dashboard-sidebar {
-    width: 350px;
+.side-col {
+    width: 310px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
+}
+
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.section-link {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-link);
+    text-decoration: none;
 }
 
 /* ============================================================
-   FEATURE CARDS
+   STAT CARDS (= Finance row from Pic 1 + Pic 2 content)
    ============================================================ */
-.feature-cards {
+.stat-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 50px;
+    gap: 18px;
+    margin-bottom: 32px;
 }
 
-.feature-card {
+.stat-card {
     background: var(--surface);
-    border-radius: var(--radius-lg);
-    padding: 30px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
+    border-radius: var(--r-card);
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    border: 2px solid transparent;
+    transition: transform .2s ease, box-shadow .2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
 }
 
-.feature-card-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
-    background: rgba(0, 170, 255, 0.1);
+/* highlighted middle card like Pic 1 */
+.stat-card.active {
+    border-color: var(--primary);
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: rgba(26, 35, 126, 0.07);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
-.feature-card-title {
-    font-size: 19px;
-    font-weight: 700;
-    margin-bottom: 10px;
+.stat-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--primary-light);
 }
 
-.feature-card-detail {
-    font-size: 14px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
+.stat-value {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 4px;
 }
 
-.feature-card-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    font-size: 13px;
+.stat-sub {
+    font-size: 11px;
+    color: var(--accent);
     font-weight: 600;
-    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: fit-content;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
 /* ============================================================
-   CHATBOX WIDGET
+   EVENT CARDS (= Enrolled Courses row from Pic 1 + Pic 3 events)
+   ============================================================ */
+.event-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.event-card {
+    background: var(--surface-alt);
+    border-radius: var(--r-card);
+    overflow: hidden;
+    position: relative;
+    min-height: 160px;
+    border: 1px solid rgba(26, 35, 126, 0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: var(--shadow-card);
+}
+
+.event-card:first-child {
+    border: 2px solid var(--primary);
+}
+
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.event-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Extra event slider (remains from Pic 3) ─────────────── */
+.event-slider-section {
+    margin-top: 10px;
+}
+
+.event-slider-section h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: var(--text-dark);
+}
+
+.slider-container {
+    overflow: hidden;
+    border-radius: var(--r-card);
+}
+
+.slider-track {
+    display: flex;
+    gap: 14px;
+    animation: scrollSlide 30s linear infinite;
+}
+
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+.slide {
+    flex: 0 0 260px;
+    height: 160px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@keyframes scrollSlide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ============================================================
+   BUDDY AI CHATBOX (replaces Course Instructors)
    ============================================================ */
 .chatbox-widget {
     background: var(--surface);
-    border-radius: 24px;
+    border-radius: var(--r-card);
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-card);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .chatbox-header {
-    padding: 20px;
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: white;
+    color: #fff;
+    padding: 16px 18px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+}
+
+.chatbox-header img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 3px;
+}
+
+.chatbox-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
 }
 
 .chatbox-body {
-    padding: 24px;
-    height: 350px;
+    padding: 18px;
+    height: 280px;
     overflow-y: auto;
     background: #f8fafc;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
 .chat-bubble {
-    padding: 14px 18px;
-    border-radius: 20px;
-    font-size: 14px;
+    padding: 11px 15px;
+    border-radius: 16px;
+    font-size: 13px;
     line-height: 1.5;
-    max-width: 85%;
+    max-width: 88%;
 }
 
 .buddy-bubble {
-    background: white;
-    align-self: flex-start;
+    background: #fff;
     border-bottom-left-radius: 4px;
-    color: var(--text-primary);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
+    align-self: flex-start;
+    color: var(--text-dark);
 }
 
 .user-bubble {
     background: var(--accent);
-    color: white;
+    color: #fff;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
 }
 
 .chatbox-footer {
-    padding: 15px;
+    padding: 12px;
     display: flex;
-    gap: 10px;
-    background: white;
+    gap: 8px;
+    background: #fff;
     border-top: 1px solid var(--border);
 }
 
 .chat-input {
     flex: 1;
-    padding: 12px 20px;
+    padding: 9px 16px;
     border-radius: 50px;
     border: 1.5px solid var(--border);
-    font-size: 14px;
+    font-size: 13px;
     outline: none;
+    font-family: inherit;
+    background: #f8fafc;
+}
+
+.chat-input:focus {
+    border-color: var(--accent);
+    background: #fff;
+}
+
+.chat-send-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity .2s;
+}
+
+.chat-send-btn:hover {
+    opacity: .85;
+}
+
+.chat-send-btn svg {
+    width: 16px;
+    height: 16px;
+    color: #fff;
 }
 
 /* ============================================================
    DAILY NOTICE
    ============================================================ */
-.daily-notice {
+.notice-card {
     background: var(--surface);
-    border-radius: 24px;
-    padding: 30px;
+    border-radius: var(--r-card);
+    padding: 22px;
+    box-shadow: var(--shadow-card);
     border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
 }
 
-.notice-item {
-    display: flex;
-    gap: 15px;
-    padding: 15px;
-    background: #f8fafc;
-    border-radius: 16px;
-    margin-bottom: 12px;
+.notice-item+.notice-item {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
 }
 
-.notice-indicator {
-    width: 4px;
-    height: 40px;
-    border-radius: 4px;
-    background: var(--accent);
-    flex-shrink: 0;
+.notice-item h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-    .dashboard-body {
+.notice-item p {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 6px;
+}
+
+.notice-item a {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+    .dashboard-grid {
         flex-direction: column;
     }
 
-    .dashboard-sidebar {
+    .side-col {
         width: 100%;
         flex-direction: row;
     }
 
     .chatbox-widget,
-    .daily-notice {
+    .notice-card {
         flex: 1;
     }
 }
 
-@media (max-width: 900px) {
-    .feature-cards {
-        grid-template-columns: repeat(2, 1fr);
+@media (max-width: 768px) {
+    .stat-row {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .hero-title {
-        font-size: 38px;
+    .event-row {
+        grid-template-columns: 1fr;
     }
 
-    .dashboard-sidebar {
+    .hero-banner {
+        flex-direction: column;
+        padding: 30px 24px 0;
+        text-align: center;
+    }
+
+    .hero-text {
+        max-width: 100%;
+    }
+
+    .hero-mascot {
+        margin: 0;
+        align-self: center;
+    }
+
+    .hero-mascot img {
+        height: 160px;
+    }
+
+    .side-col {
         flex-direction: column;
     }
 }
 
-@media (max-width: 600px) {
-    .feature-cards {
+@media (max-width: 500px) {
+    .stat-row {
         grid-template-columns: 1fr;
-    }
-
-    .hero-title {
-        font-size: 32px;
-    }
-
-    .mascot-img {
-        width: 180px;
     }
 }
