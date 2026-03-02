@@ -9,11 +9,11 @@ Route::get('/', function () {
 });
 
 // Auth routes
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/login', [LoginController::class , 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class , 'login']);
 
-Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'showRegistrationForm'])->name('signup');
-Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'register']);
+Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'showRegistrationForm'])->name('signup');
+Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'register']);
 
 // Placeholders for other auth routes shown in the UI
 Route::get('/forgot-password', function () {
