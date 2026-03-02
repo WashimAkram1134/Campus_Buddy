@@ -19,7 +19,7 @@
     
     <!-- ================= HERO SECTION ================= -->
     <section class="classtask-hero">
-      <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Class Tasks" class="hero-bg">
+      <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Class Tasks" class="hero-bg">
       <div class="hero-overlay-dark"></div>
       
       <div class="hero-content-wrapper">
@@ -80,7 +80,14 @@
       <!-- SECTION 1: ASSIGNMENTS -->
       <section class="task-section assignments-section" data-section="assignments">
         <div class="section-header-wrapper">
-          <div class="section-icon assignment-icon">📋</div>
+          <div class="section-icon assignment-icon">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+              <polyline points="13 2 13 9 20 9"/>
+              <line x1="9" y1="13" x2="15" y2="13"/>
+              <line x1="9" y1="17" x2="15" y2="17"/>
+            </svg>
+          </div>
           <div class="section-title-group">
             <h2 class="section-title">Assignments</h2>
             <p class="section-desc">Complete your coursework with AI guidance to help you succeed</p>
@@ -274,7 +281,13 @@
       <!-- SECTION 2: QUIZZES -->
       <section class="task-section quizzes-section" data-section="quizzes">
         <div class="section-header-wrapper">
-          <div class="section-icon quiz-icon">❓</div>
+          <div class="section-icon quiz-icon">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 16.01v.01"/>
+              <path d="M12 12c0-1.657.895-3 2-3s2 1.343 2 3c0 1-1.791 1.572-1.903 2.831C13.93 14.258 12.545 15 12 15"/>
+            </svg>
+          </div>
           <div class="section-title-group">
             <h2 class="section-title">Quizzes</h2>
             <p class="section-desc">Prepare and review quiz topics with expert guidance</p>
@@ -408,7 +421,12 @@
       <!-- SECTION 3: PRESENTATIONS -->
       <section class="task-section presentations-section" data-section="presentations">
         <div class="section-header-wrapper">
-          <div class="section-icon presentation-icon">🎤</div>
+          <div class="section-icon presentation-icon">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+          </div>
           <div class="section-title-group">
             <h2 class="section-title">Presentations</h2>
             <p class="section-desc">Learn presentation skills and get feedback on your topics</p>
@@ -572,11 +590,6 @@
 
 </body>
 </html>
-      
-      <!-- SECTION 1: ASSIGNMENTS -->
-      <section class="task-section assignments-section">
-        <div class="section-header-wrapper">
-          <div class="section-icon assignment-icon">📋</div>
           <div class="section-title-group">
             <h2 class="section-title">Assignments</h2>
             <p class="section-desc">Complete your coursework and submit on time</p>

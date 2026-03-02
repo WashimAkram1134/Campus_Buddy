@@ -319,16 +319,37 @@ body {
     flex-shrink: 0;
 }
 
+.section-icon svg {
+    width: 42px;
+    height: 42px;
+    stroke-width: 1.5px;
+}
+
 .assignment-icon {
     background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 140, 0, 0.15));
+    color: #ff6b6b;
+}
+
+.assignment-icon svg {
+    stroke: #ff6b6b;
 }
 
 .quiz-icon {
     background: linear-gradient(135deg, rgba(100, 150, 255, 0.15), rgba(0, 170, 255, 0.15));
+    color: #6496ff;
+}
+
+.quiz-icon svg {
+    stroke: #6496ff;
 }
 
 .presentation-icon {
     background: linear-gradient(135deg, rgba(100, 200, 150, 0.15), rgba(0, 200, 150, 0.15));
+    color: #64c850;
+}
+
+.presentation-icon svg {
+    stroke: #64c850;
 }
 
 .section-title-group {
