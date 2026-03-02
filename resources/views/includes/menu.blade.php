@@ -16,7 +16,7 @@
     <img src="{{ asset('images/menuicons/routine.png') }}" alt="Routine" width="20" height="20" style="vertical-align: middle;">
     <span>Routine</span>
   </a>
-  <a href="#" class="">
+  <a href="{{ route('classtask') }}" class="{{ $currentRoute === 'classtask' ? 'active' : '' }}">
     <img src="{{ asset('images/menuicons/Classtask.png') }}" alt="ClassTask" width="20" height="20" style="vertical-align: middle;">
     <span>ClassTask</span>
   </a>

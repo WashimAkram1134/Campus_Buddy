@@ -55,3 +55,7 @@ Route::get('/alumni', function () {
 Route::get('/clubs', function () {
     return view('clubs');
 })->name('clubs')->middleware('auth');
+
+Route::get('/classtask', function () {
+    return view('classtask');
+})->name('classtask')->middleware('auth');
