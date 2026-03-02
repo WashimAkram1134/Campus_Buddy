@@ -318,24 +318,30 @@ body {
     display: flex;
     gap: 16px;
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding-bottom: 16px;
     /* For scrollbar */
     scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) var(--border);
 }
 
 .event-scroll-container::-webkit-scrollbar {
-    height: 6px;
+    height: 8px;
 }
 
-.event-scroll-container::-webkit-scrollbar-thumb {
+.event-scroll-container::-webkit-scrollbar-track {
     background: var(--border);
     border-radius: 4px;
 }
 
+.event-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+}
+
 .event-card-scroll {
-    flex: 0 0 calc(50% - 8px);
-    /* 2 items visible */
-    height: 180px;
+    flex: 0 0 calc(70% - 10px);
+    /* Larger size: 1 item + part of the next */
+    height: 240px;
     /* Increased height to fully visualize */
     background: var(--surface-alt);
     border-radius: var(--r-card);
@@ -344,6 +350,7 @@ body {
     border: 1px solid rgba(26, 35, 126, 0.06);
     transition: transform .2s ease, box-shadow .2s ease;
     box-shadow: var(--shadow-card);
+    cursor: pointer;
 }
 
 .event-card-scroll:hover {
@@ -532,5 +539,65 @@ body {
 @media (max-width: 500px) {
     .stat-row {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================================
+   FULL SCREEN IMAGE VIEWER
+   ============================================================ */
+.image-viewer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.image-viewer.show {
+    display: flex;
+    opacity: 1;
+}
+
+.image-viewer img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    object-fit: contain;
+    animation: zoomIn 0.3s ease;
+}
+
+.image-viewer .close-btn {
+    position: absolute;
+    top: 25px;
+    right: 40px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
+}
+
+.image-viewer .close-btn:hover {
+    color: var(--accent);
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }

@@ -4,22 +4,24 @@
   <div class="slider-container">
     <div class="slider-track">
       @php
-        $imageDir = public_path('images/eventImage/');
-        $images = [];
-        if (is_dir($imageDir)) {
-            foreach (['jpg','jpeg','png','gif','webp'] as $ext) {
-                $images = array_merge($images, glob($imageDir . "*.$ext"));
-            }
-        }
+      $imageDir = public_path('images/eventImage/');
+      $images = [];
+      if (is_dir($imageDir)) {
+      foreach (['jpg','jpeg','png','gif','webp'] as $ext) {
+      $images = array_merge($images, glob($imageDir . "*.$ext"));
+      }
+      }
       @endphp
 
-      @forelse($images as $image)
-        <div class="slide">
-          <img src="{{ asset('images/eventImage/' . basename($image)) }}" alt="Event Image">
-        </div>
-      @empty
-        <p class="no-events">No event images found.</p>
-      @endforelse
+      @if(empty($images))
+      <p class="no-events">No event images found.</p>
+      @else
+      @foreach($images as $image)
+      <div class="slide">
+        <img src="{{ asset('images/eventImage/' . basename($image)) }}" alt="Event Image">
+      </div>
+      @endforeach
+      @endif
     </div>
   </div>
 </div>

@@ -132,13 +132,15 @@
           @endphp
 
           <div class="event-scroll-container">
-            @forelse($eventImages as $eventImg)
+            @if(empty($eventImages))
+            <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
+            @else
+            @foreach($eventImages as $eventImg)
             <div class="event-card-scroll">
               <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
             </div>
-            @empty
-            <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
-            @endforelse
+            @endforeach
+            @endif
           </div>
 
         </div>{{-- /main-col --}}
@@ -186,28 +188,61 @@
 
   @include('includes.footer')
 
+  <!-- FULL SCREEN IMAGE VIEWER -->
+  <div class="image-viewer" id="imageViewer">
+    <span class="close-btn" id="closeViewer">&times;</span>
+    <img src="" alt="Full size event image" id="viewerImage">
+  </div>
+
   <script>
-    (function () {
-    var sendBtn   = doc  getElementById('chatSend');
-        chatInput = document.g    tById('chatInput');
-    var chatBody  = document  El  tById('chatBody');
+    (function ()           var sen n = doc  getElementById('chatSend')      chatInput = document.g    tById('chatInput');
+        var chatBo  = document  El  tById('chatBody');
 
-     unction sendMessage() {
-      var  t = chatInput.val  rim();
-        if (!text) ret  
+     unction sendMessage() {            r t = chatInput.val  rim();
+        if (!text) r
 
-      var userMsg =  ument.createElement('div');
-      userMsg  ssName =   t-bubble user-bubble';
-      user  textConten  te          c  ody.appendCh  userMs      chatInput.va  = '';
-        Bod    Top = chatBody    eight;
-         t(function ()         ddyMsg = d ocumen           
-           bud      bubb  uddy-bubble';
-      tContent = 'Got i    ok i         for you. 🔍'            endC  (budd         ch  dy.scrollTop =     .s    g        }, 800     }
+          var userMsg  ument.createElement('div');
+      userMsg  ssName    -  bubble use r  - bubble';
+      user  textConten  te          c  ody.appendCh  userMs      chatInput a = '';
+        Bod    Top = chatBody    eight         t(function ()         ddyMsg = d ocumen           
+           bud      bubb  udd y  - bubble';
+      tContent = 'Got i    ok i         for you. 🔍'            eC(budd         ch  dy.scrollTop =     .s    g        }, 80
+     }
 
-      if     ) send  add  tListen    k',  dMe        if (chatInput) chatInput.   is  r(    s', function (e) {
-    e.key ==  nte  sendMessage();
-      });
-    })();
+      if     ) send  add  tListen    k',  dMe        if (chatInput) chatInput.   is  r(    s', function (e) {         e.key = nte  sendMessage()    });
+    })  ();
+
+    // Image Viewer Logic
+    document.addEventListener('DOMContentLoaded', functio n () {
+      const viewer = document.getElementById('imageViewer');
+      const viewerImg = document.getElementById('viewerImage');
+      const closeBtn = document.getElementById('closeViewer');
+      const eventImages = document.querySelectorAll('.event-card-scroll img');
+
+      if (eventImages.length > 0) {
+        eventImages.forEach(img => {
+          img.addEventListener('click', functi on () {
+            viewerImg.src = this.src;
+            viewer.classList.add('show');
+          });
+        });
+      }
+
+      if (closeBtn) {
+        closeBtn.addEventListener('click', funct ion () {
+          viewer.classList.remove('show');
+        });
+      }
+
+      // Close on clicking outside the image
+      if (viewer) {
+        viewer.addEventListener('click', func tion (e) {
+          if (e.target === viewer) {
+            viewer.classList.remove('show');
+          }
+        });
+      }
+   );
   </script>
 
 </body>
