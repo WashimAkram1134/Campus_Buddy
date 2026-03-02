@@ -58,18 +58,22 @@
         <button class="filter-btn active" data-filter="all">
           <span class="filter-icon">📋</span>
           <span>All Tasks</span>
+          <span class="count">7</span>
         </button>
         <button class="filter-btn" data-filter="assignments">
-          <span class="filter-icon">📋</span>
+          <span class="filter-icon">�</span>
           <span>Assignments</span>
+          <span class="count">3</span>
         </button>
         <button class="filter-btn" data-filter="quizzes">
           <span class="filter-icon">❓</span>
           <span>Quizzes</span>
+          <span class="count">2</span>
         </button>
         <button class="filter-btn" data-filter="presentations">
           <span class="filter-icon">🎤</span>
           <span>Presentations</span>
+          <span class="count">2</span>
         </button>
       </div>
     </div>
@@ -92,7 +96,6 @@
             <h2 class="section-title">Assignments</h2>
             <p class="section-desc">Complete your coursework with AI guidance to help you succeed</p>
           </div>
-          <div class="section-badge">3 Active</div>
         </div>
 
         <div class="task-cards-grid">
@@ -292,7 +295,6 @@
             <h2 class="section-title">Quizzes</h2>
             <p class="section-desc">Prepare and review quiz topics with expert guidance</p>
           </div>
-          <div class="section-badge">2 Active</div>
         </div>
 
         <div class="task-cards-grid">
@@ -431,7 +433,6 @@
             <h2 class="section-title">Presentations</h2>
             <p class="section-desc">Learn presentation skills and get feedback on your topics</p>
           </div>
-          <div class="section-badge">2 Active</div>
         </div>
 
         <div class="task-cards-grid">
@@ -565,7 +566,7 @@
 @include('includes.footer')
 
 <script>
-  // Filter functionality
+  // Filter functionality with smooth animations
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const filter = this.dataset.filter;
@@ -574,346 +575,51 @@
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       this.classList.add('active');
       
-      // Show/hide sections
-      document.querySelectorAll('.task-section').forEach(section => {
-        if (filter === 'all') {
+      // Animate sections with fade effect
+      const sections = document.querySelectorAll('.task-section');
+      
+      sections.forEach(section => {
+        const shouldShow = filter === 'all' || section.dataset.section === filter;
+        
+        if (shouldShow) {
           section.style.display = 'block';
-        } else if (section.dataset.section === filter) {
-          section.style.display = 'block';
+          // Small delay to allow display:block to apply before adding opacity
+          requestAnimationFrame(() => {
+            section.style.opacity = '1';
+            section.style.transform = 'translateY(0)';
+          });
         } else {
-          section.style.display = 'none';
+          section.style.opacity = '0';
+          section.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            section.style.display = 'none';
+          }, 300);
         }
       });
     });
   });
+
+  // Scroll animation using Intersection Observer
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px 0px -50px 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Observe all task sections, section headers, and task cards
+  document.querySelectorAll('.task-section, .section-header-wrapper, .task-card, .info-card').forEach(el => {
+    observer.observe(el);
+  });
 </script>
-
-</body>
-</html>
-          <div class="section-title-group">
-            <h2 class="section-title">Assignments</h2>
-            <p class="section-desc">Complete your coursework and submit on time</p>
-          </div>
-          <div class="section-badge">3 Active</div>
-        </div>
-
-        <div class="task-cards-grid">
-          <!-- Assignment Card 1 -->
-          <div class="task-card assignment-card">
-            <div class="card-status-bar assignment-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Data Structures & Algorithms</h3>
-              <span class="card-progress">70%</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Due</p>
-                  <p class="timeline-value">March 15, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Remaining</p>
-                  <p class="timeline-value">8 days</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Tree Traversal & Sorting Algorithms</p>
-            </div>
-
-            <div class="buddy-box assignment-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Buddy Tips</span>
-              </div>
-              <p class="buddy-text">Break the assignment into smaller tasks. Start with understanding tree structures, then practice different traversal methods (DFS, BFS). Use recursion wisely! Focus on time complexity analysis for each algorithm.</p>
-            </div>
-          </div>
-
-          <!-- Assignment Card 2 -->
-          <div class="task-card assignment-card">
-            <div class="card-status-bar assignment-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Database Design Project</h3>
-              <span class="card-progress">45%</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Due</p>
-                  <p class="timeline-value">March 22, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Remaining</p>
-                  <p class="timeline-value">15 days</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Relational Database Normalization</p>
-            </div>
-
-            <div class="buddy-box assignment-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Buddy Tips</span>
-              </div>
-              <p class="buddy-text">Focus on normalization forms (1NF, 2NF, 3NF). Design your ER diagram first before implementing. Check your primary and foreign keys are correctly set up. Avoid redundancy in your tables by following normalization rules.</p>
-            </div>
-          </div>
-
-          <!-- Assignment Card 3 -->
-          <div class="task-card assignment-card">
-            <div class="card-status-bar assignment-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Web Development Homework</h3>
-              <span class="card-progress">90%</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Due</p>
-                  <p class="timeline-value">March 10, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Remaining</p>
-                  <p class="timeline-value">2 days</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Responsive Design with CSS Grid & Flexbox</p>
-            </div>
-
-            <div class="buddy-box assignment-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Buddy Tips</span>
-              </div>
-              <p class="buddy-text">Remember the mobile-first approach! Use CSS Grid for 2D layouts and flexbox for 1D components. Test on different screen sizes using browser dev tools. Consider viewport meta tags and media queries for better responsiveness.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 2: QUIZZES -->
-      <section class="task-section quizzes-section">
-        <div class="section-header-wrapper">
-          <div class="section-icon quiz-icon">❓</div>
-          <div class="section-title-group">
-            <h2 class="section-title">Quizzes</h2>
-            <p class="section-desc">Test your knowledge with online quizzes</p>
-          </div>
-          <div class="section-badge">2 Active</div>
-        </div>
-
-        <div class="task-cards-grid">
-          <!-- Quiz Card 1 -->
-          <div class="task-card quiz-card">
-            <div class="card-status-bar quiz-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Operating Systems Midterm Quiz</h3>
-              <span class="card-progress quiz-progress">Not Started</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Quiz Date</p>
-                  <p class="timeline-value">March 12, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Duration</p>
-                  <p class="timeline-value">1 hour</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Process Management, Scheduling & Deadlock</p>
-            </div>
-
-            <div class="buddy-box quiz-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Study Guide</span>
-              </div>
-              <p class="buddy-text"><strong>Key Areas:</strong> Review scheduling algorithms (FCFS, SJF, Round Robin, Priority). Understand deadlock conditions (Mutual Exclusion, Hold & Wait, No Preemption, Circular Wait) and prevention strategies. Practice with real-world examples and state diagrams. Time management is crucial - allocate 20 mins per section.</p>
-            </div>
-          </div>
-
-          <!-- Quiz Card 2 -->
-          <div class="task-card quiz-card">
-            <div class="card-status-bar quiz-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Discrete Mathematics Pop Quiz</h3>
-              <span class="card-progress quiz-progress">In Progress</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Quiz Date</p>
-                  <p class="timeline-value">March 11, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Attempts Left</p>
-                  <p class="timeline-value">1 out of 2</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Graph Theory, Boolean Algebra & Logic</p>
-            </div>
-
-            <div class="buddy-box quiz-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Study Guide</span>
-              </div>
-              <p class="buddy-text"><strong>Study Focus:</strong> Master graph representations (adjacency matrix vs adjacency list). Boolean algebra simplification using laws. Practice truth tables and De Morgan's laws. Understand propositional logic, quantifiers, and predicates. Do practice problems on graph traversal (DFS, BFS).</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 3: PRESENTATIONS -->
-      <section class="task-section presentations-section">
-        <div class="section-header-wrapper">
-          <div class="section-icon presentation-icon">🎤</div>
-          <div class="section-title-group">
-            <h2 class="section-title">Presentations</h2>
-            <p class="section-desc">Prepare and deliver your presentation projects</p>
-          </div>
-          <div class="section-badge">2 Active</div>
-        </div>
-
-        <div class="task-cards-grid">
-          <!-- Presentation Card 1 -->
-          <div class="task-card presentation-card">
-            <div class="card-status-bar presentation-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Artificial Intelligence Seminar</h3>
-              <span class="card-progress">60%</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Presentation Date</p>
-                  <p class="timeline-value">March 18, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Slot Time</p>
-                  <p class="timeline-value">2:00 PM - 2:30 PM</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Machine Learning Models in Healthcare Applications</p>
-            </div>
-
-            <div class="buddy-box presentation-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Buddy Tips</span>
-              </div>
-              <p class="buddy-text"><strong>Presentation Structure:</strong> Introduction (grab attention) → Problem Statement → Your Solution → Results & Analysis → Conclusion. <strong>Best Practices:</strong> Use visuals & diagrams! Practice delivery 3-4 times. Keep slides to 10-12 max for better engagement. Speak clearly and maintain eye contact. Handle Q&A confidently by repeating the question first.</p>
-            </div>
-          </div>
-
-          <!-- Presentation Card 2 -->
-          <div class="task-card presentation-card">
-            <div class="card-status-bar presentation-bar"></div>
-            <div class="card-header">
-              <h3 class="card-title">Cloud Computing Architecture</h3>
-              <span class="card-progress">30%</span>
-            </div>
-            
-            <div class="card-timeline">
-              <div class="timeline-item">
-                <span class="timeline-icon">📅</span>
-                <div>
-                  <p class="timeline-label">Presentation Date</p>
-                  <p class="timeline-value">March 25, 2026</p>
-                </div>
-              </div>
-              <div class="timeline-divider"></div>
-              <div class="timeline-item">
-                <span class="timeline-icon">⏰</span>
-                <div>
-                  <p class="timeline-label">Slot Time</p>
-                  <p class="timeline-value">3:00 PM - 3:30 PM</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="card-topic">
-              <p class="topic-label">Topic</p>
-              <p class="topic-value">Microservices: Design Patterns & Scalability</p>
-            </div>
-
-            <div class="buddy-box presentation-buddy">
-              <div class="buddy-header">
-                <span class="buddy-icon">🤖</span>
-                <span class="buddy-label">AI Buddy Tips</span>
-              </div>
-              <p class="buddy-text"><strong>Technical Content:</strong> Use live demos or video recordings for maximum impact. Explain API communication between services clearly. Include deployment considerations and auto-scaling strategies. <strong>Presentation Tip:</strong> Use architecture diagrams to visualize microservices. Discuss pros/cons compared to monolithic architecture. Prepare for questions about fault tolerance and consistency.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
-
-  </main>
-</div>
-
-@include('includes.footer')
 
 </body>
 </html>
