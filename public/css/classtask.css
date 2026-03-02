@@ -29,6 +29,60 @@ body {
     padding-bottom: 60px !important;
 }
 
+/* ================= FILTER BAR ================= */
+.filter-bar-wrapper {
+    position: sticky;
+    top: 56px;
+    z-index: 100;
+    background: white;
+    border-bottom: 2px solid #e0ddd8;
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f3f0;
+    border: 2px solid transparent;
+    color: #666;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+    background: #e8e4e0;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #00a8ff, #00d4ff);
+    color: white;
+    border-color: #0099cc;
+    box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+}
+
+.filter-icon {
+    font-size: 16px;
+}
+
 /* ================= HERO SECTION ================= */
 .classtask-hero {
     position: relative;
@@ -312,7 +366,8 @@ body {
 }
 
 /* ================= TASK CARD ================= */
-.task-card {
+.task-card,
+.info-card {
     background: white;
     border-radius: 20px;
     overflow: hidden;
@@ -452,85 +507,118 @@ body {
 
 /* ================= BUDDY BOX ================= */
 .buddy-box {
-    padding: 15px 20px;
+    padding: 0;
     border-radius: 12px;
-    margin: 15px 20px 0 20px;
+    margin: 15px 20px 20px 20px;
+    background: transparent;
+    border: none;
+    overflow: visible;
 }
 
 .assignment-buddy {
     background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 140, 0, 0.08));
     border: 1px solid rgba(255, 107, 107, 0.2);
+    padding: 15px;
+    border-radius: 12px;
 }
 
 .quiz-buddy {
     background: linear-gradient(135deg, rgba(100, 150, 255, 0.08), rgba(0, 170, 255, 0.08));
     border: 1px solid rgba(100, 150, 255, 0.2);
+    padding: 15px;
+    border-radius: 12px;
 }
 
 .presentation-buddy {
     background: linear-gradient(135deg, rgba(100, 200, 150, 0.08), rgba(0, 200, 150, 0.08));
     border: 1px solid rgba(100, 200, 150, 0.2);
+    padding: 15px;
+    border-radius: 12px;
 }
 
 .buddy-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
 }
 
-.buddy-icon {
-    font-size: 18px;
+.buddy-mascot-wrapper {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.buddy-mascot {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.buddy-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .buddy-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #666;
+    font-size: 13px;
+    font-weight: 800;
+    color: #1a1a1a;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.buddy-text {
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-    margin: 0 0 12px 0;
+.buddy-subtitle {
+    font-size: 12px;
+    color: #999;
+    font-weight: 600;
 }
 
-.buddy-action {
-    background: transparent;
-    border: 1px solid #00d4ff;
-    color: #00d4ff;
-    padding: 6px 12px;
+.buddy-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.buddy-tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.tip-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.tip-text {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+    margin: 0;
+}
+
+.buddy-help-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 170, 255, 0.1));
+    border: 1.5px solid #00d4ff;
+    color: #0066cc;
+    padding: 10px 12px;
     border-radius: 8px;
     font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.buddy-action:hover {
-    background: #00d4ff;
-    color: white;
-}
-
-/* ================= CARD FOOTER ================= */
-.card-footer {
-    padding: 15px 20px 20px;
-    display: flex;
-    gap: 10px;
-    flex-grow: 1;
-    align-items: flex-end;
-}
-
-.btn-view-more,
-.btn-submit {
-    flex: 1;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 8px;
-    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -538,29 +626,26 @@ body {
     letter-spacing: 0.5px;
 }
 
-.btn-view-more {
-    background: #f0eded;
-    color: #1a1a1a;
-}
-
-.btn-view-more:hover {
-    background: #e0ddd8;
-    transform: translateY(-2px);
-}
-
-.btn-submit {
-    background: linear-gradient(135deg, #00a8ff, #00d4ff);
-    color: white;
+.buddy-help-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.25), rgba(0, 170, 255, 0.2));
     box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+    transform: translateY(-2px);
 }
 
-.btn-submit:hover {
-    box-shadow: 0 6px 18px rgba(0, 170, 255, 0.4);
-    transform: translateY(-2px);
+.buddy-help-btn:active {
+    transform: translateY(0);
+}
+
+.help-icon {
+    font-size: 14px;
 }
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 1200px) {
+    .filter-bar {
+        padding: 0 25px;
+    }
+
     .classtask-container {
         padding: 40px;
         gap: 50px;
@@ -581,6 +666,20 @@ body {
 }
 
 @media (max-width: 768px) {
+    .filter-bar-wrapper {
+        top: 56px;
+    }
+
+    .filter-bar {
+        padding: 0 15px;
+        gap: 10px;
+    }
+
+    .filter-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
     .classtask-container {
         padding: 25px;
         gap: 40px;
@@ -634,18 +733,28 @@ body {
         height: 20px;
         margin: 5px 0;
     }
-
-    .card-footer {
-        flex-direction: column;
-    }
-
-    .btn-view-more,
-    .btn-submit {
-        width: 100%;
-    }
 }
 
 @media (max-width: 480px) {
+    .filter-bar-wrapper {
+        top: 56px;
+        padding: 10px 0;
+    }
+
+    .filter-bar {
+        padding: 0 10px;
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .filter-icon {
+        font-size: 14px;
+    }
+
     .classtask-hero {
         min-height: 300px;
     }
@@ -679,7 +788,8 @@ body {
         font-size: 16px;
     }
 
-    .task-card {
+    .task-card,
+    .info-card {
         border-radius: 15px;
     }
 }
