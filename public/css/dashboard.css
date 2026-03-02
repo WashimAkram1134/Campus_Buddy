@@ -53,34 +53,38 @@ body {
    ============================================================ */
 .hero-banner {
     position: relative;
-    border-radius: var(--r-hero);
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    min-height: 480px;
+    border-radius: 0;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 230px;
-    padding: 44px 56px;
-    margin-bottom: 36px;
+    padding: 0 10%;
+    margin-bottom: 40px;
     background: var(--primary);
-    box-shadow: var(--shadow-card);
+    box-shadow: none;
 }
 
 /* blurred campus background */
 .hero-bg {
     position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    filter: blur(3px) brightness(0.55);
-    transform: scale(1.05);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(3px);
+    /* blur but not blurish */
     z-index: 0;
 }
 
-/* dark gradient overlay */
+/* dark gradient overlay matching notes */
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(105deg, rgba(26, 35, 126, 0.92) 50%, rgba(26, 35, 126, 0.55));
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.8), rgba(0, 100, 160, 0.6));
     z-index: 1;
 }
 
@@ -308,92 +312,52 @@ body {
 }
 
 /* ============================================================
-   EVENT CARDS (= Enrolled Courses row from Pic 1 + Pic 3 events)
+   EVENT CARDS (Horizontal Scroll)
    ============================================================ */
-.event-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+.event-scroll-container {
+    display: flex;
     gap: 16px;
-    margin-bottom: 30px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    /* For scrollbar */
+    scrollbar-width: thin;
 }
 
-.event-card {
+.event-scroll-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.event-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+.event-card-scroll {
+    flex: 0 0 calc(50% - 8px);
+    /* 2 items visible */
+    height: 180px;
+    /* Increased height to fully visualize */
     background: var(--surface-alt);
     border-radius: var(--r-card);
     overflow: hidden;
     position: relative;
-    min-height: 160px;
     border: 1px solid rgba(26, 35, 126, 0.06);
     transition: transform .2s ease, box-shadow .2s ease;
     box-shadow: var(--shadow-card);
 }
 
-.event-card:first-child {
-    border: 2px solid var(--primary);
-}
-
-.event-card:hover {
-    transform: translateY(-4px);
+.event-card-scroll:hover {
+    transform: translateY(-2px);
     box-shadow: var(--shadow-hover);
 }
 
-.event-card img {
+.event-card-scroll img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Reverted to cover as requested by user */
     display: block;
-}
-
-/* ── Extra event slider (remains from Pic 3) ─────────────── */
-.event-slider-section {
-    margin-top: 10px;
-}
-
-.event-slider-section h2 {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    color: var(--text-dark);
-}
-
-.slider-container {
-    overflow: hidden;
-    border-radius: var(--r-card);
-}
-
-.slider-track {
-    display: flex;
-    gap: 14px;
-    animation: scrollSlide 30s linear infinite;
-}
-
-.slider-track:hover {
-    animation-play-state: paused;
-}
-
-.slide {
-    flex: 0 0 260px;
-    height: 160px;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: var(--shadow-card);
-}
-
-.slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-@keyframes scrollSlide {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
+    background: #fff;
 }
 
 /* ============================================================
@@ -515,44 +479,6 @@ body {
 }
 
 /* ============================================================
-   DAILY NOTICE
-   ============================================================ */
-.notice-card {
-    background: var(--surface);
-    border-radius: var(--r-card);
-    padding: 22px;
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--border);
-}
-
-.notice-item+.notice-item {
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid var(--border);
-}
-
-.notice-item h4 {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 6px;
-}
-
-.notice-item p {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    line-height: 1.55;
-    margin-bottom: 6px;
-}
-
-.notice-item a {
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--primary);
-    text-decoration: none;
-}
-
-/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1100px) {
@@ -565,8 +491,7 @@ body {
         flex-direction: row;
     }
 
-    .chatbox-widget,
-    .notice-card {
+    .chatbox-widget {
         flex: 1;
     }
 }
@@ -576,8 +501,8 @@ body {
         grid-template-columns: 1fr 1fr;
     }
 
-    .event-row {
-        grid-template-columns: 1fr;
+    .event-card-scroll {
+        flex: 0 0 calc(100% - 16px);
     }
 
     .hero-banner {

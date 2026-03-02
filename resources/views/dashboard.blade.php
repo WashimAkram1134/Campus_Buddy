@@ -26,7 +26,7 @@
       ══════════════════════════════════════════════════ --}}
       <section class="hero-banner">
         {{-- blurred campus background from Pic 2/3 --}}
-        <div class="hero-bg" style="background-image: url('{{ asset('images/community/dashboardBG.jpg') }}');"></div>
+        <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Background" class="hero-bg">
         <div class="hero-overlay"></div>
 
         {{-- decorative dots matching Pic 1 --}}
@@ -49,7 +49,7 @@
 
         {{-- blue robot mascot from Pic 2/3, positioned right like Pic 1 --}}
         <div class="hero-mascot">
-          <img src="{{ asset('images/dashboard/robot_mascot.png') }}" alt="Buddy Mascot">
+          <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy Mascot">
         </div>
       </section>
 
@@ -131,18 +131,15 @@
           }
           @endphp
 
-          <div class="event-row">
-            @forelse(array_slice($eventImages, 0, 4) as $eventImg)
-            <div class="event-card">
+          <div class="event-scroll-container">
+            @forelse($eventImages as $eventImg)
+            <div class="event-card-scroll">
               <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
             </div>
             @empty
             <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
             @endforelse
           </div>
-
-          {{-- Full scrolling event slider (from existing eventslider include) --}}
-          @include('includes.eventslider')
 
         </div>{{-- /main-col --}}
 
@@ -156,7 +153,7 @@
 
           <div class="chatbox-widget">
             <div class="chatbox-header">
-              <img src="{{ asset('images/dashboard/robot_mascot.png') }}" alt="Buddy Avatar">
+              <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
               <h3>Buddy AI Assistant</h3>
             </div>
 
@@ -181,26 +178,6 @@
             </div>
           </div>
 
-          {{-- DAILY NOTICE --}}
-          <div class="section-head">
-            <h2 class="section-title">Daily notice</h2>
-            <a href="#" class="section-link">See all</a>
-          </div>
-
-          <div class="notice-card">
-            <div class="notice-item">
-              <h4>Prelim payment due</h4>
-              <p>Please settle your remaining tuition fees for the preliminary exams before Friday.</p>
-              <a href="#">See more</a>
-            </div>
-            <div class="notice-item">
-              <h4>Exam schedule</h4>
-              <p>Mid-term examination schedule has been published. Nunc vulputate libero et velit interdum, ac aliquet
-                odio mattis.</p>
-              <a href="#">See more</a>
-            </div>
-          </div>
-
         </div>{{-- /side-col --}}
 
       </div>{{-- /dashboard-grid --}}
@@ -211,30 +188,24 @@
 
   <script>
     (function () {
-    var sendBtn   = document.getElementById('chatSend');
-        chatInput = document.getElementById('chatInput');
-    var chatBody  = document.getElementById('chatBody');
+    var sendBtn   = doc  getElementById('chatSend');
+        chatInput = document.g    tById('chatInput');
+    var chatBody  = document  El  tById('chatBody');
 
      unction sendMessage() {
-        var text = chatInput.val  rim();
-        if (!text) return;
+      var  t = chatInput.val  rim();
+        if (!text) ret  
 
-        var userMsg =  ument.createElement('div');
-        userMsg.className =   t-bubble user-bubble';
-      userMsg.textContent = te          chatBody.appendChild(userMs        chatInput.value = '';
-        Body.scrollTop = chatBody.scrollHeight;
- 
-           t(function () {
-          ddyMsg = document.createEle      
-          buddyMsg.c     = '  -bubb  uddy-bubble';
-          bu    extContent = 'Got it!    look into "' + text + '" for you. 🔍'        chatBody.appendChild(buddyMsg);
-        ch  dy.scrollTop = chatBody.s    ght;
-        }, 800);
-      }
+      var userMsg =  ument.createElement('div');
+      userMsg  ssName =   t-bubble user-bubble';
+      user  textConten  te          c  ody.appendCh  userMs      chatInput.va  = '';
+        Bod    Top = chatBody    eight;
+         t(function ()         ddyMsg = d ocumen           
+           bud      bubb  uddy-bubble';
+      tContent = 'Got i    ok i         for you. 🔍'            endC  (budd         ch  dy.scrollTop =     .s    g        }, 800     }
 
-      if     ) sendBtn.addEventListener('click',  dMe  e);
-      if (chatInput) chatInput.a    istener('keypress', function (e) {
-        e.key === 'Enter') sendMessage();
+      if     ) send  add  tListen    k',  dMe        if (chatInput) chatInput.   is  r(    s', function (e) {
+    e.key ==  nte  sendMessage();
       });
     })();
   </script>
