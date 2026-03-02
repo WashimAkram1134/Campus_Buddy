@@ -1,4 +1,5 @@
 /* ================= CAMPUS BUDDY MENU STYLES ================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ================= SMOOTH SCROLLING ================= */
 html {
@@ -13,9 +14,9 @@ body {
 /* ================= STANDARDIZED MAIN CONTENT ================= */
 .main {
     flex: 1;
-    padding: 60px 40px 30px;
+    padding: 110px 40px 30px;
     width: 100%;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 80px);
 }
 
 .page-header {
@@ -69,7 +70,7 @@ body {
 /* ================= MOBILE RESPONSIVE FOR MAIN CONTENT ================= */
 @media (max-width: 768px) {
     .main {
-        padding: 120px 15px 30px !important;
+        padding: 160px 15px 30px !important;
     }
 
     .header-row {
@@ -99,7 +100,7 @@ body {
     white-space: nowrap;
     width: 100%;
     position: fixed;
-    top: 60px;
+    top: 80px;
     left: 0;
     z-index: 1000;
     height: 60px;
@@ -127,7 +128,7 @@ body {
     font-size: 14px;
     position: relative;
     height: 60px;
-    font-family: "Segoe UI", Arial, sans-serif !important;
+    font-family: 'Inter', sans-serif !important;
     font-weight: normal !important;
 }
 
@@ -185,7 +186,7 @@ nav.mobile-menu a.active::after {
     .mobile-menu {
         display: flex !important;
         position: fixed;
-        top: 60px;
+        top: 80px;
         left: 0;
         z-index: 1000;
     }
