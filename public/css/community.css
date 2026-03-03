@@ -19,7 +19,7 @@ body {
 .layout {
     display: flex;
     margin-left: 0;
-    padding-top: 80px;
+    padding-top: 100px;
 }
 
 .main {

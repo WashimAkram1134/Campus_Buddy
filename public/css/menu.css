@@ -14,9 +14,9 @@ body {
 /* ================= STANDARDIZED MAIN CONTENT ================= */
 .main {
     flex: 1;
-    padding: 110px 40px 30px;
+    padding: 130px 40px 30px;
     width: 100%;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 100px);
 }
 
 .page-header {
@@ -100,7 +100,7 @@ body {
     white-space: nowrap;
     width: 100%;
     position: fixed;
-    top: 80px;
+    top: 100px;
     left: 0;
     z-index: 1000;
     height: 60px;
