@@ -144,6 +144,107 @@
     filter: brightness(1) drop-shadow(0 2px 4px rgba(0, 170, 255, 0.4));
 }
 
+/* ================= USER DROPDOWN ================= */
+.user-profile-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 240px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #edf2f7;
+    padding: 12px;
+    display: none;
+    z-index: 1000;
+    transform-origin: top right;
+    animation: dropdownFade 0.2s ease-out;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.dropdown-header {
+    padding: 8px 12px 12px;
+}
+
+.dropdown-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-email {
+    font-size: 13px;
+    color: #718096;
+    margin: 4px 0 6px;
+}
+
+.dropdown-role {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #0088cc;
+    background: rgba(0, 136, 204, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #edf2f7;
+    margin: 8px 0;
+}
+
+.logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    color: #e53e3e;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background: #fff5f5;
+}
+
+.logout-btn svg {
+    opacity: 1;
+}
+
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px) {
     .topbar {

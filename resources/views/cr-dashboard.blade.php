@@ -9,6 +9,115 @@
   <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
   <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
   <link rel="stylesheet" href="{{ asset('css/cr-dashboard.css') }}">
+  <style>
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 30px;
+      border: none;
+      width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      animation: slideInDown 0.4s ease;
+    }
+
+    @keyframes slideInDown {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      color: #1b5c7a;
+      font-size: 24px;
+    }
+
+    .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #edf2f7;
+      border-radius: 10px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #00AAFF;
+      box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #00AAFF;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background: #0088cc;
+      transform: translateY(-2px);
+    }
+  </style>
 </head>
 
 <body>
@@ -64,6 +173,69 @@
         </div>
       </section>
 
+      <!-- ================= SCHEDULE MODAL ================= -->
+      <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Manage Schedule</h2>
+            <span class="close" id="closeModal">&times;</span>
+          </div>
+          <form action="{{ route('schedule.store') }}" method="POST">
+            @csrf
+            <div class="form-group">
+              <label for="course_code">Course Code</label>
+              <input type="text" name="course_code" id="course_code" placeholder="e.g. CSE 421" required>
+            </div>
+            <div class="form-group">
+              <label for="course_title">Course Title</label>
+              <input type="text" name="course_title" id="course_title" placeholder="e.g. Artificial Intelligence"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="teacher_initial">Teacher Initial</label>
+              <input type="text" name="teacher_initial" id="teacher_initial" placeholder="e.g. AJ" required>
+            </div>
+            <div class="form-row" style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label for="section">Section</label>
+                <input type="text" name="section" id="section" placeholder="e.g. A" required>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label for="major">Major (Optional)</label>
+                <input type="text" name="major" id="major" placeholder="e.g. CSE">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="room_no">Room No</label>
+              <input type="text" name="room_no" id="room_no" placeholder="e.g. 713" required>
+            </div>
+            <div class="form-group">
+              <label for="day">Day</label>
+              <select name="day" id="day" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="time_slot">Time Slot</label>
+              <select name="time_slot" id="time_slot" required>
+                <option value="8.30-10.00">8.30-10.00</option>
+                <option value="10.00-11.30">10.00-11.30</option>
+                <option value="11.30-1.00">11.30-1.00</option>
+                <option value="1.00-2.30">1.00-2.30</option>
+                <option value="2.30-4.00">2.30-4.00</option>
+              </select>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top: 15px;">Save Schedule</button>
+          </form>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -87,6 +259,29 @@
 
       const crCards = document.querySelector('.cr-cards');
       if (crCards) animateObserver.observe(crCards);
+
+      // ================= MODAL LOGIC =================
+      const modal = document.getElementById("scheduleModal");
+      const span = document.getElementById("closeModal");
+
+      // Target the button specifically in the Schedule card (2nd card)
+      const manageBtn = document.querySelectorAll('.card')[1].querySelector('button');
+
+      if (manageBtn && modal) {
+        manageBtn.onclick = function () {
+          modal.style.display = "block";
+        }
+
+        span.onclick = function () {
+          modal.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+      }
     });
   </script>
 

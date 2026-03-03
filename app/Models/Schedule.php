@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Schedule extends Model
+{
+    protected $fillable = [
+        'course_code',
+        'section',
+        'course_title',
+        'major',
+        'teacher_initial',
+        'room_no',
+        'day',
+        'time_slot',
+    ];
+}

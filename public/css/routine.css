@@ -684,8 +684,7 @@ body {
 .full-routine-table td {
     background: white;
     vertical-align: middle;
-    height: 35px;
-    /* Significantly reduced height for uniform blocks */
+    height: 30px;
 }
 
 /* Off Day Specific Styling */
@@ -702,19 +701,27 @@ body {
 /* Content inside table cells */
 .table-class {
     display: inline-block;
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 4px 8px;
+    font-size: 13px;
     font-weight: 700;
     color: #333;
-    line-height: 1.3;
+    line-height: 1.1;
 }
 
 .table-class span {
     display: block;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: #666;
-    margin-top: 4px;
+    margin-top: 2px;
+}
+
+.table-class small {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #888;
+    margin-top: 1px;
 }
 
 .table-class.highlight {

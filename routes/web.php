@@ -11,6 +11,7 @@ Route::get('/', function () {
 // Auth routes
 Route::get('/login', [LoginController::class , 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class , 'login']);
+Route::post('/logout', [LoginController::class , 'logout'])->name('logout');
 
 Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'showRegistrationForm'])->name('signup');
 Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'register']);
@@ -32,9 +33,10 @@ Route::get('/cr-dashboard', function () {
     return view('cr-dashboard');
 })->name('cr-dashboard')->middleware('auth');
 
-Route::get('/routine', function () {
-    return view('routine');
-})->name('routine')->middleware('auth');
+use App\Http\Controllers\ScheduleController;
+
+Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
+Route::post('/schedule', [ScheduleController::class , 'store'])->name('schedule.store')->middleware('auth');
 
 Route::get('/question-bank', function () {
     return view('questionbank');
