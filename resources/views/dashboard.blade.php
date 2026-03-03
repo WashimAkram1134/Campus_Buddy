@@ -47,10 +47,6 @@
           <p class="hero-subtitle">Always stay updated in your student portal</p>
         </div>
 
-        {{-- blue robot mascot from Pic 2/3, positioned right like Pic 1 --}}
-        <div class="hero-mascot">
-          <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy Mascot">
-        </div>
       </section>
 
       {{-- ══════════════════════════════════════════════════
@@ -135,9 +131,30 @@
             @if(empty($eventImages))
             <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
             @else
-            @foreach($eventImages as $eventImg)
+            @foreach($eventImages as $index => $eventImg)
             <div class="event-card-scroll">
               <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
+              <div class="event-card-overlay">
+                <div class="event-card-date">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  {{ ['March 15, 2026', 'April 2, 2026', 'May 10, 2026', 'June 5, 2026'][$index % 4] }}
+                </div>
+                <h4 class="event-card-title">{{ ['Spring Fest 2026', 'Tech Symposium', 'Cultural Night', 'Sports
+                  Day'][$index % 4] }}</h4>
+                <p class="event-card-desc">{{ ['Join us for the biggest festival', 'Explore latest technologies',
+                  'Celebrate diversity with us', 'Annual sports competition'][$index % 4] }}</p>
+                <span class="event-card-btn">
+                  Learn More
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+              </div>
             </div>
             @endforeach
             @endif
@@ -195,25 +212,39 @@
   </div>
 
   <script>
-    (function ()           var sen n = doc  getElementById('chatSend')      chatInput = document.g    tById('chatInput');
-        var chatBo  = document  El  tById('chatBody');
+    (function () {
+      const sendBtn = document.getElementById('chatSend');
+      const chatInput = document.getElementById('chatInput');
+      const chatBody = document.getElementById('chatBody');
 
-     unction sendMessage() {            r t = chatInput.val  rim();
-        if (!text) r
+      function sendMessage() {
+        const text = chatInput.value.trim();
+        if (!text) return;
 
-          var userMsg  ument.createElement('div');
-      userMsg  ssName    -  bubble use r  - bubble';
-      user  textConten  te          c  ody.appendCh  userMs      chatInput a = '';
-        Bod    Top = chatBody    eight         t(function ()         ddyMsg = d ocumen           
-           bud      bubb  udd y  - bubble';
-      tContent = 'Got i    ok i         for you. 🔍'            eC(budd         ch  dy.scrollTop =     .s    g        }, 80
-     }
+        // User message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-bubble user-bubble';
+        userMsg.textContent = text;
+        chatBody.appendChild(userMsg);
+        chatInput.value = '';
+        chatBody.scrollTop = chatBody.scrollHeight;
 
-      if     ) send  add  tListen    k',  dMe        if (chatInput) chatInput.   is  r(    s', function (e) {         e.key = nte  sendMessage()    });
-    })  ();
+        // Buddy AI response (simulation)
+        setTimeout(function () {
+          const buddyMsg = document.createElement('div');
+          buddyMsg.className = 'chat-bubble buddy-bubble';
+          buddyMsg.textContent = 'Got it! Looking into that for you. 🔍';
+          chatBody.appendChild(buddyMsg);
+          chatBody.scrollTop = chatBody.scrollHeight;
+        }, 800);
+      }
 
-    // Image Viewer Logic
-    document.addEventListener('DOMContentLoaded', functio n () {
+      if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+      if (chatInput) chatInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') sendMessage();
+      });
+
+      // Image Viewer Logic
       const viewer = document.getElementById('imageViewer');
       const viewerImg = document.getElementById('viewerImage');
       const closeBtn = document.getElementById('closeViewer');
@@ -221,7 +252,7 @@
 
       if (eventImages.length > 0) {
         eventImages.forEach(img => {
-          img.addEventListener('click', functi on () {
+          img.addEventListener('click', function () {
             viewerImg.src = this.src;
             viewer.classList.add('show');
           });
@@ -229,20 +260,20 @@
       }
 
       if (closeBtn) {
-        closeBtn.addEventListener('click', funct ion () {
+        closeBtn.addEventListener('click', function () {
           viewer.classList.remove('show');
         });
       }
 
       // Close on clicking outside the image
       if (viewer) {
-        viewer.addEventListener('click', func tion (e) {
+        viewer.addEventListener('click', function (e) {
           if (e.target === viewer) {
             viewer.classList.remove('show');
           }
         });
       }
-   );
+    })();
   </script>
 
 </body>
