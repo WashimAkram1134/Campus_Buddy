@@ -36,7 +36,7 @@
         <div class="hero-deco hero-deco-4"></div>
 
         {{-- hero text — keeping Pic 2/3 wording --}}
-        <div class="hero-text">
+        <div class="hero-text animate-up">
           <span class="hero-date">{{ now()->format('F j, Y') }}</span>
           <span class="hero-tag">YOUR PERSONALIZED LEARNING HUB</span>
           <h1 class="hero-title">
@@ -45,6 +45,18 @@
             {{ Auth::user()->name ?? 'User' }}!
           </h1>
           <p class="hero-subtitle">Always stay updated in your student portal</p>
+
+          @if(Auth::check() && Auth::user()->role === 'cr')
+          <a href="{{ route('cr-dashboard') }}" class="cr-panel-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            CR Management Panel
+          </a>
+          @endif
         </div>
 
       </section>
@@ -58,13 +70,13 @@
         <div class="main-col">
 
           {{-- Section: Study Overview (= Finance row in Pic 1) --}}
-          <div class="section-head">
+          <div class="section-head animate-up delay-1">
             <h2 class="section-title">Study Overview</h2>
           </div>
 
           <div class="stat-row">
             {{-- Card 1: Today's Study Plan --}}
-            <div class="stat-card">
+            <div class="stat-card animate-scale delay-2">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +92,7 @@
             </div>
 
             {{-- Card 2: Upcoming Tasks (ACTIVE — thick blue border like Pic 1) --}}
-            <div class="stat-card active">
+            <div class="stat-card active animate-scale delay-3">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,7 +108,7 @@
             </div>
 
             {{-- Card 3: Question Bank --}}
-            <div class="stat-card">
+            <div class="stat-card animate-scale delay-4">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -163,7 +175,7 @@
         </div>{{-- /main-col --}}
 
         {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
-        <div class="side-col">
+        <div class="side-col animate-right delay-5">
 
           {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
           <div class="section-head">
@@ -273,7 +285,7 @@
           }
         });
       }
-    })();
+   )();
   </script>
 
 </body>

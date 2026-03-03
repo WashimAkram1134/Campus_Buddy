@@ -25,6 +25,82 @@
     --r-btn: 50px;
 }
 
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-right {
+    animation: fadeInRight 0.6s ease forwards;
+}
+
+.animate-scale {
+    animation: scaleIn 0.5s ease forwards;
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+    opacity: 0;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+    opacity: 0;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+    opacity: 0;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+    opacity: 0;
+}
+
+.delay-5 {
+    animation-delay: 0.5s;
+    opacity: 0;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -171,6 +247,34 @@ body {
 .hero-subtitle {
     font-size: 16px;
     opacity: .75;
+}
+
+/* CR Panel Button */
+.cr-panel-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: #10b981;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.cr-panel-btn:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.cr-panel-btn svg {
+    width: 20px;
+    height: 20px;
 }
 
 
