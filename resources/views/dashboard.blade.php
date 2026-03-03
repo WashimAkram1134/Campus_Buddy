@@ -24,7 +24,7 @@
       Layout: Pic 1 (contained, rounded)
       Content: Pic 2/3 (blurred campus BG, robot mascot, existing text)
       ══════════════════════════════════════════════════ --}}
-      <section class="hero-banner">
+      <section class="hero-banner animate-fade-in">
         {{-- blurred campus background from Pic 2/3 --}}
         <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Background" class="hero-bg">
         <div class="hero-overlay"></div>
@@ -36,7 +36,7 @@
         <div class="hero-deco hero-deco-4"></div>
 
         {{-- hero text — keeping Pic 2/3 wording --}}
-        <div class="hero-text">
+        <div class="hero-text animate-fade-up delay-100">
           <span class="hero-date">{{ now()->format('F j, Y') }}</span>
           <span class="hero-tag">YOUR PERSONALIZED LEARNING HUB</span>
           <h1 class="hero-title">
@@ -45,6 +45,12 @@
             {{ Auth::user()->name ?? 'User' }}!
           </h1>
           <p class="hero-subtitle">Always stay updated in your student portal</p>
+        </div>
+
+        {{-- robot mascot — added like Pic 1 --}}
+        <div class="mascot-container animate-slide-left">
+          <div class="portal-line"></div>
+          <img src="{{ asset('images/mascot/BuddyHero.png') }}" alt="Buddy Mascot" class="hero-mascot">
         </div>
 
       </section>
@@ -64,7 +70,7 @@
 
           <div class="stat-row">
             {{-- Card 1: Today's Study Plan --}}
-            <div class="stat-card">
+            <div class="stat-card animate-fade-up delay-100">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -80,7 +86,7 @@
             </div>
 
             {{-- Card 2: Upcoming Tasks (ACTIVE — thick blue border like Pic 1) --}}
-            <div class="stat-card active">
+            <div class="stat-card active animate-fade-up delay-200">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -96,7 +102,7 @@
             </div>
 
             {{-- Card 3: Question Bank --}}
-            <div class="stat-card">
+            <div class="stat-card animate-fade-up delay-300">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -112,7 +118,7 @@
           </div>
 
           {{-- Section: Recent Events (= Enrolled Courses row in Pic 1, images from Pic 3) --}}
-          <div class="section-head">
+          <div class="section-head animate-fade-up delay-400">
             <h2 class="section-title">Recent Events</h2>
             <a href="#" class="section-link">See all</a>
           </div>
@@ -127,7 +133,7 @@
           }
           @endphp
 
-          <div class="event-scroll-container">
+          <div class="event-scroll-container animate-fade-up delay-400">
             @if(empty($eventImages))
             <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
             @else
@@ -166,11 +172,11 @@
         <div class="side-col">
 
           {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
-          <div class="section-head">
+          <div class="section-head animate-fade-up delay-500">
             <h2 class="section-title">Chat with Buddy</h2>
           </div>
 
-          <div class="chatbox-widget">
+          <div class="chatbox-widget animate-fade-up delay-500">
             <div class="chatbox-header">
               <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
               <h3>Buddy AI Assistant</h3>

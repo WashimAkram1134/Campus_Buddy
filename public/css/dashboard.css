@@ -133,7 +133,7 @@ body {
     position: relative;
     z-index: 3;
     color: #fff;
-    max-width: 80%;
+    max-width: 55%;
 }
 
 .hero-tag {
@@ -570,6 +570,174 @@ body {
     .stat-row {
         grid-template-columns: 1fr;
     }
+}
+
+/* ============================================================
+   ANIMATIONS & INTERACTIVE EFFECTS
+   ============================================================ */
+
+/* Keyframes */
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Page Load Animation Classes */
+.animate-fade-up {
+    opacity: 0;
+    animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Slide Left Animation for Mascot */
+@keyframes slideInLeftMascot {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-left {
+    opacity: 0;
+    animation: slideInLeftMascot 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+}
+
+/* Mascot & Portal Styling */
+.mascot-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 4;
+}
+
+.portal-line {
+    width: 6px;
+    height: 380px;
+    background: #00d2ff;
+    box-shadow: 0 0 15px #00d2ff, 0 0 30px rgba(0, 210, 255, 0.6);
+    border-radius: 20px;
+    margin-right: -40px;
+    z-index: 5;
+    position: relative;
+}
+
+.hero-mascot {
+    height: 480px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4));
+    position: relative;
+    z-index: 4;
+}
+
+/* Staggered Delays */
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+/* Floating Animation for Decorative Dots */
+.hero-deco {
+    animation: float 4s ease-in-out infinite;
+}
+
+.hero-deco-1 {
+    animation-delay: 0s;
+}
+
+.hero-deco-2 {
+    animation-delay: 1s;
+}
+
+.hero-deco-3 {
+    animation-delay: 0.5s;
+}
+
+.hero-deco-4 {
+    animation-delay: 1.5s;
+}
+
+/* Interactive Hover Effects */
+.stat-card,
+.event-card-scroll {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out !important;
+}
+
+.stat-card:hover,
+.event-card-scroll:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 15px 35px rgba(26, 35, 126, 0.15) !important;
+}
+
+/* Chatbox Footer Hover Effects */
+.chat-send-btn {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease !important;
+}
+
+.chat-send-btn:hover {
+    transform: scale(1.15);
+    opacity: 0.95;
+}
+
+.chat-input {
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.chat-input:focus {
+    box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.1);
 }
 
 /* ============================================================
