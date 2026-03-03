@@ -12,6 +12,8 @@ class Schedule extends Model
         'course_title',
         'major',
         'teacher_initial',
+        'department',
+        'batch',
         'room_no',
         'day',
         'time_slot',

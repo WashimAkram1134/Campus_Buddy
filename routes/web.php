@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
+use App\Models\Assignment;
+use App\Models\Announcement;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
 
 // Redirect root to login
@@ -26,14 +33,38 @@ Route::post('/login/guest', function () {
 })->name('login.guest');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = auth()->user();
+
+    $announcements = Announcement::where('department', $user->department)
+        ->where('batch', $user->batch)
+        ->where('section', $user->section)
+        ->latest()
+        ->get();
+
+    $assignments = Assignment::where('department', $user->department)
+        ->where('batch', $user->batch)
+        ->where('section', $user->section)
+        ->latest()
+        ->get();
+
+    $todaySchedule = Schedule::where('department', $user->department)
+        ->where('batch', $user->batch)
+        ->where('section', $user->section)
+        ->where('day', now()->format('l'))
+        ->orderBy('time_slot')
+        ->get();
+
+    return view('dashboard', compact('announcements', 'assignments', 'todaySchedule'));
 })->name('dashboard')->middleware('auth');
 
 Route::get('/cr-dashboard', function () {
     return view('cr-dashboard');
 })->name('cr-dashboard')->middleware('auth');
 
-use App\Http\Controllers\ScheduleController;
+Route::post('/assignments', [AssignmentController::class , 'store'])->name('assignments.store')->middleware('auth');
+Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
+Route::post('/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
+
 
 Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
 Route::post('/schedule', [ScheduleController::class , 'store'])->name('schedule.store')->middleware('auth');

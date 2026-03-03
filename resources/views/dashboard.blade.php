@@ -76,6 +76,7 @@
 
           <div class="stat-row">
             {{-- Card 1: Today's Study Plan --}}
+            @php $firstClass = $todaySchedule->first(); @endphp
             <div class="stat-card animate-scale delay-2">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -86,12 +87,18 @@
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
               </div>
-              <p class="stat-value">9:00 AM</p>
-              <p class="stat-sub">Data Structure · Room 713</p>
+              @if($firstClass)
+              <p class="stat-value">{{ $firstClass->time_slot }}</p>
+              <p class="stat-sub">{{ $firstClass->course_title }} · Room {{ $firstClass->room_no }}</p>
+              @else
+              <p class="stat-value">No Class</p>
+              <p class="stat-sub">Relax day!</p>
+              @endif
               <p class="stat-label">Today's Study Plan</p>
             </div>
 
             {{-- Card 2: Upcoming Tasks (ACTIVE — thick blue border like Pic 1) --}}
+            @php $latestAssignment = $assignments->first(); @endphp
             <div class="stat-card active animate-scale delay-3">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -102,8 +109,14 @@
                   <line x1="16" y1="17" x2="8" y2="17"></line>
                 </svg>
               </div>
-              <p class="stat-value">MCQ Quiz</p>
-              <p class="stat-sub">Machine Learning · 11:00 AM</p>
+              @if($latestAssignment)
+              <p class="stat-value">{{ Str::limit($latestAssignment->title, 15) }}</p>
+              <p class="stat-sub">{{ $latestAssignment->course_code }} · {{
+                \Carbon\Carbon::parse($latestAssignment->deadline)->format('h:i A') }}</p>
+              @else
+              <p class="stat-value">No Tasks</p>
+              <p class="stat-sub">Check later</p>
+              @endif
               <p class="stat-label">Upcoming Tasks</p>
             </div>
 
@@ -124,11 +137,6 @@
           </div>
 
           {{-- Section: Recent Events (= Enrolled Courses row in Pic 1, images from Pic 3) --}}
-          <div class="section-head">
-            <h2 class="section-title">Recent Events</h2>
-            <a href="#" class="section-link">See all</a>
-          </div>
-
           @php
           $imageDir = public_path('images/eventImage/');
           $eventImages = [];
@@ -139,80 +147,85 @@
           }
           @endphp
 
-          <div class="event-scroll-container">
-            @if(empty($eventImages))
-            <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
+          @if($announcements->isNotEmpty())
+          @foreach($announcements as $index => $announcement)
+          <div class="event-card-scroll">
+            @if(!empty($eventImages))
+            <img src="{{ asset('images/eventImage/' . basename($eventImages[$index % count($eventImages)])) }}"
+              alt="Event Image">
             @else
-            @foreach($eventImages as $index => $eventImg)
-            <div class="event-card-scroll">
-              <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
-              <div class="event-card-overlay">
-                <div class="event-card-date">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                  {{ ['March 15, 2026', 'April 2, 2026', 'May 10, 2026', 'June 5, 2026'][$index % 4] }}
-                </div>
-                <h4 class="event-card-title">{{ ['Spring Fest 2026', 'Tech Symposium', 'Cultural Night', 'Sports
-                  Day'][$index % 4] }}</h4>
-                <p class="event-card-desc">{{ ['Join us for the biggest festival', 'Explore latest technologies',
-                  'Celebrate diversity with us', 'Annual sports competition'][$index % 4] }}</p>
-                <span class="event-card-btn">
-                  Learn More
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </span>
-              </div>
+            <div
+              style="height:100%; width:100%; background: var(--bg-card); display:flex; align-items:center; justify-content:center;">
+              <span style="color:var(--text-muted)">Announce</span>
             </div>
-            @endforeach
             @endif
-          </div>
-
-        </div>{{-- /main-col --}}
-
-        {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
-        <div class="side-col animate-right delay-5">
-
-          {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
-          <div class="section-head">
-            <h2 class="section-title">Chat with Buddy</h2>
-          </div>
-
-          <div class="chatbox-widget">
-            <div class="chatbox-header">
-              <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
-              <h3>Buddy AI Assistant</h3>
-            </div>
-
-            <div class="chatbox-body" id="chatBody">
-              <div class="chat-bubble buddy-bubble">
-                Hi {{ Auth::user()->name ?? 'there' }}! 👋 How can I help you with your studies today?
-              </div>
-              <div class="chat-bubble buddy-bubble">
-                You have a <strong>Data Structure</strong> class at 9:00 AM. Don't forget your notes! 📚
-              </div>
-            </div>
-
-            <div class="chatbox-footer">
-              <input id="chatInput" type="text" class="chat-input" placeholder="Ask Buddy anything...">
-              <button id="chatSend" class="chat-send-btn" aria-label="Send">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            <div class="event-card-overlay">
+              <div class="event-card-date">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
-              </button>
+                {{ $announcement->created_at->format('F j, Y') }}
+              </div>
+              <h4 class="event-card-title">{{ $announcement->title }}</h4>
+              <p class="event-card-desc">{{ Str::limit($announcement->content, 60) }}</p>
+              <span class="event-card-btn">
+                Read More
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </span>
+            </div>
+          </div>
+          @endforeach
+          @else
+          <p style="color:var(--text-muted); font-size:14px;">No announcements for your group.</p>
+          @endif
+        </div>
+
+      </div>{{-- /main-col --}}
+
+      {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
+      <div class="side-col animate-right delay-5">
+
+        {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
+        <div class="section-head">
+          <h2 class="section-title">Chat with Buddy</h2>
+        </div>
+
+        <div class="chatbox-widget">
+          <div class="chatbox-header">
+            <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
+            <h3>Buddy AI Assistant</h3>
+          </div>
+
+          <div class="chatbox-body" id="chatBody">
+            <div class="chat-bubble buddy-bubble">
+              Hi {{ Auth::user()->name ?? 'there' }}! 👋 How can I help you with your studies today?
+            </div>
+            <div class="chat-bubble buddy-bubble">
+              You have a <strong>Data Structure</strong> class at 9:00 AM. Don't forget your notes! 📚
             </div>
           </div>
 
-        </div>{{-- /side-col --}}
+          <div class="chatbox-footer">
+            <input id="chatInput" type="text" class="chat-input" placeholder="Ask Buddy anything...">
+            <button id="chatSend" class="chat-send-btn" aria-label="Send">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-      </div>{{-- /dashboard-grid --}}
-    </main>
+      </div>{{-- /side-col --}}
+
+  </div>{{-- /dashboard-grid --}}
+  </main>
   </div>
 
   @include('includes.footer')
@@ -285,7 +298,7 @@
           }
         });
       }
-   )();
+   ) ();
   </script>
 
 </body>

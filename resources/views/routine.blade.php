@@ -34,7 +34,7 @@
     <main class="main">
 
       <section class="routine-hero">
-        <img src="{{ asset('images/community/dashboardBG.jpg') }}" alt="Campus" class="routine-hero-bg">
+        <img src="{{ asset('images/routine/hero.png') }}" alt="Campus" class="routine-hero-bg">
         <div class="routine-hero-overlay"></div>
 
         <div class="routine-hero-content">

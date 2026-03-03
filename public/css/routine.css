@@ -166,7 +166,7 @@ body {
     max-width: 1550px;
     /* Further increased to allow wider table */
     width: 98%;
-    margin: -40px auto 40px;
+    margin: 40px auto;
     position: relative;
     z-index: 10;
     padding: 0 20px;
@@ -976,7 +976,7 @@ body {
     }
 
     .routine-main {
-        margin-top: -50px;
+        margin-top: 20px;
         position: relative;
         z-index: 5;
     }

@@ -150,19 +150,19 @@
           <div class="card">
             <h3>📢 Announcements</h3>
             <div class="card-box">Post new class announcement</div>
-            <button>Create Post</button>
+            <button onclick="openModal('announcementModal')">Create Post</button>
           </div>
 
           <div class="card">
             <h3>📅 Schedule</h3>
             <div class="card-box">Update class routine</div>
-            <button>Manage Schedule</button>
+            <button onclick="openModal('scheduleModal')">Manage Schedule</button>
           </div>
 
           <div class="card">
-            <h3>📚 Resources</h3>
-            <div class="card-box">Upload notes and PDFs</div>
-            <button>Upload File</button>
+            <h3>📚 assignments</h3>
+            <div class="card-box">Post new class assignment</div>
+            <button onclick="openModal('assignmentModal')">Create Assignment</button>
           </div>
 
           <div class="card">
@@ -178,7 +178,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h2>Manage Schedule</h2>
-            <span class="close" id="closeModal">&times;</span>
+            <span class="close" onclick="closeModal('scheduleModal')">&times;</span>
           </div>
           <form action="{{ route('schedule.store') }}" method="POST">
             @csrf
@@ -261,25 +261,19 @@
       if (crCards) animateObserver.observe(crCards);
 
       // ================= MODAL LOGIC =================
-      const modal = document.getElementById("scheduleModal");
-      const span = document.getElementById("closeModal");
+      window.openModal = function (id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = "block";
+      };
 
-      // Target the button specifically in the Schedule card (2nd card)
-      const manageBtn = document.querySelectorAll('.card')[1].querySelector('button');
+      window.closeModal = function (id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = "none";
+      };
 
-      if (manageBtn && modal) {
-        manageBtn.onclick = function () {
-          modal.style.display = "block";
-        }
-
-        span.onclick = function () {
-          modal.style.display = "none";
-        }
-
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
+      window.onclick = function (event) {
+        if (event.target.classList.contains('modal')) {
+          event.target.style.display = "none";
         }
       }
     });

@@ -25,7 +25,8 @@ $currentRoute = Route::currentRouteName() ?? '';
 
   <div class="top-icons">
     <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
-    <img src="{{ asset('images/topbaricons/settings.png') }}" alt="Settings" class="top-icon">
+    <img src="{{ asset('images/topbaricons/settings.png') }}" alt="Settings" class="top-icon"
+      onclick="openModal('profileModal')">
 
     <div class="user-profile-container">
       <img src="{{ asset('images/topbaricons/user.png') }}" alt="User" class="top-icon" id="userProfileIcon">
@@ -53,6 +54,108 @@ $currentRoute = Route::currentRouteName() ?? '';
     </div>
   </div>
 
+  <!-- ================= PROFILE/ACCOUNT MODAL ================= -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Account Settings</h2>
+        <span class="close" onclick="closeModal('profileModal')">&times;</span>
+      </div>
+      <form action="{{ route('profile.update') }}" method="POST">
+        @csrf
+        <div class="form-group">
+          <label for="dept_update">Department</label>
+          <input type="text" name="department" id="dept_update" value="{{ Auth::user()->department }}" required>
+        </div>
+        <div class="form-group">
+          <label for="batch_update">Batch</label>
+          <input type="text" name="batch" id="batch_update" value="{{ Auth::user()->batch }}" required>
+        </div>
+        <div class="form-group">
+          <label for="semester_update">Semester</label>
+          <input type="text" name="semester" id="semester_update" value="{{ Auth::user()->semester }}" required>
+        </div>
+        <div class="form-group">
+          <label for="section_update">Section</label>
+          <input type="text" name="section" id="section_update" value="{{ Auth::user()->section }}" required>
+        </div>
+        <button type="submit" class="submit-btn">Update Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    /* Ensure modal styles are available in topbar too */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: white;
+      margin: 10% auto;
+      padding: 30px;
+      width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #1b5c7a;
+    }
+
+    .close {
+      font-size: 24px;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #edf2f7;
+      border-radius: 8px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #00AAFF;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const profileIcon = document.getElementById('userProfileIcon');
@@ -69,6 +172,22 @@ $currentRoute = Route::currentRouteName() ?? '';
             dropdown.classList.remove('show');
           }
         });
+      }
+
+      window.openModal = function (id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = "block";
+      };
+
+      window.closeModal = function (id) {
+        const modal = document.getElementById(id);
+        if (modal) modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target.classList.contains('modal')) {
+          event.target.style.display = "none";
+        }
       }
     });
   </script>
