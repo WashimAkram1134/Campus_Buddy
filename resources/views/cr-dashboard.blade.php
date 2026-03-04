@@ -202,7 +202,8 @@
               </div>
               <div class="form-group" style="flex: 1;">
                 <label for="major">Major (Optional)</label>
-                <input type="text" name="major" id="major" placeholder="e.g. CSE">
+                <input type="text" name="major" id="major" value="{{ Auth::user()->major }}"
+                  placeholder="e.g. DS, CS, Robotics">
               </div>
             </div>
             <div class="form-group">
@@ -232,6 +233,62 @@
               </select>
             </div>
             <button type="submit" class="submit-btn" style="margin-top: 15px;">Save Schedule</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= ANNOUNCEMENT MODAL ================= -->
+      <div id="announcementModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Post Announcement</h2>
+            <span class="close" onclick="closeModal('announcementModal')">&times;</span>
+          </div>
+          <form action="{{ route('announcements.store') }}" method="POST">
+            @csrf
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" name="title" id="title" placeholder="e.g. Class Cancelled" required>
+            </div>
+            <div class="form-group">
+              <label for="content">Content</label>
+              <textarea name="content" id="content" rows="4"
+                style="width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 10px;"
+                placeholder="Details..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top: 15px;">Post Announcement</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= ASSIGNMENT MODAL ================= -->
+      <div id="assignmentModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Create Assignment</h2>
+            <span class="close" onclick="closeModal('assignmentModal')">&times;</span>
+          </div>
+          <form action="{{ route('assignments.store') }}" method="POST">
+            @csrf
+            <div class="form-group">
+              <label for="course_code_assign">Course Code</label>
+              <input type="text" name="course_code" id="course_code_assign" placeholder="e.g. CSE 421" required>
+            </div>
+            <div class="form-group">
+              <label for="assign_title">Assignment Title</label>
+              <input type="text" name="title" id="assign_title" placeholder="e.g. Project Proposal" required>
+            </div>
+            <div class="form-group">
+              <label for="deadline">Deadline</label>
+              <input type="datetime-local" name="deadline" id="deadline" required>
+            </div>
+            <div class="form-group">
+              <label for="description">Description (Optional)</label>
+              <textarea name="description" id="description" rows="3"
+                style="width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 10px;"
+                placeholder="Details..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top: 15px;">Create Assignment</button>
           </form>
         </div>
       </div>

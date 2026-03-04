@@ -13,6 +13,7 @@ class Announcement extends Model
         'department',
         'batch',
         'section',
+        'major',
     ];
 
     public function user()

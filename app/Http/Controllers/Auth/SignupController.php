@@ -34,6 +34,7 @@ class SignupController extends Controller
             'batch' => ['required', 'string', 'max:20'],
             'semester' => ['required', 'string', 'max:20'],
             'section' => ['required', 'string', 'max:10'],
+            'major' => ['nullable', 'string', 'max:100'],
         ]);
 
         $user = User::create([
@@ -45,6 +46,7 @@ class SignupController extends Controller
             'batch' => $request->batch,
             'semester' => $request->semester,
             'section' => $request->section,
+            'major' => $request->is_major === 'yes' ? $request->major : null,
             'password' => Hash::make($request->password),
         ]);
 

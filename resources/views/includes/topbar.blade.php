@@ -79,6 +79,11 @@ $currentRoute = Route::currentRouteName() ?? '';
           <label for="section_update">Section</label>
           <input type="text" name="section" id="section_update" value="{{ Auth::user()->section }}" required>
         </div>
+        <div class="form-group">
+          <label for="major_update">Major (Optional)</label>
+          <input type="text" name="major" id="major_update" value="{{ Auth::user()->major }}"
+            placeholder="e.g. DS, CS, Robotics">
+        </div>
         <button type="submit" class="submit-btn">Update Profile</button>
       </form>
     </div>

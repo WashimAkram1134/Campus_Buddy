@@ -28,6 +28,7 @@ class AssignmentController extends Controller
             'department' => auth()->user()->department,
             'batch' => auth()->user()->batch,
             'section' => auth()->user()->section,
+            'major' => auth()->user()->major,
         ]);
 
         return back()->with('success', 'Assignment added successfully!');

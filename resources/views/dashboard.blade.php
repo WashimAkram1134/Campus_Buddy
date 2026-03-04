@@ -136,7 +136,45 @@
             </div>
           </div>
 
-          {{-- Section: Recent Events (= Enrolled Courses row in Pic 1, images from Pic 3) --}}
+          {{-- Section: Announcements (Filtered by group) --}}
+          @if($announcements->isNotEmpty())
+          <div class="section-head">
+            <h2 class="section-title">Class Announcements</h2>
+          </div>
+          <div class="event-scroll-container">
+            @foreach($announcements as $announcement)
+            <div class="event-card-scroll">
+              <div class="event-card-overlay"
+                style="opacity: 1; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8));">
+                <div class="event-card-date">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  {{ $announcement->created_at->format('F j, Y') }}
+                </div>
+                <h4 class="event-card-title">{{ $announcement->title }}</h4>
+                <p class="event-card-desc">{{ Str::limit($announcement->content, 80) }}</p>
+                <span class="event-card-btn">
+                  Read More
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            @endforeach
+          </div>
+          @endif
+
+          {{-- Section: Recent Events (Global) --}}
+          <div class="section-head">
+            <h2 class="section-title">Recent Events</h2>
+            <a href="#" class="section-link">See all</a>
+          </div>
+
           @php
           $imageDir = public_path('images/eventImage/');
           $eventImages = [];
@@ -147,88 +185,111 @@
           }
           @endphp
 
-          @if($announcements->isNotEmpty())
-          @foreach($announcements as $index => $announcement)
-          <div class="event-card-scroll">
-            @if(!empty($eventImages))
-            <img src="{{ asset('images/eventImage/' . basename($eventImages[$index % count($eventImages)])) }}"
-              alt="Event Image">
+          <div class="event-scroll-container">
+            @if(empty($eventImages))
+            <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
             @else
-            <div
-              style="height:100%; width:100%; background: var(--bg-card); display:flex; align-items:center; justify-content:center;">
-              <span style="color:var(--text-muted)">Announce</span>
-            </div>
-            @endif
-            <div class="event-card-overlay">
-              <div class="event-card-date">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-                {{ $announcement->created_at->format('F j, Y') }}
+            @foreach($eventImages as $index => $eventImg)
+            <div class="event-card-scroll">
+              <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
+              <div class="event-card-overlay">
+                <div class="event-card-date">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  {{ ['March 15, 2026', 'April 2, 2026', 'May 10, 2026', 'June 5, 2026'][$index % 4] }}
+                </div>
+                <h4 class="event-card-title">{{ ['Spring Fest 2026', 'Tech Symposium', 'Cultural Night', 'Sports
+                  Day'][$index % 4] }}</h4>
+                <p class="event-card-desc">{{ ['Join us for the biggest festival', 'Explore latest technologies',
+                  'Celebrate diversity with us', 'Annual sports competition'][$index % 4] }}</p>
+                <span class="event-card-btn">
+                  Learn More
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </span>
               </div>
-              <h4 class="event-card-title">{{ $announcement->title }}</h4>
-              <p class="event-card-desc">{{ Str::limit($announcement->content, 60) }}</p>
-              <span class="event-card-btn">
-                Read More
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polyline points="9 18 15 12 9 6"></polyline>
+            </div>
+            @endforeach
+            @endif
+          </div>
+
+        </div>{{-- /main-col --}}
+
+        {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
+        <div class="side-col animate-right delay-5">
+
+          {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
+          <div class="section-head">
+            <h2 class="section-title">Chat with Buddy</h2>
+          </div>
+
+          <div class="chatbox-widget">
+            <div class="chatbox-header">
+              <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
+              <h3>Buddy AI Assistant</h3>
+            </div>
+
+            <div class="chatbox-body" id="chatBody">
+              <div class="chat-bubble buddy-bubble">
+                Hi {{ Auth::user()->name ?? 'there' }}! 👋 How can I help you with your studies today?
+              </div>
+              <div class="chat-bubble buddy-bubble">
+                You have a <strong>Data Structure</strong> class at 9:00 AM. Don't forget your notes! 📚
+              </div>
+            </div>
+
+            <div class="chatbox-footer">
+              <input id="chatInput" type="text" class="chat-input" placeholder="Ask Buddy anything...">
+              <button id="chatSend" class="chat-send-btn" aria-label="Send">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                 </svg>
-              </span>
-            </div>
-          </div>
-          @endforeach
-          @else
-          <p style="color:var(--text-muted); font-size:14px;">No announcements for your group.</p>
-          @endif
-        </div>
-
-      </div>{{-- /main-col --}}
-
-      {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
-      <div class="side-col animate-right delay-5">
-
-        {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
-        <div class="section-head">
-          <h2 class="section-title">Chat with Buddy</h2>
-        </div>
-
-        <div class="chatbox-widget">
-          <div class="chatbox-header">
-            <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
-            <h3>Buddy AI Assistant</h3>
-          </div>
-
-          <div class="chatbox-body" id="chatBody">
-            <div class="chat-bubble buddy-bubble">
-              Hi {{ Auth::user()->name ?? 'there' }}! 👋 How can I help you with your studies today?
-            </div>
-            <div class="chat-bubble buddy-bubble">
-              You have a <strong>Data Structure</strong> class at 9:00 AM. Don't forget your notes! 📚
+              </button>
             </div>
           </div>
 
-          <div class="chatbox-footer">
-            <input id="chatInput" type="text" class="chat-input" placeholder="Ask Buddy anything...">
-            <button id="chatSend" class="chat-send-btn" aria-label="Send">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-            </button>
-          </div>
-        </div>
+        </div>{{-- /side-col --}}
 
-      </div>{{-- /side-col --}}
-
-  </div>{{-- /dashboard-grid --}}
-  </main>
+      </div>{{-- /dashboard-grid --}}
+    </main>
   </div>
 
   @include('includes.footer')
+
+  @if(session('success'))
+  <div
+    style="position: fixed; bottom: 80px; right: 20px; background: #22c55e; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 99999; animation: slideInRight 0.3s ease;">
+    {{ session('success') }}
+  </div>
+  @endif
+
+  @if(session('error'))
+  <div
+    style="position: fixed; bottom: 80px; right: 20px; background: #ef4444; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 99999; animation: slideInRight 0.3s ease;">
+    {{ session('error') }}
+  </div>
+  @endif
+
+  <style>
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
 
   <!-- FULL SCREEN IMAGE VIEWER -->
   <div class="image-viewer" id="imageViewer">

@@ -26,6 +26,7 @@ class User extends Authenticatable
         'batch',
         'semester',
         'section',
+        'major',
         'password',
     ];
 

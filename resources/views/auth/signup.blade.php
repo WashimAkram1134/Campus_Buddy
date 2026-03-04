@@ -95,6 +95,22 @@
                             placeholder="e.g. A">
                         @error('section') <p class="error" role="alert">{{ $message }}</p> @enderror
                     </div>
+
+                    <div class="field" style="margin-top: 14px;">
+                        <label for="is_major" class="label">Are you a Major student?</label>
+                        <select id="is_major" name="is_major" class="input" style="appearance: auto;">
+                            <option value="no" {{ old('is_major')=='no' ? 'selected' : '' }}>Non-Major</option>
+                            <option value="yes" {{ old('is_major')=='yes' ? 'selected' : '' }}>Major Student</option>
+                        </select>
+                    </div>
+
+                    <div id="major-name-field" class="field {{ old('is_major') == 'yes' ? '' : 'hidden' }}"
+                        style="margin-top: 14px;">
+                        <label for="major" class="label">Major Name</label>
+                        <input id="major" name="major" type="text" class="input @error('major') input--error @enderror"
+                            value="{{ old('major') }}" placeholder="e.g. DS, CS, Robotics">
+                        @error('major') <p class="error" role="alert">{{ $message }}</p> @enderror
+                    </div>
                 </div>
 
                 <div class="field">
@@ -120,6 +136,23 @@
         </section>
     </main>
 
+</body>
+
+</html>     const isMajorSelect = document.getElementById('is_major');
+            const majorField = document.getElementById('major-name-field');
+
+            if (isMajorSelect && majorField) {
+                isMajorSelect.addEventListener('change', function () {
+                    if (this.value === 'yes') {
+                        majorField.classList.remove('hidden');
+                    } else {
+                        majorField.classList.add('hidden');
+                        document.getElementById('major').value = '';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

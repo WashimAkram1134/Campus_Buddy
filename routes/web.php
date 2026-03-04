@@ -38,24 +38,51 @@ Route::get('/dashboard', function () {
     $announcements = Announcement::where('department', $user->department)
         ->where('batch', $user->batch)
         ->where('section', $user->section)
-        ->latest()
-        ->get();
+        ->where(function ($query) use ($user) {
+            if ($user->major) {
+                $query->where('major', $user->major);
+            }
+            else {
+                $query->whereNull('major')->orWhere('major', '');
+            }
+        }
+        )
+            ->latest()
+            ->get();
 
-    $assignments = Assignment::where('department', $user->department)
-        ->where('batch', $user->batch)
-        ->where('section', $user->section)
-        ->latest()
-        ->get();
+        $assignments = Assignment::where('department', $user->department)
+            ->where('batch', $user->batch)
+            ->where('section', $user->section)
+            ->where(function ($query) use ($user) {
+            if ($user->major) {
+                $query->where('major', $user->major);
+            }
+            else {
+                $query->whereNull('major')->orWhere('major', '');
+            }
+        }
+        )
+            ->latest()
+            ->get();
 
-    $todaySchedule = Schedule::where('department', $user->department)
-        ->where('batch', $user->batch)
-        ->where('section', $user->section)
-        ->where('day', now()->format('l'))
-        ->orderBy('time_slot')
-        ->get();
+        $todaySchedule = Schedule::where('department', $user->department)
+            ->where('batch', $user->batch)
+            ->where('section', $user->section)
+            ->where('day', now()->format('l'))
+            ->where(function ($query) use ($user) {
+            if ($user->major) {
+                $query->where('major', $user->major);
+            }
+            else {
+                $query->whereNull('major')->orWhere('major', '');
+            }
+        }
+        )
+            ->orderBy('time_slot')
+            ->get();
 
-    return view('dashboard', compact('announcements', 'assignments', 'todaySchedule'));
-})->name('dashboard')->middleware('auth');
+        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule'));
+    })->name('dashboard')->middleware('auth');
 
 Route::get('/cr-dashboard', function () {
     return view('cr-dashboard');

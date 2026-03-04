@@ -15,6 +15,7 @@ class Assignment extends Model
         'department',
         'batch',
         'section',
+        'major',
     ];
 
     public function user()
