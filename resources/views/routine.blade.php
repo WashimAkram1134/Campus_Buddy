@@ -133,6 +133,31 @@
                     <span class="type type-lecture">{{ $class->course_code }} ({{ $class->section }})</span>
                   </div>
                 </div>
+
+                @if(auth()->user()->role === 'cr')
+                <div class="class-actions">
+                  <button onclick="openEditModal({{ json_encode($class) }})" class="action-btn edit-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Edit
+                  </button>
+                  <form action="{{ route('schedule.destroy', $class) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this class?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="action-btn delete-btn">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                      </svg>
+                      Delete
+                    </button>
+                  </form>
+                </div>
+                @endif
               </div>
               @empty
               <div class="class-card break-card">
@@ -194,6 +219,65 @@
 
     </main>
   </div>
+
+  @if(auth()->user()->role === 'cr')
+  <!-- ================= EDIT SCHEDULE MODAL ================= -->
+  <div id="editScheduleModal" class="routine-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Schedule</h2>
+        <span class="close-modal" onclick="closeEditModal()">&times;</span>
+      </div>
+      <form id="editScheduleForm" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group-grid">
+          <div class="form-field">
+            <label>Course Code</label>
+            <input type="text" name="course_code" id="edit_course_code" required>
+          </div>
+          <div class="form-field">
+            <label>Course Title</label>
+            <input type="text" name="course_title" id="edit_course_title" required>
+          </div>
+          <div class="form-field">
+            <label>Instructor</label>
+            <input type="text" name="teacher_initial" id="edit_teacher_initial" required>
+          </div>
+          <div class="form-field">
+            <label>Room No</label>
+            <input type="text" name="room_no" id="edit_room_no" required>
+          </div>
+          <div class="form-field">
+            <label>Day</label>
+            <select name="day" id="edit_day" required>
+              @foreach(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as $day)
+              <option value="{{ $day }}">{{ $day }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Time Slot</label>
+            <select name="time_slot" id="edit_time_slot" required>
+              @foreach(['8.30-10.00', '10.00-11.30', '11.30-1.00', '1.00-2.30', '2.30-4.00'] as $slot)
+              <option value="{{ $slot }}">{{ $slot }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Section</label>
+            <input type="text" name="section" id="edit_section" required>
+          </div>
+          <div class="form-field">
+            <label>Major (Optional)</label>
+            <input type="text" name="major" id="edit_major">
+          </div>
+        </div>
+        <button type="submit" class="save-btn">Update Schedule</button>
+      </form>
+    </div>
+  </div>
+  @endif
 
   @include('includes.footer')
 
@@ -292,6 +376,39 @@
 
       document.getElementById('downloadPdfBtn').addEventListener('click', function () {
         window.print();
+      });
+
+      // ================= CR EDIT MODAL =================
+      window.openEditModal = function (classData) {
+        const modal = document.getElementById('editScheduleModal');
+        const form = document.getElementById('editScheduleForm');
+
+        // Update form action URL
+        form.action = `/schedule/${classData.id}`;
+
+        // Populate fields
+        document.getElementById('edit_course_code').value = classData.course_code;
+        document.getElementById('edit_course_title').value = classData.course_title;
+        document.getElementById('edit_teacher_initial').value = classData.teacher_initial;
+        document.getElementById('edit_room_no').value = classData.room_no;
+        document.getElementById('edit_day').value = classData.day;
+        document.getElementById('edit_time_slot').value = classData.time_slot;
+        document.getElementById('edit_section').value = classData.section;
+        document.getElementById('edit_major').value = classData.major || '';
+
+        modal.style.display = 'block';
+      };
+
+      window.closeEditModal = function () {
+        document.getElementById('editScheduleModal').style.display = 'none';
+      };
+
+      // Close modal on outside click
+      window.addEventListener('click', function (event) {
+        const modal = document.getElementById('editScheduleModal');
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
       });
     });
   </script>

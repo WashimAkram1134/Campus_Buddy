@@ -59,4 +59,45 @@ class ScheduleController extends Controller
 
         return back()->with('success', 'Schedule added successfully!');
     }
+
+    public function update(Request $request, Schedule $schedule)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'cr' || 
+            $schedule->department !== $user->department || 
+            $schedule->batch !== $user->batch || 
+            $schedule->section !== $user->section) {
+            return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
+        }
+
+        $request->validate([
+            'course_code' => 'required|string|max:20',
+            'course_title' => 'required|string|max:255',
+            'teacher_initial' => 'required|string|max:50',
+            'room_no' => 'required|string|max:20',
+            'section' => 'required|string|max:50',
+            'major' => 'nullable|string|max:100',
+            'day' => 'required|string',
+            'time_slot' => 'required|string',
+        ]);
+
+        $schedule->update($request->all());
+
+        return back()->with('success', 'Schedule updated successfully!');
+    }
+
+    public function destroy(Schedule $schedule)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'cr' || 
+            $schedule->department !== $user->department || 
+            $schedule->batch !== $user->batch || 
+            $schedule->section !== $user->section) {
+            return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
+        }
+
+        $schedule->delete();
+
+        return back()->with('success', 'Schedule deleted successfully!');
+    }
 }

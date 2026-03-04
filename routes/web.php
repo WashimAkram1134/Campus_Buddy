@@ -95,6 +95,8 @@ Route::post('/profile/update', [ProfileController::class , 'update'])->name('pro
 
 Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
 Route::post('/schedule', [ScheduleController::class , 'store'])->name('schedule.store')->middleware('auth');
+Route::put('/schedule/{schedule}', [ScheduleController::class , 'update'])->name('schedule.update')->middleware('auth');
+Route::delete('/schedule/{schedule}', [ScheduleController::class , 'destroy'])->name('schedule.destroy')->middleware('auth');
 
 Route::get('/question-bank', function () {
     return view('questionbank');
