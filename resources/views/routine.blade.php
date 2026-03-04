@@ -11,6 +11,42 @@
   // Today's schedule for sidebar
   $todayName = now()->format('l');
   $todaysClasses = $schedules->where('day', $todayName)->sortBy('time_slot');
+
+  if (!function_exists('getClassStatus')) {
+      function getClassStatus($timeSlot, $dayName) {
+          $now = now();
+          $today = $now->format('l');
+          
+          if ($today !== $dayName) {
+              // If we are looking at a different day, it's either all completed (past) or upcoming (future)
+              // But for simplicity in the weekly routine view, we might just show it normally unless it's today.
+              // For the 'Today's Schedule' sidebar, it's always today.
+              return null; 
+          }
+
+          $parts = explode('-', $timeSlot);
+          if(count($parts) < 2) return 'Upcoming';
+          
+          $startStr = trim($parts[0]);
+          $endStr = trim($parts[1]);
+          
+          $parseTime = function($str) use ($now) {
+              $h_m = explode('.', $str);
+              $h = (int)$h_m[0];
+              $m = isset($h_m[1]) ? (int)$h_m[1] : 0;
+              
+              if ($h >= 1 && $h <= 7) $h += 12;
+              return $now->copy()->setTime($h, $m, 0);
+          };
+          
+          $startTime = $parseTime($startStr);
+          $endTime = $parseTime($endStr);
+          
+          if ($now->greaterThan($endTime)) return 'Completed';
+          if ($now->between($startTime, $endTime)) return 'Ongoing';
+          return 'Upcoming';
+      }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -60,15 +96,15 @@
 
           <div class="mini-timeline">
             @forelse($todaysClasses as $class)
-            <div class="mini-card">
+            @php $status = getClassStatus($class->time_slot, $todayName); @endphp
+            <div class="mini-card {{ strtolower($status) }}">
               <div class="mini-time">{{ explode('-', $class->time_slot)[0] }}</div>
               <div class="mini-details">
+                <div class="status-indicator-dot"></div>
                 <h4>{{ $class->course_title }}{{ $class->lab_section ? ' ('.$class->lab_section.')' : '' }} {{
                   $class->section ? '('.$class->section.')' : '' }}</h4>
                 <p>Room {{ $class->room_no }} • {{ $class->teacher_initial }}</p>
-                @if($class->major)
-                <p style="font-size: 10px; opacity: 0.8;">{{ $class->major }}</p>
-                @endif
+                <span class="mini-status-tag">{{ $status }}</span>
               </div>
             </div>
             @empty
@@ -120,13 +156,19 @@
               @php $dayClasses = $schedules->where('day', $day)->sortBy('time_slot'); @endphp
 
               @forelse($dayClasses as $class)
-              <div class="class-card">
+              @php $status = getClassStatus($class->time_slot, $day); @endphp
+              <div class="class-card {{ strtolower($status) }}">
                 <div class="class-time">
                   <span class="time-start">{{ explode('-', $class->time_slot)[0] }}</span>
                   <span class="time-end">{{ explode('-', $class->time_slot)[1] }}</span>
                 </div>
                 <div class="class-details">
-                  <h3 class="subject">{{ $class->course_title }}</h3>
+                  <div class="class-header-row">
+                    <h3 class="subject">{{ $class->course_title }}</h3>
+                    @if($status)
+                    <span class="status-badge {{ strtolower($status) }}">{{ $status }}</span>
+                    @endif
+                  </div>
                   <p class="instructor">Instructor: {{ $class->teacher_initial }} {{ $class->major ? '• '.$class->major
                     : '' }}</p>
                   <div class="class-meta">
