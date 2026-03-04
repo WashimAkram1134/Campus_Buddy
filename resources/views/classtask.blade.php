@@ -625,8 +625,28 @@
     .card-header {
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .card-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-course {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(0, 170, 255, 0.1);
+      color: #00AAFF;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: fit-content;
     }
   </style>
 
@@ -685,7 +705,7 @@
     window.onclick = function (event) {
       const modal = document.getElementById('editTaskModal');
       if (event.target == modal) {
-        closeEditModal();
+        closeEditMod();
       }
     }
   </script>
