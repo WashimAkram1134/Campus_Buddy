@@ -160,9 +160,9 @@
           </div>
 
           <div class="card">
-            <h3>📚 assignments</h3>
-            <div class="card-box">Post new class assignment</div>
-            <button onclick="openModal('assignmentModal')">Create Assignment</button>
+            <h3>📝 ClassTasks</h3>
+            <div class="card-box">Post assignment, quiz, or presentation</div>
+            <button onclick="openModal('assignmentModal')">Create Task</button>
           </div>
 
           <div class="card">
@@ -292,37 +292,101 @@
         </div>
       </div>
 
-      <!-- ================= ASSIGNMENT MODAL ================= -->
+      <!-- ================= CLASSTASK MODAL ================= -->
       <div id="assignmentModal" class="modal">
         <div class="modal-content">
           <div class="modal-header">
-            <h2>Create Assignment</h2>
+            <h2 id="taskModalTitle">Create ClassTask</h2>
             <span class="close" onclick="closeModal('assignmentModal')">&times;</span>
           </div>
           <form action="{{ route('assignments.store') }}" method="POST">
             @csrf
             <div class="form-group">
+              <label for="task_type">Task Type</label>
+              <select name="type" id="task_type" required onchange="updateTaskForm(this.value)">
+                <option value="assignment">Assignment</option>
+                <option value="quiz">Quiz</option>
+                <option value="presentation">Presentation</option>
+              </select>
+            </div>
+
+            <div class="form-group">
               <label for="course_code_assign">Course Code</label>
               <input type="text" name="course_code" id="course_code_assign" placeholder="e.g. CSE 421" required>
             </div>
+
             <div class="form-group">
-              <label for="assign_title">Assignment Title</label>
-              <input type="text" name="title" id="assign_title" placeholder="e.g. Project Proposal" required>
+              <label id="titleLabel" for="assign_title">Title</label>
+              <input type="text" name="title" id="assign_title" placeholder="e.g. Artificial Intelligence Seminar"
+                required>
             </div>
+
             <div class="form-group">
-              <label for="deadline">Deadline</label>
-              <input type="datetime-local" name="deadline" id="deadline" required>
+              <label for="task_topic">Topic</label>
+              <input type="text" name="topic" id="task_topic" placeholder="e.g. Machine Learning Models...">
             </div>
+
+            <div class="form-row" style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label id="dateLabel" for="deadline">Due Date</label>
+                <input type="datetime-local" name="deadline" id="deadline" required>
+              </div>
+              <div class="form-group" id="durationGroup" style="flex: 1;">
+                <label id="durationLabel" for="duration_or_slot">Duration/Slot</label>
+                <input type="text" name="duration_or_slot" id="duration_or_slot"
+                  placeholder="e.g. 1 hour or 2:00 PM - 2:30 PM">
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="description">Description (Optional)</label>
-              <textarea name="description" id="description" rows="3"
+              <label for="tip_1">Buddy Tip 1 (Key Focus)</label>
+              <textarea name="tip_1" id="tip_1" rows="2"
                 style="width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 10px;"
-                placeholder="Details..."></textarea>
+                placeholder="Expert advice..."></textarea>
             </div>
-            <button type="submit" class="submit-btn" style="margin-top: 15px;">Create Assignment</button>
+
+            <div class="form-group">
+              <label for="tip_2">Buddy Tip 2 (Pro Tip)</label>
+              <textarea name="tip_2" id="tip_2" rows="2"
+                style="width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 10px;"
+                placeholder="Another tip..."></textarea>
+            </div>
+
+            <div class="form-group" style="display:none;">
+              <label for="description">Description</label>
+              <textarea name="description" id="description" rows="2"></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" style="margin-top: 15px;">Save Task</button>
           </form>
         </div>
       </div>
+
+      <script>
+        function updateTaskForm(type) {
+          const titleLabel = document.getElementById('titleLabel');
+          const dateLabel = document.getElementById('dateLabel');
+          const durationLabel = document.getElementById('durationLabel');
+          const modalTitle = document.getElementById('taskModalTitle');
+
+          if (type === 'quiz') {
+            modalTitle.innerText = "Create Quiz";
+            titleLabel.innerText = "Quiz Title";
+            dateLabel.innerText = "Quiz Date";
+            durationLabel.innerText = "Duration";
+          } else if (type === 'presentation') {
+            modalTitle.innerText = "Create Presentation";
+            titleLabel.innerText = "Presentation Title";
+            dateLabel.innerText = "Presentation Date";
+            durationLabel.innerText = "Slot Time";
+          } else {
+            modalTitle.innerText = "Create Assignment";
+            titleLabel.innerText = "Assignment Title";
+            dateLabel.innerText = "Due Date";
+            durationLabel.innerText = "Status/Progress (Optional)";
+          }
+        }
+      </script>
 
     </main>
   </div>

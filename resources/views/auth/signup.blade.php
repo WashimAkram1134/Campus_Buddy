@@ -136,9 +136,9 @@
         </section>
     </main>
 
-</body>
-
-</html>     const isMajorSelect = document.getElementById('is_major');
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const isMajorSelect = document.getElementById('is_major');
             const majorField = document.getElementById('major-name-field');
 
             if (isMajorSelect && majorField) {

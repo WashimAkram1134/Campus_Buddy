@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\AssignmentController;
+use App\Http\Controllers\ClassTaskController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
-use App\Models\Assignment;
+use App\Models\ClassTask;
 use App\Models\Announcement;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
@@ -50,7 +50,7 @@ Route::get('/dashboard', function () {
             ->latest()
             ->get();
 
-        $assignments = Assignment::where('department', $user->department)
+        $assignments = ClassTask::where('department', $user->department)
             ->where('batch', $user->batch)
             ->where('section', $user->section)
             ->where(function ($query) use ($user) {
@@ -88,7 +88,7 @@ Route::get('/cr-dashboard', function () {
     return view('cr-dashboard');
 })->name('cr-dashboard')->middleware('auth');
 
-Route::post('/assignments', [AssignmentController::class , 'store'])->name('assignments.store')->middleware('auth');
+Route::post('/assignments', [ClassTaskController::class , 'store'])->name('assignments.store')->middleware('auth');
 Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
 Route::post('/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
 
@@ -118,6 +118,6 @@ Route::get('/clubs', function () {
     return view('clubs');
 })->name('clubs')->middleware('auth');
 
-Route::get('/classtask', function () {
-    return view('classtask');
-})->name('classtask')->middleware('auth');
+Route::get('/classtask', [ClassTaskController::class , 'index'])->name('classtask')->middleware('auth');
+Route::put('/classtask/{task}', [ClassTaskController::class , 'update'])->name('classtask.update')->middleware('auth');
+Route::delete('/classtask/{task}', [ClassTaskController::class , 'destroy'])->name('classtask.destroy')->middleware('auth');

@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Assignment extends Model
+class ClassTask extends Model
 {
+    protected $table = 'class_tasks';
+
     protected $fillable = [
+        'type',
         'user_id',
         'course_code',
         'title',
+        'topic',
         'description',
         'deadline',
+        'duration_or_slot',
+        'progress_status',
+        'tip_1',
+        'tip_2',
         'department',
         'batch',
         'section',
