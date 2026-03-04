@@ -10,9 +10,9 @@ use App\Models\Announcement;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Route;
 
-// Redirect root to login
+// Show landing page on root
 Route::get('/', function () {
-    return redirect('/login');
+    return view('landing');
 });
 
 // Auth routes
