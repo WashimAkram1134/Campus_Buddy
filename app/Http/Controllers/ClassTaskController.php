@@ -61,4 +61,44 @@ class ClassTaskController extends Controller
 
         return back()->with('success', ucfirst($request->type) . ' added successfully!');
     }
+
+    public function update(Request $request, ClassTask $task)
+    {
+        if (auth()->user()->role !== 'cr' || $task->user_id !== auth()->id()) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'type' => 'required|string|in:assignment,quiz,presentation',
+            'course_code' => 'required|string|max:20',
+            'title' => 'required|string|max:255',
+            'deadline' => 'required|date',
+        ]);
+
+        $task->update([
+            'type' => $request->type,
+            'course_code' => $request->course_code,
+            'title' => $request->title,
+            'topic' => $request->topic,
+            'description' => $request->description,
+            'deadline' => $request->deadline,
+            'duration_or_slot' => $request->duration_or_slot,
+            'progress_status' => $request->progress_status,
+            'tip_1' => $request->tip_1,
+            'tip_2' => $request->tip_2,
+        ]);
+
+        return back()->with('success', ucfirst($request->type) . ' updated successfully!');
+    }
+
+    public function destroy(ClassTask $task)
+    {
+        if (auth()->user()->role !== 'cr' || $task->user_id !== auth()->id()) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        $task->delete();
+
+        return back()->with('success', 'Task deleted successfully!');
+    }
 }

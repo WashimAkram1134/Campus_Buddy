@@ -459,52 +459,228 @@
   @include('includes.footer')
 
   <script>
-    // Filter func      ality with smooth animations
-    docum ent.q        lectorAll('.filter-btn').forEach(btn         tn.addEventListener('cli        unction () {
+    // Filter functionality with smooth animations
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
         const filter = this.dataset.filter;
 
-        // Update active bu               document.querySelectorAi        tn').forEach(b => b.classList.remove(        e'));
+        // Update active button
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
 
-        // Animat        ith fade effect
-        const            = document.querySelectorAll('.task-section');
+        // Animate with fade effect
+        const sections = document.querySelectorAll('.task-section');
 
-        sections.forEach(se               const shouldSh            r === 'all' || section.dataset.se            filter;
+        sections.forEach(section => {
+          const shouldShow = filter === 'all' || section.dataset.section === filter;
 
           if (shouldShow) {
-            section.style.displa            ';
-            // Small delay               play:block to apply before ad              
+            section.style.display = 'block';
             requestAnimationFrame(() => {
-                          style.opa            ;
-              section.style             = 'translateY(0)';
+              section.style.opacity = '1';
+              section.style.transform = 'translateY(0)';
             });
-                                 section.              y = '0';
-            section.sty            rm = 'tra          20                          tTime    t(() => {
-              section.style.display =     one';
-            }, 300);             }
-          });
+          } else {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              section.style.display = 'none';
+            }, 300);
+          }
+        });
       });
     });
 
-    // Sc       animation usin    Inte    ection Observer
+    // Scroll animation using Intersection Observer
     const observerOptions = {
-      root:      l,
-      rootMargin: '0px 0        px 0px',
-      threshold: 0.          
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
 
-    const observer = new IntersectionObs          ntries) => {
-      entries.forEach         =                if (entry.isIntersec    ng) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
           entry.target.classList.add('animate-in');
-            observer.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    // Observe all task       ions, section headers,    nd task    document.querySelectorAll('.task-section, .section-header-wrapper, .task-card, .info-card').forEach(el => {
+    // Observe all task sections, section headers, and task cards
+    document.querySelectorAll('.task-section, .section-header-wrapper, .task-card, .info-card').forEach(el => {
       observer.observe(el);
     });
   </script>
 
+  <!-- Edit Task Modal -->
+  <div id="editTaskModal" class="modal"
+    style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); overflow:auto;">
+    <div class="modal-content"
+      style="background:#fff; margin:5% auto; padding:20px; border-radius:12px; width:50%; max-width:600px; box-shadow:0 5px 15px rgba(0,0,0,0.3); position:relative;">
+      <div class="modal-header"
+        style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:15px; margin-bottom:15px;">
+        <h2 id="editModalTitle">Edit ClassTask</h2>
+        <span style="font-size:28px; cursor:pointer;" onclick="closeEditModal()">&times;</span>
+      </div>
+      <form id="editTaskForm" method="POST">
+        @csrf @method('PUT')
+        <div class="form-group" style="margin-bottom:15px;">
+          <label>Task Type</label>
+          <select name="type" id="edit_type" required onchange="updateEditLabels(this.value)"
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+            <option value="assignment">Assignment</option>
+            <option value="quiz">Quiz</option>
+            <option value="presentation">Presentation</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label>Course Code</label>
+          <input type="text" name="course_code" id="edit_course_code" required
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label id="editTitleLabel">Title</label>
+          <input type="text" name="title" id="edit_title" required
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label>Topic</label>
+          <input type="text" name="topic" id="edit_topic"
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+        </div>
+        <div style="display:flex; gap:15px; margin-bottom:15px;">
+          <div style="flex:1;">
+            <label id="editDateLabel">Due Date</label>
+            <input type="datetime-local" name="deadline" id="edit_deadline" required
+              style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+          </div>
+          <div style="flex:1;">
+            <label id="editDurationLabel">Duration/Slot</label>
+            <input type="text" name="duration_or_slot" id="edit_duration"
+              style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label>Buddy Tip 1</label>
+          <textarea name="tip_1" id="edit_tip_1" rows="2"
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:15px;">
+          <label>Buddy Tip 2</label>
+          <textarea name="tip_2" id="edit_tip_2" rows="2"
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:6px;"></textarea>
+        </div>
+        <button type="submit" class="submit-btn"
+          style="width:100%; padding:14px; background:#00AAFF; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; margin-top:10px; box-shadow: 0 4px 6px rgba(0, 170, 255, 0.2); transition: all 0.3s ease;">Update
+          Task Details</button>
+      </form>
+    </div>
+  </div>
+
+  <style>
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .action-btn {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4a5568;
+    }
+
+    .action-btn:hover {
+      background: #edf2f7;
+      transform: translateY(-1px);
+    }
+
+    .edit-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .delete-btn:hover {
+      color: #e53e3e;
+      border-color: #e53e3e;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+  </style>
+
+  <script>
+    function openEditModal(task) {
+      const modal = document.getElementById('editTaskModal');
+      const form = document.getElementById('editTaskForm');
+
+      form.action = `/classtask/${task.id}`;
+      document.getElementById('edit_type').value = task.type;
+      document.getElementById('edit_course_code').value = task.course_code;
+      document.getElementById('edit_title').value = task.title;
+      document.getElementById('edit_topic').value = task.topic || '';
+      document.getElementById('edit_duration').value = task.duration_or_slot || '';
+      document.getElementById('edit_tip_1').value = task.tip_1 || '';
+      document.getElementById('edit_tip_2').value = task.tip_2 || '';
+
+      if (task.deadline) {
+        const date = new Date(task.deadline).toISOString().slice(0, 16);
+        document.getElementById('edit_deadline').value = date;
+      }
+
+      updateEditLabels(task.type);
+      modal.style.display = 'block';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editTaskModal').style.display = 'none';
+    }
+
+    function updateEditLabels(type) {
+      const titleLabel = document.getElementById('editTitleLabel');
+      const dateLabel = document.getElementById('editDateLabel');
+      const durationLabel = document.getElementById('editDurationLabel');
+      const modalTitle = document.getElementById('editModalTitle');
+
+      if (type === 'quiz') {
+        modalTitle.innerText = "Edit Quiz";
+        titleLabel.innerText = "Quiz Title";
+        dateLabel.innerText = "Quiz Date";
+        durationLabel.innerText = "Duration";
+      } else if (type === 'presentation') {
+        modalTitle.innerText = "Edit Presentation";
+        titleLabel.innerText = "Presentation Title";
+        dateLabel.innerText = "Presentation Date";
+        durationLabel.innerText = "Slot Time";
+      } else {
+        modalTitle.innerText = "Edit Assignment";
+        titleLabel.innerText = "Assignment Title";
+        dateLabel.innerText = "Due Date";
+        durationLabel.innerText = "Status/Progress";
+      }
+    }
+
+    // Close modal on outside click
+    window.onclick = function (event) {
+      const modal = document.getElementById('editTaskModal');
+      if (event.target == modal) {
+        closeEditModal();
+      }
+    }
+  </script>
 </body>
 
 </html>
