@@ -36,17 +36,31 @@
             </h1>
             <p class="hero-subtitle">Get information, timeline, and AI guidance for all your academic tasks</p>
 
+            @php
+            $totalCount = $tasks->count();
+            $dueCount = $tasks->filter(function($t) {
+            return \Carbon\Carbon::parse($t->deadline)->isFuture();
+            })->count();
+            $completedCount = $tasks->filter(function($t) {
+            return \Carbon\Carbon::parse($t->deadline)->isPast();
+            })->count();
+
+            $assignmentCount = $tasks->where('type', 'assignment')->count();
+            $quizCount = $tasks->where('type', 'quiz')->count();
+            $presentationCount = $tasks->where('type', 'presentation')->count();
+            @endphp
+
             <div class="hero-stats">
               <div class="stat-box">
-                <span class="stat-value">12</span>
+                <span class="stat-value">{{ $totalCount }}</span>
                 <span class="stat-label">Active Tasks</span>
               </div>
               <div class="stat-box">
-                <span class="stat-value">4</span>
-                <span class="stat-label">Due This Week</span>
+                <span class="stat-value">{{ $dueCount }}</span>
+                <span class="stat-label">Due Task</span>
               </div>
               <div class="stat-box">
-                <span class="stat-value">8</span>
+                <span class="stat-value">{{ $completedCount }}</span>
                 <span class="stat-label">Completed</span>
               </div>
             </div>
@@ -54,12 +68,6 @@
         </div>
       </section>
 
-      @php
-      $assignmentCount = $tasks->where('type', 'assignment')->count();
-      $quizCount = $tasks->where('type', 'quiz')->count();
-      $presentationCount = $tasks->where('type', 'presentation')->count();
-      $totalCount = $tasks->count();
-      @endphp
 
       <!-- ================= FILTER BAR ================= -->
       <div class="filter-bar-wrapper">
