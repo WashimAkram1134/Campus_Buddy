@@ -255,11 +255,12 @@
             <div class="form-group">
               <label for="time_slot">Time Slot</label>
               <select name="time_slot" id="time_slot" required>
-                <option value="8.30-10.00">8.30-10.00</option>
-                <option value="10.00-11.30">10.00-11.30</option>
-                <option value="11.30-1.00">11.30-1.00</option>
-                <option value="1.00-2.30">1.00-2.30</option>
-                <option value="2.30-4.00">2.30-4.00</option>
+                <option value="8.30 am-10.00 am">8.30 am-10.00 am</option>
+                <option value="10.00 am-11.30 am">10.00 am-11.30 am</option>
+                <option value="11.30 am-1.00 pm">11.30 am-1.00 pm</option>
+                <option value="1.00 pm-2.30 pm">1.00 pm-2.30 pm</option>
+                <option value="2.30 pm-4.00 pm">2.30 pm-4.00 pm</option>
+                <option value="4.00 pm-5.30 pm">4.00 pm-5.30 pm</option>
               </select>
             </div>
             <button type="submit" class="submit-btn" style="margin-top: 15px;">Save Schedule</button>

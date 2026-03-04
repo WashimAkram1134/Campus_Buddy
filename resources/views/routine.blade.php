@@ -1,46 +1,46 @@
 <?php
   // Helper to get class for a specific day and time slot
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  $timeSlots = ['8.30-10.00', '10.00-11.30', '11.30-1.00', '1.00-2.30', '2.30-4.00'];
+  $timeSlots = ['8.30 am-10.00 am', '10.00 am-11.30 am', '11.30 am-1.00 pm', '1.00 pm-2.30 pm', '2.30 pm-4.00 pm', '4.00 pm-5.30 pm'];
   
   $scheduleMap = [];
   foreach($schedules as $s) {
       $scheduleMap[$s->day][$s->time_slot] = $s;
   }
   
+  if (!function_exists('parseRoutineTime')) {
+    function parseRoutineTime($timeStr, $now) {
+        $timeStr = str_replace('.', ':', trim($timeStr));
+        try {
+            return \Carbon\Carbon::parse($timeStr);
+        } catch (\Exception $e) {
+            // Fallback for old format
+            $h_m = explode(':', $timeStr);
+            $h = (int)$h_m[0]; $m = isset($h_m[1]) ? (int)$h_m[1] : 0;
+            if ($h >= 1 && $h <= 7) $h += 12;
+            return $now->copy()->setTime($h, $m, 0);
+        }
+    }
+  }
+
   // Today's schedule for sidebar
   $todayName = now()->format('l');
-  $todaysClasses = $schedules->where('day', $todayName)->sortBy('time_slot');
+  $todaysClasses = $schedules->where('day', $todayName)->sortBy(function($s) {
+      return parseRoutineTime(explode('-', $s->time_slot)[0], now());
+  });
 
   if (!function_exists('getClassStatus')) {
       function getClassStatus($timeSlot, $dayName) {
           $now = now();
           $today = $now->format('l');
           
-          if ($today !== $dayName) {
-              // If we are looking at a different day, it's either all completed (past) or upcoming (future)
-              // But for simplicity in the weekly routine view, we might just show it normally unless it's today.
-              // For the 'Today's Schedule' sidebar, it's always today.
-              return null; 
-          }
+          if ($today !== $dayName) return null;
 
           $parts = explode('-', $timeSlot);
           if(count($parts) < 2) return 'Upcoming';
           
-          $startStr = trim($parts[0]);
-          $endStr = trim($parts[1]);
-          
-          $parseTime = function($str) use ($now) {
-              $h_m = explode('.', $str);
-              $h = (int)$h_m[0];
-              $m = isset($h_m[1]) ? (int)$h_m[1] : 0;
-              
-              if ($h >= 1 && $h <= 7) $h += 12;
-              return $now->copy()->setTime($h, $m, 0);
-          };
-          
-          $startTime = $parseTime($startStr);
-          $endTime = $parseTime($endStr);
+          $startTime = parseRoutineTime($parts[0], $now);
+          $endTime = parseRoutineTime($parts[1], $now);
           
           if ($now->greaterThan($endTime)) return 'Completed';
           if ($now->between($startTime, $endTime)) return 'Ongoing';
@@ -153,7 +153,9 @@
             <div class="day-group {{ $todayName == $day ? 'active' : '' }}" id="group-{{ strtolower($day) }}">
               <h3 class="day-heading">{{ $day }}</h3>
 
-              @php $dayClasses = $schedules->where('day', $day)->sortBy('time_slot'); @endphp
+              @php $dayClasses = $schedules->where('day', $day)->sortBy(function($s) {
+              return parseRoutineTime(explode('-', $s->time_slot)[0], now());
+              }); @endphp
 
               @forelse($dayClasses as $class)
               @php $status = getClassStatus($class->time_slot, $day); @endphp
@@ -308,9 +310,12 @@
           <div class="form-field">
             <label>Time Slot</label>
             <select name="time_slot" id="edit_time_slot" required>
-              @foreach(['8.30-10.00', '10.00-11.30', '11.30-1.00', '1.00-2.30', '2.30-4.00'] as $slot)
-              <option value="{{ $slot }}">{{ $slot }}</option>
-              @endforeach
+              <option value="8.30 am-10.00 am">8.30 am-10.00 am</option>
+              <option value="10.00 am-11.30 am">10.00 am-11.30 am</option>
+              <option value="11.30 am-1.00 pm">11.30 am-1.00 pm</option>
+              <option value="1.00 pm-2.30 pm">1.00 pm-2.30 pm</option>
+              <option value="2.30 pm-4.00 pm">2.30 pm-4.00 pm</option>
+              <option value="4.00 pm-5.30 pm">4.00 pm-5.30 pm</option>
             </select>
           </div>
           <div class="form-field">

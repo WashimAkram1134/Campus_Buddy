@@ -1524,3 +1524,29 @@ body {
 .mini-timeline::before {
     left: 21px !important;
 }
+
+/* Fixing sidebar time overlap and spacing */
+.mini-card {
+    padding-left: 55px !important; /* Increased space for dot and timeline */
+}
+
+.mini-time {
+    min-width: 65px !important; /* More width for '10.00 am' */
+    text-align: right;
+    margin-right: 5px;
+    font-size: 13px;
+    letter-spacing: -0.5px;
+}
+
+.mini-details h4 {
+    font-size: 15px;
+    line-height: 1.3;
+}
+
+.mini-timeline::before {
+    left: 21px !important;
+}
+
+.mini-card::before {
+    left: 17px !important;
+}
