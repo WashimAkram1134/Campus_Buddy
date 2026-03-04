@@ -15,6 +15,8 @@ class Schedule extends Model
         'department',
         'batch',
         'room_no',
+        'type',
+        'lab_section',
         'day',
         'time_slot',
     ];

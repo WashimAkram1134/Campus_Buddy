@@ -198,18 +198,48 @@
             <div class="form-row" style="display: flex; gap: 15px;">
               <div class="form-group" style="flex: 1;">
                 <label for="section">Section</label>
-                <input type="text" name="section" id="section" placeholder="e.g. A" required>
+                <input type="text" name="section" id="section" value="{{ Auth::user()->section }}" readonly
+                  style="background: #f4f6f8; cursor: not-allowed;">
               </div>
               <div class="form-group" style="flex: 1;">
-                <label for="major">Major (Optional)</label>
-                <input type="text" name="major" id="major" value="{{ Auth::user()->major }}"
-                  placeholder="e.g. DS, CS, Robotics">
+                <label for="major">Major</label>
+                <input type="text" name="major" id="major" value="{{ Auth::user()->major }}" readonly
+                  style="background: #f4f6f8; cursor: not-allowed;" placeholder="Non-Major">
               </div>
             </div>
             <div class="form-group">
               <label for="room_no">Room No</label>
               <input type="text" name="room_no" id="room_no" placeholder="e.g. 713" required>
             </div>
+
+            <div class="form-row" style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label for="type">Course Type</label>
+                <select name="type" id="type" required onchange="toggleLabSection(this.value)">
+                  <option value="theory">Theory</option>
+                  <option value="lab">Lab</option>
+                </select>
+              </div>
+              <div class="form-group" id="lab_section_group" style="flex: 1; display: none;">
+                <label for="lab_section">Lab Section</label>
+                <input type="text" name="lab_section" id="lab_section" placeholder="e.g. B1, B2">
+              </div>
+            </div>
+
+            <script>
+              function toggleLabSection(type) {
+                const labGroup = document.getElementById('lab_section_group');
+                const labInput = document.getElementById('lab_section');
+                if (type === 'lab') {
+                  labGroup.style.display = 'block';
+                  labInput.required = true;
+                } else {
+                  labGroup.style.display = 'none';
+                  labInput.required = false;
+                  labInput.value = '';
+                }
+              }
+            </script>
             <div class="form-group">
               <label for="day">Day</label>
               <select name="day" id="day" required>

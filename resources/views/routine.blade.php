@@ -63,7 +63,8 @@
             <div class="mini-card">
               <div class="mini-time">{{ explode('-', $class->time_slot)[0] }}</div>
               <div class="mini-details">
-                <h4>{{ $class->course_title }} {{ $class->section ? '('.$class->section.')' : '' }}</h4>
+                <h4>{{ $class->course_title }}{{ $class->lab_section ? ' ('.$class->lab_section.')' : '' }} {{
+                  $class->section ? '('.$class->section.')' : '' }}</h4>
                 <p>Room {{ $class->room_no }} • {{ $class->teacher_initial }}</p>
                 @if($class->major)
                 <p style="font-size: 10px; opacity: 0.8;">{{ $class->major }}</p>
@@ -130,7 +131,8 @@
                     : '' }}</p>
                   <div class="class-meta">
                     <span class="venue">Room {{ $class->room_no }}</span>
-                    <span class="type type-lecture">{{ $class->course_code }} ({{ $class->section }})</span>
+                    <span class="type type-lecture">{{ $class->course_code }}{{ $class->lab_section ?
+                      '('.$class->lab_section.')' : '' }} ({{ $class->section }})</span>
                   </div>
                 </div>
 
@@ -174,6 +176,10 @@
 
           <!-- ================= FULL WEEK TABLE VIEW ================= -->
           <div class="full-routine-table" id="fullRoutineTable">
+            <div class="full-table-header">
+              <h3>Class Routine | {{ auth()->user()->department }} | Sec: {{ auth()->user()->section }} | Batch: {{
+                auth()->user()->batch }}</h3>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -191,7 +197,8 @@
                   <td>
                     @if(isset($scheduleMap[$day][$slot]))
                     <div class="table-class">
-                      <strong>{{ $scheduleMap[$day][$slot]->course_code }} ({{ $scheduleMap[$day][$slot]->section
+                      <strong>{{ $scheduleMap[$day][$slot]->course_code }}{{ $scheduleMap[$day][$slot]->lab_section ?
+                        '('.$scheduleMap[$day][$slot]->lab_section.')' : '' }} ({{ $scheduleMap[$day][$slot]->section
                         }})</strong><br>
                       <span>{{ $scheduleMap[$day][$slot]->teacher_initial }}</span>
                       <small>Room: {{ $scheduleMap[$day][$slot]->room_no }}</small>
@@ -265,18 +272,43 @@
             </select>
           </div>
           <div class="form-field">
-            <label>Section</label>
-            <input type="text" name="section" id="edit_section" required>
+            <label>Type</label>
+            <select name="type" id="edit_type" required onchange="toggleEditLabSection(this.value)">
+              <option value="theory">Theory</option>
+              <option value="lab">Lab</option>
+            </select>
+          </div>
+          <div class="form-field" id="edit_lab_section_group" style="display: none;">
+            <label>Lab Section</label>
+            <input type="text" name="lab_section" id="edit_lab_section" placeholder="e.g. B1, B2">
           </div>
           <div class="form-field">
-            <label>Major (Optional)</label>
-            <input type="text" name="major" id="edit_major">
+            <label>Section</label>
+            <input type="text" name="section" id="edit_section" readonly
+              style="background: #f4f6f8; cursor: not-allowed;">
+          </div>
+          <div class="form-field">
+            <label>Major</label>
+            <input type="text" name="major" id="edit_major" readonly style="background: #f4f6f8; cursor: not-allowed;">
           </div>
         </div>
         <button type="submit" class="save-btn">Update Schedule</button>
       </form>
     </div>
   </div>
+
+  <script>
+    function toggleEditLabSection(type) {
+      const labGroup = document.getElementById('edit_lab_section_group');
+      const labInput = document.getElementById('edit_lab_section');
+      if (type === 'lab') {
+        labGroup.style.display = 'block';
+      } else {
+        labGroup.style.display = 'none';
+        labInput.value = '';
+      }
+    }
+  </script>
   @endif
 
   @include('includes.footer')
@@ -395,6 +427,11 @@
         document.getElementById('edit_time_slot').value = classData.time_slot;
         document.getElementById('edit_section').value = classData.section;
         document.getElementById('edit_major').value = classData.major || '';
+        document.getElementById('edit_type').value = classData.type || 'theory';
+        document.getElementById('edit_lab_section').value = classData.lab_section || '';
+
+        // Trigger visibility toggle
+        toggleEditLabSection(classData.type || 'theory');
 
         modal.style.display = 'block';
       };

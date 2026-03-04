@@ -40,20 +40,19 @@ class ScheduleController extends Controller
             'course_title' => 'required|string|max:255',
             'teacher_initial' => 'required|string|max:50',
             'room_no' => 'required|string|max:20',
-            'section' => 'required|string|max:50',
-            'major' => 'nullable|string|max:100',
+            'type' => 'required|string|in:theory,lab',
+            'lab_section' => 'nullable|string|max:50',
             'day' => 'required|string',
             'time_slot' => 'required|string',
         ]);
 
         $data = $request->all();
         // Auto-fill ownership from CR profile
-        $data['department'] = auth()->user()->department;
-        $data['batch'] = auth()->user()->batch;
-        // The form provides section, but requirement says "owned by that specific class group".
-        // It's safer to use the CR's section too if that's the intention, 
-        // but the prompt says they update it with their "specific department, batch, and section".
-        $data['section'] = auth()->user()->section;
+        $user = auth()->user();
+        $data['department'] = $user->department;
+        $data['batch'] = $user->batch;
+        $data['section'] = $user->section;
+        $data['major'] = $user->major;
 
         Schedule::create($data);
 
@@ -63,10 +62,10 @@ class ScheduleController extends Controller
     public function update(Request $request, Schedule $schedule)
     {
         $user = auth()->user();
-        if ($user->role !== 'cr' || 
-            $schedule->department !== $user->department || 
-            $schedule->batch !== $user->batch || 
-            $schedule->section !== $user->section) {
+        if ($user->role !== 'cr' ||
+        $schedule->department !== $user->department ||
+        $schedule->batch !== $user->batch ||
+        $schedule->section !== $user->section) {
             return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
         }
 
@@ -75,13 +74,20 @@ class ScheduleController extends Controller
             'course_title' => 'required|string|max:255',
             'teacher_initial' => 'required|string|max:50',
             'room_no' => 'required|string|max:20',
-            'section' => 'required|string|max:50',
-            'major' => 'nullable|string|max:100',
+            'type' => 'required|string|in:theory,lab',
+            'lab_section' => 'nullable|string|max:50',
             'day' => 'required|string',
             'time_slot' => 'required|string',
         ]);
 
-        $schedule->update($request->all());
+        $data = $request->all();
+        // Force current group info
+        $data['department'] = $user->department;
+        $data['batch'] = $user->batch;
+        $data['section'] = $user->section;
+        $data['major'] = $user->major;
+
+        $schedule->update($data);
 
         return back()->with('success', 'Schedule updated successfully!');
     }
@@ -89,10 +95,10 @@ class ScheduleController extends Controller
     public function destroy(Schedule $schedule)
     {
         $user = auth()->user();
-        if ($user->role !== 'cr' || 
-            $schedule->department !== $user->department || 
-            $schedule->batch !== $user->batch || 
-            $schedule->section !== $user->section) {
+        if ($user->role !== 'cr' ||
+        $schedule->department !== $user->department ||
+        $schedule->batch !== $user->batch ||
+        $schedule->section !== $user->section) {
             return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
         }
 
