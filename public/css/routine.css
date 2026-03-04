@@ -1201,3 +1201,200 @@ body {
     margin: 0;
     letter-spacing: 0.5px;
 }
+
+/* ================= ENHANCED INTERACTIVE DESIGN ================= */
+
+/* Card Entrance Stagger */
+.day-group.active .class-card {
+    animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.day-group.active .class-card:nth-child(1) { animation-delay: 0.1s; }
+.day-group.active .class-card:nth-child(2) { animation-delay: 0.2s; }
+.day-group.active .class-card:nth-child(3) { animation-delay: 0.3s; }
+.day-group.active .class-card:nth-child(4) { animation-delay: 0.4s; }
+.day-group.active .class-card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateX(-20px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+/* Enhanced Hover Interactivity */
+.class-card {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.class-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%);
+    transition: none;
+    z-index: 1;
+}
+
+.class-card:hover::after {
+    transform: translateX(100%);
+    transition: transform 0.6s ease;
+}
+
+.class-card:hover {
+    transform: translateY(-5px) scale(1.01) !important;
+    box-shadow: 0 20px 40px rgba(0, 170, 255, 0.15) !important;
+    border-color: #00AAFF !important;
+}
+
+/* Live Class Styling */
+.class-card.is-live {
+    border: 2px solid #00AAFF;
+    background: linear-gradient(to right, #ffffff, #f0f9ff);
+    box-shadow: 0 10px 30px rgba(0, 170, 255, 0.1);
+}
+
+.class-card.is-live::before {
+    background: #00AAFF;
+    box-shadow: 0 0 15px #00AAFF;
+    animation: livePulse 2s infinite;
+}
+
+@keyframes livePulse {
+    0% { transform: translateY(-50%) scale(1); box-shadow: 0 0 0 0 rgba(0, 170, 255, 0.4); }
+    70% { transform: translateY(-50%) scale(1.2); box-shadow: 0 0 0 10px rgba(0, 170, 255, 0); }
+    100% { transform: translateY(-50%) scale(1); box-shadow: 0 0 0 0 rgba(0, 170, 255, 0); }
+}
+
+.live-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #00AAFF;
+    color: white;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 4px 12px;
+    border-bottom-left-radius: 12px;
+    letter-spacing: 1px;
+    box-shadow: -2px 2px 10px rgba(0, 170, 255, 0.2);
+    z-index: 5;
+}
+
+/* Sidebar Live Indicator */
+.mini-card.is-live {
+    background: rgba(0, 170, 255, 0.05);
+    border-left: 3px solid #00AAFF;
+    padding-left: 15px;
+    border-radius: 0 12px 12px 0;
+}
+
+.live-badge-mini {
+    display: inline-block;
+    color: #0077cc;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Soft Hover for Table Cells */
+.full-routine-table td:hover {
+    background: #f0f9ff;
+    transition: background 0.2s;
+}
+
+.table-class {
+    transition: transform 0.2s;
+}
+
+.full-routine-table td:hover .table-class {
+    transform: scale(1.05);
+}
+
+/* Download Button Animation */
+.download-btn svg {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.download-btn:hover svg {
+    transform: translateY(2px);
+}
+
+/* HERO Scroll Reveal */
+.routine-hero-content {
+    animation: heroEntrance 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes heroEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Day Tabs Glowing Active State */
+.day-tab.active {
+    background: linear-gradient(135deg, #00AAFF, #0077cc);
+    box-shadow: 0 10px 20px rgba(0, 170, 255, 0.4), 0 0 10px rgba(0, 170, 255, 0.2) inset;
+    transform: translateY(-2px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.day-tab:not(.active):hover {
+    background: rgba(0, 170, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Sidebar Hover Card Glow */
+.mini-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.mini-card:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transform: translateX(4px);
+}
+
+/* Custom Scrollbar for the table */
+.full-routine-table::-webkit-scrollbar {
+    height: 10px;
+}
+
+.full-routine-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.full-routine-table::-webkit-scrollbar-thumb {
+    background: #00AAFF;
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+.full-routine-table::-webkit-scrollbar-thumb:hover {
+    background: #0077cc;
+}
