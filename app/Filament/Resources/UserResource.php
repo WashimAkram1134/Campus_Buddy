@@ -3,13 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Mail\CrAccountApproved;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 
@@ -225,8 +228,27 @@ class UserResource extends Resource
                     ->visible(fn (User $record): bool => !$record->is_approved)
                     ->requiresConfirmation()
                     ->modalHeading('Approve CR Account')
-                    ->modalDescription('This will allow the CR to log in to Campus Buddy.')
-                    ->action(fn (User $record) => $record->update(['is_approved' => true])),
+                    ->modalDescription('This will allow the CR to log in to Campus Buddy and send them an approval email.')
+                    ->action(function (User $record) {
+                        $record->update(['is_approved' => true]);
+
+                        // Send approval email notification
+                        try {
+                            Mail::to($record->email)->send(new CrAccountApproved($record));
+
+                            Notification::make()
+                                ->title('✅ Account Approved')
+                                ->body('Approval email sent to ' . $record->email)
+                                ->success()
+                                ->send();
+                        } catch (\Exception $e) {
+                            Notification::make()
+                                ->title('✅ Account Approved')
+                                ->body('Account approved, but email failed to send: ' . $e->getMessage())
+                                ->warning()
+                                ->send();
+                        }
+                    }),
 
                 Tables\Actions\Action::make('revoke')
                     ->label('Revoke')

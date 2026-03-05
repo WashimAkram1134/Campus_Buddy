@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -16,7 +16,7 @@ class CrAccountApproved extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public User $user)
     {
         //
     }
@@ -27,7 +27,7 @@ class CrAccountApproved extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Cr Account Approved',
+            subject: '✅ Your Campus Buddy CR Account Has Been Approved!',
         );
     }
 
@@ -38,6 +38,9 @@ class CrAccountApproved extends Mailable
     {
         return new Content(
             markdown: 'emails.cr-approved',
+            with: [
+                'user' => $this->user,
+            ],
         );
     }
 
