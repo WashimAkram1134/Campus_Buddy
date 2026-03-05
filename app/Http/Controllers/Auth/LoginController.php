@@ -39,6 +39,19 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            $user = Auth::user();
+
+            // Block unapproved CR accounts
+            if ($user->role === 'cr' && !$user->is_approved) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'login' => '⏳ Your CR account is pending approval from the Admin. Please wait for approval before logging in.',
+                ])->onlyInput('login');
+            }
+
             return redirect()->intended('dashboard');
         }
 

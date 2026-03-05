@@ -37,11 +37,14 @@ class SignupController extends Controller
             'major' => ['nullable', 'string', 'max:100'],
         ]);
 
+        $isCr = $request->role === 'cr';
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'student_id' => $request->student_id,
             'role' => $request->role,
+            'is_approved' => !$isCr, // CRs start unapproved; students are auto-approved
             'department' => $request->department,
             'batch' => $request->batch,
             'semester' => $request->semester,
@@ -50,6 +53,16 @@ class SignupController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Account created successfully! Please log in.');
+        if ($isCr) {
+            // Do NOT log in - CR must wait for admin approval
+            return redirect()->route('login')->with(
+                'success',
+                '✅ CR account created! Your account is pending admin approval. You will be notified once approved.'
+            );
+        }
+
+        // Auto-login for regular students
+        Auth::login($user);
+        return redirect()->route('dashboard');
     }
 }

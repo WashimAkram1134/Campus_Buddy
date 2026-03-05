@@ -12,7 +12,7 @@ $currentRoute = Route::currentRouteName() ?? '';
   <nav class="desktop-nav">
     <a href="{{ route('dashboard') }}" class="{{ $currentRoute === 'dashboard' ? 'active' : '' }}">Home</a>
     <a href="{{ route('routine') }}" class="{{ $currentRoute === 'routine' ? 'active' : '' }}">Routine</a>
-    @if(view()->shared('user', Auth::user()) && Auth::user() && Auth::user()->role === 'cr')
+    @if(Auth::check() && in_array(Auth::user()->role, ['cr', 'admin']))
     <a href="{{ route('cr-dashboard') }}" class="{{ $currentRoute === 'cr-dashboard' ? 'active' : '' }}">CR Portal</a>
     @endif
     <a href="{{ route('classtask') }}" class="{{ $currentRoute === 'classtask' ? 'active' : '' }}">ClassTask</a>
@@ -24,6 +24,16 @@ $currentRoute = Route::currentRouteName() ?? '';
   </nav>
 
   <div class="top-icons">
+    @if(Auth::check() && Auth::user()->role === 'admin')
+    <a href="/admin" class="admin-panel-btn" title="Go to Admin Panel">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+      Admin Panel
+    </a>
+    @endif
     <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
     <img src="{{ asset('images/topbaricons/settings.png') }}" alt="Settings" class="top-icon"
       onclick="openModal('profileModal')">
