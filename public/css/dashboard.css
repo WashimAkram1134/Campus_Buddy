@@ -344,6 +344,7 @@ body {
     align-items: center;
     min-height: 280px;
     justify-content: center;
+    position: relative;
 }
 
 .stat-card:hover {
@@ -391,6 +392,25 @@ body {
     font-size: 14px;
     color: var(--text-muted);
     font-weight: 500;
+}
+
+/* Progress Badge for Stat Cards */
+.stat-badge-progress {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 800;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card.active .stat-badge-progress {
+    background: rgba(26, 35, 126, 0.05);
+    color: var(--primary);
 }
 
 /* ============================================================

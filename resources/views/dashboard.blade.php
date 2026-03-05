@@ -100,6 +100,16 @@
             {{-- Card 2: Upcoming Tasks (ACTIVE — thick blue border like Pic 1) --}}
             @php $latestAssignment = $assignments->first(); @endphp
             <div class="stat-card active animate-scale delay-3">
+              @if($latestAssignment)
+              @php
+              $createdAt = \Carbon\Carbon::parse($latestAssignment->created_at);
+              $deadline = \Carbon\Carbon::parse($latestAssignment->deadline);
+              $totalSeconds = $createdAt->diffInSeconds($deadline);
+              $passedSeconds = $createdAt->diffInSeconds(now());
+              $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
+              @endphp
+              <div class="stat-badge-progress">{{ $percentage }}%</div>
+              @endif
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

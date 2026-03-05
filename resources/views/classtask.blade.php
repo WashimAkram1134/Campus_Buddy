@@ -122,12 +122,16 @@
             <div class="info-card assignment-card animate-in">
               <div class="card-status-bar assignment-bar"></div>
               <div class="card-header">
-                <h3 class="card-title">{{ $task->title }}</h3>
+                <div class="card-title-group">
+                  <span class="card-course">{{ $task->course_code }}</span>
+                  <h3 class="card-title">{{ $task->title }}</h3>
+                </div>
                 @php
-                $totalTime =
-                \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::parse($task->deadline));
-                $passedTime = \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::now());
-                $percentage = ($totalTime > 0) ? min(100, max(0, round(($passedTime / $totalTime) * 100))) : 0;
+                $createdAt = \Carbon\Carbon::parse($task->created_at);
+                $deadline = \Carbon\Carbon::parse($task->deadline);
+                $totalSeconds = $createdAt->diffInSeconds($deadline);
+                $passedSeconds = $createdAt->diffInSeconds(now());
+                $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
                 @endphp
                 <span class="card-progress">{{ $percentage }}%</span>
 
@@ -251,12 +255,16 @@
             <div class="info-card quiz-card animate-in">
               <div class="card-status-bar quiz-bar"></div>
               <div class="card-header">
-                <h3 class="card-title">{{ $task->title }}</h3>
+                <div class="card-title-group">
+                  <span class="card-course">{{ $task->course_code }}</span>
+                  <h3 class="card-title">{{ $task->title }}</h3>
+                </div>
                 @php
-                $totalTime =
-                \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::parse($task->deadline));
-                $passedTime = \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::now());
-                $percentage = ($totalTime > 0) ? min(100, max(0, round(($passedTime / $totalTime) * 100))) : 0;
+                $createdAt = \Carbon\Carbon::parse($task->created_at);
+                $deadline = \Carbon\Carbon::parse($task->deadline);
+                $totalSeconds = $createdAt->diffInSeconds($deadline);
+                $passedSeconds = $createdAt->diffInSeconds(now());
+                $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
                 @endphp
                 <span class="card-progress quiz-progress">{{ $percentage }}%</span>
 
@@ -366,12 +374,16 @@
             <div class="info-card presentation-card animate-in">
               <div class="card-status-bar presentation-bar"></div>
               <div class="card-header">
-                <h3 class="card-title">{{ $task->title }}</h3>
+                <div class="card-title-group">
+                  <span class="card-course">{{ $task->course_code }}</span>
+                  <h3 class="card-title">{{ $task->title }}</h3>
+                </div>
                 @php
-                $totalTime =
-                \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::parse($task->deadline));
-                $passedTime = \Carbon\Carbon::parse($task->created_at)->diffInSeconds(\Carbon\Carbon::now());
-                $percentage = ($totalTime > 0) ? min(100, max(0, round(($passedTime / $totalTime) * 100))) : 0;
+                $createdAt = \Carbon\Carbon::parse($task->created_at);
+                $deadline = \Carbon\Carbon::parse($task->deadline);
+                $totalSeconds = $createdAt->diffInSeconds($deadline);
+                $passedSeconds = $createdAt->diffInSeconds(now());
+                $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
                 @endphp
                 <span class="card-progress">{{ $percentage }}%</span>
 
