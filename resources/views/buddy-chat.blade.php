@@ -214,8 +214,9 @@
               <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy AI"
                 style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
             </div>
-            <div>
-              <h1 class="welcome-title">Hi {{ Auth::user()->name ?? 'there' }}! I'm <span>Buddy AI</span> 👋</h1>
+            <div class="welcome-text-wrapper">
+              <h1 class="welcome-title">Hi ! <span>Buddy</span></h1>
+              <div class="welcome-user-name">{{ Auth::user()->name ?? 'there' }}</div>
               <p class="welcome-subtitle">Your intelligent campus assistant. Ask me anything about your schedule, tasks,
                 notes, clubs, or campus life!</p>
             </div>
@@ -643,8 +644,9 @@
         <div class="welcome-avatar">
           <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy AI" style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
         </div>
-        <div>
-          <h1 class="welcome-title">Hi ${userName}! I'm <span>Buddy AI</span> 👋</h1>
+        <div class="welcome-text-wrapper">
+          <h1 class="welcome-title">Hi ! <span>Buddy</span></h1>
+          <div class="welcome-user-name">${userName}</div>
           <p class="welcome-subtitle">Your intelligent campus assistant. Ask me anything about your schedule, tasks, notes, clubs, or campus life!</p>
         </div>
         <div class="quick-prompts" id="quickPrompts">
@@ -685,7 +687,7 @@
 
       /* ─── WELCOME SECTION INITIAL ANIMATION ─────────────── */
       if (welcomeSection) {
-        setTimeout(() => { welcomeSection.style.opacity = '1'; }, 100);
+        setTimeout((=> {eSection.style.opacity = '1'; }, 100);
       }
     });
   </script>
