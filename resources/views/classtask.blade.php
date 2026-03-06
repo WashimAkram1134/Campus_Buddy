@@ -119,7 +119,7 @@
 
           <div class="task-cards-grid">
             @foreach($tasks->where('type', 'assignment') as $task)
-            <div class="info-card assignment-card animate-in">
+            <div id="task-{{ $task->id }}" class="info-card assignment-card animate-in">
               <div class="card-status-bar assignment-bar"></div>
               <div class="card-header">
                 <div class="card-title-group">
@@ -252,7 +252,7 @@
 
           <div class="task-cards-grid">
             @foreach($tasks->where('type', 'quiz') as $task)
-            <div class="info-card quiz-card animate-in">
+            <div id="task-{{ $task->id }}" class="info-card quiz-card animate-in">
               <div class="card-status-bar quiz-bar"></div>
               <div class="card-header">
                 <div class="card-title-group">
@@ -371,7 +371,7 @@
 
           <div class="task-cards-grid">
             @foreach($tasks->where('type', 'presentation') as $task)
-            <div class="info-card presentation-card animate-in">
+            <div id="task-{{ $task->id }}" class="info-card presentation-card animate-in">
               <div class="card-status-bar presentation-bar"></div>
               <div class="card-header">
                 <div class="card-title-group">

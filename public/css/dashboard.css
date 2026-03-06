@@ -396,6 +396,34 @@ body {
     color: #8b5cf6;
 }
 
+/* Card Style Overrides for Priority Task as Class Task Card */
+.card-status-bar {
+    height: 5px;
+    width: 100%;
+}
+
+.assignment-bar {
+    background: linear-gradient(90deg, #ff6b6b, #ff8c00);
+}
+
+.quiz-bar {
+    background: linear-gradient(90deg, #6496ff, #00aaff);
+}
+
+.presentation-bar {
+    background: linear-gradient(90deg, #64c850, #00c896);
+}
+
+.card-progress.quiz-progress {
+    background: rgba(100, 150, 255, 0.1) !important;
+    color: #0066cc !important;
+}
+
+.task-card.stat-card:hover .card-status-bar {
+    height: 8px;
+    transition: height 0.3s ease;
+}
+
 /* --- Card 3: Announcement (Soft Amber) --- */
 .announcement-card {
     background: linear-gradient(to bottom, #ffffff, #fffbeb);

@@ -133,7 +133,9 @@
 
             {{-- 2. PRIORITY TASK CARD (Center) --}}
             @php $urgentTask = $assignments->first(); @endphp
-            <a href="{{ route('classtask') }}" class="stat-card active task-card animate-scale delay-3">
+            <a href="{{ route('classtask') }}{{ $urgentTask ? '#task-'.$urgentTask->id : '' }}"
+              class="stat-card active task-card animate-scale delay-3 {{ $urgentTask ? $urgentTask->type . '-card' : '' }}"
+              style="padding: 0; align-items: stretch; text-align: left;">
               @if($urgentTask)
               @php
               $createdAt = \Carbon\Carbon::parse($urgentTask->created_at);
@@ -141,28 +143,85 @@
               $totalSeconds = $createdAt->diffInSeconds($deadline);
               $passedSeconds = $createdAt->diffInSeconds(now());
               $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
-              @endphp
-              <div class="stat-badge-progress">{{ $percentage }}%</div>
-              @endif
 
-              <div class="stat-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                </svg>
+              $remaining = \Carbon\Carbon::now()->diffInDays($deadline, false);
+              $remaining = round($remaining);
+              @endphp
+
+              <div class="card-header" style="padding: 15px 20px; position: relative;">
+                <div class="card-title-group"
+                  style="display: flex; flex-direction: column; gap: 4px; padding-right: 80px;">
+                  <span class="card-course"
+                    style="font-size: 10px; padding: 2px 6px; background: rgba(0, 170, 255, 0.1); color: #00AAFF; font-weight: 800; border-radius: 4px; width: fit-content;">{{
+                    $urgentTask->course_code }}</span>
+                  <h3 class="card-title" style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0;">{{
+                    Str::limit($urgentTask->title, 25) }}</h3>
+                  <span class="card-progress {{ $urgentTask->type === 'quiz' ? 'quiz-progress' : '' }}"
+                    style="background: #f0eded; color: #666; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; width: fit-content; margin-top: 4px;">{{
+                    $percentage }}%</span>
+                </div>
+
+                <div class="task-type-badge"
+                  style="position: absolute; top: 15px; right: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 50px; background: {{ $urgentTask->type === 'assignment' ? '#ff6b6b' : ($urgentTask->type === 'quiz' ? '#6496ff' : '#64c850') }}; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                  {{ $urgentTask->type }}
+                </div>
               </div>
 
-              @if($urgentTask)
-              <p class="stat-value">{{ Str::limit($urgentTask->title, 14) }}</p>
-              <p class="stat-sub">Due: {{ \Carbon\Carbon::parse($urgentTask->deadline)->format('h:i A, d M') }}</p>
-              @else
-              <p class="stat-value">Done!</p>
-              <p class="stat-sub">All clear for now</p>
+              <div class="card-timeline"
+                style="display: flex; align-items: center; padding: 10px 15px; background: #faf8f5; margin: 0 15px 15px 15px; border-radius: 10px; gap: 8px;">
+                <div class="timeline-item" style="display: flex; align-items: flex-start; gap: 8px; flex: 1;">
+                  <span class="timeline-icon" style="font-size: 14px;">📅</span>
+                  <div>
+                    <p class="timeline-label"
+                      style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase;">Due</p>
+                    <p class="timeline-value" style="font-size: 12px; font-weight: 700;">{{ $deadline->format('d M') }}
+                    </p>
+                  </div>
+                </div>
+                <div class="timeline-divider" style="width: 1px; height: 30px; background: #e0ddd8;"></div>
+                <div class="timeline-item" style="display: flex; align-items: flex-start; gap: 8px; flex: 1;">
+                  <span class="timeline-icon" style="font-size: 14px;">⏰</span>
+                  <div>
+                    <p class="timeline-label"
+                      style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase;">Left</p>
+                    <p class="timeline-value" style="font-size: 12px; font-weight: 700;">
+                      @if($remaining > 0) {{ $remaining }}d @elseif($remaining == 0) <span
+                        style="color:#ef4444;">Today</span> @else <span style="color:#666;">Overdue</span> @endif
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              @if($urgentTask->topic)
+              <div class="card-topic" style="padding: 10px 20px; border-top: 1px solid #f0eded; flex: 1;">
+                <p class="topic-label"
+                  style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">
+                  Topic</p>
+                <p class="topic-value" style="font-size: 13px; font-weight: 600; color: #1a1a1a;">{{
+                  Str::limit($urgentTask->topic, 40) }}</p>
+              </div>
               @endif
-              <p class="stat-label">Priority Task</p>
+
+              <p class="stat-label"
+                style="padding: 10px 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8b5cf6; font-weight: 800; border-top: 1px solid #f0eded; margin: 0;">
+                Priority Task</p>
+              @else
+              <div
+                style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+                <div class="stat-icon" style="margin-bottom: 15px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                  </svg>
+                </div>
+                <p class="stat-value">Done!</p>
+                <p class="stat-sub">All clear for now</p>
+                <p class="stat-label">Priority Task</p>
+              </div>
+              @endif
             </a>
 
             {{-- 3. LATEST ANNOUNCEMENT CARD (Right) --}}
@@ -347,8 +406,8 @@
   </div>
 
   <script>
-ion () {
-   endBtn = document.getElementById('chatSend');
+    ion() {
+      endBtn = document.getElementById('chatSend');
       const chatInput = document.getElementById('chatInput');
       const chatBody = document.getElementById('chatBody');
 
@@ -402,24 +461,23 @@ ion () {
 
       // Close on clicking outside the image
       // Announcement Modal Logic
-      window.openAnnouncementModal = function(title, content, time) {
-        document.getElementById('modalAnnounceTitle').innerText = title;
-        document.getElementById('modalAnnoueConinnerText = content;
+      window.openAnnouncementModal = function (title, content, time) {
+        document.getElementById('modalAnnounceTitle').innerText = title    ument.getElementById('modalAnnoueConinnerText = content;
         document.getElementById('modalAnnounceTime').innerText = 'Posted ' + time;
         document.getElementById('announcementDetailModal').style.display = 'block';
       };
 
-      window.closeAnnouncementModal = function() {
+      window.closeAnnouncementModal = function () {
         document.getElementById('announcementDetailModal').style.display = 'none';
       };
 
       // Close modals on clicking outside
-      window.onclick = function(event) {
+      window.onclick = function (event) {
         if (event.target.classList.contains('modal')) {
           event.target.style.display = "none";
         }
       }
-    })();
+    }) ();
   </script>
 
 </body>
