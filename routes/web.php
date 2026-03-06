@@ -35,6 +35,7 @@ Route::post('/login/guest', function () {
 Route::get('/dashboard', function () {
     $user = auth()->user();
 
+    // 1. Announcements: Filtered by group, latest first
     $announcements = Announcement::where('department', $user->department)
         ->where('batch', $user->batch)
         ->where('section', $user->section)
@@ -50,6 +51,7 @@ Route::get('/dashboard', function () {
             ->latest()
             ->get();
 
+        // 2. Class Tasks: Filtered by group, sorted by URGENCY (deadline ASC)
         $assignments = ClassTask::where('department', $user->department)
             ->where('batch', $user->batch)
             ->where('section', $user->section)
@@ -62,9 +64,10 @@ Route::get('/dashboard', function () {
             }
         }
         )
-            ->latest()
+            ->orderBy('deadline', 'asc') // Most urgent first!
             ->get();
 
+        // 3. Today's Schedule: Filtered by group and day (ascending by time)
         $todaySchedule = Schedule::where('department', $user->department)
             ->where('batch', $user->batch)
             ->where('section', $user->section)
@@ -78,7 +81,7 @@ Route::get('/dashboard', function () {
             }
         }
         )
-            ->orderBy('time_slot')
+            ->orderBy('time_slot', 'asc')
             ->get();
 
         return view('dashboard', compact('announcements', 'assignments', 'todaySchedule'));

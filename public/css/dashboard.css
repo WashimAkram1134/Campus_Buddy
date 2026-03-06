@@ -334,64 +334,192 @@ body {
 .stat-card {
     background: var(--surface);
     border-radius: var(--r-card);
-    padding: 40px 24px;
+    padding: 30px 24px;
     text-align: center;
     box-shadow: var(--shadow-card);
     border: 3px solid transparent;
-    transition: transform .2s ease, box-shadow .2s ease;
+    transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 280px;
     justify-content: center;
     position: relative;
+    text-decoration: none;
+    color: inherit;
 }
 
 .stat-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow: var(--shadow-hover);
 }
 
-/* highlighted middle card like Pic 1 */
-.stat-card.active {
-    border-color: var(--primary);
+/* --- Card 1: Schedule (Soft Blue) --- */
+.schedule-card {
+    background: linear-gradient(to bottom, #ffffff, #f0f9ff);
+    border: 1px solid #e0f2fe;
+}
+
+.schedule-card .stat-icon {
+    background: #e0f2fe;
+}
+
+.schedule-card .stat-icon svg {
+    color: #0ea5e9;
+}
+
+.schedule-card .stat-sub {
+    color: #0ea5e9;
+}
+
+.schedule-card.is-class-now {
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+}
+
+/* --- Card 2: Priority Task (Vibrant Purple Glow) --- */
+.task-card.active {
+    background: linear-gradient(to bottom, #ffffff, #f5f3ff);
+    border: 3px solid #8b5cf6;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+}
+
+.task-card .stat-icon {
+    background: #f5f3ff;
+}
+
+.task-card .stat-icon svg {
+    color: #8b5cf6;
+}
+
+.task-card .stat-sub {
+    color: #8b5cf6;
+}
+
+/* --- Card 3: Announcement (Soft Amber) --- */
+.announcement-card {
+    background: linear-gradient(to bottom, #ffffff, #fffbeb);
+    border: 1px solid #fef3c7;
+}
+
+.announcement-card .stat-icon {
+    background: #fef3c7;
+}
+
+.announcement-card .stat-icon svg {
+    color: #d97706;
+}
+
+.announcement-card .stat-sub {
+    color: #d97706;
+}
+
+/* Announcement mini feed scroll bar */
+.announcement-mini-feed {
+    width: 100%;
+    max-height: 120px;
+    overflow-y: auto;
+    margin: 10px 0;
+    padding: 0 5px;
+}
+
+.announcement-mini-feed::-webkit-scrollbar {
+    width: 4px;
+}
+
+.announcement-mini-feed::-webkit-scrollbar-thumb {
+    background: #fde68a;
+    border-radius: 10px;
+}
+
+.mini-announcement-item {
+    margin-bottom: 12px;
+    position: relative;
+    padding-top: 5px;
+}
+
+.stat-value.mini {
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.stat-sub.mini {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.new-dot {
+    background: #ef4444;
+    color: white;
+    font-size: 9px;
+    font-weight: 900;
+    padding: 2px 5px;
+    border-radius: 4px;
+    position: absolute;
+    top: -5px;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.live-indicator {
+    background: #ef4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 50px;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    animation: pulseRed 2s infinite;
+}
+
+@keyframes pulseRed {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
 }
 
 .stat-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 20px;
-    background: rgba(26, 35, 126, 0.07);
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-}
-
-.stat-icon svg {
-    width: 32px;
-    height: 32px;
-    color: var(--primary-light);
+    margin-bottom: 18px;
 }
 
 .stat-value {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 800;
     color: var(--text-dark);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .stat-sub {
     font-size: 13px;
-    color: var(--accent);
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .stat-label {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-muted);
     font-weight: 500;
+    margin-top: auto;
+    padding-top: 10px;
 }
 
 /* Progress Badge for Stat Cards */
@@ -405,13 +533,13 @@ body {
     border-radius: 50px;
     font-size: 11px;
     font-weight: 800;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.stat-card.active .stat-badge-progress {
-    background: rgba(26, 35, 126, 0.05);
-    color: var(--primary);
+.task-card.active .stat-badge-progress {
+    background: #8b5cf6;
+    color: white;
 }
+
 
 /* ============================================================
    EVENT CARDS (Horizontal Scroll with Overlay Content)

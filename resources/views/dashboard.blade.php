@@ -75,9 +75,38 @@
           </div>
 
           <div class="stat-row">
-            {{-- Card 1: Today's Study Plan --}}
-            @php $firstClass = $todaySchedule->first(); @endphp
-            <div class="stat-card animate-scale delay-2">
+            {{-- 1. SMART SCHEDULE CARD (Left) --}}
+            @php
+            $nextClass = null;
+            $currentClass = null;
+            $currentTime = now();
+
+            foreach($todaySchedule as $class) {
+            // Parse time_slot like "08:30 AM - 09:50 AM" or just "08:30 AM"
+            $parts = explode('-', $class->time_slot);
+            $startTimeStr = trim($parts[0]);
+            $endTimeStr = isset($parts[1]) ? trim($parts[1]) : $startTimeStr;
+
+            try {
+            $startTime = \Carbon\Carbon::createFromFormat('h:i A', $startTimeStr);
+            $endTime = \Carbon\Carbon::createFromFormat('h:i A', $endTimeStr);
+
+            // If it's currently during this class
+            if ($currentTime->between($startTime, $endTime)) {
+            $currentClass = $class;
+            break;
+            }
+            // If this class is in the future
+            if ($startTime->isAfter($currentTime)) {
+            $nextClass = $class;
+            break;
+            }
+            } catch (\Exception $e) { continue; }
+            }
+            @endphp
+
+            <a href="{{ route('routine') }}"
+              class="stat-card schedule-card animate-scale delay-2 {{ $currentClass ? 'is-class-now' : '' }}">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -87,29 +116,35 @@
                   <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
               </div>
-              @if($firstClass)
-              <p class="stat-value">{{ $firstClass->time_slot }}</p>
-              <p class="stat-sub">{{ $firstClass->course_title }} · Room {{ $firstClass->room_no }}</p>
+
+              @if($currentClass)
+              <div class="live-indicator">LIVE</div>
+              <p class="stat-value">{{ Str::limit($currentClass->course_title, 14) }}</p>
+              <p class="stat-sub">Room {{ $currentClass->room_no }} · Class Now</p>
+              @elseif($nextClass)
+              <p class="stat-value">{{ Str::limit($nextClass->course_title, 14) }}</p>
+              <p class="stat-sub">{{ $nextClass->time_slot }} · Room {{ $nextClass->room_no }}</p>
               @else
               <p class="stat-value">No Class</p>
-              <p class="stat-sub">Relax day!</p>
+              <p class="stat-sub">🎉 All classes done for today!</p>
               @endif
-              <p class="stat-label">Today's Study Plan</p>
-            </div>
+              <p class="stat-label">Smart Schedule</p>
+            </a>
 
-            {{-- Card 2: Upcoming Tasks (ACTIVE — thick blue border like Pic 1) --}}
-            @php $latestAssignment = $assignments->first(); @endphp
-            <div class="stat-card active animate-scale delay-3">
-              @if($latestAssignment)
+            {{-- 2. PRIORITY TASK CARD (Center) --}}
+            @php $urgentTask = $assignments->first(); @endphp
+            <a href="{{ route('classtask') }}" class="stat-card active task-card animate-scale delay-3">
+              @if($urgentTask)
               @php
-              $createdAt = \Carbon\Carbon::parse($latestAssignment->created_at);
-              $deadline = \Carbon\Carbon::parse($latestAssignment->deadline);
+              $createdAt = \Carbon\Carbon::parse($urgentTask->created_at);
+              $deadline = \Carbon\Carbon::parse($urgentTask->deadline);
               $totalSeconds = $createdAt->diffInSeconds($deadline);
               $passedSeconds = $createdAt->diffInSeconds(now());
               $percentage = ($totalSeconds > 0) ? min(100, max(0, round(($passedSeconds / $totalSeconds) * 100))) : 0;
               @endphp
               <div class="stat-badge-progress">{{ $percentage }}%</div>
               @endif
+
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -119,30 +154,45 @@
                   <line x1="16" y1="17" x2="8" y2="17"></line>
                 </svg>
               </div>
-              @if($latestAssignment)
-              <p class="stat-value">{{ Str::limit($latestAssignment->title, 15) }}</p>
-              <p class="stat-sub">{{ $latestAssignment->course_code }} · {{
-                \Carbon\Carbon::parse($latestAssignment->deadline)->format('h:i A') }}</p>
-              @else
-              <p class="stat-value">No Tasks</p>
-              <p class="stat-sub">Check later</p>
-              @endif
-              <p class="stat-label">Upcoming Tasks</p>
-            </div>
 
-            {{-- Card 3: Question Bank --}}
-            <div class="stat-card animate-scale delay-4">
+              @if($urgentTask)
+              <p class="stat-value">{{ Str::limit($urgentTask->title, 14) }}</p>
+              <p class="stat-sub">Due: {{ \Carbon\Carbon::parse($urgentTask->deadline)->format('h:i A, d M') }}</p>
+              @else
+              <p class="stat-value">Done!</p>
+              <p class="stat-sub">All clear for now</p>
+              @endif
+              <p class="stat-label">Priority Task</p>
+            </a>
+
+            {{-- 3. LATEST ANNOUNCEMENT CARD (Right) --}}
+            <div class="stat-card announcement-card animate-scale delay-4">
               <div class="stat-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z">
+                  </path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
                   <line x1="12" y1="17" x2="12.01" y2="17"></line>
                 </svg>
               </div>
-              <p class="stat-value">OOP</p>
-              <p class="stat-sub">Fall25 · Mid-term prep</p>
-              <p class="stat-label">Question Bank</p>
+
+              @if($announcements->isNotEmpty())
+              <div class="announcement-mini-feed">
+                @foreach($announcements as $announcement)
+                <div class="mini-announcement-item">
+                  @if($announcement->created_at->diffInHours(now()) <= 2) <span class="new-dot">NEW</span>
+                    @endif
+                    <p class="stat-value mini">{{ Str::limit($announcement->title, 12) }}</p>
+                    <p class="stat-sub mini">{{ $announcement->created_at->diffForHumans() }}</p>
+                </div>
+                @endforeach
+              </div>
+              @else
+              <p class="stat-value">Quiet Day</p>
+              <p class="stat-sub">No recent updates</p>
+              @endif
+              <p class="stat-label">Live Announcements</p>
             </div>
           </div>
 
