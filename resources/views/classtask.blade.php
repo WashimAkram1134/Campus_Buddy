@@ -221,10 +221,10 @@
                   @endif
                 </div>
 
-                <button class="buddy-help-btn">
+                <a href="{{ route('buddy-chat') }}" class="buddy-help-btn">
                   <span class="help-icon">💬</span>
                   <span>Get Help from Buddy</span>
-                </button>
+                </a>
               </div>
             </div>
             @endforeach
@@ -342,10 +342,10 @@
                   @endif
                 </div>
 
-                <button class="buddy-help-btn">
+                <a href="{{ route('buddy-chat') }}" class="buddy-help-btn">
                   <span class="help-icon">💬</span>
                   <span>Get Help from Buddy</span>
-                </button>
+                </a>
               </div>
             </div>
             @endforeach
@@ -461,10 +461,10 @@
                   @endif
                 </div>
 
-                <button class="buddy-help-btn">
+                <a href="{{ route('buddy-chat') }}" class="buddy-help-btn">
                   <span class="help-icon">💬</span>
                   <span>Get Help from Buddy</span>
-                </button>
+                </a>
               </div>
             </div>
             @endforeach
