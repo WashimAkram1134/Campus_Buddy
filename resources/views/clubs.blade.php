@@ -100,7 +100,8 @@
                                     <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
                                     <div class="more">+120</div>
                                 </div>
-                                <button class="join-btn primary pulse-primary">Join Club</button>
+                                <a href="https://www.facebook.com/diucpc.official" target="_blank"
+                                    class="join-btn primary pulse-primary">Join Club</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +132,8 @@
                                     <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
                                     <div class="more">+45</div>
                                 </div>
-                                <button class="join-btn">Join Club</button>
+                                <a href="https://www.facebook.com/groups/201026803255712" target="_blank"
+                                    class="join-btn">Join Club</a>
                             </div>
                         </div>
                     </div>
@@ -162,7 +164,7 @@
                                     <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
                                     <div class="more">+80</div>
                                 </div>
-                                <button class="join-btn">Join Club</button>
+                                <a href="https://www.facebook.com/DIUDC" target="_blank" class="join-btn">Join Club</a>
                             </div>
                         </div>
                     </div>
@@ -194,7 +196,8 @@
                                     <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
                                     <div class="more">+300</div>
                                 </div>
-                                <button class="join-btn">Join Club</button>
+                                <a href="https://www.facebook.com/diusports" target="_blank" class="join-btn">Join
+                                    Club</a>
                             </div>
                         </div>
                     </div>
@@ -225,7 +228,8 @@
                                     <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
                                     <div class="more">+65</div>
                                 </div>
-                                <button class="join-btn">Join Club</button>
+                                <a href="https://www.facebook.com/G.Roboticsacademy" target="_blank"
+                                    class="join-btn">Join Club</a>
                             </div>
                         </div>
                     </div>
@@ -256,7 +260,8 @@
                                     <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
                                     <div class="more">+150</div>
                                 </div>
-                                <button class="join-btn">Join Club</button>
+                                <a href="https://www.facebook.com/groups/245725059429406" target="_blank"
+                                    class="join-btn">Join Club</a>
                             </div>
                         </div>
                     </div>
