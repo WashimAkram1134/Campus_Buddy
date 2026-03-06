@@ -12,6 +12,17 @@
 
 <body>
 
+  <!-- Floating Restore Button (Visible only in Focus Mode) -->
+  <button class="restore-btn" id="restoreBtn" title="Restore sidebars and header">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 3h6v6" />
+      <path d="M9 21H3v-6" />
+      <path d="M21 3l-7 7" />
+      <path d="M3 21l7-7" />
+    </svg>
+  </button>
+
   <!-- ================= MINIMAL HEADER ================= -->
   <header class="buddy-mini-header">
     <a href="{{ route('dashboard') }}" class="buddy-mini-logo">
@@ -160,7 +171,7 @@
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
               </svg>
             </button>
-            <button class="chat-action-btn" title="More options">
+            <button class="chat-action-btn" id="moreOptionsBtn" title="More options">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="5" r="1" />
@@ -168,6 +179,29 @@
                 <circle cx="12" cy="19" r="1" />
               </svg>
             </button>
+
+            <!-- Dropdown Menu -->
+            <div class="chat-options-dropdown" id="optionsDropdown">
+              <button class="chat-option-item" id="focusModeBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                  <path d="M16 3h3a2 2 0 0 1 2 2v3" />
+                  <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
+                  <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                </svg>
+                Focus Mode (Hide all)
+              </button>
+              <div class="chat-option-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Export chat
+              </div>
+            </div>
           </div>
         </div>
 
@@ -339,97 +373,127 @@
   </div><!-- /layout -->
 
   <script>
-    document.addEventListener('DOMContentLoaded',       nction () {
-    onst chatInput = document.getElementById      chatInput');
- const sendBtn = document.getElementByI      'sendBtn');
-      const chatMessages = document.getElementById      chatMessages');
-      const welcomeSection = document.getElementBy      ('welcomeSection');
-      const quickPrompts = document.getEle      ntById('quickPro s');
-      const newChatBtn = document.ge      lementById('newChatBtn');
-      const clearChatBtn = document.      tElementById('c ChatBtn');
-      const scrollBtn = document.g      ElementById('scrollToBottom');
-      const historyItems = document.quer      electorAll('.chat-hist      y-item');
+    document.addEventListener('DOMContentLoaded', function () {
+      const chatInput = document.getElementById('chatInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const chatMessages = document.getElementById('chatMessages');
+      const welcomeSection = document.getElementById('welcomeSection');
+      const quickPrompts = document.getElementById('quickPrompts');
+      const newChatBtn = document.getElementById('newChatBtn');
+      const clearChatBtn = document.getElementById('clearChatBtn');
+      const scrollBtn = document.getElementById('scrollToBottom');
+      const historyItems = document.querySelectorAll('.chat-history-item');
 
-      let m      sageCount = 0;
+      // More Options & Focus Mode Logic
+      const moreOptionsBtn = document.getElementById('moreOptionsBtn');
+      const optionsDropdown = document.getElementById('optionsDropdown');
+      const focusModeBtn = document.getElementById('focusModeBtn');
+      const restoreBtn = document.getElementById('restoreBtn');
+
+      if (moreOptionsBtn && optionsDropdown) {
+        moreOptionsBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          optionsDropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function () {
+          optionsDropdown.classList.remove('show');
+        });
+      }
+
+      if (focusModeBtn) {
+        focusModeBtn.addEventListener('click', function () {
+          document.body.classList.add('focus-mode');
+        });
+      }
+
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', function () {
+          document.body.classList.remove('focus-mode');
+        });
+      }
+
+      let messageCount = 0;
       let isTyping = false;
-      const       erName = "{{ Auth::user()->name ?? 'You' }}";
+      const userName = "{{ Auth::user()->name ?? 'You' }}";
 
-      /* ───       MPLE AI RESPONSES ─────        ────────────          ── */
+      /* ─── SAMPLE AI RESPONSES ───────────────────────────── */
       const smartReplies = {
         schedule: [
-          "📅 Here's your schedule for today:\n\n**9:00 AM** — Data Structures (Lab 201)\n**11:00 AM** — Software Engineering (Room 305)\n**2:00 PM** — Database Systems (Room 102)\n\nYou          3 classes today. Remember to bring your lab notebook! 🎒",
-          "Your classes look good today! Head to Lab 201 first f        ata        uctures at 9am          t forget your assignment submission!"
+          "📅 Here's your schedule for today:\n\n**9:00 AM** — Data Structures (Lab 201)\n**11:00 AM** — Software Engineering (Room 305)\n**2:00 PM** — Database Systems (Room 102)\n\nYou have 3 classes today. Remember to bring your lab notebook! 🎒",
+          "Your classes look good today! Head to Lab 201 first for Data Structures at 9am. Don't forget your assignment submission!"
         ],
         assignment: [
-          "📋 Your upcoming deadlines:\n\n🔴 **Data Structures Assignment** — Due Tomorrow\n🟠 **Software Engineering Report** — Due in 3 days\n🟡 **Database Project** — Due next week\n\nI recommend start          th the DS assignment right away! Want me to help you create a checklist?",
-          "You have 2 urgent tasks! The Data Structures as        men         due tomo           would you like help breaking it down into smaller steps?"
+          "📋 Your upcoming deadlines:\n\n🔴 **Data Structures Assignment** — Due Tomorrow\n🟠 **Software Engineering Report** — Due in 3 days\n🟡 **Database Project** — Due next week\n\nI recommend starting with the DS assignment right away! Want me to help you create a checklist?",
+          "You have 2 urgent tasks! The Data Structures assignment is due tomorrow — would you like help breaking it down into smaller steps?"
         ],
         study: [
-          "📚 Great idea! Here's a personalized study plan:\n\n**Day 1-2:** Review lecture slides & notes\n**Day 3-4:** Practice past exam questions\n**Day 5:** Group study session\n**          ** Mock test\n**Day 7:** Review weak areas\n\nWant me to set reminders for each session?",
-          "I'll help you prepa        Fir        let me kn          ch subjects you're most concerned about, and I'll prioritize accordingly."
+          "📚 Great idea! Here's a personalized study plan:\n\n**Day 1-2:** Review lecture slides & notes\n**Day 3-4:** Practice past exam questions\n**Day 5:** Group study session\n**Day 6:** Mock test\n**Day 7:** Review weak areas\n\nWant me to set reminders for each session?",
+          "I'll help you prepare! First, let me know which subjects you're most concerned about, and I'll prioritize accordingly."
         ],
         clubs: [
-          "🎭 Here are the active clubs on campus:\n\n🤖 **Robotics Club** — Meets every Friday, 5PM\n💻 **Programming Club** — Meets Tuesday & Thursday\n🎨 **Art & Design Society** — Meets Wednesday\n🎵 **Music Club** — Meets Saturday\        o j         visit the           t Affairs office or contact the club president. Want details on any specific club?",
+          "🎭 Here are the active clubs on campus:\n\n🤖 **Robotics Club** — Meets every Friday, 5PM\n💻 **Programming Club** — Meets Tuesday & Thursday\n🎨 **Art & Design Society** — Meets Wednesday\n🎵 **Music Club** — Meets Saturday\n\nTo join, visit the Student Affairs office or contact the club president. Want details on any specific club?",
         ],
         default: [
-          "I'm here to help! 😊           n ask me about your schedule, assignments, notes, clubs, or anything about campus life. What would you like to know?",
-          "That's a great question! Let me help you with that. As y          mpus buddy, I have access to your academic information and campus resources. Could you tell me more about what you need?",
-          "I unde          ! Let me look into that for you. 🔍 In the meantime, feel free to explore the quick prompts on the l        fo      comm       requests.",
-          "Sure! I can         st with that. Campus life can be overwh        ng, but that's what I'm here for. 🤖✨",
+          "I'm here to help! 😊 You can ask me about your schedule, assignments, notes, clubs, or anything about campus life. What would you like to know?",
+          "That's a great question! Let me help you with that. As your campus buddy, I have access to your academic information and campus resources. Could you tell me more about what you need?",
+          "I understand! Let me look into that for you. 🔍 In the meantime, feel free to explore the quick prompts on the left for common requests.",
+          "Sure! I can assist with that. Campus life can be overwhelming, but that's what I'm here for. 🤖✨",
         ]
       };
 
       function getBotReply(userMessage) {
-                  msg = userMessage.toLowerCase();
-        if (msg.includes('schedule') || msg.includes('        s') || msg.includes('today') || msg.includes('timetable'))
-          return smartReplies.schedule[Math.floo          .random() * smartReplies.schedule.length)];
-        if (msg.includes('assignment') || msg.in        es('deadline') || msg.includes('task') || msg.includes('due'))
-          return smartReplies.assignmen          .floor(Math.random() * smartReplies.assignment.length)];
-        if (msg.includes(        dy') || msg.includes('exam') || msg.includes('plan') || msg.includes('prepare'))
-          return smar          es.study[Math.floor(Math.rando        * smartReplies.study.length)];
-        if (msg.includes('club') || msg.includes('activ      ')        msg.includes('join') || msg        ludes('event                  return smartReplies.clubs[0];
-        retu          rtReplies.default[Math.fl      r(M      h.random() * smartReplies.de        t.length)];
+        const msg = userMessage.toLowerCase();
+        if (msg.includes('schedule') || msg.includes('class') || msg.includes('today') || msg.includes('timetable'))
+          return smartReplies.schedule[Math.floor(Math.random() * smartReplies.schedule.length)];
+        if (msg.includes('assignment') || msg.includes('deadline') || msg.includes('task') || msg.includes('due'))
+          return smartReplies.assignment[Math.floor(Math.random() * smartReplies.assignment.length)];
+        if (msg.includes('study') || msg.includes('exam') || msg.includes('plan') || msg.includes('prepare'))
+          return smartReplies.study[Math.floor(Math.random() * smartReplies.study.length)];
+        if (msg.includes('club') || msg.includes('activit') || msg.includes('join') || msg.includes('event'))
+          return smartReplies.clubs[0];
+        return smartReplies.default[Math.floor(Math.random() * smartReplies.default.length)];
       }
 
       function formatText(text) {
         return text
-              .r      lace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .re      ace(/\n/g, '<br>');
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
       }
 
-              tion getCurrentTime() {
-        return new Date().toLocaleTimeString           hour: '2-digit', minute: '2-digit' });
-           
+      function getCurrentTime() {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
 
-      /* ─── HIDE WELCOME & SHOW M          S ─────────────────── */
-      function ensureMe          Visible() {
-        if (welcomeSection && welcomeSec          arentNode === chatM             {
+      /* ─── HIDE WELCOME & SHOW MESSAGES ─────────────────── */
+      function ensureMessagesVisible() {
+        if (welcomeSection && welcomeSection.parentNode === chatMessages) {
           welcomeSection.style.animation = 'none';
-          welcomeSection.style.o           = '0';
-                  we      omeSection.style.transform = 'scale(0.95)';
-          welcom      ection.style.transition = 'all 0.25        se';
-          setTimeout        => {
-                   (welcomeSection.parentNode) welcomeSection.        ntNode.removeChild(welcomeSection);
-              }, 250);
+          welcomeSection.style.opacity = '0';
+          welcomeSection.style.transform = 'scale(0.95)';
+          welcomeSection.style.transition = 'all 0.25s ease';
+          setTimeout(() => {
+            if (welcomeSection.parentNode) welcomeSection.parentNode.removeChild(welcomeSection);
+          }, 250);
         }
       }
 
-           * ─── APPEND USER MESSAGE ───────────────────────────── */
+      /* ─── APPEND USER MESSAGE ───────────────────────────── */
       function appendUserMessage(text) {
         ensureMessagesVisible();
         messageCount++;
         const row = document.createElement('div');
         row.className = 'message-row user-row';
         row.style.animationDelay = '0s';
-            row.innerHTML = `
-      <div         s="msg-avatar user      vat      ">👤</div>
+        row.innerHTML = `
+      <div class="msg-avatar user-avatar">👤</div>
       <div class="msg-content-wrap">
-        <spa      class="msg-sender-name">${userNam        span>
-        <div class="msg-bubble">${for        ext(text)}</div>
-        <span class="m        ime">${getCurrentTime(        span>
+        <span class="msg-sender-name">${userName}</span>
+        <div class="msg-bubble">${formatText(text)}</div>
+        <span class="msg-time">${getCurrentTime()}</span>
       </div>
     `;
-               tMessages.appendChild(row);
+        chatMessages.appendChild(row);
         scrollToBottom();
       }
 
@@ -439,116 +503,124 @@
         row.className = 'message-row bot-row';
         row.id = 'typingRow';
         row.style.animationDelay = '0s';
-        row.innerHT         `
-      <div class="msg-avatar        -avatar">🤖</div>
-               div class="msg-content-wrap">
-        <span class="msg-sende      name">Buddy AI</span>
-        <div class="typing-ind        or">
+        row.innerHTML = `
+      <div class="msg-avatar bot-avatar">🤖</div>
+      <div class="msg-content-wrap">
+        <span class="msg-sender-name">Buddy AI</span>
+        <div class="typing-indicator">
           <div class="typing-dot"></div>
-                   class="typing-dot"></div>
-                 v class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
         </div>
-          </div>
+      </div>
     `;
-        chatMessages.ap        Child(row);
-        scrollToBottom              }
+        chatMessages.appendChild(row);
+        scrollToBottom();
+      }
 
-      /* ──        PEND BOT MESSAGE ─────────────          ─────────── */
+      /* ─── APPEND BOT MESSAGE ────────────────────────────── */
       function appendBotMessage(text, suggestions = []) {
         const typingRow = document.getElementById('typingRow');
         if (typingRow) typingRow.remove();
 
-            co        row = document.createElement('div');
+        const row = document.createElement('div');
         row.className = 'message-row bot-row';
         row.style.animationDelay = '0s';
 
         let pillsHTML = '';
         if (suggestions.length > 0) {
           pillsHTML = `<div class="suggestion-pills">
-        ${suggestions.map(s => `<button class="suggestion-pill" onclic        endQuickMessage('${s}')">${s}</        on>`).join('')}
-          </div>`;
-        }                  row.innerHTML = `
-      <div class="msg-avatar bot-avatar      🤖</div>
-      <div class="ms        ntent-wrap">
-               an class="msg-sender-name">Buddy        /span>
-        <d        lass="msg-bubble">${fo        Text(text)}</div>
-        ${pillsH        
-        <span class="msg-        ">${getCurrentTime()}</span>
+        ${suggestions.map(s => `<button class="suggestion-pill" onclick="sendQuickMessage('${s}')">${s}</button>`).join('')}
+      </div>`;
+        }
+        row.innerHTML = `
+      <div class="msg-avatar bot-avatar">🤖</div>
+      <div class="msg-content-wrap">
+        <span class="msg-sender-name">Buddy AI</span>
+        <div class="msg-bubble">${formatText(text)}</div>
+        ${pillsHTML}
+        <span class="msg-time">${getCurrentTime()}</span>
       </div>
-    `              chatMessages.appendChild(row);
-             crollToBottom();
-        isTyping         lse;
+    `;
+        chatMessages.appendChild(row);
+        scrollToBottom();
+        isTyping = false;
       }
 
-      /* ─── SEND MESSAGE        IC ────────────────────────────── */
+      /* ─── SEND MESSAGE LOGIC ────────────────────────────── */
       function sendMessage(text) {
         text = text.trim();
-        if        ext || isTyping) return;
+        if (!text || isTyping) return;
 
         isTyping = true;
         chatInput.value = '';
-            chatInput.style.height = 'auto';
+        chatInput.style.height = 'auto';
 
-        appendUserMessage      ext      
-
+        appendUserMessage(text);
         setTimeout(() => showTypingIndicator(), 300);
 
-            const delay = 1000 + Math.random() * 8                const reply = ge          ply(text);
+        const delay = 1000 + Math.random() * 800;
+        const reply = getBotReply(text);
 
-        // Pick 2 su          ons based on context
-        const allSu        tion      = [      ore details', 'What else?', 'Show my tasks', 'Today\'s sched      e', 'Help me study'];
-        const suggestions = allS        stions.sort(() => 0.5 - Math.random()).slice(0, 2);
+        const allSuggestions = ['More details', 'What else?', 'Show my tasks', 'Today\'s schedule', 'Help me study'];
+        const suggestions = allSuggestions.sort(() => 0.5 - Math.random()).slice(0, 2);
 
-        setTimeout(() => appendBotMessage(reply, sug        ions), delay);
+        setTimeout(() => appendBotMessage(reply, suggestions), delay);
       }
 
-      /* ─── SCROLL TO BOTTOM ──────────────────      ─────      ───── */
+      /* ─── SCROLL TO BOTTOM ──────────────────────────────── */
       function scrollToBottom(smooth = true) {
-            chatMessages.scrollTo({
-          top: chatMessages.scrollHe      ht,
-          behavior: smooth ? 'smooth' : 'ins        '
+        chatMessages.scrollTo({
+          top: chatMessages.scrollHeight,
+          behavior: smooth ? 'smooth' : 'instant'
         });
       }
 
-      /      ─── S      OLL BTN VISIBILITY ─────────────────────────── */
-      chat      ssages.addEventListener('scroll', function () {
-             onst nearBottom = chatMessages.scrollHei          chatMessages.scrollT          hatMessages.clientHeight < 100                  scr      lBtn.classList.toggle('visible', !nearBottom && messageCount       0);
+      /* ─── SCROLL BTN VISIBILITY ─────────────────────────── */
+      chatMessages.addEventListener('scroll', function () {
+        const nearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 100;
+        scrollBtn.classList.toggle('visible', !nearBottom && messageCount > 0);
+      });
+      scrollBtn.addEventListener('click', () => scrollToBottom());
+
+      /* ─── SEND ON BUTTON CLICK ──────────────────────────── */
+      sendBtn.addEventListener('click', function () {
+        sendMessage(chatInput.value);
       });
 
-      scrollBtn.addEventListener('        k', () => scrollToBottom());            /* ─── SEND ON BUTTON CLICK ────────────────────────────       
-          sendBtn.addEventListener('click', function () {
-        send      ssage(chatInput.valu              });
-
-      /* ─── SEND ON ENTER (SHIFT+ENTER = N          ) ─────────── */
-      chatInput.addEventListener('ke          , function (                 if (e.key === 'Enter' && !e.shi            
-          e.preventDefaul                   sendMessage(ch          t.        e);
-                }
+      /* ─── SEND ON ENTER (SHIFT+ENTER = NEWLINE) ─────────── */
+      chatInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage(chatInput.value);
+        }
       });
 
-      /* ─── AUTO-RESIZE TEXTAREA ────────────      ────────────── */
-      chatInput. addEventL        ner('input', function ()               this.style.h      ght       'auto';
-        this.style.height = Math.min(this.scrollHeig      , 120) + 'px';
+      /* ─── AUTO-RESIZE TEXTAREA ──────────────────────────── */
+      chatInput.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
       });
 
-      /* ─── QUICK PROMPT        PS ──────────      ─────      ─────────── */
+      /* ─── QUICK PROMPT CHIPS ────────────────────────────── */
       if (quickPrompts) {
-        quic        mpts.addEventListener('click', function (e) {
-          const c          e.target.clos        '.      ick-p      mpt-chip');
-          i        hip) {
-            const pr         = chip.dataset.prompt;
+        quickPrompts.addEventListener('click', function (e) {
+          const chip = e.target.closest('.quick-prompt-chip');
+          if (chip) {
+            const prompt = chip.dataset.prompt;
             chatInput.value = prompt;
-            sen        sage(prompt);
+            sendMessage(prompt);
           }
-              ;
+        });
       }
 
-      /* ─── GLOBAL FUNCTION         inline onclick ────────────── */
-      window.sendQuic          ge = function (text) {
-        chatInput.value           ;
+      /* ─── GLOBAL FUNCTION for inline onclick ────────────── */
+      window.sendQuickMessage = function (text) {
+        chatInput.value = text;
         sendMessage(text);
-            
+      };
 
-      /* ─── NEW CHAT BUTTON ────────          ─────────────────── */
+      /* ─── NEW CHAT BUTTON ───────────────────────────────── */
       newChatBtn.addEventListener('click', function () {
         resetChat();
       });
@@ -560,17 +632,17 @@
       });
 
       function resetChat() {
-        // Remove all message rows
         const rows = chatMessages.querySelectorAll('.message-row, .date-separator');
         rows.forEach(r => r.remove());
 
-        // Re-insert welcome section if removed
         if (!chatMessages.querySelector('#welcomeSection')) {
           const welcome = document.createElement('div');
           welcome.id = 'welcomeSection';
           welcome.className = 'welcome-section';
           welcome.innerHTML = `
-        <div class="welcome-avatar">🤖</div>
+        <div class="welcome-avatar">
+          <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy AI" style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+        </div>
         <div>
           <h1 class="welcome-title">Hi ${userName}! I'm <span>Buddy AI</span> 👋</h1>
           <p class="welcome-subtitle">Your intelligent campus assistant. Ask me anything about your schedule, tasks, notes, clubs, or campus life!</p>
@@ -580,28 +652,25 @@
             <span class="chip-icon">📅</span><span class="chip-title">Today's Schedule</span><span class="chip-desc">Check your classes and time slots for today</span>
           </button>
           <button class="quick-prompt-chip" data-prompt="What are my upcoming deadlines and assignments?">
-            <span           "chip-icon">📋</span><span class="chip-title">Upcoming Deadlines</span><span cla            -desc">View tasks due soon and prioritize</span>
-                button>
-          <button class="quick-promp          " da          mpt="Help me create a study plan fo          xams">
-            <span          ="chip-icon">📚</span><span class="chip-title">Study Pla        pan        an class="chip-des        et a personalized          prep strategy</span>
-          </button                <button class="quick-pr        -chip" data-prompt="Tell me about the clubs and activitie      on       mpus">
-            <span class="chip-icon">🎭</span><span c      ss="chip-title">Campus Clubs</s        <span class="chip-desc">Explore clubs, events,          ctivities</span>
-              </button>
+            <span class="chip-icon">📋</span><span class="chip-title">Upcoming Deadlines</span><span class="chip-desc">View tasks due soon and prioritize</span>
+          </button>
+          <button class="quick-prompt-chip" data-prompt="Help me create a study plan for my exams">
+            <span class="chip-icon">📚</span><span class="chip-title">Study Plan</span><span class="chip-desc">Get a personalized exam prep strategy</span>
+          </button>
+          <button class="quick-prompt-chip" data-prompt="Tell me about the clubs and activities on campus">
+            <span class="chip-icon">🎭</span><span class="chip-title">Campus Clubs</span><span class="chip-desc">Explore clubs, events, and activities</span>
+          </button>
         </div>`;
-          welcome.querySelect          uickPrompts').addEventListener        ick'      funct      n (e) {
-            const chip = e.target.closest('.quick-pr      pt-chip');
-                   (chip) sendMessage(chip.dataset.prompt);
+          welcome.querySelector('#quickPrompts').addEventListener('click', function (e) {
+            const chip = e.target.closest('.quick-prompt-chip');
+            if (chip) sendMessage(chip.dataset.prompt);
           });
-               ha    tMessagedChild(welcome);
-          // Re-trigger animation
+          chatMessages.appendChild(welcome);
           setTimeout(() => { welcome.style.opacity = '1'; }, 10);
         }
-
         messageCount = 0;
         isTyping = false;
         scrollBtn.classList.remove('visible');
-
-        // Update sidebar active state
         historyItems.forEach(i => i.classList.remove('active'));
       }
 
