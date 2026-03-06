@@ -16,12 +16,14 @@ class ClassTaskController extends Controller
             ->where('section', $user->section)
             ->where(function ($query) use ($user) {
             if ($user->major) {
-                $query->where('major', $user->major)->orWhereNull('major');
-            }
+                $query->where('major', $user->major)
+                    ->orWhereNull('major');
+                    ->orWhere('major', '');
+       }
             else {
-                $query->whereNull('major');
-            }
-        })
+            $query->whereNull('major');
+        }
+    })
             ->orderBy('deadline', 'asc')
             ->get();
 
@@ -30,8 +32,8 @@ class ClassTaskController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->role !== 'cr') {
-            return back()->with('error', 'Only CR can add tasks.');
+        if (!in_array(auth()->user()->role, ['cr', 'admin'])) {
+            return back()->with('error', 'Only CR or Admin can add tasks.');
         }
 
         $request->validate([

@@ -9,8 +9,8 @@ class AnnouncementController extends Controller
 {
     public function store(Request $request)
     {
-        if (auth()->user()->role !== 'cr') {
-            return back()->with('error', 'Only CR can add announcements.');
+        if (!in_array(auth()->user()->role, ['cr', 'admin'])) {
+            return back()->with('error', 'Only CR or Admin can add announcements.');
         }
 
         $request->validate([

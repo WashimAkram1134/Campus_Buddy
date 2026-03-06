@@ -41,7 +41,10 @@ Route::get('/dashboard', function () {
         ->where('section', $user->section)
         ->where(function ($query) use ($user) {
             if ($user->major) {
-                $query->where('major', $user->major);
+                // Show if major matches OR if it's a general announcement
+                $query->where('major', $user->major)
+                    ->orWhereNull('major')
+                    ->orWhere('major', '');
             }
             else {
                 $query->whereNull('major')->orWhere('major', '');
@@ -57,7 +60,9 @@ Route::get('/dashboard', function () {
             ->where('section', $user->section)
             ->where(function ($query) use ($user) {
             if ($user->major) {
-                $query->where('major', $user->major);
+                $query->where('major', $user->major)
+                    ->orWhereNull('major')
+                    ->orWhere('major', '');
             }
             else {
                 $query->whereNull('major')->orWhere('major', '');
@@ -74,7 +79,9 @@ Route::get('/dashboard', function () {
             ->where('day', now()->format('l'))
             ->where(function ($query) use ($user) {
             if ($user->major) {
-                $query->where('major', $user->major);
+                $query->where('major', $user->major)
+                    ->orWhereNull('major')
+                    ->orWhere('major', '');
             }
             else {
                 $query->whereNull('major')->orWhere('major', '');

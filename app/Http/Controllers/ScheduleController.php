@@ -30,9 +30,9 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
-        // Only CR can add schedules
-        if (auth()->user()->role !== 'cr') {
-            return back()->with('error', 'Only CR can add schedules.');
+        // Only CR or Admin can add schedules
+        if (!in_array(auth()->user()->role, ['cr', 'admin'])) {
+            return back()->with('error', 'Only CR or Admin can manage schedules.');
         }
 
         $request->validate([

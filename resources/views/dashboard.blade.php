@@ -196,39 +196,6 @@
             </div>
           </div>
 
-          {{-- Section: Announcements (Filtered by group) --}}
-          @if($announcements->isNotEmpty())
-          <div class="section-head">
-            <h2 class="section-title">Class Announcements</h2>
-          </div>
-          <div class="event-scroll-container">
-            @foreach($announcements as $announcement)
-            <div class="event-card-scroll">
-              <div class="event-card-overlay"
-                style="opacity: 1; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.8));">
-                <div class="event-card-date">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                  {{ $announcement->created_at->format('F j, Y') }}
-                </div>
-                <h4 class="event-card-title">{{ $announcement->title }}</h4>
-                <p class="event-card-desc">{{ Str::limit($announcement->content, 80) }}</p>
-                <span class="event-card-btn">
-                  Read More
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            @endforeach
-          </div>
-          @endif
-
           {{-- Section: Recent Events (Global) --}}
           <div class="section-head">
             <h2 class="section-title">Recent Events</h2>
@@ -359,7 +326,7 @@
 
   <script>
     (function () {
-      const sendBtn = document.getElementById('chatSend');
+   endBtn = document.getElementById('chatSend');
       const chatInput = document.getElementById('chatInput');
       const chatBody = document.getElementById('chatBody');
 
