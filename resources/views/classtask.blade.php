@@ -531,6 +531,35 @@
     document.querySelectorAll('.task-section, .section-header-wrapper, .task-card, .info-card').forEach(el => {
       observer.observe(el);
     });
+
+    // Deep-linking Highlight Logic
+    window.addEventListener('load', () => {
+      if (window.location.hash) {
+        const targetId = window.location.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+
+        if (targetElement) {
+          // Ensure the section is visible if it was hidden by initial filters
+          const section = targetElement.closest('.task-section');
+          if (section) {
+            section.style.display = 'block';
+            section.style.opacity = '1';
+            section.style.transform = 'translateY(0)';
+          }
+
+          // Trigger highlight animation
+          setTimeout(() => {
+            targetElement.classList.add('highlight-task');
+            targetElement.classList.add('animate-in'); // Ensure it's fully visible
+
+            // Remove highlight after a while
+            setTimeout(() => {
+              targetElement.classList.remove('highlight-task');
+            }, 6000);
+          }, 500);
+        }
+      }
+    });
   </script>
 
   <!-- Edit Task Modal -->
