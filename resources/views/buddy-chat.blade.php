@@ -161,7 +161,7 @@
                 <path d="M9 6V4h6v2" />
               </svg>
             </button>
-            <button class="chat-action-btn" title="Share conversation">
+            <button class="chat-action-btn" id="shareBtn" title="Share conversation">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3" />
@@ -171,6 +171,7 @@
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
               </svg>
             </button>
+
             <button class="chat-action-btn" id="moreOptionsBtn" title="More options">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -210,16 +211,16 @@
 
           <!-- Welcome / Empty State shown when no messages -->
           <div class="welcome-section" id="welcomeSection">
-            <div class="welcome-avatar">
-              <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy AI"
-                style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+            <div class="welcome-avatar" id="mainBuddyAvatar">
+              <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy AI">
+              <div class="avatar-pulse-ring"></div>
             </div>
-            <div class="welcome-text-wrapper">
-              <h1 class="welcome-title">Hi ! <span>Buddy</span></h1>
-              <div class="welcome-user-name">{{ Auth::user()->name ?? 'there' }}</div>
+            <div>
+              <h1 class="welcome-title">Hi ! Buddy<br><span>{{ Auth::user()->name ?? 'Student' }}</span></h1>
               <p class="welcome-subtitle">Your intelligent campus assistant. Ask me anything about your schedule, tasks,
                 notes, clubs, or campus life!</p>
             </div>
+
 
             <div class="quick-prompts" id="quickPrompts">
               <button class="quick-prompt-chip" data-prompt="What classes do I have today?">
@@ -632,6 +633,26 @@
         }
       });
 
+      // Share Logic
+      const shareBtn = document.getElementById('shareBtn');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', function () {
+          const url = window.location.href;
+          navigator.clipboard.writeText(url).then(() => {
+            const originalHTML = shareBtn.innerHTML;
+            shareBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            shareBtn.style.color = '#22c55e';
+            shareBtn.title = 'Link copied!';
+            setTimeout(() => {
+              shareBtn.innerHTML = originalHTML;
+              shareBtn.style.color = '';
+              shareBtn.title = 'Share conversation';
+            }, 2000);
+          });
+        });
+      }
+
+
       function resetChat() {
         const rows = chatMessages.querySelectorAll('.message-row, .date-separator');
         rows.forEach(r => r.remove());
@@ -687,11 +708,9 @@
 
       /* ─── WELCOME SECTION INITIAL ANIMATION ─────────────── */
       if (welcomeSection) {
-        setTimeout((=> {eSection.style.opacity = '1'; }, 100);
+        setTimeout(() => { welcomeSection.style.opacity = '1'; }, 100);
       }
     });
   </script>
 
 </body>
-
-</html>

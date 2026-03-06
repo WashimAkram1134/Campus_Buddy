@@ -630,6 +630,18 @@ body {
     min-height: 100%;
 }
 
+@keyframes floatBuddy {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-12px) rotate(2deg);
+    }
+}
+
 .welcome-avatar {
     width: 100px;
     height: 100px;
@@ -638,35 +650,45 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 38px;
-    box-shadow: 0 8px 32px rgba(0, 170, 255, 0.25);
+    font-size: 44px;
+    box-shadow: 0 12px 40px rgba(0, 170, 255, 0.3);
     animation: floatBuddy 3s ease-in-out infinite;
-    position: relative;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 3px solid #fff;
+    position: relative;
+    border: 4px solid #fff;
+    z-index: 5;
 }
 
-.welcome-avatar::before,
-.welcome-avatar::after {
-    content: '';
+.avatar-pulse-ring {
     position: absolute;
-    inset: -4px;
-    border: 2px solid var(--primary);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
     border-radius: 50%;
-    animation: avatarPulse 2.5s linear infinite;
-    opacity: 0;
-    pointer-events: none;
+    background: rgba(0, 170, 255, 0.2);
+    animation: doubleRingPulse 2s infinite;
+    z-index: -1;
 }
 
-.welcome-avatar::after {
-    animation-delay: 1.25s;
+@keyframes doubleRingPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
 }
 
-@keyframes avatarPulse {
+@keyframes pulseRed {
     0% {
         transform: scale(1);
-        opacity: 0.6;
+        opacity: 1;
     }
 
     100% {
@@ -675,12 +697,30 @@ body {
     }
 }
 
+.pulse-red {
+    animation: pulseRedIcon 1s infinite alternate;
+}
+
+@keyframes pulseRedIcon {
+    from {
+        color: #ef4444;
+    }
+
+    to {
+        color: #ff8a80;
+    }
+}
+
 .welcome-avatar:hover {
-    transform: scale(1.15) rotate(8deg);
-    box-shadow: 0 15px 45px rgba(0, 170, 255, 0.4);
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 15px 50px rgba(0, 170, 255, 0.5);
 }
 
 .welcome-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
     transition: transform 0.3s ease;
 }
 
@@ -688,56 +728,34 @@ body {
     transform: scale(1.1);
 }
 
-@keyframes floatBuddy {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.welcome-text-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
 
 .welcome-title {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 800;
-    color: var(--text-dark);
+    color: var(--primary);
     letter-spacing: -1px;
-    margin: 0;
+    line-height: 1.2;
 }
 
 .welcome-title span {
+    display: block;
+    margin-top: 4px;
+    font-size: 42px;
     background: linear-gradient(135deg, var(--primary), var(--accent));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    position: relative;
-}
-
-.welcome-user-name {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-top: -5px;
-    opacity: 0.9;
+    text-shadow: 0 10px 20px rgba(0, 170, 255, 0.1);
 }
 
 .welcome-subtitle {
     font-size: 15px;
     color: var(--text-muted);
     max-width: 480px;
-    line-height: 1.6;
+    line-height: 1.7;
     margin-top: 5px;
 }
+
 
 /* Quick Prompt Chips */
 .quick-prompts {
@@ -751,26 +769,33 @@ body {
 .quick-prompt-chip {
     background: var(--surface);
     border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 18px 16px;
+    border-radius: 18px;
+    padding: 20px 18px;
     cursor: pointer;
     text-align: left;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    box-shadow: var(--shadow-card);
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(26, 35, 126, 0.05);
 }
 
 .quick-prompt-chip:hover {
     border-color: var(--accent);
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 170, 255, 0.15);
+    transform: translateY(-5px) scale(1.02);
+    background: linear-gradient(to bottom right, var(--surface), var(--accent-glow));
 }
 
 .chip-icon {
-    font-size: 22px;
+    font-size: 24px;
+    transition: transform 0.3s ease;
 }
+
+.quick-prompt-chip:hover .chip-icon {
+    transform: scale(1.2) rotate(-5deg);
+}
+
 
 .chip-title {
     font-size: 13px;
@@ -989,15 +1014,17 @@ body {
     align-items: flex-start;
     gap: 10px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     margin-bottom: 8px;
 }
 
 .capability-card:hover {
     border-color: var(--accent);
     background: var(--accent-glow);
-    transform: translateX(3px);
+    transform: scale(1.03) translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.1);
 }
+
 
 .cap-icon {
     width: 34px;
