@@ -180,10 +180,12 @@
               @if($announcements->isNotEmpty())
               <div class="announcement-mini-feed">
                 @foreach($announcements as $announcement)
-                <div class="mini-announcement-item">
+                <div class="mini-announcement-item"
+                  onclick="openAnnouncementModal('{{ addslashes($announcement->title) }}', '{{ addslashes($announcement->content) }}', '{{ $announcement->created_at->diffForHumans() }}')">
                   @if($announcement->created_at->diffInHours(now()) <= 2) <span class="new-dot">NEW</span>
                     @endif
-                    <p class="stat-value mini">{{ Str::limit($announcement->title, 12) }}</p>
+                    <h4 class="stat-value mini">{{ Str::limit($announcement->title, 25) }}</h4>
+                    <p class="announcement-snippet">{{ Str::limit($announcement->content, 60) }}</p>
                     <p class="stat-sub mini">{{ $announcement->created_at->diffForHumans() }}</p>
                 </div>
                 @endforeach
@@ -318,6 +320,26 @@
     }
   </style>
 
+  <!-- ANNOUNCEMENT DETAIL MODAL -->
+  <div id="announcementDetailModal" class="modal announcement-modal-custom">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalAnnounceTitle">Announcement Details</h2>
+        <span class="close" onclick="closeAnnouncementModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="announce-meta-top">
+          <span class="announce-badge">LATEST UPDATE</span>
+          <span id="modalAnnounceTime" class="announce-time"></span>
+        </div>
+        <p id="modalAnnounceContent" class="announce-full-text"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="submit-btn" onclick="closeAnnouncementModal()">Got it</button>
+      </div>
+    </div>
+  </div>
+
   <!-- FULL SCREEN IMAGE VIEWER -->
   <div class="image-viewer" id="imageViewer">
     <span class="close-btn" id="closeViewer">&times;</span>
@@ -325,7 +347,7 @@
   </div>
 
   <script>
-    (function () {
+ion () {
    endBtn = document.getElementById('chatSend');
       const chatInput = document.getElementById('chatInput');
       const chatBody = document.getElementById('chatBody');
@@ -379,14 +401,25 @@
       }
 
       // Close on clicking outside the image
-      if (viewer) {
-        viewer.addEventListener('click', function (e) {
-          if (e.target === viewer) {
-            viewer.classList.remove('show');
-          }
-        });
+      // Announcement Modal Logic
+      window.openAnnouncementModal = function(title, content, time) {
+        document.getElementById('modalAnnounceTitle').innerText = title;
+        document.getElementById('modalAnnoueConinnerText = content;
+        document.getElementById('modalAnnounceTime').innerText = 'Posted ' + time;
+        document.getElementById('announcementDetailModal').style.display = 'block';
+      };
+
+      window.closeAnnouncementModal = function() {
+        document.getElementById('announcementDetailModal').style.display = 'none';
+      };
+
+      // Close modals on clicking outside
+      window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+          event.target.style.display = "none";
+        }
       }
-   ) ();
+    })();
   </script>
 
 </body>

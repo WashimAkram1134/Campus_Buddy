@@ -17,13 +17,13 @@ class ClassTaskController extends Controller
             ->where(function ($query) use ($user) {
             if ($user->major) {
                 $query->where('major', $user->major)
-                    ->orWhereNull('major');
+                    ->orWhereNull('major')
                     ->orWhere('major', '');
-       }
+            }
             else {
-            $query->whereNull('major');
-        }
-    })
+                $query->whereNull('major')->orWhere('major', '');
+            }
+        })
             ->orderBy('deadline', 'asc')
             ->get();
 
