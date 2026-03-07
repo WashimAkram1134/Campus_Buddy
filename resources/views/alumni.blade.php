@@ -20,8 +20,16 @@
         <main class="main">
             <!-- ================= HERO SECTION ================= -->
             <section class="hero-banner reveal active">
-                <div class="hero-content-wrapper">
+                {{-- Decorative dots matching dashboard --}}
+                <div class="hero-deco hero-deco-1"></div>
+                <div class="hero-deco hero-deco-2"></div>
+                <div class="hero-deco hero-deco-3"></div>
+                <div class="hero-deco hero-deco-4"></div>
+                <div class="hero-overlay"></div>
+
+                <div class="hero-content-wrapper hero-text animate-up">
                     <div class="hero-left">
+                        <span class="hero-date">{{ now()->format('F j, Y') }}</span>
                         <span class="hero-tag animate-item up stagger-1">Start your bright career</span>
                         <h1 class="animate-item up stagger-2">Now learning from anywhere, and build your <span>bright
                                 career.</span></h1>
@@ -109,6 +117,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -154,6 +163,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -204,6 +214,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -248,6 +259,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -292,6 +304,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -338,6 +351,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -383,6 +397,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -427,6 +442,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -472,6 +488,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>5.0</span>
                             <div class="stars">
@@ -519,6 +536,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>4.0</span>
                             <div class="stars">
@@ -558,6 +576,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>4.9</span>
                             <div class="stars">
@@ -597,6 +616,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>4.8</span>
                             <div class="stars">
@@ -636,6 +656,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
+                        <a href="#" class="connect-btn">Connect</a>
                         <div class="rating">
                             <span>4.2</span>
                             <div class="stars">
