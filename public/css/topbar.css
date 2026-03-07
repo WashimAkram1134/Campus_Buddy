@@ -100,6 +100,76 @@
     transform: translateY(-1px);
 }
 
+/* ================= MORE DROPDOWN ================= */
+.nav-more {
+    position: relative;
+    display: inline-block;
+}
+
+.more-btn {
+    background: transparent;
+    border: none;
+    color: #555;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.more-btn:hover {
+    background: rgba(0, 170, 255, 0.08);
+    color: #00aaff;
+}
+
+.more-dropdown-content {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 180px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #edf2f7;
+    padding: 8px;
+    display: none;
+    z-index: 1001;
+    animation: dropdownFade 0.2s ease-out;
+}
+
+.nav-more:hover .more-dropdown-content {
+    display: block;
+}
+
+.more-dropdown-content a {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    background: transparent !important;
+    /* Override desktop-nav a styles */
+    transform: none !important;
+}
+
+.more-dropdown-content a:hover {
+    background: rgba(0, 170, 255, 0.08) !important;
+    color: #00aaff;
+}
+
+.more-dropdown-content a::after {
+    display: none !important;
+    /* Hide underline in dropdown */
+}
+
 .desktop-nav a:active {
     transform: translateY(0px) scale(0.97);
 }
@@ -163,6 +233,40 @@
 }
 
 .admin-panel-btn:active {
+    transform: translateY(0);
+}
+
+/* ================= CR PORTAL BUTTON ================= */
+.cr-portal-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #00AAFF, #0088cc);
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 10px rgba(0, 170, 255, 0.35);
+}
+
+.cr-portal-btn svg {
+    flex-shrink: 0;
+    stroke: #ffffff;
+}
+
+.cr-portal-btn:hover {
+    background: linear-gradient(135deg, #0088cc, #0066aa);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 170, 255, 0.45);
+    color: #ffffff !important;
+}
+
+.cr-portal-btn:active {
     transform: translateY(0);
 }
 
