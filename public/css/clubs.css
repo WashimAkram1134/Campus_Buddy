@@ -58,12 +58,13 @@
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    min-height: 400px;
+    min-height: 520px;
     background: linear-gradient(135deg, #eef9ff 0%, #f0faf7 100%);
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding: 60px 0;
+    padding: 0 10%;
+    margin-bottom: 40px;
 }
 
 .clubs-hero-bg {
@@ -77,10 +78,7 @@
 }
 
 .clubs-hero-container {
-    max-width: 1400px;
-    margin: 0 auto;
     width: 100%;
-    padding: 0 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
