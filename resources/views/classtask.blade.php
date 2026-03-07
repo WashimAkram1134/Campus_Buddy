@@ -25,10 +25,13 @@
         <div class="hero-overlay-dark"></div>
 
         <div class="hero-content-wrapper">
-          <div class="hero-left-circle"></div>
-          <div class="hero-right-circle"></div>
+          <div class="hero-deco hero-deco-1"></div>
+          <div class="hero-deco hero-deco-2"></div>
+          <div class="hero-deco hero-deco-3"></div>
+          <div class="hero-deco hero-deco-4"></div>
 
           <div class="hero-inner">
+            <span class="hero-date">{{ now()->format('F j, Y') }}</span>
             <span class="hero-tag">TRACK YOUR PROGRESS</span>
             <h1 class="hero-title">
               <span class="title-main">Class</span>

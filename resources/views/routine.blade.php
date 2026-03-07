@@ -74,14 +74,16 @@
         <div class="routine-hero-overlay"></div>
 
         <div class="routine-hero-content">
+          <span class="hero-date">{{ now()->format('F j, Y') }}</span>
           <span class="routine-hero-tag">STAY ON TRACK</span>
           <h1>Your Class <span>Routine</span></h1>
           <p class="routine-hero-subtitle">Organize your academic life with your personalized weekly schedule.</p>
         </div>
 
-        <div class="shape shape-1"></div>
-        <div class="shape shape-2"></div>
-        <div class="shape shape-3"></div>
+        <div class="hero-deco hero-deco-1"></div>
+        <div class="hero-deco hero-deco-2"></div>
+        <div class="hero-deco hero-deco-3"></div>
+        <div class="hero-deco hero-deco-4"></div>
       </section>
 
       <!-- ================= MAIN LAYOUT ================= -->
