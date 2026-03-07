@@ -58,6 +58,9 @@ $currentRoute = Route::currentRouteName() ?? '';
       Admin Panel
     </a>
     @endif
+    <a href="{{ route('buddy-chat') }}" class="buddy-topbar-icon" title="Chat with Buddy AI">
+      <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy AI">
+    </a>
     <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
     <img src="{{ asset('images/topbaricons/settings.png') }}" alt="Settings" class="top-icon"
       onclick="openModal('profileModal')">

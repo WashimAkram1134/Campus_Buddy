@@ -202,6 +202,47 @@
     flex-shrink: 0;
 }
 
+/* ================= BUDDY AI TOPBAR ICON ================= */
+.buddy-topbar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #e0f4ff, #b3e0ff);
+    box-shadow: 0 4px 14px rgba(0, 170, 255, 0.25);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: buddyFloat 3s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.buddy-topbar-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.buddy-topbar-icon:hover {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 22px rgba(0, 170, 255, 0.45);
+    background: linear-gradient(135deg, #b3e0ff, #80ccff);
+}
+
+@keyframes buddyFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+
 /* ================= ADMIN PANEL BUTTON ================= */
 .admin-panel-btn {
     display: inline-flex;

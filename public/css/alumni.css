@@ -174,13 +174,13 @@
     display: flex;
     align-items: center;
     background: var(--primary, #1a237e);
-    overflow: visible;
-    /* Prevent clipping of badge or borders */
+    overflow: hidden;
+    /* Clip banner background cleanly */
     margin-top: 0;
     margin-bottom: 50px;
     padding: 0;
     box-sizing: border-box;
-    z-index: 10;
+    /* No z-index here — avoids covering below sections */
 }
 
 
@@ -315,7 +315,9 @@
     justify-content: flex-end;
     position: relative;
     overflow: visible;
-    /* Allow badge and border to overlap */
+    /* Allow badge and border to show outside the area */
+    clip-path: none;
+    /* Ensure it doesn't clip its children */
 }
 
 .hero-img-container {
