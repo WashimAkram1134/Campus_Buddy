@@ -33,9 +33,12 @@ body {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
-    min-height: 480px;
+    min-height: 520px;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    padding: 0 10%;
+    margin-bottom: 40px;
     overflow: hidden;
 }
 
@@ -46,28 +49,87 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: blur(3px);
 }
 
-.hero-overlay {
+.hero-overlay-dark {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(25, 25, 25, 0.9), rgba(50, 50, 50, 0.7));
+    inset: 0;
+    background: linear-gradient(135deg, rgba(20, 15, 10, 0.8), rgba(0, 100, 160, 0.6));
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
+    z-index: 11;
+    text-align: left;
+    max-width: 800px;
+}
+
+.hero-content-wrapper {
+    position: relative;
+    z-index: 10;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* floating deco dots like Pic 1 */
+.hero-deco {
+    position: absolute;
+    border-radius: 50%;
     z-index: 2;
-    padding: 60px 50px;
-    max-width: 700px;
+    pointer-events: none;
+}
+
+.hero-deco-1 {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.08);
+    top: -15px;
+    right: 340px;
+}
+
+.hero-deco-2 {
+    width: 22px;
+    height: 22px;
+    background: #10b981;
+    bottom: 40px;
+    left: 42%;
+}
+
+.hero-deco-3 {
+    width: 14px;
+    height: 14px;
+    background: #3b82f6;
+    top: 45px;
+    right: 180px;
+}
+
+.hero-deco-4 {
+    width: 10px;
+    height: 10px;
+    background: #f59e0b;
+    top: 30px;
+    left: 55%;
+}
+
+.hero-date {
+    display: block;
+    font-size: 13px;
+    opacity: .7;
+    margin-bottom: 10px;
+    color: #fff;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeSlideUp 0.7s ease forwards 0.3s;
 }
 
 .hero-tag {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeSlideUp 0.7s ease forwards 0.3s;
+    animation: fadeSlideUp 0.7s ease forwards 0.4s;
 }
 
 .hero-content h1 {
@@ -79,23 +141,23 @@ body {
 .hero-desc {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeSlideUp 0.7s ease forwards 0.7s;
+    animation: fadeSlideUp 0.7s ease forwards 0.6s;
 }
 
 .hero-btn {
     opacity: 0;
     transform: translateY(20px);
-    animation: fadeSlideUp 0.7s ease forwards 0.9s;
+    animation: fadeSlideUp 0.7s ease forwards 0.7s;
 }
 
 .hero-tag {
-    display: inline-block;
-    color: #00AAFF;
-    font-size: 13px;
-    font-weight: 600;
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
     letter-spacing: 2px;
+    color: #7dd3fc;
     text-transform: uppercase;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 @keyframes fadeSlideUp {
@@ -106,21 +168,21 @@ body {
 }
 
 .hero-content h1 {
-    font-size: 40px;
-    font-weight: 700;
+    font-size: 38px;
+    font-weight: 800;
     color: white;
     line-height: 1.2;
-    margin-bottom: 22px;
+    margin-bottom: 8px;
 }
 
 .hero-content h1 em {
     font-style: italic;
-    color: #00AAFF;
+    color: #38bdf8;
 }
 
 .hero-desc {
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.75);
     line-height: 1.7;
     margin-bottom: 28px;
 }

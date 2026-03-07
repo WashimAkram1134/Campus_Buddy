@@ -22,30 +22,30 @@
             <section class="clubs-hero">
                 <div class="clubs-hero-bg"></div>
                 <div class="clubs-hero-container">
-                    <div class="clubs-hero-left">
-                        <div class="clubs-hero-tag reveal">
+                    <div class="clubs-hero-left reveal">
+                        <div class="clubs-hero-tag">
                             <i class="fas fa-users"></i> Campus Community
                         </div>
-                        <h1 class="reveal" style="transition-delay: 0.1s;">
-                            Find your tribe.<br>Join a <span class="highlight">Campus Club.</span>
-                        </h1>
-                        <p class="reveal" style="transition-delay: 0.2s;">
+                        <h1>Find your tribe. <br>Join a <span class="highlight">Campus Club.</span></h1>
+                        <p>
                             Discover organizations that match your passions, build your skills, and connect you with
                             lifelong friends. From robotics to debate, there's a space for everyone.
                         </p>
-                        <div class="clubs-hero-buttons reveal" style="transition-delay: 0.3s;">
+                        <div class="clubs-hero-buttons">
                             <a href="#explore-clubs" class="btn-primary">Explore Clubs</a>
                             <a href="#create-club" class="btn-secondary">Start a Club</a>
                         </div>
                     </div>
-                    <div class="clubs-hero-right reveal" style="transition-delay: 0.4s;">
-                        <div class="clubs-hero-image-wrap floating">
-                            <!-- Reusing the community study group image for the hero -->
-                            <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Students at a Club"
+
+                    <div class="clubs-hero-right reveal" style="transition-delay: 0.2s;">
+                        <div class="clubs-hero-image-wrap">
+                            <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Clubs"
                                 class="clubs-hero-img">
                         </div>
-                        <div class="club-stat-badge floating" style="animation-delay: 1.5s;">
-                            <div class="stat-icon"><i class="fas fa-flag"></i></div>
+                        <div class="club-stat-badge floating">
+                            <div class="stat-icon">
+                                <i class="fas fa-flag"></i>
+                            </div>
                             <div class="stat-info">
                                 <span class="stat-num">45+</span>
                                 <span class="stat-text">Active Clubs</span>
@@ -334,9 +334,8 @@
                         }
                     });
                 });
-        })   });
+            })
+        });
     </script>
 
 </body>
-
-</html>
