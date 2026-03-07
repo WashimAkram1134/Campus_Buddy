@@ -20,8 +20,8 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">
-            <span class="logo-icon">C</span>
-            Campus Buddy
+            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
+            <span>Campus Buddy</span>
         </div>
         <div class="nav-links">
             <a href="{{ route('login') }}" class="nav-link">Log In</a>

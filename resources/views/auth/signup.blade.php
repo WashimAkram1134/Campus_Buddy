@@ -16,14 +16,7 @@
 <body>
     <header class="page-header">
         <a class="brand" href="{{ url('/') }}" aria-label="Campus Buddy home">
-            <span class="brand__icon" aria-hidden="true">
-                <svg viewBox="0 0 64 64" focusable="false">
-                    <path d="M32 10L6 22l26 12 26-12-26-12z" fill="currentColor" />
-                    <path d="M14 30v10c0 6 8 12 18 12s18-6 18-12V30l-18 8-18-8z" fill="currentColor" opacity="0.9" />
-                    <path d="M54 25v16" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-                    <circle cx="54" cy="45" r="4" fill="currentColor" />
-                </svg>
-            </span>
+            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="brand__logo">
             <span class="brand__text">
                 <span class="brand__name">Join Campus Buddy</span>
             </span>
