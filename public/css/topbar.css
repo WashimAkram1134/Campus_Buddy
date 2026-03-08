@@ -53,6 +53,23 @@
     line-height: 1 !important;
 }
 
+/* Mobile Hamburger Button - Hidden on desktop */
+.mobile-hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    color: #1b5c7a;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 5px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.mobile-hamburger-btn:hover {
+    background: #f0f4f8;
+}
+
 /* ================= DESKTOP INLINE NAV ================= */
 .desktop-nav {
     display: flex;
@@ -441,6 +458,20 @@
 
     .logo-text {
         font-size: 11px !important;
+    }
+
+    /* Show hamburger menu and adjust layout */
+    .mobile-hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo {
+        gap: 6px !important;
+        /* Tighter gap to save space */
+        margin-right: auto;
+        /* Push icons to the right */
     }
 
     .top-icon {
