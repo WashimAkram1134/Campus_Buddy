@@ -432,13 +432,6 @@ a {
         flex-direction: column;
         justify-content: flex-start;
         padding-top: 15vh;
-        padding-bottom: 4rem;
-        min-height: auto;
-    }
-
-    #section-intro {
-        padding-top: 280px;
-        /* Space for the absolute mascot */
         min-height: 100vh;
     }
 
@@ -447,58 +440,17 @@ a {
         justify-content: center;
     }
 
-    .glass-card,
-    .intro-content .glass-card,
-    .problem-content .glass-card,
-    .solution-content .glass-card {
+    .glass-card {
         max-width: 100%;
-        padding: 1.5rem;
-        transform: translateX(0);
-        margin: 0;
+        padding: 2rem;
     }
 
-    .cta-section {
-        justify-content: center;
-        padding-top: 10vh;
-        padding-bottom: 10vh;
-    }
-
-    .cta-section .glass-card {
-        max-width: 100%;
-        padding: 1.5rem;
-        margin-top: 0;
-        transform: translateX(0);
-    }
-
-    .nav-links {
-        gap: 1rem;
-    }
-
-    .nav-link {
-        font-size: 0.9rem;
-    }
-
-    .logo span {
-        font-size: 16px;
-    }
-
-    .logo-img {
-        height: 36px;
-    }
-
-    .navbar .btn {
-        padding: 0.5rem 1.25rem;
-        font-size: 0.9rem;
-    }
-
-    /* Transform the mascot into a fully visible flowing hero asset */
+    /* On mobile, adjust character container to not overlay text completely */
     .character-container {
-        position: absolute !important;
-        top: 220px !important;
-        left: 50% !important;
-        width: 250px !important;
-        height: 250px !important;
-        z-index: 20 !important;
-        opacity: 1;
+        width: 280px;
+        height: 280px;
+        z-index: -1;
+        opacity: 0.3 !important;
+        /* Make it a background element on small screens to avoid reading issues */
     }
 }
