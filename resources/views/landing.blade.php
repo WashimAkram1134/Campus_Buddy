@@ -40,6 +40,10 @@
         <!-- Section 1: Introduction -->
         <section class="story-section" id="section-intro">
             <div class="section-content box-left intro-content">
+                <div class="mobile-mascot">
+                    <img src="{{ asset('assets/landing/character.png') }}" alt="Campus Buddy Character"
+                        class="mobile-mascot-img">
+                </div>
                 <div class="glass-card">
                     <span class="badge">Meet your buddy</span>
                     <h1>Welcome to <span class="highlight">Campus Buddy</span></h1>
@@ -52,6 +56,10 @@
         <!-- Section 2: Problems -->
         <section class="story-section" id="section-problems">
             <div class="section-content box-right problem-content">
+                <div class="mobile-mascot">
+                    <img src="{{ asset('assets/landing/character.png') }}" alt="Campus Buddy Character"
+                        class="mobile-mascot-img mobile-mascot-flip">
+                </div>
                 <div class="glass-card problem-card">
                     <span class="badge badge-warning">The Challenge</span>
                     <h2>Navigating University is Hard</h2>
@@ -68,6 +76,10 @@
         <!-- Section 3: Solutions -->
         <section class="story-section" id="section-solutions">
             <div class="section-content box-left solution-content">
+                <div class="mobile-mascot">
+                    <img src="{{ asset('assets/landing/character.png') }}" alt="Campus Buddy Character"
+                        class="mobile-mascot-img">
+                </div>
                 <div class="glass-card solution-card">
                     <span class="badge badge-success">The Solution</span>
                     <h2>Here to Guide You</h2>
@@ -91,16 +103,3 @@
                         buddy!</a>
                 </div>
             </div>
-        </section>
-
-    </main>
-
-    <!-- GSAP and ScrollTrigger -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- Custom JS -->
-    <script src="{{ asset('js/landing.js') }}"></script>
-</body>
-
-</html>
