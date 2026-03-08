@@ -23,17 +23,13 @@
 .logo {
     display: flex !important;
     align-items: flex-end !important;
-    gap: 8px !important;
-    font-weight: bold !important;
-    color: #1b5c7a !important;
-    font-size: 24px !important;
-    text-transform: capitalize !important;
-    font-family: 'Inter', sans-serif !important;
-    line-height: 1 !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    text-decoration: none;
 }
 
 .logo-img {
-    height: 56px;
+    height: 70px;
     width: auto;
     transition: transform 0.2s ease;
 }
@@ -44,13 +40,12 @@
 
 .logo-text {
     display: block !important;
-    font-size: 16px !important;
-    margin-bottom: 4px !important;
-    font-weight: 800 !important;
+    font-size: 32px !important;
+    font-weight: 900 !important;
     color: #1b5c7a !important;
-    text-transform: capitalize !important;
     font-family: 'Inter', sans-serif !important;
-    line-height: 0.8 !important;
+    line-height: 1 !important;
+    margin-bottom: 6px !important;
 }
 
 /* Mobile Hamburger Button - Hidden on desktop */
@@ -380,9 +375,10 @@
 
     /* Mobile logo text logic */
     .logo-text {
-        font-size: 12px !important;
-        display: none !important;
-        /* Hide text on very small screens to save space */
+        font-size: 20px !important;
+        display: block !important;
+        margin-bottom: 2px !important;
+        /* Kept visible on mobile, just slightly smaller and adjusted margin */
     }
 
     /* Show hamburger menu and adjust layout */
