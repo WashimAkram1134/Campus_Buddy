@@ -445,19 +445,22 @@
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px) {
     .topbar {
-        height: 80px;
-        padding: 0 20px;
+        height: 60px;
+        /* Make it slightly more compact */
+        padding: 0 12px;
         position: fixed;
         /* Keep fixed even on mobile to match topbar-spacing logic */
         background: #ffffff;
     }
 
     .logo-img {
-        height: 28px;
+        height: 24px;
     }
 
     .logo-text {
         font-size: 11px !important;
+        display: none !important;
+        /* Hide text on very small screens to save space */
     }
 
     /* Show hamburger menu and adjust layout */
@@ -465,18 +468,46 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 4px;
     }
 
     .logo {
-        gap: 6px !important;
+        gap: 4px !important;
         /* Tighter gap to save space */
         margin-right: auto;
         /* Push icons to the right */
     }
 
+    /* Scale down CR/Admin Buttons */
+    .cr-portal-btn,
+    .admin-panel-btn {
+        padding: 5px 8px;
+        font-size: 10px;
+        gap: 3px;
+        border-radius: 6px;
+    }
+
+    .cr-portal-btn svg,
+    .admin-panel-btn svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    /* Scale down Buddy icon */
+    .buddy-topbar-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .buddy-topbar-icon img {
+        width: 22px;
+        height: 22px;
+    }
+
     .top-icon {
-        width: 14px;
-        height: 14px;
+        width: 18px;
+        /* Slightly larger than 14 for better tap target */
+        height: 18px;
     }
 
     .top-icons {
