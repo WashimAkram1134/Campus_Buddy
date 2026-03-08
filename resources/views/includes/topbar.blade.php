@@ -44,36 +44,10 @@ $currentRoute = Route::currentRouteName() ?? '';
   </nav>
 
   <div class="top-icons">
-    @if(Auth::check() && in_array(Auth::user()->role, ['cr', 'admin']))
-    <a href="{{ route('cr-dashboard') }}" class="cr-portal-btn @if($currentRoute === 'cr-dashboard') active @endif"
-      title="Go to CR Portal">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-      CR Portal
+    <!-- Notification Bell -->
+    <a href="#" aria-label="Notifications">
+      <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
     </a>
-    @endif
-
-    @if(Auth::check() && Auth::user()->role === 'admin')
-    <a href="/admin" class="admin-panel-btn" title="Go to Admin Panel">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 20h9" />
-        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-      </svg>
-      Admin Panel
-    </a>
-    @endif
-    <a href="{{ route('buddy-chat') }}" class="buddy-topbar-icon" title="Chat with Buddy AI">
-      <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy AI">
-    </a>
-    <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
-    <img src="{{ asset('images/topbaricons/settings.png') }}" alt="Settings" class="top-icon"
-      onclick="openModal('profileModal')">
 
     <div class="user-profile-container">
       <img src="{{ asset('images/topbaricons/user.png') }}" alt="User" class="top-icon" id="userProfileIcon">
@@ -84,7 +58,48 @@ $currentRoute = Route::currentRouteName() ?? '';
           <p class="dropdown-email">{{ Auth::user()->student_id ?? 'ID Missing' }}</p>
           <p class="dropdown-role">{{ strtoupper(Auth::user()->role ?? 'Student') }}</p>
         </div>
+
         <div class="dropdown-divider"></div>
+
+        <div class="dropdown-body">
+          @if(Auth::check() && in_array(Auth::user()->role, ['cr', 'admin']))
+          <a href="{{ route('cr-dashboard') }}" class="dropdown-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            Switch to CR Portal
+          </a>
+          @endif
+
+          @if(Auth::check() && Auth::user()->role === 'admin')
+          <a href="/admin" class="dropdown-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9" />
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+            </svg>
+            Admin Panel
+          </a>
+          @endif
+
+          <button class="dropdown-item" onclick="openModal('profileModal')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+              </path>
+            </svg>
+            Account Settings
+          </button>
+        </div>
+
+        <div class="dropdown-divider"></div>
+
         <form action="{{ route('logout') }}" method="POST" id="logout-form">
           @csrf
           <button type="submit" class="logout-btn">

@@ -22,8 +22,8 @@
 
 .logo {
     display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
+    align-items: flex-end !important;
+    gap: 8px !important;
     font-weight: bold !important;
     color: #1b5c7a !important;
     font-size: 24px !important;
@@ -33,7 +33,7 @@
 }
 
 .logo-img {
-    height: 48px;
+    height: 56px;
     width: auto;
     transition: transform 0.2s ease;
 }
@@ -44,13 +44,13 @@
 
 .logo-text {
     display: block !important;
-    font-size: 20px !important;
-    margin-top: 0px !important;
+    font-size: 16px !important;
+    margin-bottom: 4px !important;
     font-weight: 800 !important;
     color: #1b5c7a !important;
     text-transform: capitalize !important;
     font-family: 'Inter', sans-serif !important;
-    line-height: 1 !important;
+    line-height: 0.8 !important;
 }
 
 /* Mobile Hamburger Button - Hidden on desktop */
@@ -214,118 +214,9 @@
     font-size: 20px;
     cursor: pointer;
     display: flex;
-    gap: 20px;
+    gap: 28px;
     align-items: center;
     flex-shrink: 0;
-}
-
-/* ================= BUDDY AI TOPBAR ICON ================= */
-.buddy-topbar-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #e0f4ff, #b3e0ff);
-    box-shadow: 0 4px 14px rgba(0, 170, 255, 0.25);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    animation: buddyFloat 3s ease-in-out infinite;
-    flex-shrink: 0;
-}
-
-.buddy-topbar-icon img {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-}
-
-.buddy-topbar-icon:hover {
-    transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 8px 22px rgba(0, 170, 255, 0.45);
-    background: linear-gradient(135deg, #b3e0ff, #80ccff);
-}
-
-@keyframes buddyFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-
-/* ================= ADMIN PANEL BUTTON ================= */
-.admin-panel-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: #ffffff !important;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    transition: all 0.25s ease;
-    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
-}
-
-.admin-panel-btn svg {
-    flex-shrink: 0;
-    stroke: #ffffff;
-}
-
-.admin-panel-btn:hover {
-    background: linear-gradient(135deg, #059669, #047857);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
-    color: #ffffff !important;
-}
-
-.admin-panel-btn:active {
-    transform: translateY(0);
-}
-
-/* ================= CR PORTAL BUTTON ================= */
-.cr-portal-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 16px;
-    background: linear-gradient(135deg, #00AAFF, #0088cc);
-    color: #ffffff !important;
-    text-decoration: none;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    transition: all 0.25s ease;
-    box-shadow: 0 3px 10px rgba(0, 170, 255, 0.35);
-}
-
-.cr-portal-btn svg {
-    flex-shrink: 0;
-    stroke: #ffffff;
-}
-
-.cr-portal-btn:hover {
-    background: linear-gradient(135deg, #0088cc, #0066aa);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 170, 255, 0.45);
-    color: #ffffff !important;
-}
-
-.cr-portal-btn:active {
-    transform: translateY(0);
 }
 
 
@@ -417,17 +308,46 @@
     margin: 8px 0;
 }
 
+.dropdown-body {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 0;
+}
+
+.dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    color: #4a5568;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    text-align: left;
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    background: #f7fafc;
+    color: #00aaff;
+}
+
 .logout-btn {
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 10px 12px;
     border: none;
     background: transparent;
     color: #e53e3e;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.2s;
@@ -438,8 +358,9 @@
     background: #fff5f5;
 }
 
-.logout-btn svg {
-    opacity: 1;
+.logout-btn svg,
+.dropdown-item svg {
+    opacity: 0.8;
 }
 
 /* ================= MOBILE RESPONSIVE ================= */
@@ -457,8 +378,9 @@
         height: 24px;
     }
 
+    /* Mobile logo text logic */
     .logo-text {
-        font-size: 11px !important;
+        font-size: 12px !important;
         display: none !important;
         /* Hide text on very small screens to save space */
     }
@@ -478,32 +400,6 @@
         /* Push icons to the right */
     }
 
-    /* Scale down CR/Admin Buttons */
-    .cr-portal-btn,
-    .admin-panel-btn {
-        padding: 5px 8px;
-        font-size: 10px;
-        gap: 3px;
-        border-radius: 6px;
-    }
-
-    .cr-portal-btn svg,
-    .admin-panel-btn svg {
-        width: 12px;
-        height: 12px;
-    }
-
-    /* Scale down Buddy icon */
-    .buddy-topbar-icon {
-        width: 32px;
-        height: 32px;
-    }
-
-    .buddy-topbar-icon img {
-        width: 22px;
-        height: 22px;
-    }
-
     .top-icon {
         width: 18px;
         /* Slightly larger than 14 for better tap target */
@@ -511,7 +407,7 @@
     }
 
     .top-icons {
-        gap: 8px;
+        gap: 16px;
     }
 
     /* Hide desktop nav on mobile (mobile-menu is used instead) */
