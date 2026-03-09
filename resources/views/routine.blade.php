@@ -100,7 +100,7 @@
             @forelse($todaysClasses as $class)
             @php $status = getClassStatus($class->time_slot, $todayName); @endphp
             <div class="mini-card {{ strtolower($status) }}">
-              <div class="mini-time">{{ explode('-', $class->time_slot)[0] }}</div>
+              <div class="mini-time">{{ str_replace('-', ' - ', $class->time_slot) }}</div>
               <div class="mini-details">
                 <div class="status-indicator-dot"></div>
                 <h4>{{ $class->course_title }}{{ $class->lab_section ? ' ('.$class->lab_section.')' : '' }} {{
@@ -163,8 +163,7 @@
               @php $status = getClassStatus($class->time_slot, $day); @endphp
               <div class="class-card {{ strtolower($status) }}">
                 <div class="class-time">
-                  <span class="time-start">{{ explode('-', $class->time_slot)[0] }}</span>
-                  <span class="time-end">{{ explode('-', $class->time_slot)[1] }}</span>
+                  <span class="time-range">({{ str_replace('-', ' - ', $class->time_slot) }})</span>
                 </div>
                 <div class="class-details">
                   <div class="class-header-row">

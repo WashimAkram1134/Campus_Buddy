@@ -502,22 +502,16 @@ body {
 .class-time {
     display: flex;
     flex-direction: column;
-    min-width: 85px;
+    min-width: 160px;
+    /* Increased for full time range */
     text-align: right;
+    justify-content: center;
 }
 
-.time-start {
-    font-size: 16px;
+.time-range {
+    font-size: 14px;
     font-weight: 800;
     color: #3d2c1a;
-    line-height: 1.1;
-}
-
-.time-end {
-    font-size: 12px;
-    font-weight: 500;
-    color: #888;
-    margin-top: 4px;
 }
 
 .class-details {
@@ -908,39 +902,41 @@ body {
 
     .today-sidebar {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .mini-timeline {
-        flex-direction: row;
-        overflow-x: auto;
-        padding-bottom: 10px;
+        flex-direction: column !important;
+        overflow-x: visible !important;
+        padding-bottom: 0 !important;
+        gap: 10px !important;
     }
 
     .mini-timeline::before {
-        left: 20px;
-        top: 18px;
-        right: 20px;
-        bottom: auto;
-        width: auto;
-        height: 2px;
+        left: 21px !important;
+        top: 10px !important;
+        bottom: 10px !important;
+        width: 2px !important;
+        height: auto !important;
     }
 
     .mini-card {
-        min-width: 200px;
-        padding-left: 0;
-        padding-top: 30px;
+        min-width: 100% !important;
+        padding-left: 55px !important;
+        padding-top: 5px !important;
+        margin-bottom: 15px !important;
     }
 
     .mini-card::before {
-        top: 13px;
-        left: 50%;
-        transform: translateX(-50%);
+        top: 8px !important;
+        left: 17px !important;
+        transform: none !important;
     }
 
-    .mini-card.highlight::before {
-        top: 13px;
-        left: 50%;
+    .mini-time {
+        text-align: left !important;
+        margin-bottom: 5px !important;
+        font-size: 13px !important;
     }
 }
 
@@ -1014,10 +1010,7 @@ body {
         gap: 10px;
         align-items: center;
         min-width: auto;
-    }
-
-    .time-end {
-        margin-top: 0;
+        margin-bottom: 8px;
     }
 
     .class-details {
