@@ -946,7 +946,7 @@ body {
 
 @media (max-width: 768px) {
     .layout {
-        padding-top: 120px !important;
+        padding-top: 60px !important;
         margin-left: 0 !important;
         display: block !important;
     }

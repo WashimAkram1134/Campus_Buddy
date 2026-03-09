@@ -15,7 +15,10 @@ $currentRoute = Route::currentRouteName() ?? '';
 
   <div class="logo">
     <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
-    <span class="logo-text">Campus Buddy</span>
+    <div class="logo-text">
+      <span>Campus</span>
+      <span>Buddy</span>
+    </div>
   </div>
 
   <!-- Desktop inline nav -->
@@ -43,14 +46,49 @@ $currentRoute = Route::currentRouteName() ?? '';
     </div>
   </nav>
 
-  <div class="top-icons">
-    <!-- Notification Bell -->
-    <a href="#" aria-label="Notifications">
-      <img src="{{ asset('images/topbaricons/notification.png') }}" alt="Notifications" class="top-icon">
+  <div class="top-right-section">
+    <!-- Search Icon -->
+    <a href="#" class="top-action-btn" aria-label="Search">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
     </a>
 
+    <!-- Notification Bell -->
+    <a href="#" class="top-action-btn notification-btn" aria-label="Notifications">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <span class="notification-badge">3</span>
+    </a>
+
+    <!-- Vertical Divider -->
+    <div class="topbar-divider"></div>
+
     <div class="user-profile-container">
-      <img src="{{ asset('images/topbaricons/user.png') }}" alt="User" class="top-icon" id="userProfileIcon">
+      <!-- Profile Trigger -->
+      <div class="user-profile-trigger" id="userProfileIcon">
+        <div class="user-avatar-circle">
+          <svg viewBox="0 0 24 24" fill="#a0aec0" width="24" height="24">
+            <path
+              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        </div>
+
+        <div class="user-info">
+          <span class="user-name">{{ Auth::user()->name ?? 'Test User' }}</span>
+          <span class="user-role">{{ Auth::user()->role ?? '3rd year' }}</span>
+        </div>
+
+        <svg class="chevron-down" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
 
       <div class="user-dropdown" id="userDropdown">
         <div class="dropdown-header">
