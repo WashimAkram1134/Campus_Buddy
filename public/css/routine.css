@@ -462,12 +462,11 @@ body {
 .class-card {
     display: flex;
     align-items: center;
-    gap: 24px;
-    background: white;
-    border-radius: 16px;
-    padding: 20px 25px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 170, 255, 0.05);
+    border-radius: 10px;
+    padding: 8px 15px;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 170, 255, 0.04);
     transition: all 0.3s ease;
     position: relative;
 }
@@ -502,14 +501,13 @@ body {
 .class-time {
     display: flex;
     flex-direction: column;
-    min-width: 160px;
-    /* Increased for full time range */
+    min-width: 110px;
     text-align: right;
     justify-content: center;
 }
 
 .time-range {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 800;
     color: #3d2c1a;
 }
@@ -520,17 +518,17 @@ body {
 }
 
 .subject {
-    font-size: 18px;
+    font-size: 13px;
     font-weight: 700;
     color: #2c3e50;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .instructor {
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 500;
     color: #6c7a89;
-    margin-bottom: 12px;
+    margin-bottom: 4px;
 }
 
 .class-meta {
@@ -543,11 +541,11 @@ body {
 .type {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 12px;
+    gap: 4px;
+    font-size: 10px;
     font-weight: 600;
-    padding: 6px 12px;
-    border-radius: 20px;
+    padding: 4px 10px;
+    border-radius: 15px;
 }
 
 .venue {
@@ -765,19 +763,19 @@ body {
 
 .banner-content {
     background: white;
-    border-radius: 20px;
-    padding: 20px 40px;
+    border-radius: 12px;
+    padding: 8px 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    gap: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
     position: relative;
     overflow: visible;
 }
 
 .banner-title {
-    font-size: 24px;
+    font-size: 14px;
     font-weight: 800;
     color: #1a1e29;
     margin: 0;
@@ -786,12 +784,12 @@ body {
 .banner-chat-btn {
     background: #00AAFF;
     color: white;
-    padding: 12px 25px;
+    padding: 6px 14px;
     border-radius: 50px;
     font-weight: 700;
     text-decoration: none;
-    font-size: 15px;
-    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
+    font-size: 12px;
+    box-shadow: 0 3px 10px rgba(0, 170, 255, 0.15);
     transition: all 0.3s ease;
 }
 
@@ -802,11 +800,11 @@ body {
 }
 
 .banner-mascot {
-    height: 80px;
+    height: 45px;
     width: auto;
     position: relative;
-    top: -10px;
-    margin-left: -10px;
+    top: -2px;
+    margin-left: -5px;
 }
 
 /* ================= PRINT STYLES ================= */
@@ -990,8 +988,8 @@ body {
     .class-card {
         flex-direction: column;
         align-items: flex-start;
-        padding: 20px 20px 20px 45px;
-        gap: 12px;
+        padding: 12px 15px 12px 40px;
+        gap: 8px;
     }
 
     .class-card::before {
@@ -1428,7 +1426,7 @@ body {
     gap: 15px;
     padding-left: 45px !important;
     /* Ensure enough space for the dot/line */
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .mini-card::before {
@@ -1440,7 +1438,7 @@ body {
 .mini-time {
     min-width: 50px;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 11px;
     color: #64748b;
 }
 
@@ -1575,7 +1573,7 @@ body {
 }
 
 .mini-details h4 {
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.3;
 }
 
