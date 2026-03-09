@@ -891,11 +891,50 @@ body {
 
 @media (max-width: 768px) {
     .stat-row {
-        grid-template-columns: 1fr 1fr;
+        display: flex !important;
+        overflow-x: auto !important;
+        padding-bottom: 20px;
+        gap: 15px;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .stat-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .stat-card {
+        flex: 0 0 calc(75% - 20px);
+        min-height: 200px !important;
+        padding: 20px 15px !important;
+        scroll-snap-align: start;
+    }
+
+    .stat-value {
+        font-size: 15px !important;
+    }
+
+    .stat-sub {
+        font-size: 10px !important;
+    }
+
+    .stat-label {
+        font-size: 10px !important;
+    }
+
+    .event-scroll-container {
+        display: flex !important;
+        overflow-x: auto !important;
+        gap: 15px;
+        padding-bottom: 20px;
+        scroll-snap-type: x mandatory;
     }
 
     .event-card-scroll {
-        flex: 0 0 calc(100% - 16px);
+        flex: 0 0 calc(75% - 20px) !important;
+        height: 250px !important;
+        scroll-snap-align: start;
     }
 
     .hero-banner {
@@ -923,8 +962,12 @@ body {
 }
 
 @media (max-width: 500px) {
-    .stat-row {
-        grid-template-columns: 1fr;
+    .stat-card {
+        flex: 0 0 calc(75% - 10px);
+    }
+
+    .event-card-scroll {
+        flex: 0 0 calc(75% - 10px) !important;
     }
 }
 

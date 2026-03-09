@@ -525,10 +525,51 @@
         margin-top: 0 !important;
     }
 
-    /* Force hero sections to touch the topbar */
+    /* Force hero sections to touch the topbar and match classtask height */
     body .hero-banner,
     body .cr-hero,
     body .routine-hero {
         margin-top: 0 !important;
+        min-height: 380px !important;
+        max-height: 380px !important;
+    }
+
+    /* Global Hero text reductions */
+    body .hero-title,
+    body .cr-hero-content h1,
+    body .hero-left h1 {
+        font-size: 28px !important;
+    }
+
+    body .hero-subtitle,
+    body .cr-hero-subtitle {
+        font-size: 14px !important;
+    }
+
+    body .hero-tag,
+    body .cr-hero-tag {
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    body .hero-banner,
+    body .cr-hero,
+    body .routine-hero {
+        min-height: 300px !important;
+        max-height: 300px !important;
+    }
+
+    body .hero-title,
+    body .cr-hero-content h1,
+    body .hero-left h1 {
+        font-size: 22px !important;
+    }
+
+    body .hero-subtitle,
+    body .cr-hero-subtitle {
+        font-size: 13px !important;
     }
 }
