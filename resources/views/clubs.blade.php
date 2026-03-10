@@ -170,7 +170,7 @@
                     </div>
 
                     <!-- Club 4 -->
-                    <div class="club-card reveal" data-category="sports">
+                    <div class="club-card reveal" data-category="sports" id="sports-club">
                         <div class="club-banner">
                             <img src="{{ asset('images/clubs/sports.png') }}" alt="Sports Club">
                             <span class="club-category">Sports</span>

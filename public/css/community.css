@@ -401,6 +401,12 @@ body {
     box-shadow: 0 4px 12px rgba(36, 58, 111, 0.3);
 }
 
+.qlink {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .qbox {
     background: white;
     padding: 14px 12px;

@@ -59,7 +59,7 @@
             <div class="card-stats"><span>👥 234</span><span>📈 12</span></div>
           </div>
 
-          <div class="comm-card">
+          <a href="{{ route('clubs') }}" class="comm-card comm-card-link">
             <div class="card-img-wrap">
               <img src="{{ asset('images/community/event.jpg') }}" alt="Clubs">
             </div>
@@ -70,7 +70,7 @@
             <h3>Campus Clubs</h3>
             <p>Explore and join various clubs — coding, robotics, art, sports, and more.</p>
             <div class="card-stats"><span>🎯 15 Clubs</span><span>👥 800+</span></div>
-          </div>
+          </a>
 
           <div class="comm-card">
             <div class="card-img-wrap">
@@ -106,7 +106,9 @@
         <div class="quick-actions">
           <div class="talent">Meet With Talents</div>
           <div class="qbox">District Association</div>
-          <div class="qbox">Sports Association</div>
+          <a href="{{ route('clubs') }}#sports-club" class="qlink">
+            <div class="qbox">Sports Association</div>
+          </a>
         </div>
       </section>
 
