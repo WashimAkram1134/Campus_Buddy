@@ -604,7 +604,7 @@ body {
 /* ================= DISTRICT ASSOCIATIONS ================= */
 .district-section {
     margin: 40px 35px;
-    opacity: 1 !important;
+    opacity: 0;
 }
 
 .district-section.animate-in {
@@ -641,7 +641,7 @@ body {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     border: 1px solid #f0f0f0;
-    opacity: 1 !important;
+    opacity: 0;
 }
 
 .district-card.animate-in {

@@ -10,28 +10,6 @@
   <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
   <link rel="stylesheet" href="{{ asset('css/community.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    .district-section {
-      opacity: 1 !important;
-      margin: 40px 35px;
-      display: block !important;
-      visibility: visible !important;
-    }
-
-    .district-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .district-card {
-      background: white !important;
-      opacity: 1 !important;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    }
-  </style>
 </head>
 
 <body>
@@ -61,95 +39,6 @@
               collaborate on projects, and stay updated with campus activities — all in one place.
             </p>
             <a href="#community-cards" class="hero-btn">VIEW MORE</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= DISTRICT ASSOCIATIONS ================= -->
-      <section class="district-section">
-        <div class="district-header">
-          <h2>🌍 District Associations</h2>
-          <a href="#" style="color: #c8a45a; text-decoration: none; font-size: 13px; font-weight: 500;">View All</a>
-        </div>
-
-        <div class="district-grid">
-          <!-- District 1: Tangail -->
-          <div class="district-card">
-            <div class="district-logo-wrap">
-              <img src="https://i.ibb.co/VWV6c38/tangail-logo.png" alt="Tangail District Association"
-                onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
-            </div>
-            <h3>Tangail District Association</h3>
-            <span class="district-motto">"Born To Stay Together"</span>
-
-            <div class="district-stats">
-              <div class="dist-stat">
-                <span>1.2K+</span>
-                Members
-              </div>
-              <div class="dist-stat">
-                <span>Active</span>
-                Status
-              </div>
-            </div>
-
-            <div class="district-socials">
-              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="dist-social-link"><i class="fas fa-globe"></i></a>
-            </div>
-          </div>
-
-          <!-- District 2: Dhaka -->
-          <div class="district-card">
-            <div class="district-logo-wrap">
-              <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Dhaka Students Forum">
-            </div>
-            <h3>Dhaka Students Forum</h3>
-            <span class="district-motto">"United by Capital, Driven by Dreams"</span>
-
-            <div class="district-stats">
-              <div class="dist-stat">
-                <span>2.5K+</span>
-                Members
-              </div>
-              <div class="dist-stat">
-                <span>Active</span>
-                Status
-              </div>
-            </div>
-
-            <div class="district-socials">
-              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="dist-social-link"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="dist-social-link"><i class="fas fa-link"></i></a>
-            </div>
-          </div>
-
-          <!-- District 3: Chittagong -->
-          <div class="district-card">
-            <div class="district-logo-wrap">
-              <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Chattogram Association">
-            </div>
-            <h3>Chattogram Association</h3>
-            <span class="district-motto">"Unity in Diversity"</span>
-
-            <div class="district-stats">
-              <div class="dist-stat">
-                <span>1.8K+</span>
-                Members
-              </div>
-              <div class="dist-stat">
-                <span>Active</span>
-                Status
-              </div>
-            </div>
-
-            <div class="district-socials">
-              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="dist-social-link"><i class="fas fa-envelope"></i></a>
-            </div>
           </div>
         </div>
       </section>
@@ -270,7 +159,95 @@
         <button class="view-more">View More</button>
       </section>
 
-      <!-- District section moved up -->
+      <!-- ================= DISTRICT ASSOCIATIONS ================= -->
+      <section class="district-section">
+        <div class="district-header">
+          <h2>🌍 District Associations</h2>
+          <a href="#" style="color: #c8a45a; text-decoration: none; font-size: 13px; font-weight: 500;">View All</a>
+        </div>
+
+        <div class="district-grid">
+          <!-- District 1: Tangail -->
+          <div class="district-card">
+            <div class="district-logo-wrap">
+              <img src="https://i.ibb.co/VWV6c38/tangail-logo.png" alt="Tangail District Association"
+                onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
+            </div>
+            <h3>Tangail District Association</h3>
+            <span class="district-motto">"Born To Stay Together"</span>
+
+            <div class="district-stats">
+              <div class="dist-stat">
+                <span>1.2K+</span>
+                Members
+              </div>
+              <div class="dist-stat">
+                <span>Active</span>
+                Status
+              </div>
+            </div>
+
+            <div class="district-socials">
+              <a href="https://www.facebook.com/profile.php?id=61568474162445" target="_blank" rel="noopener noreferrer"
+                class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="dist-social-link"><i class="fas fa-globe"></i></a>
+            </div>
+          </div>
+
+          <!-- District 2: Dhaka -->
+          <div class="district-card">
+            <div class="district-logo-wrap">
+              <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Dhaka Students Forum">
+            </div>
+            <h3>Dhaka Students Forum</h3>
+            <span class="district-motto">"United by Capital, Driven by Dreams"</span>
+
+            <div class="district-stats">
+              <div class="dist-stat">
+                <span>2.5K+</span>
+                Members
+              </div>
+              <div class="dist-stat">
+                <span>Active</span>
+                Status
+              </div>
+            </div>
+
+            <div class="district-socials">
+              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="dist-social-link"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="dist-social-link"><i class="fas fa-link"></i></a>
+            </div>
+          </div>
+
+          <!-- District 3: Chittagong -->
+          <div class="district-card">
+            <div class="district-logo-wrap">
+              <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Chattogram Association">
+            </div>
+            <h3>Chattogram Association</h3>
+            <span class="district-motto">"Unity in Diversity"</span>
+
+            <div class="district-stats">
+              <div class="dist-stat">
+                <span>1.8K+</span>
+                Members
+              </div>
+              <div class="dist-stat">
+                <span>Active</span>
+                Status
+              </div>
+            </div>
+
+            <div class="district-socials">
+              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="dist-social-link"><i class="fas fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- ================= TRENDING ================= -->
       <section class="trending-section">
@@ -291,5 +268,28 @@
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-    // Animate the section itself
-  
+            // Animate the section itself
+            entry.target.classList.add('animate-in');
+
+            // Animate children (cards, posts, quick-action items)
+            const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card');
+            children.forEach(child => {
+              child.classList.add('animate-in');
+            });
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      // Observe all animated sections
+      const sections = document.querySelectorAll(
+        '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section'
+      );
+      sections.forEach(section => observer.observe(section));
+    });
+  </script>
+
+</body>
+
+</html>
