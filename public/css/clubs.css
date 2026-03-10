@@ -605,3 +605,34 @@
         padding: 15px 20px;
     }
 }
+
+/* ================= TARGET HIGHLIGHT ================= */
+.club-card {
+    scroll-margin-top: 120px;
+    /* Offset for fixed topbar */
+}
+
+.club-card:target {
+    animation: targetHighlight 2s ease-out forwards;
+    border-color: #00AAFF;
+    border-width: 2px;
+}
+
+@keyframes targetHighlight {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 170, 255, 0.4);
+        transform: scale(1);
+    }
+
+    15% {
+        box-shadow: 0 0 0 20px rgba(0, 170, 255, 0);
+        transform: scale(1.03);
+        background: #f0faff;
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 170, 255, 0);
+        transform: scale(1);
+        background: white;
+    }
+}
