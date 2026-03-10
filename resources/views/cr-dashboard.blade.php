@@ -140,6 +140,39 @@
         </div>
       </section>
 
+      @if(session('success'))
+      <div
+        style="margin: 20px 40px; padding: 15px 25px; background: #e6fffa; border-left: 5px solid #38b2ac; border-radius: 10px; color: #2c7a7b; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: slideDown 0.5s ease;">
+        ✅ {{ session('success') }}
+      </div>
+      @endif
+
+      @if($errors->any())
+      <div
+        style="margin: 20px 40px; padding: 15px 25px; background: #fff5f5; border-left: 5px solid #f56565; border-radius: 10px; color: #c53030; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: slideDown 0.5s ease;">
+        ❌ Please correct the following errors:
+        <ul style="margin-top: 10px; margin-left: 20px;">
+          @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+      @endif
+
+      <style>
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      </style>
+
       <!-- ================= CR QUICK ACTIONS ================= -->
       <section class="cr-cards" id="crCards">
         <div class="cards-header">
@@ -237,7 +270,7 @@
                   labGroup.style.display = 'none';
                   labInput.required = false;
                   labInput.value = '';
-                }
+    }
               }
             </script>
             <div class="form-group">
@@ -401,7 +434,7 @@
               <input type="text" name="title" id="material_title" placeholder="e.g. Lecture 01 - Intro to AI" required>
             </div>
             <div class="form-group">
-              <label for="material_file">Upload File (PDF, PPTX, DOCS)</label>
+              <label for="material_file">Upload File (PDF, PPTX, DOCS - Max 64MB)</label>
               <input type="file" name="file" id="material_file" accept=".pdf,.pptx,.docx,.doc" required
                 style="padding: 10px; border: 2px dashed #00AAFF; background: #f0faff;">
             </div>
@@ -431,9 +464,8 @@
             modalTitle.innerText = "Create Assignment";
             titleLabel.innerText = "Assignment Title";
             dateLabel.innerText = "Due Date";
-            durationLabel.innerText = "Status/Progress (Optional)";
+            durationLabel.innerText = "Status/Progress (Ol)";
           }
-        }
       </script>
 
     </main>
@@ -473,8 +505,7 @@
 
       window.onclick = function (event) {
         if (event.target.classList.contains('modal')) {
-          event.target.style.display = "none";
-        }
+          event.target.style.display = "ne";  }
       }
     });
   </script>

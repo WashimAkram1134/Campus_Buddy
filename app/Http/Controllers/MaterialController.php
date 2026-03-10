@@ -14,7 +14,7 @@ class MaterialController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'course_code' => 'required|string|max:20',
-            'file' => 'required|file|mimes:pdf,pptx,docx,doc|max:10240', // 10MB max
+            'file' => 'required|file|mimes:pdf,pptx,docx,doc|max:65536', // 64MB max
         ]);
 
         $user = Auth::user();
@@ -22,7 +22,11 @@ class MaterialController extends Controller
         $extension = $file->getClientOriginalExtension();
         $path = $file->store('materials', 'public');
 
-        Material::create([
+        if (!$user->department || !$user->section || !$user->batch) {
+            return redirect()->back()->withErrors(['file' => 'Your profile is missing Department, Section, or Batch. Please update your profile first.']);
+        }
+
+        $material = Material::create([
             'user_id' => $user->id,
             'department' => $user->department,
             'major' => $user->major,
@@ -33,6 +37,8 @@ class MaterialController extends Controller
             'file_path' => $path,
             'file_extension' => $extension,
         ]);
+
+        \Illuminate\Support\Facades\Log::info("Material created: ID {$material->id}, Title: {$material->title} for {$material->department}-{$material->batch}-{$material->section}");
 
         return redirect()->back()->with('success', 'Material uploaded successfully!');
     }
