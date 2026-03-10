@@ -115,7 +115,7 @@ body {
 
 /* ── Layout wrapper ─────────────────────────────────────── */
 .layout {
-    padding-top: 100px;
+    /* Padding handled globally by topbar.css to sync with dynamic header heights */
 }
 
 .dashboard-container {

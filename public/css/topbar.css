@@ -550,6 +550,24 @@
     }
 }
 
+/* Intermediate Desktop Adjustments for topbar padding */
+@media (max-width: 1350px) {
+    body .layout {
+        padding-top: 90px !important;
+    }
+}
+
+@media (max-width: 1600px) {
+    body .layout {
+        padding-top: 90px !important;
+    }
+}
+
+/* Ensure default desktop layout has zero gap */
+body .layout {
+    padding-top: 100px !important;
+}
+
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px) {
     .topbar {
