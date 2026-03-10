@@ -602,8 +602,8 @@ body {
     z-index: 11;
     text-align: left;
     max-width: 800px;
-    padding-top: 0;
-    /* Reset for desktop */
+    padding-top: 60px;
+    /* Offset from fixed topbar area */
 }
 
 /* ================= HERO ANIMATIONS ================= */

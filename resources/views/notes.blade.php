@@ -31,9 +31,16 @@
           <div class="hero-deco hero-deco-4"></div>
 
           <div class="hero-content">
+            <span class="hero-date desktop-only">{{ now()->format('F j, Y') }}</span>
             <span class="hero-tag">RESOURCES & MATERIALS</span>
-            <h1>Access your <span>PDF & Notes</span></h1>
-            <p class="hero-desc">
+            <h1 class="desktop-only">Access your <span>PDF & Notes</span> <em>anytime, anywhere.</em></h1>
+            <h1 class="mobile-only">Access your <span>PDF & Notes</span></h1>
+
+            <p class="hero-desc desktop-only">
+              Your centralized repository for class materials, lecture slides, and student-contributed notes.
+              Stay organized and prepare for your exams with ease.
+            </p>
+            <p class="hero-desc mobile-only">
               Your central repository for class materials and lecture slides.
             </p>
 
@@ -316,7 +323,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       // Initial animations already handled by .animate-up class in CSS
-    });
+   );
   </script>
 </body>
 
