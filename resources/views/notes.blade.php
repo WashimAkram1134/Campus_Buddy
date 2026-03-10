@@ -67,161 +67,64 @@
               </div>
               <h2>Class Materials</h2>
             </div>
-            <span class="count">12 Files</span>
+            <span class="count">{{ $materials->count() }} Files</span>
           </div>
-
           <div class="resources-grid collapsed" id="pdfGrid">
-            <!-- Card 1 -->
-            <div class="resource-card pdf-card animate-up" style="animation-delay: 0.1s">
+            @foreach($materials as $index => $material)
+            <div class="resource-card pdf-card animate-up" style="animation-delay: {{ 0.1 * ($index + 1) }}s">
               <div class="pdf-visual">
                 <div class="pdf-corner"></div>
-                <div class="pdf-logo">PDF</div>
+                <div class="pdf-logo">{{ strtoupper($material->file_extension) }}</div>
                 <div class="pdf-icon-symbol">
+                  @if($material->file_extension == 'pdf')
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                     <polyline points="14 2 14 8 20 8" />
                   </svg>
+                  @else
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                  @endif
                 </div>
               </div>
               <div class="card-info">
-                <h3>Data Structures - L3</h3>
-                <p>Arrays & Linked Lists overview.</p>
+                <h3>{{ $material->title }}</h3>
+                <p>{{ $material->course_code }}</p>
                 <div class="card-meta-row">
-                  <span class="size-badge">2.4 MB</span>
+                  <span class="size-badge">{{ strtoupper($material->file_extension) }}</span>
                   <div class="card-actions-mini">
-                    <button class="mini-view-btn pdf">
+                    <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank" class="mini-view-btn pdf"
+                      style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
                         <circle cx="12" cy="12" r="3" />
                       </svg>
-                    </button>
-                    <button class="mini-dl-btn pdf">
+                    </a>
+                    <a href="{{ asset('storage/' . $material->file_path) }}" download class="mini-dl-btn pdf"
+                      style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                       </svg>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
+            @endforeach
 
-            <!-- Card 2 -->
-            <div class="resource-card pdf-card animate-up" style="animation-delay: 0.2s">
-              <div class="pdf-visual">
-                <div class="pdf-corner"></div>
-                <div class="pdf-logo">PDF</div>
-                <div class="pdf-icon-symbol">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                  </svg>
-                </div>
-              </div>
-              <div class="card-info">
-                <h3>Database Systems - Mid</h3>
-                <p>Normalization & SQL Queries...</p>
-                <div class="card-meta-row">
-                  <span class="size-badge">1.8 MB</span>
-                  <div class="card-actions-mini">
-                    <button class="mini-view-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                    </button>
-                    <button class="mini-dl-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            @if($materials->isEmpty())
+            <div class="card-box"
+              style="grid-column: 1/-1; text-align: center; padding: 40px; background: rgba(255,255,255,0.5); border-radius: 15px; border: 2px dashed #cbd5e0; width: 100%;">
+              <p style="color: #718096; font-weight: 500;">No materials uploaded yet for your section.</p>
             </div>
-
-            <!-- Card 3 -->
-            <div class="resource-card pdf-card animate-up" style="animation-delay: 0.3s">
-              <div class="pdf-visual">
-                <div class="pdf-corner"></div>
-                <div class="pdf-logo">PDF</div>
-                <div class="pdf-icon-symbol">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                  </svg>
-                </div>
-              </div>
-              <div class="card-info">
-                <h3>Algorithm Analysis - L5</h3>
-                <p>Dynamic Programming and Greed Approaches...</p>
-                <div class="card-meta-row">
-                  <span class="size-badge">3.2 MB</span>
-                  <div class="card-actions-mini">
-                    <button class="mini-view-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                    </button>
-                    <button class="mini-dl-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3.1 (Extra) -->
-            <div class="resource-card pdf-card animate-up" style="animation-delay: 0.35s">
-              <div class="pdf-visual">
-                <div class="pdf-corner"></div>
-                <div class="pdf-logo">PDF</div>
-                <div class="pdf-icon-symbol">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <polyline points="14 2 14 8 20 8" />
-                  </svg>
-                </div>
-              </div>
-              <div class="card-info">
-                <h3>Discrete Math - L7</h3>
-                <p>Probability and Set Theory Notes...</p>
-                <div class="card-meta-row">
-                  <span class="size-badge">2.1 MB</span>
-                  <div class="card-actions-mini">
-                    <button class="mini-view-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                        <circle cx="12" cy="12" r="3" />
-                      </svg>
-                    </button>
-                    <button class="mini-dl-btn pdf">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2.5">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            @endif
           </div>
           <div class="view-more-container">
             <button class="view-more-btn" onclick="toggleGrid('pdfGrid', this)">

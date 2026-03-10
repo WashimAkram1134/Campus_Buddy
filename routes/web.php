@@ -101,6 +101,7 @@ Route::get('/cr-dashboard', function () {
 Route::post('/assignments', [ClassTaskController::class , 'store'])->name('assignments.store')->middleware('auth');
 Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
 Route::post('/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
+Route::post('/materials', [\App\Http\Controllers\MaterialController::class , 'store'])->name('materials.store')->middleware('auth');
 
 
 Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
@@ -117,7 +118,13 @@ Route::get('/community', function () {
 })->name('community')->middleware('auth');
 
 Route::get('/notes', function () {
-    return view('notes');
+    $user = auth()->user();
+    $materials = \App\Models\Material::where('department', $user->department)
+        ->where('batch', $user->batch)
+        ->where('section', $user->section)
+        ->latest()
+        ->get();
+    return view('notes', compact('materials'));
 })->name('notes')->middleware('auth');
 
 Route::get('/alumni', function () {

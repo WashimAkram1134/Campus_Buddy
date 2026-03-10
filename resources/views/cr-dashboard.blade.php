@@ -166,9 +166,9 @@
           </div>
 
           <div class="card">
-            <h3>👥 Class Roster</h3>
-            <div class="card-box">View student details</div>
-            <button>View Students</button>
+            <h3>📚 Class Materials</h3>
+            <div class="card-box">Upload PDF, PPTX, or DOCS for your class</div>
+            <button onclick="openModal('materialModal')">Upload Materials</button>
           </div>
         </div>
       </section>
@@ -358,6 +358,54 @@
             </div>
 
             <button type="submit" class="submit-btn" style="margin-top: 15px;">Save Task</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= MATERIAL MODAL ================= -->
+      <div id="materialModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Upload Class Materials</h2>
+            <span class="close" onclick="closeModal('materialModal')">&times;</span>
+          </div>
+          <form action="{{ route('materials.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="form-row" style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label>Department</label>
+                <input type="text" value="{{ Auth::user()->department }}" readonly style="background: #f4f6f8;">
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label>Batch</label>
+                <input type="text" value="{{ Auth::user()->batch }}" readonly style="background: #f4f6f8;">
+              </div>
+            </div>
+            <div class="form-row" style="display: flex; gap: 15px;">
+              <div class="form-group" style="flex: 1;">
+                <label>Section</label>
+                <input type="text" value="{{ Auth::user()->section }}" readonly style="background: #f4f6f8;">
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label>Major</label>
+                <input type="text" value="{{ Auth::user()->major ?? 'Non-Major' }}" readonly
+                  style="background: #f4f6f8;">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="material_course_code">Course Code</label>
+              <input type="text" name="course_code" id="material_course_code" placeholder="e.g. CSE 421" required>
+            </div>
+            <div class="form-group">
+              <label for="material_title">Material Title</label>
+              <input type="text" name="title" id="material_title" placeholder="e.g. Lecture 01 - Intro to AI" required>
+            </div>
+            <div class="form-group">
+              <label for="material_file">Upload File (PDF, PPTX, DOCS)</label>
+              <input type="file" name="file" id="material_file" accept=".pdf,.pptx,.docx,.doc" required
+                style="padding: 10px; border: 2px dashed #00AAFF; background: #f0faff;">
+            </div>
+            <button type="submit" class="submit-btn" style="margin-top: 15px;">Upload Material</button>
           </form>
         </div>
       </div>
