@@ -26,15 +26,20 @@ body {
 
 .routine-hero {
     position: relative;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    min-height: 520px;
+    width: 100%;
+    margin: 0;
     overflow: hidden;
+    min-height: 480px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0 10%;
-    margin-bottom: 40px;
+    padding-left: calc((100% - 1600px) / 2 + 15px);
+    background: #1a2a3a;
+}
+
+@media (max-width: 1630px) {
+    .routine-hero {
+        padding-left: 5%;
+    }
 }
 
 .routine-hero-bg {
@@ -155,16 +160,32 @@ body {
 
 /* ================= MAIN LAYOUT TWO-COLUMN ================= */
 .routine-main {
-    max-width: 1550px;
-    /* Further increased to allow wider table */
-    width: 98%;
+    max-width: 1600px;
+    width: 96%;
     margin: 40px auto;
     position: relative;
     z-index: 10;
-    padding: 0 20px;
+    padding: 0 15px;
     display: flex;
-    gap: 30px;
+    gap: 25px;
     align-items: flex-start;
+    transition: all 0.3s ease;
+}
+
+/* Hide sidebar in full routine view on desktop to maximize table space */
+.routine-main.full-view-active .today-sidebar {
+    display: none !important;
+}
+
+.routine-main.full-view-active .weekly-schedule {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+}
+
+.routine-main.full-view-active .schedule-header {
+    justify-content: center;
+    gap: 30px;
 }
 
 /* LEFT: TODAY'S SIDEBAR */
@@ -178,17 +199,18 @@ body {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.6);
     flex-shrink: 0;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
-/* Modifier class to slide sidebar further left when full table is active */
-.routine-main.full-view-active .today-sidebar {
-    transform: translateX(-20px);
+@media (max-width: 1400px) {
+    .today-sidebar {
+        width: 280px;
+    }
 }
 
-.today-sidebar.animate-in {
+/* animate-in kept for backward-compat; sidebar now uses CSS animation */
+.today-sidebar.animate-in,
+.weekly-schedule.animate-in {
     opacity: 1;
     transform: translateY(0);
 }
@@ -293,14 +315,27 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
+    /* Animate in by default — don't rely on JS observer */
+    animation: slideInUp 0.7s ease both;
 }
 
+/* Keep animate-in for JS-triggered animations (backward compat) */
+.today-sidebar.animate-in,
 .weekly-schedule.animate-in {
     opacity: 1;
     transform: translateY(0);
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .schedule-header {
@@ -597,30 +632,19 @@ body {
     display: none;
     background: white;
     border-radius: 20px;
-    padding: 0;
-    /* Remove padding to allow sticky components to reach edges */
+    padding: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
-    max-height: 600px;
-    overflow-y: auto;
-    animation: fadeInSlide 0.4s ease forwards;
-    border: 1px solid #e0e0e0;
+    /* Horizontal scroll inside the box only */
 }
 
 .full-table-header {
-    padding: 20px;
-    background: white;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 15px;
 }
 
-/* Sticky Column Headers (Blue bar) */
+/* Column header */
 .full-routine-table thead th {
-    position: sticky;
-    top: 0;
-    /* Sticks to top of scroll container */
-    z-index: 20;
-    background: #0088cc;
-    color: white;
+    z-index: 5;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -633,9 +657,12 @@ body {
 
 .full-routine-table table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     min-width: 1100px;
+    /* Further increased width */
     table-layout: fixed;
+    /* Ensures uniform column widths */
 }
 
 .full-routine-table th,
@@ -989,7 +1016,8 @@ body {
     .routine-main {
         margin-top: 20px;
         position: relative;
-        z-index: 5;
+        z-index: 20;
+        /* Increased from 5 to 20 to sit above hero-content (z-index: 11) */
     }
 
     .schedule-header {

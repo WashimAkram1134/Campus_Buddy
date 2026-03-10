@@ -373,100 +373,92 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // ================= TAB SWITCHING LOGIC =================
-      const tabs = document.querySelectorAll('.day-tab');
-      const groups = document.querySelectorAll('.day-group');
-      const viewFullBtn = document.getElementById('viewFullBtn');
+
+      // ================= ELEMENT REFS =================
+      const tabs            = document.querySelectorAll('.day-tab');
+      const groups          = document.querySelectorAll('.day-group');
+      const viewFullBtn     = document.getElementById('viewFullBtn');
+      const routineTimeline = document.getElementById('routineTimeline');
+      const fullRoutineTable= document.getElementById('fullRoutineTable');
+      const downloadPdfBtn  = document.getElementById('downloadPdfBtn');
+      const dayTabsContainer= document.querySelector('.day-tabs');
       let isFullView = false;
 
-      const routineTimeline = document.getElementById('routineTimeline');
-      const fullRoutineTable = document.getElementById('fullRoutineTable');
+      const FULL_ROUTINE_SVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Full Routine`;
 
-      // ================= ANIMATION TRIGGERS =================
-      const animateObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-            animateObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15 });
-
-      const sidebar = document.querySelector('.today-sidebar');
-      const schedule = document.querySelector('.weekly-schedule');
-      if (sidebar) animateObserver.observe(sidebar);
-      if (schedule) animateObserver.observe(schedule);
-
-      // Click on individual tab
-      tabs.forEach(tab => {
-        tab.addEventListener('click', function () {
-          if (isFullView) {
-            isFullView = false;
-            viewFullBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Full Routine';
-            viewFullBtn.classList.remove('active');
-            document.getElementById('routineMain').classList.remove('full-view-active');
-            document.getElementById('downloadPdfBtn').style.display = 'none';
-            routineTimeline.style.display = 'flex';
-            fullRoutineTable.style.display = 'none';
-            document.querySelector('.day-tabs').style.display = 'flex';
-          }
-
-          tabs.forEach(t => t.classList.remove('active'));
-          this.classList.add('active');
-          const targetDay = this.getAttribute('data-day');
-
-          groups.forEach(group => {
-            group.classList.remove('active');
-            group.style.display = 'none';
-            if (group.id === 'group-' + targetDay) {
-              group.style.display = 'block';
-              setTimeout(() => { group.classList.add('active'); }, 50);
-            }
-          });
-        });
-      });
-
-      // Click "Full Routine" button
-      viewFullBtn.addEventListener('click', function () {
-        if (!isFullView) {
-          isFullView = true;
-          this.innerHTML = 'Hide Routine';
-          this.classList.add('active');
-          document.getElementById('routineMain').classList.add('full-view-active');
-          document.getElementById('downloadPdfBtn').style.display = 'inline-flex';
-          document.querySelector('.day-tabs').style.display = 'none';
-          routineTimeline.style.display = 'none';
-          fullRoutineTable.style.display = 'block';
-        } else {
-          isFullView = false;
-          this.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Full Routine';
-          this.classList.remove('active');
-          document.getElementById('routineMain').classList.remove('full-view-active');
-          document.getElementById('downloadPdfBtn').style.display = 'none';
-          routineTimeline.style.display = 'flex';
-          fullRoutineTable.style.display = 'none';
-          document.querySelector('.day-tabs').style.display = 'flex';
-          document.querySelector('.day-tab.active').click();
-        }
-      });
-
-      // Initial state fix for day groups
-      const activeTab = document.querySelector('.day-tab.active');
-      if (activeTab) {
-        const targetDay = activeTab.getAttribute('data-day');
-        groups.forEach(group => {
-          if (group.id === 'group-' + targetDay) {
-            group.style.display = 'block';
-            group.classList.add('active');
+      // ================= DAY TAB SWITCHING =================
+      function showDayGroup(dayName) {
+        groups.forEach(g => {
+          if (g.id === 'group-' + dayName) {
+            g.style.display = 'block';
+            setTimeout(() => g.classList.add('active'), 10);
           } else {
-            group.style.display = 'none';
+            g.classList.remove('active');
+            g.style.display = 'none';
           }
         });
       }
 
-      document.getElementById('downloadPdfBtn').addEventListener('click', function () {
-        window.print();
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+          // If full view is open, switch back to tab view first
+          if (isFullView) {
+            isFullView = false;
+            viewFullBtn.innerHTML = FULL_ROUTINE_SVG;
+            viewFullBtn.classList.remove('active');
+            downloadPdfBtn.style.display = 'none';
+            routineTimeline.style.display = 'flex';
+            fullRoutineTable.style.display = 'none';
+            dayTabsContainer.style.display = 'flex';
+            document.body.style.overflowX = '';
+          }
+          tabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          showDayGroup(this.getAttribute('data-day'));
+        });
       });
+
+      // ================= FULL ROUTINE TOGGLE =================
+      viewFullBtn.addEventListener('click', function () {
+        const routineMain = document.getElementById('routineMain');
+        if (!isFullView) {
+          // Show full table
+          isFullView = true;
+          this.innerHTML = 'Hide Routine';
+          this.classList.add('active');
+          routineMain.classList.add('full-view-active');
+          downloadPdfBtn.style.display = 'inline-flex';
+          dayTabsContainer.style.display = 'none';
+          routineTimeline.style.display = 'none';
+          fullRoutineTable.style.display = 'block';
+          // Lock horizontal page scroll — table handles left-right scrolling internally
+          document.body.style.overflowX = 'hidden';
+        } else {
+          // Return to tab view
+          isFullView = false;
+          this.innerHTML = FULL_ROUTINE_SVG;
+          this.classList.remove('active');
+          routineMain.classList.remove('full-view-active');
+          downloadPdfBtn.style.display = 'none';
+          fullRoutineTable.style.display = 'none';
+          dayTabsContainer.style.display = 'flex';
+          routineTimeline.style.display = 'flex';
+          // Restore horizontal page scroll
+          document.body.style.overflowX = '';
+          // Re-show current active day
+          const activeTab = document.querySelector('.day-tab.active');
+          if (activeTab) showDayGroup(activeTab.getAttribute('data-day'));
+        }
+      });
+
+      // ================= INITIAL STATE =================
+      const activeTab = document.querySelector('.day-tab.active');
+      if (activeTab) showDayGroup(activeTab.getAttribute('data-day'));
+
+      // ================= PDF DOWNLOAD =================
+      downloadPdfBtn.addEventListener('click', () => window.print());
+
+
 
       // ================= CR EDIT MODAL =================
       window.openEditModal = function (classData) {
@@ -498,7 +490,7 @@
         document.getElementById('editScheduleModal').style.display = 'none';
       };
 
-      // Close modal on outside click
+      // Close on outside click
       window.addEventListener('click', function (event) {
         const modal = document.getElementById('editScheduleModal');
         if (event.target == modal) {

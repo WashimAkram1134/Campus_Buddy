@@ -438,22 +438,129 @@
     opacity: 0.8;
 }
 
+/* ================= DESKTOP RESPONSIVENESS ================= */
+/* Large Desktop (Extra wide) */
+@media (min-width: 1601px) {
+    .topbar {
+        padding: 0 48px;
+    }
+}
+
+/* Medium Desktop (Laptops) */
+@media (max-width: 1600px) {
+    .topbar {
+        padding: 0 24px;
+        height: 90px;
+    }
+
+    .desktop-nav {
+        gap: 15px;
+        padding: 0 20px;
+    }
+
+    .desktop-nav a,
+    .more-btn {
+        padding: 8px 14px;
+        font-size: 15px;
+    }
+
+    .logo-img {
+        height: 48px;
+    }
+
+    .logo-text {
+        font-size: 20px !important;
+    }
+}
+
+/* Small Laptops (Menu starts to get crowded) */
+@media (max-width: 1350px) {
+    .desktop-nav {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .desktop-nav a,
+    .more-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    /* Hide user info to save space, keep avatar */
+    .user-info {
+        display: none !important;
+    }
+
+    .user-profile-trigger {
+        padding: 6px;
+    }
+}
+
+/* Very Small Laptops (Switch to Hamburger or hide text) */
+@media (max-width: 1200px) {
+    .topbar {
+        height: 65px;
+        padding: 0 15px;
+    }
+
+    /* Show hamburger menu */
+    .mobile-hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Hide Desktop Nav entirely - it's too wide for 8+ links */
+    .desktop-nav {
+        display: none !important;
+    }
+
+    /* Logo stays but more compact */
+    .logo {
+        margin-right: auto;
+        gap: 8px !important;
+    }
+
+    .logo-img {
+        height: 36px;
+    }
+
+    .logo-text {
+        font-size: 15px !important;
+    }
+
+    .topbar-divider {
+        display: none;
+    }
+
+    /* Keep icons but slightly smaller */
+    .top-action-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .user-avatar-circle {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Adjust layout padding for the new 65px topbar height */
+    body .layout {
+        padding-top: 65px !important;
+    }
+}
+
 /* ================= MOBILE RESPONSIVE ================= */
 @media (max-width: 768px) {
     .topbar {
         height: 60px;
-        /* Make it slightly more compact */
         padding: 0 12px;
-        position: fixed;
-        /* Keep fixed even on mobile to match topbar-spacing logic */
-        background: #ffffff;
     }
 
     .logo-img {
         height: 32px;
     }
 
-    /* Mobile logo text logic */
     .logo-text {
         font-size: 14px !important;
         display: flex !important;
@@ -461,38 +568,10 @@
         margin-bottom: 0 !important;
     }
 
-    /* Show hamburger menu and adjust layout */
-    .mobile-hamburger-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 4px;
-    }
-
-    .logo {
-        gap: 6px !important;
-        /* Tighter gap to save space */
-        margin-right: auto;
-        /* Push icons to the right */
-    }
-
-    .topbar {
-        padding: 0 12px;
-    }
-
-    /* Adjust right section for mobile */
-    .top-right-section {
-        gap: 8px;
-    }
-
     .user-info,
     .chevron-down,
     .topbar-divider {
         display: none !important;
-    }
-
-    .user-profile-trigger {
-        padding: 4px;
     }
 
     .top-action-btn {
@@ -505,51 +584,16 @@
         height: 32px;
     }
 
-    /* Hide desktop nav on mobile (mobile-menu is used instead) */
-    .desktop-nav {
-        display: none !important;
-    }
-
-    /* GLOBAL MOBILE SPACING FIX: 
-       Ensure all pages start their main content exactly under the 60px topbar
-       with absolutely ZERO weird gaps before the hero section! */
+    /* MOBILE SPACING ADJUSTMENT */
     body .layout {
         padding-top: 60px !important;
     }
 
-    body .main,
-    body .main-content,
-    body .dashboard-container,
-    body .alumni-container {
-        padding-top: 0 !important;
-        margin-top: 0 !important;
-    }
-
-    /* Force hero sections to touch the topbar and match classtask height */
     body .hero-banner,
     body .cr-hero,
     body .routine-hero {
-        margin-top: 0 !important;
         min-height: 380px !important;
         max-height: 380px !important;
-    }
-
-    /* Global Hero text reductions */
-    body .hero-title,
-    body .cr-hero-content h1,
-    body .hero-left h1 {
-        font-size: 28px !important;
-    }
-
-    body .hero-subtitle,
-    body .cr-hero-subtitle {
-        font-size: 14px !important;
-    }
-
-    body .hero-tag,
-    body .cr-hero-tag {
-        font-size: 10px !important;
-        letter-spacing: 1px !important;
     }
 }
 
@@ -566,10 +610,5 @@
     body .cr-hero-content h1,
     body .hero-left h1 {
         font-size: 22px !important;
-    }
-
-    body .hero-subtitle,
-    body .cr-hero-subtitle {
-        font-size: 13px !important;
     }
 }
