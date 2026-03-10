@@ -8,6 +8,7 @@ class Material extends Model
 {
     protected $fillable = [
         'user_id',
+        'type',
         'department',
         'major',
         'section',

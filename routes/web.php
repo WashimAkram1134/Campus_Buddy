@@ -120,18 +120,17 @@ Route::get('/community', function () {
 Route::get('/notes', function () {
     $user = auth()->user();
 
-    // Safety check: if user has no group info, they see nothing or errors
     if (!$user->department || !$user->section || !$user->batch) {
-        $materials = collect();
-        return view('notes', compact('materials'))->with('error', 'Please update your profile with Department, Batch, and Section to see class materials.');
+        $classMaterials = collect();
+        $handNotes = collect();
+        return view('notes', compact('classMaterials', 'handNotes'))
+        ->with('error', 'Please update your profile with Department, Batch, and Section to see materials.');
     }
 
     $query = \App\Models\Material::where('department', $user->department)
         ->where('batch', $user->batch)
         ->where('section', $user->section);
 
-    // If user has a major, they see both general and major-specific materials
-    // If they don't, they only see general materials (where major is null or matches empty)
     if ($user->major) {
         $query->where(function ($q) use ($user) {
                     $q->whereNull('major')->orWhere('major', '')->orWhere('major', $user->major);
@@ -145,8 +144,11 @@ Route::get('/notes', function () {
                 );
             }
 
-            $materials = $query->latest()->get();
-            return view('notes', compact('materials'));
+            $allMaterials = $query->latest()->get();
+            $classMaterials = $allMaterials->where('type', 'class_material');
+            $handNotes = $allMaterials->where('type', 'hand_note');
+
+            return view('notes', compact('classMaterials', 'handNotes'));
         })->name('notes')->middleware('auth');
 
 Route::get('/alumni', function () {

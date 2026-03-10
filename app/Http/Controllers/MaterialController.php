@@ -15,6 +15,7 @@ class MaterialController extends Controller
             'title' => 'required|string|max:255',
             'course_code' => 'required|string|max:20',
             'file' => 'required|file|mimes:pdf,pptx,docx,doc|max:65536', // 64MB max
+            'type' => 'nullable|string|in:class_material,hand_note',
         ]);
 
         $user = Auth::user();
@@ -28,6 +29,7 @@ class MaterialController extends Controller
 
         $material = Material::create([
             'user_id' => $user->id,
+            'type' => $request->type ?? 'class_material',
             'department' => $user->department,
             'major' => $user->major,
             'section' => $user->section,
