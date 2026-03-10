@@ -25,9 +25,13 @@
 
   // Today's schedule for sidebar
   $todayName = now()->format('l');
-  $todaysClasses = $schedules->where('day', $todayName)->sortBy(function($s) {
-      return parseRoutineTime(explode('-', $s->time_slot)[0], now());
-  });
+  $todaysClasses = $schedules->where('day', $todayName)
+    ->unique(function ($item) {
+        return $item->course_title . $item->time_slot;
+    })
+    ->sortBy(function($s) {
+        return parseRoutineTime(explode('-', $s->time_slot)[0], now());
+    });
 
   if (!function_exists('getClassStatus')) {
       function getClassStatus($timeSlot, $dayName) {
@@ -155,7 +159,11 @@
             <div class="day-group {{ $todayName == $day ? 'active' : '' }}" id="group-{{ strtolower($day) }}">
               <h3 class="day-heading">{{ $day }}</h3>
 
-              @php $dayClasses = $schedules->where('day', $day)->sortBy(function($s) {
+              @php $dayClasses = $schedules->where('day', $day)
+              ->unique(function ($item) {
+              return $item->course_title . $item->time_slot;
+              })
+              ->sortBy(function($s) {
               return parseRoutineTime(explode('-', $s->time_slot)[0], now());
               }); @endphp
 
@@ -225,36 +233,38 @@
               <h3>Class Routine | {{ auth()->user()->department }} | Sec: {{ auth()->user()->section }} | Batch: {{
                 auth()->user()->batch }}</h3>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th class="col-time">Time</th>
-                  @foreach($days as $day)
-                  <th>{{ $day }}</th>
+            <div class="table-scroll-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="col-time">Time</th>
+                    @foreach($days as $day)
+                    <th>{{ $day }}</th>
+                    @endforeach
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($timeSlots as $slot)
+                  <tr>
+                    <td class="col-time">{{ $slot }}</td>
+                    @foreach($days as $day)
+                    <td>
+                      @if(isset($scheduleMap[$day][$slot]))
+                      <div class="table-class">
+                        <strong>{{ $scheduleMap[$day][$slot]->course_code }}{{ $scheduleMap[$day][$slot]->lab_section ?
+                          '('.$scheduleMap[$day][$slot]->lab_section.')' : '' }} ({{ $scheduleMap[$day][$slot]->section
+                          }})</strong><br>
+                        <span>{{ $scheduleMap[$day][$slot]->teacher_initial }}</span>
+                        <small>Room: {{ $scheduleMap[$day][$slot]->room_no }}</small>
+                      </div>
+                      @endif
+                    </td>
+                    @endforeach
+                  </tr>
                   @endforeach
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($timeSlots as $slot)
-                <tr>
-                  <td class="col-time">{{ $slot }}</td>
-                  @foreach($days as $day)
-                  <td>
-                    @if(isset($scheduleMap[$day][$slot]))
-                    <div class="table-class">
-                      <strong>{{ $scheduleMap[$day][$slot]->course_code }}{{ $scheduleMap[$day][$slot]->lab_section ?
-                        '('.$scheduleMap[$day][$slot]->lab_section.')' : '' }} ({{ $scheduleMap[$day][$slot]->section
-                        }})</strong><br>
-                      <span>{{ $scheduleMap[$day][$slot]->teacher_initial }}</span>
-                      <small>Room: {{ $scheduleMap[$day][$slot]->room_no }}</small>
-                    </div>
-                    @endif
-                  </td>
-                  @endforeach
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>

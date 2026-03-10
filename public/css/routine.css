@@ -597,20 +597,45 @@ body {
     display: none;
     background: white;
     border-radius: 20px;
-    padding: 20px;
+    padding: 0;
+    /* Remove padding to allow sticky components to reach edges */
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
     animation: fadeInSlide 0.4s ease forwards;
+    border: 1px solid #e0e0e0;
+}
+
+.full-table-header {
+    padding: 20px;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+/* Sticky Column Headers (Blue bar) */
+.full-routine-table thead th {
+    position: sticky;
+    top: 0;
+    /* Sticks to top of scroll container */
+    z-index: 20;
+    background: #0088cc;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.full-routine-table td.col-time {
+    position: sticky;
+    left: 0;
+    z-index: 10;
+    background: #0088cc !important;
 }
 
 .full-routine-table table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     min-width: 1100px;
-    /* Further increased width */
     table-layout: fixed;
-    /* Ensures uniform column widths */
 }
 
 .full-routine-table th,
