@@ -638,14 +638,16 @@ body {
 .banner-content {
     background: white;
     border-radius: 20px;
-    padding: 12px 40px;
+    padding: 15px 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
     position: relative;
     overflow: visible;
+    flex-wrap: nowrap;
+    /* Force row layout */
 }
 
 .banner-title {
@@ -653,6 +655,7 @@ body {
     font-weight: 800;
     color: #1a1e29;
     margin: 0;
+    white-space: nowrap;
 }
 
 .banner-chat-btn {
@@ -665,6 +668,7 @@ body {
     font-size: 15px;
     box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .banner-chat-btn:hover {
@@ -674,29 +678,47 @@ body {
 }
 
 .banner-mascot {
-    height: 65px;
+    height: 70px;
     width: auto;
     position: relative;
-    top: -5px;
-    margin-left: -5px;
+    transition: transform 0.3s ease;
 }
 
-@media (max-width: 768px) {
+.banner-mascot:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+@media (max-width: 992px) {
     .banner-content {
-        flex-direction: column;
-        padding: 30px 20px;
-        text-align: center;
         gap: 15px;
+        padding: 15px 25px;
     }
 
     .banner-title {
-        font-size: 20px;
+        font-size: 18px;
+    }
+
+    .banner-chat-btn {
+        padding: 10px 20px;
+        font-size: 14px;
     }
 
     .banner-mascot {
-        top: 0;
-        margin-left: 0;
-        height: 60px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 600px) {
+    .banner-content {
+        flex-direction: column;
+        /* Still stack on very small screens for usability */
+        text-align: center;
+        gap: 10px;
+        padding: 25px 20px;
+    }
+
+    .banner-title {
+        white-space: normal;
     }
 }
 
