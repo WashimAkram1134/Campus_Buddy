@@ -31,12 +31,10 @@
           <div class="hero-deco hero-deco-4"></div>
 
           <div class="hero-content">
-            <span class="hero-date">{{ now()->format('F j, Y') }}</span>
             <span class="hero-tag">RESOURCES & MATERIALS</span>
-            <h1>Access your <span>PDF & Notes</span> <em>anytime, anywhere.</em></h1>
+            <h1>Access your <span>PDF & Notes</span></h1>
             <p class="hero-desc">
-              Your centralized repository for class materials, lecture slides, and student-contributed notes.
-              Stay organized and prepare for your exams with ease.
+              Your central repository for class materials and lecture slides.
             </p>
 
             <div class="search-container">

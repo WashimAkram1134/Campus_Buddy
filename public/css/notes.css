@@ -578,6 +578,79 @@ body {
 }
 
 /* ================= RESPONSIVE ================= */
+/* ================= VISIBILITY UTILITIES ================= */
+.desktop-only {
+    display: block;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: block;
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 11;
+    text-align: left;
+    max-width: 800px;
+    padding-top: 0;
+    /* Reset for desktop */
+}
+
+/* ================= HERO ANIMATIONS ================= */
+@keyframes heroFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroSlideRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.hero-content h1 {
+    animation: heroSlideRight 0.8s ease-out forwards;
+}
+
+.hero-tag,
+.hero-date {
+    animation: heroFadeIn 0.6s ease-out forwards;
+}
+
+.hero-desc {
+    animation: heroFadeIn 1s ease-out 0.2s forwards;
+    opacity: 0;
+    /* Start hidden for animation delay */
+}
+
+.search-container {
+    animation: heroFadeIn 1.2s ease-out 0.4s forwards;
+    opacity: 0;
+}
+
 @media (max-width: 1024px) {
     .notes-container {
         flex-direction: column;
