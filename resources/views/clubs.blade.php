@@ -20,36 +20,42 @@
         <main class="main">
             <!-- ================= HERO SECTION ================= -->
             <section class="clubs-hero">
-                <div class="clubs-hero-bg"></div>
-                <div class="clubs-hero-container">
-                    <div class="clubs-hero-left reveal">
-                        <div class="clubs-hero-tag">
-                            <i class="fas fa-users"></i> Campus Community
+                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campus Clubs" class="hero-bg">
+                <div class="hero-overlay-dark"></div>
+
+                <div class="hero-content-wrapper">
+                    <div class="hero-deco hero-deco-1"></div>
+                    <div class="hero-deco hero-deco-2"></div>
+                    <div class="hero-deco hero-deco-3"></div>
+                    <div class="hero-deco hero-deco-4"></div>
+
+                    <div class="hero-inner">
+                        <span class="hero-date">{{ now()->format('F j, Y') }}</span>
+                        <span class="hero-tag">FIND YOUR TRIBE</span>
+                        <h1 class="hero-title">
+                            <span class="title-main">Campus</span>
+                            <span class="title-accent">Clubs</span>
+                        </h1>
+                        <p class="hero-subtitle">Discover organizations that match your passions, build your skills, and connect you with lifelong friends. From robotics to debate, there's a space for everyone.</p>
+
+                        <div class="hero-stats">
+                            <div class="stat-box">
+                                <span class="stat-value">45+</span>
+                                <span class="stat-label">Active Clubs</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">1200+</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value">10+</span>
+                                <span class="stat-label">Categories</span>
+                            </div>
                         </div>
-                        <h1>Find your tribe. <br>Join a <span class="highlight">Campus Club.</span></h1>
-                        <p>
-                            Discover organizations that match your passions, build your skills, and connect you with
-                            lifelong friends. From robotics to debate, there's a space for everyone.
-                        </p>
-                        <div class="clubs-hero-buttons">
+
+                        <div class="hero-buttons">
                             <a href="#explore-clubs" class="btn-primary">Explore Clubs</a>
                             <a href="#create-club" class="btn-secondary">Start a Club</a>
-                        </div>
-                    </div>
-
-                    <div class="clubs-hero-right reveal" style="transition-delay: 0.2s;">
-                        <div class="clubs-hero-image-wrap">
-                            <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Clubs"
-                                class="clubs-hero-img">
-                        </div>
-                        <div class="club-stat-badge floating">
-                            <div class="stat-icon">
-                                <i class="fas fa-flag"></i>
-                            </div>
-                            <div class="stat-info">
-                                <span class="stat-num">45+</span>
-                                <span class="stat-text">Active Clubs</span>
-                            </div>
                         </div>
                     </div>
                 </div>
