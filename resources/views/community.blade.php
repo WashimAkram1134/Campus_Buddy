@@ -233,86 +233,39 @@
           </div>
         </div>
 
-        <div class="district-grid">
-          <!-- District 1: Tangail -->
-          <div class="district-card" data-division="Dhaka">
+        @php
+        include resource_path('views/data/district_data.php');
+        @endphp
+
+        <div class="district-grid" id="district-cards-container">
+          @foreach($districtAssociations as $district)
+          <div class="district-card" data-division="{{ $district['division'] }}">
             <div class="district-logo-wrap">
-              <img src="https://i.ibb.co/VWV6c38/tangail-logo.png" alt="Tangail District Association"
+              <img src="{{ $district['logo'] }}" alt="{{ $district['name'] }}"
                 onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
             </div>
-            <h3>Tangail District Association</h3>
-            <span class="district-motto">"Born To Stay Together"</span>
+            <h3>{{ $district['name'] }}</h3>
+            <span class="district-motto">{{ $district['motto'] }}</span>
 
             <div class="district-stats">
               <div class="dist-stat">
-                <span>1.2K+</span>
+                <span>{{ $district['members'] }}</span>
                 Members
               </div>
               <div class="dist-stat">
-                <span>Active</span>
+                <span>{{ $district['status'] }}</span>
                 Status
               </div>
             </div>
 
             <div class="district-socials">
-              <a href="https://www.facebook.com/profile.php?id=61568474162445" target="_blank" rel="noopener noreferrer"
-                class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="{{ $district['fb'] }}" target="_blank" rel="noopener noreferrer" class="dist-social-link"><i
+                  class="fab fa-facebook-f"></i></a>
               <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
               <a href="#" class="dist-social-link"><i class="fas fa-globe"></i></a>
             </div>
           </div>
-
-          <!-- District 2: Dhaka -->
-          <div class="district-card" data-division="Dhaka">
-            <div class="district-logo-wrap">
-              <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Dhaka Students Forum">
-            </div>
-            <h3>Dhaka Students Forum</h3>
-            <span class="district-motto">"United by Capital, Driven by Dreams"</span>
-
-            <div class="district-stats">
-              <div class="dist-stat">
-                <span>2.5K+</span>
-                Members
-              </div>
-              <div class="dist-stat">
-                <span>Active</span>
-                Status
-              </div>
-            </div>
-
-            <div class="district-socials">
-              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="dist-social-link"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="dist-social-link"><i class="fas fa-link"></i></a>
-            </div>
-          </div>
-
-          <!-- District 3: Chittagong -->
-          <div class="district-card" data-division="Chittagong">
-            <div class="district-logo-wrap">
-              <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Chattogram Association">
-            </div>
-            <h3>Chattogram Association</h3>
-            <span class="district-motto">"Unity in Diversity"</span>
-
-            <div class="district-stats">
-              <div class="dist-stat">
-                <span>1.8K+</span>
-                Members
-              </div>
-              <div class="dist-stat">
-                <span>Active</span>
-                Status
-              </div>
-            </div>
-
-            <div class="district-socials">
-              <a href="#" class="dist-social-link"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="dist-social-link"><i class="fas fa-envelope"></i></a>
-            </div>
-          </div>
+          @endforeach
         </div>
       </section>
 
