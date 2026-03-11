@@ -291,7 +291,7 @@
       const sections = document.querySelectorAll(
         '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section'
       );
-      
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -337,21 +337,29 @@
           this.style.strokeWidth = '10';
 
           // Filter cards
+          let firstMatch = null;
           cards.forEach(card => {
             if (card.dataset.division === selectedDivision) {
               card.style.display = 'block';
               card.classList.add('animate-in');
+              if (!firstMatch) firstMatch = card;
             } else {
               card.style.display = 'none';
               card.classList.remove('animate-in');
             }
           });
+
+          if (firstMatch) {
+            setTimeout(() => {
+              firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+          }
         });
       });
 
       resetBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        divisionTextnner'Click on a division to filter';
+        divisionText.innerText = 'Click on a division to filter';
         divisionText.style.color = '#666';
 
         divisions.forEach(d => {
@@ -364,7 +372,7 @@
           card.classList.add('animate-in');
         });
       });
-    }
+    });
   </script>
 
 </body>
