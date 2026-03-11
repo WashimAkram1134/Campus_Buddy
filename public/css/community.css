@@ -957,10 +957,23 @@ body {
         font-size: 17px;
     }
 
-    .district-section {
-        margin: 40px 15px;
+    .community-cards,
+    .quick-section,
+    .recent-posts-heading,
+    .posts,
+    .district-section,
+    .trending-section {
         opacity: 1 !important;
-        /* Force visible on mobile if observer fails */
+        transform: none !important;
+    }
+
+    .comm-card,
+    .post,
+    .talent,
+    .qbox,
+    .district-card {
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     .map-wrapper {

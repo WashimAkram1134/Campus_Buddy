@@ -357,8 +357,8 @@
           card.style.display = 'block';
           card.classList.add('animate-in');
         });
-      });
-    } </script>
+    });
+  </script>
 
 </body>
 
