@@ -287,28 +287,34 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            // Animate the section itself
-            entry.target.classList.add('animate-in');
-
-            // Animate children (cards, posts, quick-action items)
-            const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card');
-            children.forEach(child => {
-              child.classList.add('animate-in');
-            });
-
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.01 });
-
-      // Observe all animated sections
+      // Simplified Global Observer
       const sections = document.querySelectorAll(
         '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section'
       );
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card');
+            children.forEach(child => child.classList.add('animate-in'));
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05 });
+
       sections.forEach(section => observer.observe(section));
+
+      // Quick Desktop Fallback: If sections still not animated after 1s, show them anyway
+      setTimeout(() => {
+        sections.forEach(section => {
+          if (!section.classList.contains('animate-in')) {
+            section.classList.add('animate-in');
+            const children = section.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card');
+            children.forEach(child => child.classList.add('animate-in'));
+          }
+        });
+      }, 1000);
 
       // Map Filtering Logic
       const divisions = document.querySelectorAll('.division');
@@ -345,7 +351,7 @@
 
       resetBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        divisionText.innerText = 'Click on a division to filter';
+        divisionTextnner'Click on a division to filter';
         divisionText.style.color = '#666';
 
         divisions.forEach(d => {
@@ -357,7 +363,8 @@
           card.style.display = 'block';
           card.classList.add('animate-in');
         });
-    });
+      });
+    }
   </script>
 
 </body>
