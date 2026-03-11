@@ -21,7 +21,7 @@
 
       <!-- ================= HERO BANNER ================= -->
       <section class="hero-banner">
-        <img src="{{ asset('images/community/community.jpg') }}" alt="Community" class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Community" class="hero-bg">
         <div class="hero-overlay-dark"></div>
 
         <div class="hero-content-wrapper">

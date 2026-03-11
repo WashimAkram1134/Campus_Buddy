@@ -20,7 +20,7 @@
         <main class="main">
             <!-- ================= HERO SECTION ================= -->
             <section class="clubs-hero">
-                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campus Clubs" class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campus Clubs" class="hero-bg">
                 <div class="hero-overlay-dark"></div>
 
                 <div class="hero-content-wrapper">
