@@ -73,7 +73,7 @@
             <div class="card-stats"><span>🎯 15 Clubs</span><span>👥 800+</span></div>
           </a>
 
-          <div class="comm-card">
+          <a href="#district-section" class="comm-card comm-card-link">
             <div class="card-img-wrap">
               <img src="{{ asset('images/community/workshop.jpg') }}" alt="District Community">
             </div>
@@ -84,7 +84,7 @@
             <h3>District Association</h3>
             <p>Connect with students from your home district. Build a strong local network on campus.</p>
             <div class="card-stats"><span>🌍 32 Districts</span><span>👥 1.2K</span></div>
-          </div>
+          </a>
 
           <a href="#posts-section" class="comm-card comm-card-link">
             <div class="card-img-wrap">
@@ -106,7 +106,9 @@
       <section class="quick-section">
         <div class="quick-actions">
           <div class="talent">Meet With Talents</div>
-          <div class="qbox">District Association</div>
+          <a href="#district-section" class="qlink">
+            <div class="qbox">District Association</div>
+          </a>
           <a href="{{ route('clubs') }}#sports-club" class="qlink">
             <div class="qbox">Sports Association</div>
           </a>
@@ -160,7 +162,7 @@
       </section>
 
       <!-- ================= DISTRICT ASSOCIATIONS ================= -->
-      <section class="district-section">
+      <section class="district-section" id="district-section">
         <div class="district-header">
           <h2>🌍 District Associations</h2>
           <div class="division-info" id="selected-division-text"
@@ -300,7 +302,7 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0.01 });
 
       // Observe all animated sections
       const sections = document.querySelectorAll(
@@ -356,8 +358,7 @@
           card.classList.add('animate-in');
         });
       });
-    });
-  </script>
+    } </script>
 
 </body>
 

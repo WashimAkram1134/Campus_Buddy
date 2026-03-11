@@ -644,6 +644,7 @@ body {
     align-items: center;
     box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
     border: 1px solid #f0e6d2;
+    overflow: hidden;
 }
 
 .map-wrapper {
@@ -958,6 +959,18 @@ body {
 
     .district-section {
         margin: 40px 15px;
+        opacity: 1 !important;
+        /* Force visible on mobile if observer fails */
+    }
+
+    .map-wrapper {
+        max-width: 100%;
+        padding: 0 5px;
+    }
+
+    .division text {
+        font-size: 30px;
+        /* Smaller text for mobile map */
     }
 
     .district-grid {
