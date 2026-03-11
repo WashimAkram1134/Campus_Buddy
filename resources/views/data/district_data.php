@@ -7,7 +7,7 @@ $districtAssociations = [
         'members' => '1.2K+',
         'status' => 'Active',
         'division' => 'Dhaka',
-        'logo' => '/Users/washimakram/Campus_Buddy/public/images/Community_Association/Tangail.png',
+        'logo' => 'images/Community_Association/Tangail.png',
         'fb' => 'https://www.facebook.com/profile.php?id=61568474162445'
     ],
     [

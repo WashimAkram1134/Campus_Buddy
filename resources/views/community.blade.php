@@ -241,7 +241,7 @@
           @foreach($districtAssociations as $district)
           <div class="district-card" data-division="{{ $district['division'] }}">
             <div class="district-logo-wrap">
-              <img src="{{ $district['logo'] }}" alt="{{ $district['name'] }}"
+              <img src="{{ asset($district['logo']) }}" alt="{{ $district['name'] }}"
                 onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
             </div>
             <h3>{{ $district['name'] }}</h3>
