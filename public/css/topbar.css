@@ -550,7 +550,6 @@
     }
 }
 
-/* Intermediate Desktop Adjustments for topbar padding */
 @media (max-width: 1350px) {
     body .layout {
         padding-top: 90px !important;
@@ -563,9 +562,14 @@
     }
 }
 
-/* Ensure default desktop layout has zero gap */
+/* Base desktop padding */
 body .layout {
     padding-top: 100px !important;
+}
+
+/* Ensure heroes don't overlap if they have specific heights */
+.hero-banner, .routine-hero, .cr-hero {
+    margin-top: 0 !important;
 }
 
 /* ================= MOBILE RESPONSIVE ================= */
@@ -602,9 +606,12 @@ body .layout {
         height: 32px;
     }
 
-    /* MOBILE SPACING ADJUSTMENT */
+    /* MOBILE SPACING ADJUSTMENT 
+       Topbar (60px) + Mobile Menu (60px) = 120px
+       But Mobile Menu starts at 60px top
+    */
     body .layout {
-        padding-top: 60px !important;
+        padding-top: 120px !important;
     }
 
     body .hero-banner,

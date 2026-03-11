@@ -1,65 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Clubs | Campus Buddy</title>
-    <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+@section('title', 'University Clubs | Campus Buddy')
+
+@push('styles')
     <link rel="stylesheet" href="{{ asset('css/clubs.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
+@endpush
 
-<body>
+@section('content')
+{{-- ══════════════════════════════════════════════════
+HERO BANNER
+Standardized structure matching Routine page
+══════════════════════════════════════════════════ --}}
+<section class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');">
+    <div class="hero-overlay absolute inset-0 bg-black/50"></div>
 
-    @include('includes.menu')
+    {{-- decorative dots matching routine style --}}
+    <div class="hero-deco opacity-20 absolute w-20 h-20 rounded-full bg-white/10 -top-4 right-[20%] pointer-events-none"></div>
+    <div class="hero-deco opacity-20 absolute w-6 h-6 rounded-full bg-sky-500/30 bottom-10 left-[42%] pointer-events-none"></div>
 
-    <div class="layout">
-        <main class="main">
-            <!-- ================= HERO SECTION ================= -->
-            <section class="clubs-hero">
-                <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Campus Clubs" class="hero-bg">
-                <div class="hero-overlay-dark"></div>
+    <div class="hero-text relative z-10 text-white text-left px-6 max-w-3xl">
+        <span class="hero-tag text-xs tracking-widest text-sky-400 font-bold uppercase mb-4 block">EXTRACURRICULAR ACTIVITIES</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">Explore & Join <br><span class="text-sky-400">University Clubs</span></h1>
+        <p class="hero-desc text-lg text-gray-200 opacity-90">Connect with students who share your passions and build lasting friendships outside the classroom.</p>
+    </div>
+</section>
 
-                <div class="hero-content-wrapper">
-                    <div class="hero-deco hero-deco-1"></div>
-                    <div class="hero-deco hero-deco-2"></div>
-                    <div class="hero-deco hero-deco-3"></div>
-                    <div class="hero-deco hero-deco-4"></div>
-
-                    <div class="hero-inner">
-                        <span class="hero-date">{{ now()->format('F j, Y') }}</span>
-                        <span class="hero-tag">FIND YOUR TRIBE</span>
-                        <h1 class="hero-title">
-                            <span class="title-main">Campus</span>
-                            <span class="title-accent">Clubs</span>
-                        </h1>
-                        <p class="hero-subtitle">Discover organizations that match your passions, build your skills, and connect you with lifelong friends. From robotics to debate, there's a space for everyone.</p>
-
-                        <div class="hero-stats">
-                            <div class="stat-box">
-                                <span class="stat-value">45+</span>
-                                <span class="stat-label">Active Clubs</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-value">1200+</span>
-                                <span class="stat-label">Members</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-value">10+</span>
-                                <span class="stat-label">Categories</span>
-                            </div>
-                        </div>
-
-                        <div class="hero-buttons">
-                            <a href="#explore-clubs" class="btn-primary">Explore Clubs</a>
-                            <a href="#create-club" class="btn-secondary">Start a Club</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<div class="clubs-page">
+    <div class="dashboard-container mt-10">
 
             <!-- ================= CLUBS GRID DIRECTORY ================= -->
             <section id="explore-clubs" class="clubs-section">
@@ -343,5 +310,6 @@
             })
         });
     </script>
-
-</body>
+    </div>
+</div>
+@endsection

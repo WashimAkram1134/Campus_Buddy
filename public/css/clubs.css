@@ -1,14 +1,8 @@
 /* ================= CLUBS PAGE STYLES ================= */
-.layout {
-    display: flex;
-    width: 100%;
-    margin: 0;
-    min-height: 100vh;
-    padding-top: 100px;
-}
-
+/* Layout wrapper handled globally in app.blade.php */
 .main {
-    padding: 0 !important;
+    flex: 1;
+    padding: 0;
 }
 
 /* Animations */
@@ -53,18 +47,43 @@
     }
 }
 
-/* ================= HERO SECTION ================= */
-.clubs-hero {
+/* ================= HERO SECTION (Standardized matching Routine) ================= */
+.hero-banner {
     position: relative;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
+    width: 100%;
     min-height: 520px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0 10%;
-    margin-bottom: 40px;
+    padding-left: calc((100% - 1600px) / 2 + 15px);
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 1630px) {
+    .hero-banner {
+        padding-left: 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-banner {
+        min-height: 380px !important;
+        padding-left: 20px;
+    }
+    .hero-banner .hero-text h1 {
+        font-size: 32px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner {
+        min-height: 300px !important;
+    }
+    .hero-banner .hero-text h1 {
+        font-size: 24px !important;
+    }
 }
 
 .clubs-hero .hero-bg {

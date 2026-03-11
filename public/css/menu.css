@@ -14,7 +14,7 @@ body {
 /* ================= STANDARDIZED MAIN CONTENT ================= */
 .main {
     flex: 1;
-    padding: 0 40px 30px;
+    padding: 0;
     width: 100%;
     min-height: calc(100vh - 100px);
 }
@@ -72,7 +72,7 @@ body {
 /* ================= MOBILE RESPONSIVE FOR MAIN CONTENT ================= */
 @media (max-width: 768px) {
     .main {
-        padding: 160px 15px 30px !important;
+        padding: 0 !important;
     }
 
     .header-row {
@@ -188,7 +188,7 @@ nav.mobile-menu a.active::after {
     .mobile-menu {
         display: flex !important;
         position: fixed;
-        top: 80px;
+        top: 60px;
         left: 0;
         z-index: 1000;
     }

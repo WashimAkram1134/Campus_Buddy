@@ -80,7 +80,7 @@
         <div class="routine-hero-content">
           <span class="hero-date">{{ now()->format('F j, Y') }}</span>
           <span class="routine-hero-tag">STAY ON TRACK</span>
-          <h1>Your Class <span>Routine</span></h1>
+          <h1 class="interactive-title">Your Class <span class="title-accent">Routine</span></h1>
           <p class="routine-hero-subtitle">Organize your academic life with your personalized weekly schedule.</p>
         </div>
 
