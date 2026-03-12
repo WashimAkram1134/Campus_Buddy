@@ -115,9 +115,9 @@ body {
 
 /* Layout wrapper handled globally in app.blade.php / topbar.css */
 .dashboard-container {
-    max-width: 1800px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 40px 60px;
+    padding: 0 30px 40px;
 }
 
 /* ============================================================
@@ -344,7 +344,7 @@ body {
    ============================================================ */
 .dashboard-grid {
     display: flex;
-    gap: 32px;
+    gap: 24px;
     align-items: flex-start;
 }
 
@@ -354,11 +354,11 @@ body {
 }
 
 .side-col {
-    width: 420px;
+    width: 360px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
 .section-head {
@@ -369,13 +369,13 @@ body {
 }
 
 .section-title {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 700;
     color: var(--text-dark);
 }
 
 .section-link {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: var(--text-link);
     text-decoration: none;
@@ -387,14 +387,14 @@ body {
 .stat-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 40px;
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
 .stat-card {
     background: var(--surface);
     border-radius: var(--r-card);
-    padding: 30px 24px;
+    padding: 20px 18px;
     text-align: center;
     box-shadow: var(--shadow-card);
     border: 3px solid transparent;
@@ -402,7 +402,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 280px;
+    min-height: 220px;
     justify-content: center;
     position: relative;
     text-decoration: none;
@@ -505,7 +505,7 @@ body {
 /* Announcement mini feed scroll bar */
 .announcement-mini-feed {
     width: 100%;
-    max-height: 140px;
+    max-height: 110px;
     overflow-y: auto;
     margin: 10px 0;
     padding: 12px 5px 0;
@@ -522,9 +522,9 @@ body {
 }
 
 .mini-announcement-item {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     position: relative;
-    padding: 25px 12px 15px;
+    padding: 20px 10px 12px;
     /* Increased top padding to accommodate badge */
     background: rgba(255, 255, 255, 0.4);
     border-radius: 12px;
@@ -652,20 +652,20 @@ body {
 }
 
 .stat-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
 }
 
 .stat-value {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 800;
     color: var(--text-dark);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .stat-sub {
@@ -675,11 +675,11 @@ body {
 }
 
 .stat-label {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-muted);
     font-weight: 500;
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: 8px;
 }
 
 /* Progress Badge for Stat Cards */
@@ -731,7 +731,7 @@ body {
 .event-card-scroll {
     flex: 0 0 calc(50% - 10px);
     /* Exactly 2 cards visible with 20px gap */
-    height: 340px;
+    height: 260px;
     /* Resized to be slightly smaller */
     background: var(--surface);
     border-radius: var(--r-card);
@@ -770,7 +770,7 @@ body {
 }
 
 .event-card-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #fff;
     margin: 0;
@@ -787,7 +787,7 @@ body {
 }
 
 .event-card-desc {
-    font-size: 13px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.4;
     margin: 0;
@@ -829,10 +829,10 @@ body {
 .chatbox-header {
     background: linear-gradient(135deg, var(--primary), var(--primary-light));
     color: #fff;
-    padding: 16px 18px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .chatbox-header img {
@@ -851,21 +851,21 @@ body {
 }
 
 .chatbox-body {
-    padding: 20px;
-    height: 550px;
+    padding: 16px;
+    height: 450px;
     overflow-y: auto;
     background: #f8fafc;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
 }
 
 .chat-bubble {
-    padding: 11px 15px;
-    border-radius: 16px;
-    font-size: 13px;
+    padding: 9px 13px;
+    border-radius: 14px;
+    font-size: 12px;
     line-height: 1.5;
-    max-width: 88%;
+    max-width: 90%;
 }
 
 .buddy-bubble {

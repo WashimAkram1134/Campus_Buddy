@@ -381,8 +381,8 @@ Standardized structure matching Routine page
   </div>
 
   <script>
-    ion() {
-      endBtn = document.getElementById('chatSend');
+    (function () {
+      const sendBtn = document.getElementById('chatSend');
       const chatInput = document.getElementById('chatInput');
       const chatBody = document.getElementById('chatBody');
 
@@ -437,7 +437,8 @@ Standardized structure matching Routine page
       // Close on clicking outside the image
       // Announcement Modal Logic
       window.openAnnouncementModal = function (title, content, time) {
-        document.getElementById('modalAnnounceTitle').innerText = title    ument.getElementById('modalAnnoueConinnerText = content;
+        document.getElementById('modalAnnounceTitle').innerText = title;
+        document.getElementById('modalAnnounceContent').innerText = content;
         document.getElementById('modalAnnounceTime').innerText = 'Posted ' + time;
         document.getElementById('announcementDetailModal').style.display = 'block';
       };

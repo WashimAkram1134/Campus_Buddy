@@ -1,4 +1,4 @@
-<?php
+@php
   // Helper to get class for a specific day and time slot
   $days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   $timeSlots = ['8.30 am-10.00 am', '10.00 am-11.30 am', '11.30 am-1.00 pm', '1.00 pm-2.30 pm', '2.30 pm-4.00 pm', '4.00 pm-5.30 pm'];
@@ -51,28 +51,17 @@
           return 'Upcoming';
       }
   }
-?>
+@endphp
 
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class Routine - Campus Buddy</title>
-  <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/routine.css') }}">
-</head>
+@section('title', 'Class Routine - Campus Buddy')
 
-<body>
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/routine.css') }}">
+@endpush
 
-  @include('includes.menu')
-
-  <div class="layout">
-    <main class="main">
-
+@section('content')
       <section class="routine-hero">
         <img src="{{ asset('images/routine/hero.png') }}" alt="Campus" class="routine-hero-bg">
         <div class="routine-hero-overlay"></div>
@@ -279,9 +268,6 @@
         </div>
       </section>
 
-    </main>
-  </div>
-
   @if(auth()->user()->role === 'cr')
   <!-- ================= EDIT SCHEDULE MODAL ================= -->
   <div id="editScheduleModal" class="routine-modal">
@@ -369,8 +355,9 @@
   </script>
   @endif
 
-  @include('includes.footer')
+@endsection
 
+@push('scripts')
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -499,7 +486,4 @@
       });
     });
   </script>
-
-</body>
-
-</html>
+@endpush

@@ -1,16 +1,10 @@
 /* ================= RESET ================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Segoe UI, sans-serif;
-}
-
 body {
     background: #d9edf7;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
 }
 
 /* ================= ANIMATIONS ================= */
@@ -31,16 +25,8 @@ body {
 }
 
 /* ================= LAYOUT ================= */
-.layout {
-    display: flex;
-    margin-left: 0;
-    padding-top: 100px;
-}
-
-/* ================= MAIN CONTENT ================= */
+/* Layout handled by topbar.css and app.blade.php */
 .main {
-    flex: 1;
-    padding: 0;
     padding-bottom: 80px;
 }
 

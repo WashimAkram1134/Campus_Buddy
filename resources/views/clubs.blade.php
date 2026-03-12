@@ -259,8 +259,9 @@ Standardized structure matching Routine page
         </main>
     </div>
 
-    @include('includes.footer')
+@endsection
 
+@push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Reveal Animations using Intersection Observer
@@ -310,6 +311,4 @@ Standardized structure matching Routine page
             })
         });
     </script>
-    </div>
-</div>
-@endsection
+@endpush

@@ -543,10 +543,16 @@
         width: 32px;
         height: 32px;
     }
+}
 
-    /* Adjust layout padding for the new 65px topbar height */
+/* Base desktop padding */
+body .layout {
+    padding-top: 100px !important;
+}
+
+@media (max-width: 1600px) {
     body .layout {
-        padding-top: 65px !important;
+        padding-top: 90px !important;
     }
 }
 
@@ -556,15 +562,11 @@
     }
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1200px) {
+    /* Adjust layout padding for the new 65px topbar height */
     body .layout {
-        padding-top: 90px !important;
+        padding-top: 65px !important;
     }
-}
-
-/* Base desktop padding */
-body .layout {
-    padding-top: 100px !important;
 }
 
 /* Ensure heroes don't overlap if they have specific heights */
@@ -611,25 +613,13 @@ body .layout {
        But Mobile Menu starts at 60px top
     */
     body .layout {
-        padding-top: 120px !important;
+        padding-top: 60px !important;
     }
 
-    body .hero-banner,
-    body .cr-hero,
-    body .routine-hero {
-        min-height: 380px !important;
-        max-height: 380px !important;
-    }
 }
 
 @media (max-width: 480px) {
 
-    body .hero-banner,
-    body .cr-hero,
-    body .routine-hero {
-        min-height: 300px !important;
-        max-height: 300px !important;
-    }
 
     body .hero-title,
     body .cr-hero-content h1,

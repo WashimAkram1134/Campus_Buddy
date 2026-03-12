@@ -1,8 +1,7 @@
 /* ================= CLUBS PAGE STYLES ================= */
 /* Layout wrapper handled globally in app.blade.php */
 .main {
-    flex: 1;
-    padding: 0;
+    padding-bottom: 80px;
 }
 
 /* Animations */
