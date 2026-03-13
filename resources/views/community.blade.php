@@ -142,8 +142,56 @@
                     <p>Robotics Workshop This week</p>
                 </div>
             </div>
-            <div class="event-tag">Friday, 5PM – Lab 301</div>
+            <div class="event-tag" style="display: inline-block; margin-top: 10px; padding: 5px 12px; background: #f8f9fa; border-radius: 5px; font-size: 12px; color: #555; border: 1px solid #e0e0e0;">Friday, 5PM – Lab 301</div>
             <div class="meta"><span>👍 27</span><span>💬 12</span></div>
+        </div>
+
+        <div class="post">
+            <div class="post-top">
+                <div class="avatar">🎨</div>
+                <div>
+                    <h4>Art & Design <span>2h ago</span></h4>
+                    <p>New gallery exhibition featuring student artwork. Come see!</p>
+                </div>
+            </div>
+            <a class="join">View Gallery</a>
+            <div class="meta"><span>👍 42</span><span>💬 8</span></div>
+        </div>
+
+        <div class="post">
+            <div class="post-top">
+                <div class="avatar">🏐</div>
+                <div>
+                    <h4>Sports Club <span>Today</span></h4>
+                    <p>Intra-university Volleyball tournament registrations are open.</p>
+                </div>
+            </div>
+            <a class="join">Register Now</a>
+            <div class="meta"><span>👍 65</span><span>💬 31</span></div>
+        </div>
+
+        <div class="post">
+            <div class="post-top">
+                <div class="avatar">🔍</div>
+                <div>
+                    <h4>Lost & Found <span>1h ago</span></h4>
+                    <p>Found a blue water bottle in C-Block room 402.</p>
+                </div>
+            </div>
+            <a class="join">Claim Item</a>
+            <div class="meta"><span>👍 12</span><span>💬 5</span></div>
+        </div>
+
+        <div class="post">
+            <div class="post-top">
+                <div class="avatar">📅</div>
+                <div>
+                    <h4>SWE Dept <span>Tomorrow</span></h4>
+                    <p>Guest lecture on "Modern Software Architecture" by Tech Lead from Google.</p>
+                </div>
+            </div>
+            <a class="join">Set Reminder</a>
+            <div class="meta"><span>👍 110</span><span>💬 45</span></div>
         </div>
 
         <button class="view-more">View More</button>
