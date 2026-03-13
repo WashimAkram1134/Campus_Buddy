@@ -72,9 +72,9 @@
     align-items: center;
     gap: 24px;
     flex: 1;
-    justify-content: flex-start;
-    padding: 0 40px;
-    margin-left: 120px;
+    justify-content: center;
+    padding: 0 20px;
+    margin-left: 40px;
 }
 
 .desktop-nav a {
@@ -210,7 +210,7 @@
 .top-right-section {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     flex-shrink: 0;
 }
 
@@ -289,6 +289,8 @@
 .user-info {
     display: flex;
     flex-direction: column;
+    max-width: 140px;
+    overflow: hidden;
 }
 
 .user-info .user-name {
@@ -296,6 +298,9 @@
     font-weight: 600;
     color: #2d3748;
     line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-info .user-role {
