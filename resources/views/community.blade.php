@@ -158,7 +158,7 @@
             <div class="meta"><span>👍 42</span><span>💬 8</span></div>
         </div>
 
-        <div class="post">
+        <div class="post extra-post">
             <div class="post-top">
                 <div class="avatar">🏐</div>
                 <div>
@@ -170,7 +170,7 @@
             <div class="meta"><span>👍 65</span><span>💬 31</span></div>
         </div>
 
-        <div class="post">
+        <div class="post extra-post">
             <div class="post-top">
                 <div class="avatar">🔍</div>
                 <div>
@@ -182,7 +182,7 @@
             <div class="meta"><span>👍 12</span><span>💬 5</span></div>
         </div>
 
-        <div class="post">
+        <div class="post extra-post">
             <div class="post-top">
                 <div class="avatar">📅</div>
                 <div>
@@ -194,7 +194,7 @@
             <div class="meta"><span>👍 110</span><span>💬 45</span></div>
         </div>
 
-        <button class="view-more">View More</button>
+        <button class="view-more" id="view-more-posts">View More</button>
     </section>
 
     <!-- ================= DISTRICT ASSOCIATIONS ================= -->
@@ -397,6 +397,20 @@
                     card.classList.add('animate-in');
                 });
             });
+
+            // View More Posts functionality
+            const viewMorePostsBtn = document.getElementById('view-more-posts');
+            const hiddenPosts = document.querySelectorAll('.extra-post');
+
+            if (viewMorePostsBtn) {
+                viewMorePostsBtn.addEventListener('click', function () {
+                    hiddenPosts.forEach(post => {
+                        post.classList.remove('extra-post');
+                        post.classList.add('animate-in');
+                    });
+                    this.style.display = 'none';
+                });
+            }
         });
     </script>
 @endpush

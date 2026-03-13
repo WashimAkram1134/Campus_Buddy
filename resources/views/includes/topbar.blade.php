@@ -57,14 +57,68 @@ $currentRoute = Route::currentRouteName() ?? '';
     </a>
 
     <!-- Notification Bell -->
-    <a href="#" class="top-action-btn notification-btn" aria-label="Notifications">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-      </svg>
-      <span class="notification-badge">3</span>
-    </a>
+    <div class="notification-container">
+      <a href="javascript:void(0)" class="top-action-btn notification-btn" id="notificationBtn" aria-label="Notifications">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notification-badge">3</span>
+      </a>
+
+      <div class="notification-dropdown" id="notificationDropdown">
+        <div class="notif-header">
+          <h3>Notifications</h3>
+          <span class="mark-all">Mark all as read</span>
+        </div>
+        <div class="notif-body">
+          <div class="notif-item unread">
+            <div class="notif-icon submission">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+              </svg>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text">New CR Submission: <strong>Cloud Computing Assignment 2</strong></p>
+              <span class="notif-time">2 mins ago</span>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="notif-icon dashboard">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="3" y1="9" x2="21" y2="9"></line>
+                <line x1="9" y1="21" x2="9" y2="9"></line>
+              </svg>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text">CR Dashboard Update: <strong>Routine changed for Monday</strong></p>
+              <span class="notif-time">1 hour ago</span>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon alert">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text">Important: <strong>Fees payment deadline approaching</strong></p>
+              <span class="notif-time">5 hours ago</span>
+            </div>
+          </div>
+        </div>
+        <div class="notif-footer">
+          <a href="{{ route('cr-dashboard') }}">View CR Dashboard updates</a>
+        </div>
+      </div>
+    </div>
 
     <!-- Vertical Divider -->
     <div class="topbar-divider"></div>
@@ -73,10 +127,13 @@ $currentRoute = Route::currentRouteName() ?? '';
       <!-- Profile Trigger -->
       <div class="user-profile-trigger" id="userProfileIcon">
         <div class="user-avatar-circle">
-          <svg viewBox="0 0 24 24" fill="#a0aec0" width="24" height="24">
-            <path
-              d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-          </svg>
+          @if(Auth::user()->profile_image)
+            <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+          @else
+            <svg viewBox="0 0 24 24" fill="#a0aec0" width="24" height="24">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+          @endif
         </div>
 
         <div class="user-info">
@@ -92,6 +149,17 @@ $currentRoute = Route::currentRouteName() ?? '';
 
       <div class="user-dropdown" id="userDropdown">
         <div class="dropdown-header">
+          <div class="dropdown-avatar-wrap" style="width: 60px; height: 60px; margin: 0 auto 10px; border-radius: 50%; overflow: hidden; border: 2px solid #edf2f7;">
+            @if(Auth::user()->profile_image)
+              <img src="{{ asset('storage/' . Auth::user()->profile_image) }}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+            @else
+              <div style="width: 100%; height: 100%; background: #f7fafc; display: flex; align-items: center; justify-content: center;">
+                <svg viewBox="0 0 24 24" fill="#a0aec0" width="32" height="32">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+              </div>
+            @endif
+          </div>
           <p class="dropdown-name">{{ Auth::user()->name ?? 'User' }}</p>
           <p class="dropdown-email">{{ Auth::user()->student_id ?? 'ID Missing' }}</p>
           <p class="dropdown-role">{{ strtoupper(Auth::user()->role ?? 'Student') }}</p>
@@ -161,8 +229,12 @@ $currentRoute = Route::currentRouteName() ?? '';
         <h2>Account Settings</h2>
         <span class="close" onclick="closeModal('profileModal')">&times;</span>
       </div>
-      <form action="{{ route('profile.update') }}" method="POST">
+      <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <div class="form-group">
+          <label for="profile_image_update">Profile Picture</label>
+          <input type="file" name="profile_image" id="profile_image_update" accept="image/*">
+        </div>
         <div class="form-group">
           <label for="dept_update">Department</label>
           <input type="text" name="department" id="dept_update" value="{{ Auth::user()->department }}" required>
@@ -275,6 +347,24 @@ $currentRoute = Route::currentRouteName() ?? '';
         document.addEventListener('click', function (e) {
           if (!dropdown.contains(e.target) && e.target !== profileIcon) {
             dropdown.classList.remove('show');
+          }
+        });
+      }
+
+      // Notification toggle
+      const notifBtn = document.getElementById('notificationBtn');
+      const notifDropdown = document.getElementById('notificationDropdown');
+
+      if (notifBtn && notifDropdown) {
+        notifBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          notifDropdown.classList.toggle('show');
+          if (dropdown) dropdown.classList.remove('show'); // Hide user dropdown if open
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!notifDropdown.contains(e.target) && e.target !== notifBtn) {
+            notifDropdown.classList.remove('show');
           }
         });
       }
