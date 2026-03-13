@@ -46,46 +46,21 @@
     }
 }
 
-/* ================= HERO SECTION (Standardized matching Routine) ================= */
+/* ================= HERO SECTION ================= */
 .hero-banner {
     position: relative;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     min-height: 520px;
     display: flex;
     align-items: center;
-    padding-left: calc((100% - 1600px) / 2 + 15px);
+    justify-content: flex-start;
+    padding: 0 10%;
+    margin-bottom: 40px;
     overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
-@media (max-width: 1630px) {
-    .hero-banner {
-        padding-left: 5%;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-banner {
-        min-height: 380px !important;
-        padding-left: 20px;
-    }
-    .hero-banner .hero-text h1 {
-        font-size: 32px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-banner {
-        min-height: 300px !important;
-    }
-    .hero-banner .hero-text h1 {
-        font-size: 24px !important;
-    }
-}
-
-.clubs-hero .hero-bg {
+.hero-bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -95,7 +70,7 @@
     filter: blur(2px);
 }
 
-.clubs-hero .hero-overlay-dark {
+.hero-overlay-dark {
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, rgba(10, 20, 30, 0.85), rgba(0, 80, 130, 0.65));
