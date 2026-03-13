@@ -128,7 +128,7 @@
                     <!-- Club 3: Change Together -->
                     <div class="club-card reveal" data-category="arts" style="transition-delay: 0.2s;">
                         <div class="club-banner">
-                            <div style="width: 100%; height: 100%; background: #f0f4f8; display: flex; align-items: center; justify-content: center; font-size: 40px;">🤝</div>
+                            <img src="{{ asset('images/clubs/change_together.png') }}" alt="Change Together Club">
                             <span class="club-category">Social</span>
                         </div>
                         <div class="club-body">
@@ -220,7 +220,7 @@
                     <!-- Club 6: Cultural Club -->
                     <div class="club-card reveal" data-category="arts" style="transition-delay: 0.2s;">
                         <div class="club-banner">
-                            <img src="{{ asset('images/clubs/drama.png') }}" alt="Cultural Club">
+                            <img src="{{ asset('images/clubs/cultural_club.png') }}" alt="Cultural Club">
                             <span class="club-category">Arts & Culture</span>
                         </div>
                         <div class="club-body">
@@ -248,7 +248,38 @@
                         </div>
                     </div>
 
-                    <!-- Club 7: Debate -->
+                    <!-- Club 7: All Stars Daffodil -->
+                    <div class="club-card reveal" data-category="arts" style="transition-delay: 0.3s;">
+                        <div class="club-banner">
+                            <img src="{{ asset('images/clubs/all_stars.png') }}" alt="All Stars Daffodil">
+                            <span class="club-category">Drama</span>
+                        </div>
+                        <div class="club-body">
+                            <div class="club-logo">🎭</div>
+                            <div class="club-info">
+                                <h3>All Stars Daffodil</h3>
+                                <p>All Stars Daffodil is a drama organization. It is the only theater club at DIU, practicing pure Bengali culture through various plays.</p>
+                            </div>
+                            <div class="club-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-map-marker-alt"></i> Central Building
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar-alt"></i> Weekend Basis
+                                </div>
+                            </div>
+                            <div class="club-action">
+                                <div class="members-avatar">
+                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
+                                    <div class="more">+120</div>
+                                </div>
+                                <a href="https://clubs.daffodilvarsity.edu.bd/club/asd" target="_blank"
+                                    class="join-btn">Visit Website</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Club 8: Debate -->
                     <div class="club-card reveal" data-category="academic">
                         <div class="club-banner">
                             <img src="{{ asset('images/clubs/debate.png') }}" alt="Debate Club">
@@ -278,7 +309,7 @@
                         </div>
                     </div>
 
-                    <!-- Club 8: Sports -->
+                    <!-- Club 9: Sports -->
                     <div class="club-card reveal" data-category="sports" id="sports-club">
                         <div class="club-banner">
                             <img src="{{ asset('images/clubs/sports.png') }}" alt="Sports Club">
