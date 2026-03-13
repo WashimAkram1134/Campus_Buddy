@@ -266,22 +266,32 @@ $currentRoute = Route::currentRouteName() ?? '';
     .modal {
       display: none;
       position: fixed;
-      z-index: 10000;
+      z-index: 999999; /* Extremely high to be above everything */
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      display: none; 
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.show {
+        display: flex !important;
     }
 
     .modal-content {
       background: white;
-      margin: 10% auto;
-      padding: 30px;
-      width: 400px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin: auto;
+      padding: 35px;
+      width: 90%;
+      max-width: 420px;
+      border-radius: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      transform: translateY(-20px);
     }
 
     .modal-header {
@@ -309,16 +319,31 @@ $currentRoute = Route::currentRouteName() ?? '';
 
     .form-group label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
+      margin-bottom: 8px;
+      font-weight: 700;
       font-size: 14px;
+      color: #000000 !important; /* Force black text */
     }
 
     .form-group input {
       width: 100%;
-      padding: 10px;
-      border: 2px solid #edf2f7;
-      border-radius: 8px;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      color: #000000; /* Input text black */
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+        border-color: #00AAFF;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
+    }
+
+    .modal-header h2 {
+        color: #000000 !important;
+        font-weight: 800;
     }
 
     .submit-btn {
@@ -371,12 +396,12 @@ $currentRoute = Route::currentRouteName() ?? '';
 
       window.openModal = function (id) {
         const modal = document.getElementById(id);
-        if (modal) modal.style.display = "block";
+        if (modal) modal.classList.add('show');
       };
 
       window.closeModal = function (id) {
         const modal = document.getElementById(id);
-        if (modal) modal.style.display = "none";
+        if (modal) modal.classList.remove('show');
       };
 
       window.onclick = function (event) {
