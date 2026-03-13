@@ -70,23 +70,23 @@
 .desktop-nav {
     display: flex;
     align-items: center;
-    gap: 28px;
+    gap: 24px;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 0 40px;
+    margin-left: 120px;
 }
 
 .desktop-nav a {
     position: relative;
     text-decoration: none;
-    color: #555;
-    font-size: 17px;
+    color: #4a5568;
+    font-size: 16px;
     font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 10px;
-    transition: color 0.3s ease, background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 6px 18px;
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
-    overflow: hidden;
 }
 
 /* Underline slide-in effect */
@@ -108,9 +108,8 @@
 }
 
 .desktop-nav a:hover {
-    background: rgba(0, 170, 255, 0.08);
-    color: #00aaff;
-    transform: translateY(-1px);
+    color: #1a202c;
+    transform: translateY(-2px) scale(1.02);
 }
 
 /* ================= MORE DROPDOWN ================= */
@@ -135,8 +134,8 @@
 }
 
 .more-btn:hover {
-    background: rgba(0, 170, 255, 0.08);
-    color: #00aaff;
+    color: #1a202c;
+    transform: translateY(-2px) scale(1.02);
 }
 
 .more-dropdown-content {
@@ -191,7 +190,8 @@
     background: linear-gradient(135deg, #00aaff, #0088cc);
     color: white;
     font-weight: 600;
-    box-shadow: 0 2px 10px rgba(0, 170, 255, 0.35);
+    padding: 6px 18px;
+    box-shadow: 0 4px 12px rgba(0, 170, 255, 0.25);
 }
 
 .desktop-nav a.active::after {
@@ -545,9 +545,19 @@
     }
 }
 
-/* Base desktop padding */
+/* Base desktop padding and structural flex */
 body .layout {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    min-height: 100vh;
     padding-top: 100px !important;
+}
+
+body .main {
+    flex: 1;
+    width: 100%;
+    margin: 0;
 }
 
 @media (max-width: 1600px) {
