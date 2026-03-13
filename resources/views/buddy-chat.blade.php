@@ -5,10 +5,27 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/buddy-chat.css') }}">
     <style>
-        /* Override for topbar height */
+        /* Force full screen filling and hide footer */
+        footer, .footer {
+            display: none !important;
+        }
+        
+        body, html {
+            overflow: hidden;
+            background: #ffffff !important;
+        }
+
+        .main {
+            padding-bottom: 0 !important;
+        }
+
         .buddy-chat-wrapper {
             height: calc(100vh - 100px);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
+
         @media (max-width: 1600px) {
             .buddy-chat-wrapper { height: calc(100vh - 90px); }
         }
@@ -24,9 +41,12 @@
             display: none !important;
         }
 
-        /* Adjust layout padding-top which is already handled by layouts.app but let's be sure */
+        /* The layout padding-top is handled by app.blade.php / topbar.css (100px) */
         .layout {
-            padding-top: 0 !important;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 @endpush
@@ -197,27 +217,25 @@
 
       <!-- Input Area -->
       <div class="chat-input-section">
-        <div class="input-container">
-          <textarea id="chatInput" placeholder="How can I help you today?..." rows="1"></textarea>
-          <div class="input-actions">
-            <button class="input-tool-btn" title="Add Image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-            </button>
-            <button class="send-btn" id="sendBtn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13" />
-                <polygon points="22 2 15 22 11 13 2 9 22 2" />
-              </svg>
-            </button>
-          </div>
+        <div class="input-form-container">
+          <button class="attachment-btn" title="Add Image">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+          </button>
+          
+          <textarea id="chatInput" placeholder="Message Buddy AI..." rows="1"></textarea>
+          
+          <button class="main-send-btn" id="sendBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
         </div>
-        <p class="input-notice">Buddy AI can make mistakes. Check important information.</p>
+        <p class="input-info-text">Buddy AI can make mistakes. Check important info.</p>
       </div>
 
     </main>
@@ -247,11 +265,13 @@
         <a href="{{ route('notes') }}" class="res-link">📚 Browse All PDF</a>
       </div>
 
-      <div class="promo-card">
-        <div class="promo-icon">💎</div>
-        <h4>Buddy Premium</h4>
-        <p>Get priority AI processing and detailed study roadmaps.</p>
-        <button class="promo-btn">Upgrade</button>
+      <div class="become-pro-card">
+        <div class="pro-badge">PRO</div>
+        <div class="pro-content">
+          <h4>Become Pro</h4>
+          <p>Get accurate answer with premium study resources.</p>
+        </div>
+        <button class="pro-upgrade-btn">Upgrade Now</button>
       </div>
     </aside>
 
@@ -373,6 +393,14 @@
         document.body.classList.remove('focus-mode');
         restoreBtn.style.display = 'none';
       });
+
+      // Toggle functionality for the Smart Context switch
+      const contextSwitch = document.querySelector('.switch');
+      if (contextSwitch) {
+        contextSwitch.addEventListener('click', function() {
+          this.classList.toggle('active');
+        });
+      }
 
       // Quick prompt click
       document.querySelectorAll('.quick-prompt-chip, .suggestion-pill').forEach(chip => {
