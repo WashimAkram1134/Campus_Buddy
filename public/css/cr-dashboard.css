@@ -133,7 +133,7 @@ body {
     min-height: 40vh;
 }
 
-.cr-cards.animate-in {
+.cr-cards.active {
     opacity: 1;
     transform: translateY(0);
 }
@@ -171,7 +171,7 @@ body {
     transform: translateY(40px) scale(0.95);
 }
 
-.card.animate-in {
+.card.active {
     opacity: 1;
     transform: translateY(0) scale(1);
 }
