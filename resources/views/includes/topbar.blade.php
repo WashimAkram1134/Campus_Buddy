@@ -223,11 +223,11 @@ $currentRoute = Route::currentRouteName() ?? '';
   </div>
 
   <!-- ================= PROFILE/ACCOUNT MODAL ================= -->
-  <div id="profileModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div id="profileModal" class="account-settings-modal">
+    <div class="account-settings-modal-content">
+      <div class="account-settings-modal-header">
         <h2>Account Settings</h2>
-        <span class="close" onclick="closeModal('profileModal')">&times;</span>
+        <span class="close-account-modal" onclick="closeModal('profileModal')">&times;</span>
       </div>
       <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -262,27 +262,26 @@ $currentRoute = Route::currentRouteName() ?? '';
   </div>
 
   <style>
-    /* Ensure modal styles are available in topbar too */
-    .modal {
+    /* Unique modal styles to avoid conflicts */
+    .account-settings-modal {
       display: none;
       position: fixed;
-      z-index: 999999; /* Extremely high to be above everything */
+      z-index: 1000000 !important; /* Above everything including filter bar */
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.7) !important;
       backdrop-filter: blur(8px);
-      display: none; 
       align-items: center;
       justify-content: center;
     }
 
-    .modal.show {
+    .account-settings-modal.show {
         display: flex !important;
     }
 
-    .modal-content {
+    .account-settings-modal-content {
       background: white;
       margin: auto;
       padding: 35px;
@@ -292,6 +291,37 @@ $currentRoute = Route::currentRouteName() ?? '';
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       position: relative;
       transform: translateY(-20px);
+      animation: accountModalIn 0.3s ease-out;
+    }
+
+    @keyframes accountModalIn {
+        from { opacity: 0; transform: translateY(0); }
+        to { opacity: 1; transform: translateY(-20px); }
+    }
+
+    .account-settings-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .account-settings-modal-header h2 {
+      margin: 0;
+      font-size: 22px;
+      color: #000000 !important;
+      font-weight: 800;
+    }
+
+    .close-account-modal {
+      font-size: 28px;
+      cursor: pointer;
+      color: #aaa;
+      transition: color 0.2s;
+    }
+
+    .close-account-modal:hover {
+        color: #000;
     }
 
     .modal-header {
