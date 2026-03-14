@@ -1095,11 +1095,7 @@ body {
 
 @media (max-width: 768px) {
     .buddy-chat-wrapper {
-        height: calc(100vh - 60px);
-    }
-
-    .chat-sidebar {
-        display: none;
+        height: calc(100vh - 60px) !important;
     }
 
     .chat-top-header {

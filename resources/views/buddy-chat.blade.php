@@ -57,6 +57,67 @@
             display: none !important;
         }
 
+        /* Mobile specific sidebars logic */
+        @media (max-width: 768px) {
+            .chat-sidebar, .options-sidebar {
+                position: fixed;
+                top: 60px; /* Below topbar */
+                bottom: 0;
+                z-index: 2100;
+                width: 280px !important;
+                display: none !important; /* Hide by default on mobile */
+                box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+            }
+
+            .chat-sidebar { left: 0; }
+            .options-sidebar { right: 0; }
+
+            /* Show sidebars when explicitly toggled on mobile */
+            body.show-left-sidebar .chat-sidebar {
+                display: flex !important;
+                animation: slideRight 0.3s ease;
+            }
+
+            body.show-right-sidebar .options-sidebar {
+                display: flex !important;
+                animation: slideLeft 0.3s ease;
+            }
+
+            /* Overlay for mobile */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                backdrop-filter: blur(4px);
+                z-index: 2050;
+                display: none;
+            }
+
+            body.show-left-sidebar .sidebar-overlay,
+            body.show-right-sidebar .sidebar-overlay {
+                display: block;
+            }
+
+            @keyframes slideRight {
+                from { transform: translateX(-100%); }
+                to { transform: translateX(0); }
+            }
+            @keyframes slideLeft {
+                from { transform: translateX(100%); }
+                to { transform: translateX(0); }
+            }
+
+            /* Adjust Welcome prompt for mobile */
+            .quick-prompts {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+            }
+        }
+
         /* Master Topbar styles */
         .topbar {
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
@@ -99,7 +160,7 @@
 @endpush
 
 @section('content')
-  {{-- Floating controls no longer needed as header toggles work in both states --}}
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <div class="buddy-chat-wrapper">
     <!-- ================= SIDEBAR: Chat History ================= -->
@@ -430,13 +491,38 @@
       // Granular UI Toggle logic
       const toggleTopbarBtn = document.getElementById('toggleTopbarBtn');
       const toggleSidebarsBtn = document.getElementById('toggleSidebarsBtn');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
 
       toggleTopbarBtn.addEventListener('click', () => {
         document.body.classList.toggle('topbar-hidden');
       });
 
       toggleSidebarsBtn.addEventListener('click', () => {
-        document.body.classList.toggle('sidebars-hidden');
+        if (window.innerWidth <= 768) {
+          // On mobile, toggle both or cycles them?
+          // Let's toggle both for simplicity or just show the history one as primary
+          document.body.classList.toggle('show-left-sidebar');
+          document.body.classList.toggle('show-right-sidebar');
+        } else {
+          document.body.classList.toggle('sidebars-hidden');
+        }
+      });
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', () => {
+          document.body.classList.remove('show-left-sidebar');
+          document.body.classList.remove('show-right-sidebar');
+        });
+      }
+
+      // Also allow history toggle button on mobile to work specifically
+      sidebarToggle.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          document.body.classList.toggle('show-left-sidebar');
+        } else {
+          // Desktop behavior
+          charSidebar.classList.toggle('collapsed');
+        }
       });
 
       // Toggle functionality for the Smart Context switch
