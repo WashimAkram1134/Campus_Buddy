@@ -30,13 +30,17 @@
                 </p>
 
                 <div class="search-container">
-                    <div class="search-box">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                        </svg>
-                        <input type="text" placeholder="Search by subject, topic or professor...">
+                    <div class="filter-bar">
+                        <div class="filter-input-group">
+                            <input type="text" id="deptFilter" placeholder="Department">
+                        </div>
+                        <div class="filter-input-group">
+                            <input type="text" id="courseFilter" placeholder="Course">
+                        </div>
+                        <div class="filter-input-group">
+                            <input type="text" id="semesterFilter" placeholder="Semester">
+                        </div>
+                        <button class="search-btn" id="filterBtn">Search</button>
                     </div>
                 </div>
             </div>
@@ -124,7 +128,10 @@
             </div>
             <div class="resources-grid collapsed" id="pdfGrid">
                 @foreach($classMaterials as $index => $material)
-                    <div class="resource-card pdf-card animate-up" style="animation-delay: {{ 0.1 * ($index + 1) }}s">
+                    <div class="resource-card pdf-card animate-up" 
+                         data-dept="{{ strtolower($material->department) }}"
+                         data-course="{{ strtolower($material->course_code) }}"
+                         style="animation-delay: {{ 0.1 * ($index + 1) }}s">
                         <div class="pdf-visual">
                             <div class="pdf-corner"></div>
                             <div class="pdf-logo">{{ strtoupper($material->file_extension) }}</div>
@@ -212,7 +219,10 @@
 
             <div class="resources-grid collapsed" id="notesGrid">
                 @foreach($handNotes as $index => $material)
-                    <div class="resource-card notebook-card animate-up" style="animation-delay: {{ 0.1 * ($index + 1) }}s">
+                    <div class="resource-card notebook-card animate-up" 
+                         data-dept="{{ strtolower($material->department) }}"
+                         data-course="{{ strtolower($material->course_code) }}"
+                         style="animation-delay: {{ 0.1 * ($index + 1) }}s">
                         <div class="notebook-visual">
                             <div class="notebook-rings">
                                 <span></span><span></span><span></span><span></span><span></span>
@@ -356,6 +366,79 @@
 
             document.querySelectorAll('.reveal').forEach(el => {
                 observer.observe(el);
+            });
+
+            // ================= SEARCH FILTERING LOGIC =================
+            const deptFilter = document.getElementById('deptFilter');
+            const courseFilter = document.getElementById('courseFilter');
+            const semesterFilter = document.getElementById('semesterFilter');
+            const filterBtn = document.getElementById('filterBtn');
+            const allCards = document.querySelectorAll('.resource-card');
+
+            function applyFilters() {
+                const deptVal = deptFilter.value.toLowerCase().trim();
+                const courseVal = courseFilter.value.toLowerCase().trim();
+                const semVal = semesterFilter.value.toLowerCase().trim();
+
+                allCards.forEach(card => {
+                    const cardDept = card.getAttribute('data-dept') || "";
+                    const cardCourse = card.getAttribute('data-course') || "";
+                    
+                    let isMatch = true;
+
+                    if (deptVal && !cardDept.includes(deptVal)) isMatch = false;
+                    if (courseVal && !cardCourse.includes(courseVal)) isMatch = false;
+
+                    if (isMatch) {
+                        card.classList.remove('hidden-search');
+                    } else {
+                        card.classList.add('hidden-search');
+                    }
+                });
+
+                updateSectionVisiblity();
+            }
+
+            function updateSectionVisiblity() {
+                const sections = [
+                    { gridId: 'pdfGrid', countClass: '.pdf-section .count' },
+                    { gridId: 'notesGrid', countClass: '.notes-section .count' }
+                ];
+
+                sections.forEach(section => {
+                    const grid = document.getElementById(section.gridId);
+                    const allCardsInSection = grid.querySelectorAll('.resource-card');
+                    const visibleCards = grid.querySelectorAll('.resource-card:not(.hidden-search)');
+                    const emptyMsg = grid.querySelector('.search-empty');
+                    
+                    if (visibleCards.length === 0) {
+                        if (!emptyMsg) {
+                            const msg = document.createElement('div');
+                            msg.className = 'empty-resources search-empty';
+                            msg.innerHTML = '<p>No results match your search filters.</p>';
+                            grid.appendChild(msg);
+                        } else {
+                            emptyMsg.style.display = 'block';
+                        }
+                    } else if (emptyMsg) {
+                        emptyMsg.style.display = 'none';
+                    }
+
+                    // Update count display
+                    const countEl = document.querySelector(section.countClass);
+                    if (countEl) {
+                        countEl.textContent = `${visibleCards.length} ${visibleCards.length === 1 ? 'File' : 'Files'}`;
+                    }
+                });
+            }
+
+            filterBtn.addEventListener('click', applyFilters);
+
+            // Optional: Live filtering as user types
+            [deptFilter, courseFilter, semesterFilter].forEach(input => {
+                input.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') applyFilters();
+                });
             });
         });
     </script>

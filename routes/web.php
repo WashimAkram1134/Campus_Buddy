@@ -109,9 +109,8 @@ Route::post('/schedule', [ScheduleController::class , 'store'])->name('schedule.
 Route::put('/schedule/{schedule}', [ScheduleController::class , 'update'])->name('schedule.update')->middleware('auth');
 Route::delete('/schedule/{schedule}', [ScheduleController::class , 'destroy'])->name('schedule.destroy')->middleware('auth');
 
-Route::get('/question-bank', function () {
-    return view('questionbank');
-})->name('question-bank')->middleware('auth');
+Route::get('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'index'])->name('question-bank')->middleware('auth');
+Route::post('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'store'])->name('question-bank.store')->middleware('auth');
 
 Route::get('/community', function () {
     return view('community');

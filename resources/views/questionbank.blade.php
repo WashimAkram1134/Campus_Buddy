@@ -31,220 +31,75 @@
     </section>
 
     <div class="qb-content" id="qb-content">
+        @if (session('success'))
+            <div class="alert alert-success">
+                ✅ {{ session('success') }}
+            </div>
+        @endif
+
         <div class="filter-container reveal">
             <div class="filter-bar">
-                <input type="text" placeholder="Department" class="filter-input">
-                <input type="text" placeholder="Course" class="filter-input">
-                <input type="text" placeholder="Semester" class="filter-input">
-                <button class="filter-btn">Search</button>
+                <form action="{{ route('question-bank') }}" method="GET" style="display: flex; gap: 15px; flex: 1;">
+                    <input type="text" name="department" placeholder="Department" class="filter-input" value="{{ request('department') }}">
+                    <input type="text" name="course" placeholder="Course" class="filter-input" value="{{ request('course') }}">
+                    <input type="text" name="semester" placeholder="Semester" class="filter-input" value="{{ request('semester') }}">
+                    <button type="submit" class="filter-btn">Search</button>
+                </form>
+                <button class="upload-btn" onclick="openModal('uploadModal')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Upload Question
+                </button>
             </div>
         </div>
 
-        <div class="question-grid collapsed reveal" id="questionGrid">
-            <!-- Sample Questions -->
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">SWE</span>
-                        <span class="code">SWE441</span>
+        <div class="question-grid reveal" id="questionGrid">
+            @forelse($questions as $question)
+                <div class="question-card animate-in">
+                    <div class="question-header">
+                        <div class="card-meta">
+                            <span class="dept">{{ $question->department }}</span>
+                            <span class="code">{{ $question->course_code }}</span>
+                        </div>
+                        <div class="title-row">
+                            <h3>{{ $question->title }}</h3>
+                            <span class="difficulty {{ strtolower($question->difficulty) }}">{{ $question->difficulty }}</span>
+                        </div>
                     </div>
-                    <div class="title-row">
-                        <h3>OOP - Fall 2025</h3>
-                        <span class="difficulty medium">Medium</span>
+                    <div class="question-content">
+                        <p class="main-question"><strong>{{ $question->question_heading }}</strong></p>
+                        <ul class="sub-questions">
+                            @foreach(explode("\n", $question->sub_questions) as $sub)
+                                @if(trim($sub))
+                                    <li>{{ trim($sub) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                        <div class="topic-tags">
+                            @if($question->tags)
+                                @foreach(explode(',', $question->tags) as $tag)
+                                    <span>#{{ trim($tag) }}</span>
+                                @endforeach
+                            @endif
+                        </div>
                     </div>
-                </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q1: Object-Oriented Principles</strong></p>
-                    <ul class="sub-questions">
-                        <li>Difference between abstraction and encapsulation?</li>
-                        <li>Real-world example using a modern language.</li>
-                        <li>Role of access modifiers in data hiding.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#Abstraction</span>
-                        <span>#Encapsulation</span>
-                        <span>#Polymorphism</span>
+                    <div class="question-footer">
+                        <span class="course">{{ $question->course_name }}</span>
+                        <span class="date">{{ $question->year_semester }}</span>
                     </div>
-                </div>
-                <div class="question-footer">
-                    <span class="course">Object Oriented Programming</span>
-                    <span class="date">Fall 2025</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">CSE</span>
-                        <span class="code">CSE331</span>
-                    </div>
-                    <div class="title-row">
-                        <h3>Data Structures - Midterm</h3>
-                        <span class="difficulty hard">Hard</span>
+                    <div class="card-action-overlay">
+                        <button class="action-btn view-btn">View</button>
+                        @if($question->file_path)
+                            <a href="{{ asset('storage/' . $question->file_path) }}" class="action-btn download-btn" download>Download</a>
+                        @endif
                     </div>
                 </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q3: Sorting & Complexity</strong></p>
-                    <ul class="sub-questions">
-                        <li>Time complexity of the quicksort algorithm.</li>
-                        <li>Analysis of best, average, and worst-cases.</li>
-                        <li>Avoiding worst-case using pivot selection.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#Sorting</span>
-                        <span>#QuickSort</span>
-                        <span>#Big-O</span>
-                    </div>
+            @empty
+                <div class="empty-state">
+                    <p>No questions found matching your criteria.</p>
                 </div>
-                <div class="question-footer">
-                    <span class="course">Data Structures</span>
-                    <span class="date">Spring 2026</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">SWE</span>
-                        <span class="code">SWE425</span>
-                    </div>
-                    <div class="title-row">
-                        <h3>Database - Final</h3>
-                        <span class="difficulty easy">Easy</span>
-                    </div>
-                </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q2: Relational Keys & Integrity</strong></p>
-                    <ul class="sub-questions">
-                        <li>Differences between primary and unique keys.</li>
-                        <li>Multiple unique keys implementation in SQL.</li>
-                        <li>Foreign keys and referential integrity.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#Keys</span>
-                        <span>#SQL</span>
-                        <span>#Integrity</span>
-                    </div>
-                </div>
-                <div class="question-footer">
-                    <span class="course">Database Management</span>
-                    <span class="date">Spring 2024</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">DS</span>
-                        <span class="code">DS331</span>
-                    </div>
-                    <div class="title-row">
-                        <h3>Algorithms - Quiz 3</h3>
-                        <span class="difficulty medium">Medium</span>
-                    </div>
-                </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q1: Searching & Divide/Conquer</strong></p>
-                    <ul class="sub-questions">
-                        <li>Implement an iterative binary search algorithm.</li>
-                        <li>Time and space complexity analysis.</li>
-                        <li>Why binary search requires a sorted array.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#BinarySearch</span>
-                        <span>#Algorithms</span>
-                        <span>#Searching</span>
-                    </div>
-                </div>
-                <div class="question-footer">
-                    <span class="course">Algorithm Analysis</span>
-                    <span class="date">Fall 2023</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">IT</span>
-                        <span class="code">ITE450</span>
-                    </div>
-                    <div class="title-row">
-                        <h3>Computer Networks - Midterm</h3>
-                        <span class="difficulty hard">Hard</span>
-                    </div>
-                </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q4: OSI Model & TCP/IP</strong></p>
-                    <ul class="sub-questions">
-                        <li>Role of the Transport layer in OSI.</li>
-                        <li>Differences between TCP and UDP protocols.</li>
-                        <li>IP routing process across subnets.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#OSI</span>
-                        <span>#TCP/IP</span>
-                        <span>#Networking</span>
-                    </div>
-                </div>
-                <div class="question-footer">
-                    <span class="course">Computer Networks</span>
-                    <span class="date">Spring 2025</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
-
-            <div class="question-card">
-                <div class="question-header">
-                    <div class="card-meta">
-                        <span class="dept">SWE</span>
-                        <span class="code">SWE311</span>
-                    </div>
-                    <div class="title-row">
-                        <h3>Software Engineering - Final</h3>
-                        <span class="difficulty medium">Medium</span>
-                    </div>
-                </div>
-                <div class="question-content">
-                    <p class="main-question"><strong>Q5: Agile Methodologies</strong></p>
-                    <ul class="sub-questions">
-                        <li>Core principles of the Agile manifesto.</li>
-                        <li>Roles of Scrum Master and Product Owner.</li>
-                        <li>Structure of a standard sprint cycle.</li>
-                    </ul>
-                    <div class="topic-tags">
-                        <span>#Agile</span>
-                        <span>#Scrum</span>
-                        <span>#SDLC</span>
-                    </div>
-                </div>
-                <div class="question-footer">
-                    <span class="course">Software Engineering</span>
-                    <span class="date">Fall 2024</span>
-                </div>
-                <div class="card-action-overlay">
-                    <button class="action-btn view-btn">View</button>
-                    <button class="action-btn download-btn">Download</button>
-                </div>
-            </div>
+            @endforelse
         </div>
 
         <div class="load-more reveal">
@@ -255,9 +110,71 @@
         <div class="buddy-section reveal">
             <div class="buddy-card">
                 <h3>🤖 Need Help with Questions?</h3>
-                <p>Based on your department, you might want to check the last 5 OOP quizzes.</p>
+                <p>Based on your department, you might want to check the latest questions.</p>
                 <a href="{{ route('buddy-chat') }}" class="btn">Ask Buddy</a>
             </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Question Bank</h2>
+                <button class="close-btn" onclick="closeModal('uploadModal')">&times;</button>
+            </div>
+            <form action="{{ route('question-bank.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Department</label>
+                        <input type="text" name="department" placeholder="e.g., SWE" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Course Code</label>
+                        <input type="text" name="course_code" placeholder="e.g., SWE441" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Course Name</label>
+                        <input type="text" name="course_name" placeholder="e.g., Object Oriented Programming" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Semester/Year</label>
+                        <input type="text" name="year_semester" placeholder="e.g., Fall 2025" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Card Title</label>
+                        <input type="text" name="title" placeholder="e.g., OOP - Midterm" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select name="difficulty">
+                            <option value="Easy">Easy</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tags (comma separated)</label>
+                        <input type="text" name="tags" placeholder="Abstraction, Polymorphism">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Question Heading</label>
+                        <input type="text" name="question_heading" placeholder="e.g., Q1: Object-Oriented Principles" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Sub Questions (One per line)</label>
+                        <textarea name="sub_questions" rows="4" placeholder="Difference between abstraction and encapsulation?" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Attach PDF (Optional)</label>
+                        <input type="file" name="file" accept=".pdf">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="submit-btn">Publish Question Card</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -285,21 +202,20 @@
             document.querySelectorAll('.reveal').forEach(el => {
                 observer.observe(el);
             });
-
-            // ================= GRID TOGGLE =================
-            const grid = document.getElementById('questionGrid');
-            const loadMoreBtn = document.querySelector('.load-more-btn');
-
-            if (loadMoreBtn && grid) {
-                loadMoreBtn.addEventListener('click', function () {
-                    grid.classList.toggle('collapsed');
-                    if (grid.classList.contains('collapsed')) {
-                        loadMoreBtn.textContent = 'Load More Questions';
-                    } else {
-                        loadMoreBtn.textContent = 'Show Less';
-                    }
-                });
-            }
         });
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
     </script>
 @endpush
