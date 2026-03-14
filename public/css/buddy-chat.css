@@ -627,7 +627,6 @@ body {
     text-align: center;
     animation: fadeSlideUp 0.5s ease forwards;
     opacity: 0;
-    min-height: 100%;
 }
 
 @keyframes floatBuddy {
@@ -1206,7 +1205,7 @@ body.focus-mode .options-sidebar {
     border-left: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    padding: 24px 20px;
+    padding: 24px 20px 40px;
     gap: 20px;
     overflow-y: auto;
 }
@@ -1338,13 +1337,14 @@ body.focus-mode .options-sidebar {
 .become-pro-card {
     background: linear-gradient(135deg, #1a237e, #4a148c);
     border-radius: 20px;
-    padding: 24px 20px;
+    padding: 20px;
     color: white;
     text-align: left;
     position: relative;
     overflow: hidden;
-    margin-top: auto;
+    margin-top: 20px;
     box-shadow: 0 10px 30px rgba(26, 35, 126, 0.25);
+    flex-shrink: 0;
 }
 
 .become-pro-card::after {
@@ -1380,7 +1380,7 @@ body.focus-mode .options-sidebar {
     font-size: 12px;
     opacity: 0.85;
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .pro-upgrade-btn {
@@ -1394,6 +1394,7 @@ body.focus-mode .options-sidebar {
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 5px;
 }
 
 .pro-upgrade-btn:hover {
