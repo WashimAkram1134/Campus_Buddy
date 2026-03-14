@@ -45,7 +45,7 @@
                     <input type="text" name="semester" placeholder="Semester" class="filter-input" value="{{ request('semester') }}">
                     <button type="submit" class="filter-btn">Search</button>
                 </form>
-                <button class="upload-btn" onclick="openModal('uploadModal')">
+                <button type="button" id="openUploadBtn" class="upload-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
@@ -89,7 +89,18 @@
                         <span class="date">{{ $question->year_semester }}</span>
                     </div>
                     <div class="card-action-overlay">
-                        <button class="action-btn view-btn">View</button>
+                        <button type="button" class="action-btn view-btn trigger-view" 
+                                data-dept="{{ $question->department }}"
+                                data-code="{{ $question->course_code }}"
+                                data-title="{{ $question->title }}"
+                                data-difficulty="{{ $question->difficulty }}"
+                                data-heading="{{ $question->question_heading }}"
+                                data-subs="{{ $question->sub_questions }}"
+                                data-tags="{{ $question->tags }}"
+                                data-course="{{ $question->course_name }}"
+                                data-date="{{ $question->year_semester }}">
+                            View
+                        </button>
                         @if($question->file_path)
                             <a href="{{ asset('storage/' . $question->file_path) }}" class="action-btn download-btn" download>Download</a>
                         @endif
@@ -121,7 +132,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Upload Question Bank</h2>
-                <button class="close-btn" onclick="closeModal('uploadModal')">&times;</button>
+                <button type="button" class="close-btn" id="closeUploadModal">&times;</button>
             </div>
             <form action="{{ route('question-bank.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -176,6 +187,37 @@
                 </div>
             </form>
         </div>
+    <!-- View Question Modal -->
+    <div id="viewQuestionModal" class="modal">
+        <div class="modal-content view-modal-content">
+            <div class="modal-header">
+                <h2>Question Details</h2>
+                <button type="button" class="close-btn" onclick="closeModal('viewQuestionModal')">&times;</button>
+            </div>
+            <div class="view-card-wrapper">
+                <div class="question-card static-view">
+                    <div class="question-header">
+                        <div class="card-meta">
+                            <span class="dept" id="viewDept"></span>
+                            <span class="code" id="viewCode"></span>
+                        </div>
+                        <div class="title-row">
+                            <h3 id="viewTitle"></h3>
+                            <span class="difficulty" id="viewDifficulty"></span>
+                        </div>
+                    </div>
+                    <div class="question-content">
+                        <p class="main-question"><strong id="viewHeading"></strong></p>
+                        <ul class="sub-questions" id="viewSubs"></ul>
+                        <div class="topic-tags" id="viewTags"></div>
+                    </div>
+                    <div class="question-footer">
+                        <span class="course" id="viewCourse"></span>
+                        <span class="date" id="viewDate"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -202,20 +244,79 @@
             document.querySelectorAll('.reveal').forEach(el => {
                 observer.observe(el);
             });
-        });
 
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
+            // ================= MODAL LOGIC =================
+            const uploadModal = document.getElementById('uploadModal');
+            const viewModal = document.getElementById('viewQuestionModal');
+            const openBtn = document.getElementById('openUploadBtn');
+            const closeBtn = document.getElementById('closeUploadModal');
+
+            if (openBtn && uploadModal) {
+                openBtn.addEventListener('click', () => {
+                    uploadModal.style.display = 'flex';
+                });
+            }
+
+            if (closeBtn && uploadModal) {
+                closeBtn.addEventListener('click', () => {
+                    uploadModal.style.display = 'none';
+                });
+            }
+
+            // View Question Logic
+            document.querySelectorAll('.trigger-view').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const data = this.dataset;
+                    
+                    document.getElementById('viewDept').textContent = data.dept;
+                    document.getElementById('viewCode').textContent = data.code;
+                    document.getElementById('viewTitle').textContent = data.title;
+                    document.getElementById('viewDifficulty').textContent = data.difficulty;
+                    document.getElementById('viewDifficulty').className = `difficulty ${data.difficulty.toLowerCase()}`;
+                    document.getElementById('viewHeading').textContent = data.heading;
+                    document.getElementById('viewCourse').textContent = data.course;
+                    document.getElementById('viewDate').textContent = data.date;
+
+                    // Subs
+                    const subsList = document.getElementById('viewSubs');
+                    subsList.innerHTML = '';
+                    data.subs.split('\n').forEach(sub => {
+                        if (sub.trim()) {
+                            const li = document.createElement('li');
+                            li.textContent = sub.trim();
+                            subsList.appendChild(li);
+                        }
+                    });
+
+                    // Tags
+                    const tagsDiv = document.getElementById('viewTags');
+                    tagsDiv.innerHTML = '';
+                    if (data.tags) {
+                        data.tags.split(',').forEach(tag => {
+                            const span = document.createElement('span');
+                            span.textContent = `#${tag.trim()}`;
+                            tagsDiv.appendChild(span);
+                        });
+                    }
+
+                    viewModal.style.display = 'flex';
+                });
+            });
+
+            // Close on outside click
+            window.addEventListener('click', (event) => {
+                if (event.target === uploadModal) {
+                    uploadModal.style.display = 'none';
+                }
+                if (event.target === viewModal) {
+                    viewModal.style.display = 'none';
+                }
+            });
+        });
 
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
         }
     </script>
 @endpush

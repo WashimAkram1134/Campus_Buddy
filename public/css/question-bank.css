@@ -956,3 +956,38 @@ body {
         grid-column: span 1;
     }
 }
+
+/* ================= VIEW MODAL REFINEMENT ================= */
+.view-modal-content {
+    max-width: 800px;
+    padding: 0;
+}
+
+.view-card-wrapper {
+    padding: 40px;
+    background: #f8fafc;
+    border-radius: 0 0 24px 24px;
+}
+
+.question-card.static-view {
+    opacity: 1;
+    transform: none;
+    cursor: default;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+}
+
+.question-card.static-view:hover {
+    transform: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Keep original shadow but no lift */
+}
+
+.question-card.static-view .card-action-overlay {
+    display: none !important; /* Hide overlay in detail view */
+}
+
+.question-card.static-view .question-footer {
+    opacity: 1;
+    transform: none;
+}
