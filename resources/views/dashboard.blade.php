@@ -440,7 +440,7 @@ Standardized structure matching Routine page
         document.getElementById('modalAnnounceTitle').innerText = title;
         document.getElementById('modalAnnounceContent').innerText = content;
         document.getElementById('modalAnnounceTime').innerText = 'Posted ' + time;
-        document.getElementById('announcementDetailModal').style.display = 'block';
+        document.getElementById('announcementDetailModal').style.display = 'flex';
       };
 
       window.closeAnnouncementModal = function () {

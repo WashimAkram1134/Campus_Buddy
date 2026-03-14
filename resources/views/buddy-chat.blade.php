@@ -5,7 +5,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/buddy-chat.css') }}">
     <style>
-        /* Force full screen filling and hide footer */
+        /* Force full screen filling and hide footer by default on this page */
         footer, .footer {
             display: none !important;
         }
@@ -19,49 +19,132 @@
             padding-bottom: 0 !important;
         }
 
-        .buddy-chat-wrapper {
-            height: calc(100vh - 100px);
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        @media (max-width: 1600px) {
-            .buddy-chat-wrapper { height: calc(100vh - 90px); }
-        }
-        @media (max-width: 1200px) {
-            .buddy-chat-wrapper { height: calc(100vh - 65px); }
-        }
-        @media (max-width: 768px) {
-            .buddy-chat-wrapper { height: calc(100vh - 60px); }
-        }
-
-        /* Hide the minimal header since we use the master topbar */
-        .buddy-mini-header {
-            display: none !important;
-        }
-
-        /* The layout padding-top is handled by app.blade.php / topbar.css (100px) */
+        /* Normal Mode Layout */
         .layout {
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            padding-top: 100px !important; /* Match topbar height */
+            transition: padding-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .buddy-chat-wrapper {
+            height: calc(100vh - 100px) !important;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Topbar toggle states */
+        body.topbar-hidden .topbar {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        body.topbar-hidden .layout {
+            padding-top: 0 !important;
+        }
+        body.topbar-hidden .buddy-chat-wrapper {
+            height: 100vh !important;
+        }
+
+        /* Sidebar toggle states */
+        body.sidebars-hidden .chat-sidebar,
+        body.sidebars-hidden .options-sidebar {
+            display: none !important;
+        }
+
+        /* Master Topbar styles */
+        .topbar {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            z-index: 1500 !important;
+        }
+
+        /* Floating Controls Container (Restore) */
+        .floating-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 2000;
+        }
+
+        .floating-ctrl-btn {
+            width: 42px;
+            height: 42px;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.15);
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+
+        body.topbar-hidden .show-topbar-btn,
+        body.sidebars-hidden .show-sidebars-btn {
+            display: flex;
+        }
+
+        .floating-ctrl-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Sidebar and Header overrides */
+        .buddy-mini-header {
+            display: none !important;
+        }
+        
+        /* Show chat header for controls */
+        .chat-top-header {
+            display: flex !important;
+        }
+
+        /* Responsive Topbar Height Adjustments */
+        @media (max-width: 1600px) {
+            .layout { padding-top: 90px !important; }
+            .buddy-chat-wrapper { height: calc(100vh - 90px) !important; }
+            body.topbar-hidden .layout { padding-top: 0 !important; }
+            body.topbar-hidden .buddy-chat-wrapper { height: 100vh !important; }
+        }
+        @media (max-width: 1200px) {
+            .layout { padding-top: 65px !important; }
+            .buddy-chat-wrapper { height: calc(100vh - 65px) !important; }
+            body.topbar-hidden .layout { padding-top: 0 !important; }
+            body.topbar-hidden .buddy-chat-wrapper { height: 100vh !important; }
+        }
+        @media (max-width: 768px) {
+            .layout { padding-top: 60px !important; }
+            .buddy-chat-wrapper { height: calc(100vh - 60px) !important; }
+            body.topbar-hidden .layout { padding-top: 0 !important; }
+            body.topbar-hidden .buddy-chat-wrapper { height: 100vh !important; }
         }
     </style>
 @endpush
 
 @section('content')
-  <!-- Floating Restore Button (Visible only in Focus Mode) -->
-  <button class="restore-btn" id="restoreBtn" title="Restore sidebars and header">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-      stroke-linecap="round" stroke-linejoin="round">
-      <path d="M15 3h6v6" />
-      <path d="M9 21H3v-6" />
-      <path d="M21 3l-7 7" />
-      <path d="M3 21l7-7" />
-    </svg>
-  </button>
+  <!-- Floating Restore Controls -->
+  <div class="floating-controls">
+    <button class="floating-ctrl-btn show-topbar-btn" id="showTopbarBtn" title="Show Topbar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 15l-6-6-6 6"/>
+      </svg>
+    </button>
+    <button class="floating-ctrl-btn show-sidebars-btn" id="showSidebarsBtn" title="Show Sidebars">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+    </button>
+  </div>
 
   <div class="buddy-chat-wrapper">
     <!-- ================= SIDEBAR: Chat History ================= -->
@@ -157,10 +240,15 @@
                 d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
           </button>
-          <button class="chat-action-btn" id="focusModeBtn" title="Focus Mode (Full Screen)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+          <button class="chat-action-btn" id="hideTopbarBtn" title="Hide Topbar Only">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </button>
+          <button class="chat-action-btn" id="hideSidebarsBtn" title="Hide Sidebars Only">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
             </svg>
           </button>
         </div>
@@ -383,15 +471,26 @@
         charSidebar.classList.toggle('collapsed');
       });
 
-      // Focus Mode logic
-      focusModeBtn.addEventListener('click', () => {
-        document.body.classList.add('focus-mode');
-        restoreBtn.style.display = 'flex';
+      // Granular UI Controls logic
+      const hideTopbarBtn = document.getElementById('hideTopbarBtn');
+      const showTopbarBtn = document.getElementById('showTopbarBtn');
+      const hideSidebarsBtn = document.getElementById('hideSidebarsBtn');
+      const showSidebarsBtn = document.getElementById('showSidebarsBtn');
+
+      hideTopbarBtn.addEventListener('click', () => {
+        document.body.classList.add('topbar-hidden');
       });
 
-      restoreBtn.addEventListener('click', () => {
-        document.body.classList.remove('focus-mode');
-        restoreBtn.style.display = 'none';
+      showTopbarBtn.addEventListener('click', () => {
+        document.body.classList.remove('topbar-hidden');
+      });
+
+      hideSidebarsBtn.addEventListener('click', () => {
+        document.body.classList.add('sidebars-hidden');
+      });
+
+      showSidebarsBtn.addEventListener('click', () => {
+        document.body.classList.remove('sidebars-hidden');
       });
 
       // Toggle functionality for the Smart Context switch
