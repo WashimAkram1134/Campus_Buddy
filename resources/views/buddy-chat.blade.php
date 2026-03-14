@@ -423,12 +423,22 @@
         chatInput.value = '';
         chatInput.style.height = 'auto';
 
-        // Fake Bot response
+        // Bot response logic
         setTimeout(() => {
           showTyping();
           setTimeout(() => {
             hideTyping();
-            addMessage("I'm looking into that for your specific section " + @json(Auth::user()->section ?? 'D') + ". Give me a moment!", 'bot');
+            
+            let response = "I'm looking into that for your specific section " + @json(Auth::user()->section ?? 'D') + ". Give me a moment!";
+            // Custom responses
+            const lowerText = text.toLowerCase();
+            if (lowerText === 'hi') {
+                response = "Hello " + @json(Auth::user()->name ?? 'Student') + ", how can I help you?";
+            } else if (lowerText.includes('who are you') || lowerText.includes('who wre you')) {
+                response = "I am your buddy Ai";
+            }
+            
+            addMessage(response, 'bot');
           }, 1500);
         }, 500);
       }

@@ -56,7 +56,16 @@
 
         <div class="question-grid reveal" id="questionGrid">
             @forelse($questions as $question)
-                <div class="question-card animate-in">
+                <div class="question-card animate-in trigger-view" 
+                     data-dept="{{ $question->department }}"
+                     data-code="{{ $question->course_code }}"
+                     data-title="{{ $question->title }}"
+                     data-difficulty="{{ $question->difficulty }}"
+                     data-heading="{{ $question->question_heading }}"
+                     data-subs="{{ $question->sub_questions }}"
+                     data-tags="{{ $question->tags }}"
+                     data-course="{{ $question->course_name }}"
+                     data-date="{{ $question->year_semester }}">
                     <div class="question-header">
                         <div class="card-meta">
                             <span class="dept">{{ $question->department }}</span>
@@ -89,20 +98,14 @@
                         <span class="date">{{ $question->year_semester }}</span>
                     </div>
                     <div class="card-action-overlay">
-                        <button type="button" class="action-btn view-btn trigger-view" 
-                                data-dept="{{ $question->department }}"
-                                data-code="{{ $question->course_code }}"
-                                data-title="{{ $question->title }}"
-                                data-difficulty="{{ $question->difficulty }}"
-                                data-heading="{{ $question->question_heading }}"
-                                data-subs="{{ $question->sub_questions }}"
-                                data-tags="{{ $question->tags }}"
-                                data-course="{{ $question->course_name }}"
-                                data-date="{{ $question->year_semester }}">
-                            View
-                        </button>
+                        <button type="button" class="action-btn view-btn">View</button>
                         @if($question->file_path)
-                            <a href="{{ asset('storage/' . $question->file_path) }}" class="action-btn download-btn" download>Download</a>
+                            <a href="{{ asset('storage/' . $question->file_path) }}" 
+                               class="action-btn download-btn stop-prop" 
+                               download 
+                               onclick="event.stopPropagation()">
+                                Download
+                            </a>
                         @endif
                     </div>
                 </div>
@@ -245,14 +248,15 @@
                 observer.observe(el);
             });
 
-            // ================= MODAL LOGIC =================
+            // ================= MODAL LOGICAL (EVENT DELEGATION) =================
             const uploadModal = document.getElementById('uploadModal');
             const viewModal = document.getElementById('viewQuestionModal');
             const openBtn = document.getElementById('openUploadBtn');
             const closeBtn = document.getElementById('closeUploadModal');
 
             if (openBtn && uploadModal) {
-                openBtn.addEventListener('click', () => {
+                openBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
                     uploadModal.style.display = 'flex';
                 });
             }
@@ -263,55 +267,70 @@
                 });
             }
 
-            // View Question Logic
-            document.querySelectorAll('.trigger-view').forEach(btn => {
-                btn.addEventListener('click', function(e) {
+            // Global click listener for cards and buttons
+            document.addEventListener('click', (e) => {
+                const viewTrigger = e.target.closest('.trigger-view');
+                
+                if (viewTrigger) {
+                    e.preventDefault();
                     e.stopPropagation();
-                    const data = this.dataset;
+                    const data = viewTrigger.dataset;
                     
-                    document.getElementById('viewDept').textContent = data.dept;
-                    document.getElementById('viewCode').textContent = data.code;
-                    document.getElementById('viewTitle').textContent = data.title;
-                    document.getElementById('viewDifficulty').textContent = data.difficulty;
-                    document.getElementById('viewDifficulty').className = `difficulty ${data.difficulty.toLowerCase()}`;
-                    document.getElementById('viewHeading').textContent = data.heading;
-                    document.getElementById('viewCourse').textContent = data.course;
-                    document.getElementById('viewDate').textContent = data.date;
+                    // Populate Modal
+                    const fields = {
+                        'viewDept': data.dept,
+                        'viewCode': data.code,
+                        'viewTitle': data.title,
+                        'viewDifficulty': data.difficulty,
+                        'viewHeading': data.heading,
+                        'viewCourse': data.course,
+                        'viewDate': data.date
+                    };
+
+                    for (const [id, value] of Object.entries(fields)) {
+                        const el = document.getElementById(id);
+                        if (el) el.textContent = value || '';
+                    }
+
+                    // Handle Difficulty Class
+                    const diffEl = document.getElementById('viewDifficulty');
+                    if (diffEl && data.difficulty) {
+                        diffEl.className = `difficulty ${data.difficulty.toLowerCase()}`;
+                    }
 
                     // Subs
                     const subsList = document.getElementById('viewSubs');
-                    subsList.innerHTML = '';
-                    data.subs.split('\n').forEach(sub => {
-                        if (sub.trim()) {
-                            const li = document.createElement('li');
-                            li.textContent = sub.trim();
-                            subsList.appendChild(li);
-                        }
-                    });
-
-                    // Tags
-                    const tagsDiv = document.getElementById('viewTags');
-                    tagsDiv.innerHTML = '';
-                    if (data.tags) {
-                        data.tags.split(',').forEach(tag => {
-                            const span = document.createElement('span');
-                            span.textContent = `#${tag.trim()}`;
-                            tagsDiv.appendChild(span);
+                    if (subsList && data.subs) {
+                        subsList.innerHTML = '';
+                        // Split by any newline sequence
+                        data.subs.split(/\r?\n/).forEach(sub => {
+                            if (sub.trim()) {
+                                const li = document.createElement('li');
+                                li.textContent = sub.trim();
+                                subsList.appendChild(li);
+                            }
                         });
                     }
 
-                    viewModal.style.display = 'flex';
-                });
-            });
+                    // Tags
+                    const tagsDiv = document.getElementById('viewTags');
+                    if (tagsDiv) {
+                        tagsDiv.innerHTML = '';
+                        if (data.tags) {
+                            data.tags.split(',').forEach(tag => {
+                                const span = document.createElement('span');
+                                span.textContent = `#${tag.trim()}`;
+                                tagsDiv.appendChild(span);
+                            });
+                        }
+                    }
 
-            // Close on outside click
-            window.addEventListener('click', (event) => {
-                if (event.target === uploadModal) {
-                    uploadModal.style.display = 'none';
+                    if (viewModal) viewModal.style.display = 'flex';
                 }
-                if (event.target === viewModal) {
-                    viewModal.style.display = 'none';
-                }
+
+                // Handle outside clicks
+                if (e.target === uploadModal) uploadModal.style.display = 'none';
+                if (e.target === viewModal) viewModal.style.display = 'none';
             });
         });
 
