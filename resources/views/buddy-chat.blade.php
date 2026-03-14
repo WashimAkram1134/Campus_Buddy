@@ -63,41 +63,8 @@
             z-index: 1500 !important;
         }
 
-        /* Floating Controls Container (Restore) */
-        .floating-controls {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 10px;
-            z-index: 2000;
-        }
-
-        .floating-ctrl-btn {
-            width: 42px;
-            height: 42px;
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.15);
-            color: var(--primary);
-            transition: all 0.2s;
-        }
-
-        body.topbar-hidden .show-topbar-btn,
-        body.sidebars-hidden .show-sidebars-btn {
-            display: flex;
-        }
-
-        .floating-ctrl-btn:hover {
-            background: var(--primary);
-            color: #fff;
-            transform: scale(1.1);
-        }
+        /* Floating Controls removed - using header toggles */
+        .floating-controls { display: none !important; }
 
         /* Sidebar and Header overrides */
         .buddy-mini-header {
@@ -132,19 +99,7 @@
 @endpush
 
 @section('content')
-  <!-- Floating Restore Controls -->
-  <div class="floating-controls">
-    <button class="floating-ctrl-btn show-topbar-btn" id="showTopbarBtn" title="Show Topbar">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 15l-6-6-6 6"/>
-      </svg>
-    </button>
-    <button class="floating-ctrl-btn show-sidebars-btn" id="showSidebarsBtn" title="Show Sidebars">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-      </svg>
-    </button>
-  </div>
+  {{-- Floating controls no longer needed as header toggles work in both states --}}
 
   <div class="buddy-chat-wrapper">
     <!-- ================= SIDEBAR: Chat History ================= -->
@@ -240,15 +195,16 @@
                 d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
           </button>
-          <button class="chat-action-btn" id="hideTopbarBtn" title="Hide Topbar Only">
+          <button class="chat-action-btn" id="toggleTopbarBtn" title="Toggle Topbar Display">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 9l6 6 6-6"/>
+              <path d="M4 8h16M4 16h16"/>
+              <path d="M12 4v16" class="toggle-icon-dash" style="opacity: 0.3;"/>
             </svg>
           </button>
-          <button class="chat-action-btn" id="hideSidebarsBtn" title="Hide Sidebars Only">
+          <button class="chat-action-btn" id="toggleSidebarsBtn" title="Toggle Sidebars Display">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <line x1="9" y1="3" x2="9" y2="21"/>
+              <path d="M9 3v18M15 3v18"/>
             </svg>
           </button>
         </div>
@@ -471,26 +427,16 @@
         charSidebar.classList.toggle('collapsed');
       });
 
-      // Granular UI Controls logic
-      const hideTopbarBtn = document.getElementById('hideTopbarBtn');
-      const showTopbarBtn = document.getElementById('showTopbarBtn');
-      const hideSidebarsBtn = document.getElementById('hideSidebarsBtn');
-      const showSidebarsBtn = document.getElementById('showSidebarsBtn');
+      // Granular UI Toggle logic
+      const toggleTopbarBtn = document.getElementById('toggleTopbarBtn');
+      const toggleSidebarsBtn = document.getElementById('toggleSidebarsBtn');
 
-      hideTopbarBtn.addEventListener('click', () => {
-        document.body.classList.add('topbar-hidden');
+      toggleTopbarBtn.addEventListener('click', () => {
+        document.body.classList.toggle('topbar-hidden');
       });
 
-      showTopbarBtn.addEventListener('click', () => {
-        document.body.classList.remove('topbar-hidden');
-      });
-
-      hideSidebarsBtn.addEventListener('click', () => {
-        document.body.classList.add('sidebars-hidden');
-      });
-
-      showSidebarsBtn.addEventListener('click', () => {
-        document.body.classList.remove('sidebars-hidden');
+      toggleSidebarsBtn.addEventListener('click', () => {
+        document.body.classList.toggle('sidebars-hidden');
       });
 
       // Toggle functionality for the Smart Context switch
