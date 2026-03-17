@@ -96,12 +96,13 @@ class ScheduleResource extends Resource
                 Tables\Columns\TextColumn::make('course_code')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('course_title')->searchable(),
                 Tables\Columns\TextColumn::make('teacher_initial'),
-                Tables\Columns\TextColumn::make('department')->searchable(),
-                Tables\Columns\TextColumn::make('batch'),
-                Tables\Columns\TextColumn::make('section'),
+                Tables\Columns\TextColumn::make('department')->searchable(isIndividual: true),
+                Tables\Columns\TextColumn::make('batch')->searchable(isIndividual: true),
+                Tables\Columns\TextColumn::make('section')->searchable(isIndividual: true),
                 Tables\Columns\TextColumn::make('day')->sortable(),
                 Tables\Columns\TextColumn::make('time_slot'),
             ])
+            ->searchPlaceholder('Search schedules...')
             ->filters([
                 //
             ])

@@ -55,22 +55,24 @@ Route::get('/dashboard', function () {
             ->get();
 
         // 2. Class Tasks: Filtered by group, sorted by URGENCY (deadline ASC)
-        $assignments = ClassTask::where('department', $user->department)
-            ->where('batch', $user->batch)
-            ->where('section', $user->section)
-            ->where(function ($query) use ($user) {
-            if ($user->major) {
-                $query->where('major', $user->major)
-                    ->orWhereNull('major')
-                    ->orWhere('major', '');
-            }
-            else {
-                $query->whereNull('major')->orWhere('major', '');
-            }
+        if ($user && $user->role === 'admin') {
+            $assignments = ClassTask::orderBy('deadline', 'asc')->get();
+        } else {
+            $assignments = ClassTask::where('department', $user->department)
+                ->where('batch', $user->batch)
+                ->where('section', $user->section)
+                ->where(function ($query) use ($user) {
+                    if ($user->major) {
+                        $query->where('major', $user->major)
+                            ->orWhereNull('major')
+                            ->orWhere('major', '');
+                    } else {
+                        $query->whereNull('major')->orWhere('major', '');
+                    }
+                })
+                ->orderBy('deadline', 'asc') // Most urgent first!
+                ->get();
         }
-        )
-            ->orderBy('deadline', 'asc') // Most urgent first!
-            ->get();
 
         // 3. Today's Schedule: Filtered by group and day (ascending by time)
         if ($user && $user->role === 'admin') {

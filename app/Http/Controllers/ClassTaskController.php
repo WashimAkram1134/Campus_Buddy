@@ -11,21 +11,24 @@ class ClassTaskController extends Controller
     {
         $user = auth()->user();
 
-        $tasks = ClassTask::where('department', $user->department)
-            ->where('batch', $user->batch)
-            ->where('section', $user->section)
-            ->where(function ($query) use ($user) {
-            if ($user->major) {
-                $query->where('major', $user->major)
-                    ->orWhereNull('major')
-                    ->orWhere('major', '');
-            }
-            else {
-                $query->whereNull('major')->orWhere('major', '');
-            }
-        })
-            ->orderBy('deadline', 'asc')
-            ->get();
+        if ($user && $user->role === 'admin') {
+            $tasks = ClassTask::orderBy('deadline', 'asc')->get();
+        } else {
+            $tasks = ClassTask::where('department', $user->department)
+                ->where('batch', $user->batch)
+                ->where('section', $user->section)
+                ->where(function ($query) use ($user) {
+                    if ($user->major) {
+                        $query->where('major', $user->major)
+                            ->orWhereNull('major')
+                            ->orWhere('major', '');
+                    } else {
+                        $query->whereNull('major')->orWhere('major', '');
+                    }
+                })
+                ->orderBy('deadline', 'asc')
+                ->get();
+        }
 
         return view('classtask', compact('tasks'));
     }
