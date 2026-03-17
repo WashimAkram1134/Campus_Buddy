@@ -243,7 +243,10 @@ Standardized structure matching Routine page
 
           <div class="event-scroll-container">
             @forelse($events as $event)
-              <div class="event-card-scroll">
+              <div class="event-card-scroll" 
+                   data-title="{{ $event->title }}" 
+                   data-description="{{ $event->description }}" 
+                   data-date="{{ $event->created_at->format('M d, Y') }}">
                 <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}">
                 <div class="event-card-overlay">
                   <div class="event-card-date">
@@ -256,7 +259,6 @@ Standardized structure matching Routine page
                     {{ $event->created_at->format('M d, Y') }}
                   </div>
                   <h4 class="event-card-title">{{ $event->title }}</h4>
-                  <p class="event-card-desc">{{ $event->description }}</p>
                   <span class="event-card-btn">
                     Learn More
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -360,10 +362,30 @@ Standardized structure matching Routine page
     </div>
   </div>
 
-  <!-- FULL SCREEN IMAGE VIEWER -->
-  <div class="image-viewer" id="imageViewer">
-    <span class="close-btn" id="closeViewer">&times;</span>
-    <img src="" alt="Full size event image" id="viewerImage">
+  <!-- FULL SCREEN EVENT VIEWER -->
+  <style>
+    .event-detail-modal { background: #fff; border-radius: 16px; overflow: hidden; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; animation: zoomIn 0.3s ease; }
+    .event-detail-hero { width: 100%; height: 240px; background: #eaeff2; }
+    .event-detail-hero img { width: 100%; height: 100%; object-fit: cover !important; border-radius: 0 !important; }
+    .event-detail-content { padding: 20px; color: #333; }
+    .detail-date { color: var(--primary); font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px;}
+    .detail-title { font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px; }
+    .detail-desc { font-size: 15px; color: #4a5568; line-height: 1.6; max-height: 180px; overflow-y: auto; }
+    #closeViewer { position: absolute; z-index: 10000; font-size: 40px; cursor: pointer; color: white; top: -10px; right: 20px; }
+  </style>
+
+  <div class="image-viewer" id="imageViewer" style="z-index: 99999;">
+    <span class="close-btn" id="closeViewer" onclick="document.getElementById('imageViewer').classList.remove('show')">&times;</span>
+    <div class="event-detail-modal">
+        <div class="event-detail-hero">
+            <img src="" alt="Event" id="viewerImage">
+        </div>
+        <div class="event-detail-content">
+            <span id="viewerDate" class="detail-date"></span>
+            <h2 id="viewerTitle" class="detail-title"></h2>
+            <p id="viewerDescription" class="detail-desc"></p>
+        </div>
+    </div>
   </div>
 
   <script>
@@ -385,28 +407,41 @@ Standardized structure matching Routine page
         if (e.key === 'Enter') sendMessage();
       });
 
-      // Image Viewer Logic
+      // Event Detail Viewer Logic
       const viewer = document.getElementById('imageViewer');
       const viewerImg = document.getElementById('viewerImage');
+      const viewerTitle = document.getElementById('viewerTitle');
+      const viewerDate = document.getElementById('viewerDate');
+      const viewerDesc = document.getElementById('viewerDescription');
       const closeBtn = document.getElementById('closeViewer');
-      const eventImages = document.querySelectorAll('.event-card-scroll img');
+      const learnMoreButtons = document.querySelectorAll('.event-card-btn');
 
-      if (eventImages.length > 0) {
-        eventImages.forEach(img => {
-          img.addEventListener('click', function () {
-            viewerImg.src = this.src;
-            viewer.classList.add('show');
-          });
+      learnMoreButtons.forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          const card = this.closest('.event-card-scroll');
+          const data = card.dataset;
+          
+          viewerImg.src = card.querySelector('img').src;
+          viewerTitle.textContent = data.title;
+          viewerDate.textContent = 'Posted ' + data.date;
+          viewerDesc.textContent = data.description;
+          
+          if (viewer) viewer.classList.add('show');
         });
-      }
+      });
 
-      if (closeBtn) {
+      if (closeBtn && viewer) {
         closeBtn.addEventListener('click', function () {
           viewer.classList.remove('show');
         });
       }
 
-      // Close on clicking outside the image
+      window.addEventListener('click', function(event) {
+        if (event.target === viewer) {
+            viewer.classList.remove('show');
+        }
+      });
       // Announcement Modal Logic
       window.openAnnouncementModal = function (title, content, time) {
         document.getElementById('modalAnnounceTitle').innerText = title;
