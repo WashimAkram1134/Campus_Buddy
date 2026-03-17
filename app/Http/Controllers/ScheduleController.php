@@ -11,19 +11,23 @@ class ScheduleController extends Controller
     {
         $user = auth()->user();
 
-        // Filter schedules by user's group and major
-        $schedules = Schedule::where('department', $user->department)
-            ->where('batch', $user->batch)
-            ->where('section', $user->section)
-            ->where(function ($query) use ($user) {
-            if ($user->major) {
-                $query->where('major', $user->major)->orWhereNull('major')->orWhere('major', '');
-            }
-            else {
-                $query->whereNull('major')->orWhere('major', '');
-            }
-        })
-            ->get();
+        if ($user && $user->role === 'admin') {
+            // Admin can view all schedules
+            $schedules = Schedule::orderBy('day')->get();
+        } else {
+            // Filter schedules by user's group and major
+            $schedules = Schedule::where('department', $user->department)
+                ->where('batch', $user->batch)
+                ->where('section', $user->section)
+                ->where(function ($query) use ($user) {
+                    if ($user->major) {
+                        $query->where('major', $user->major)->orWhereNull('major')->orWhere('major', '');
+                    } else {
+                        $query->whereNull('major')->orWhere('major', '');
+                    }
+                })
+                ->get();
+        }
 
         return view('routine', compact('schedules'));
     }

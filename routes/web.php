@@ -73,23 +73,28 @@ Route::get('/dashboard', function () {
             ->get();
 
         // 3. Today's Schedule: Filtered by group and day (ascending by time)
-        $todaySchedule = Schedule::where('department', $user->department)
-            ->where('batch', $user->batch)
-            ->where('section', $user->section)
-            ->where('day', now()->format('l'))
-            ->where(function ($query) use ($user) {
-            if ($user->major) {
-                $query->where('major', $user->major)
-                    ->orWhereNull('major')
-                    ->orWhere('major', '');
-            }
-            else {
-                $query->whereNull('major')->orWhere('major', '');
-            }
+        if ($user && $user->role === 'admin') {
+            $todaySchedule = \App\Models\Schedule::where('day', now()->format('l'))
+                ->orderBy('time_slot', 'asc')
+                ->get();
+        } else {
+            $todaySchedule = \App\Models\Schedule::where('day', now()->format('l'))
+                ->where('section', $user->section)
+                ->where('department', $user->department)
+                ->where(function ($query) use ($user) {
+                    $query->where('batch', $user->batch)
+                        ->orWhereNull('batch');
+                })
+                ->where(function ($query) use ($user) {
+                    if ($user->major) {
+                        $query->where('major', $user->major)->orWhereNull('major')->orWhere('major', '');
+                    } else {
+                        $query->whereNull('major')->orWhere('major', '');
+                    }
+                })
+                ->orderBy('time_slot', 'asc')
+                ->get();
         }
-        )
-            ->orderBy('time_slot', 'asc')
-            ->get();
 
         $events = \App\Models\Event::latest()->get();
 
