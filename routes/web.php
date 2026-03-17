@@ -167,7 +167,8 @@ Route::get('/alumni', function () {
 })->name('alumni')->middleware('auth');
 
 Route::get('/clubs', function () {
-    return view('clubs');
+    $clubs = \App\Models\Club::all();
+    return view('clubs', compact('clubs'));
 })->name('clubs')->middleware('auth');
 
 Route::get('/classtask', [ClassTaskController::class , 'index'])->name('classtask')->middleware('auth');

@@ -62,283 +62,33 @@
                 </div>
 
                 <div class="clubs-grid">
-                    <!-- Club 1: CPC -->
-                    <div class="club-card reveal" data-category="tech">
+                    @forelse($clubs as $club)
+                    <div class="club-card reveal" data-category="{{ $club->type }}">
                         <div class="club-banner">
-                            <img src="{{ asset('images/clubs/cpc.jpeg') }}" alt="Computer Club">
-                            <span class="club-category">Technology</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">💻</div>
-                            <div class="club-info">
-                                <h3>Computer Programming Club</h3>
-                                <p>DIU CPC is the most primitive and extensive club of our University. We work together to explore every field of Computer Science. Join us to know more.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Lab 402
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Regular Basis
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
-                                    <div class="more">+500</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diucpc" target="_blank"
-                                    class="join-btn primary pulse-primary">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 2: Robotics -->
-                    <div class="club-card reveal" data-category="tech" style="transition-delay: 0.1s;">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/robotics.jpeg') }}" alt="Robotics">
-                            <span class="club-category">Technology</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">🤖</div>
-                            <div class="club-info">
-                                <h3>Robotics Innovation Lab</h3>
-                                <p>DIU Robotics Club is a dream to improve skills and inspire generations of young innovative Engineering students with seminars and workshops.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Makerspace
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Regular Basis
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
-                                    <div class="more">+300</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diurc" target="_blank"
-                                    class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 3: Change Together -->
-                    <div class="club-card reveal" data-category="arts" style="transition-delay: 0.2s;">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/change_together.png') }}" alt="Change Together Club">
-                            <span class="club-category">Social</span>
+                            <img src="{{ Str::startsWith($club->image_path, 'http') ? $club->image_path : asset('storage/' . $club->image_path) }}" 
+                                 alt="{{ $club->name }}">
+                            <span class="club-category">{{ ucfirst($club->type) }}</span>
                         </div>
                         <div class="club-body">
                             <div class="club-logo">🌟</div>
                             <div class="club-info">
-                                <h3>Change Together Club</h3>
-                                <p>Our vision is to create a community baseline that can change this world, mitigate negativity and bring happiness for everyone.</p>
+                                <h3>{{ $club->name }}</h3>
+                                <p>{{ $club->description }}</p>
                             </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Campus Wide
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Weekly
-                                </div>
-                            </div>
-                            <div class="club-action">
+                            <div class="club-action" style="margin-top: auto;">
                                 <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <div class="more">+100</div>
+                                    <div class="more">+{{ rand(50, 500) }}</div>
                                 </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/ctc" target="_blank" class="join-btn">Visit Website</a>
+                                @if($club->website_link)
+                                <a href="{{ $club->website_link }}" target="_blank"
+                                    class="join-btn primary pulse-primary">Visit Website</a>
+                                @endif
                             </div>
                         </div>
                     </div>
-
-                    <!-- Club 4: Photography -->
-                    <div class="club-card reveal" data-category="arts">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/photography.png') }}" alt="Photography">
-                            <span class="club-category">Arts</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">📷</div>
-                            <div class="club-info">
-                                <h3>DIU Photographic Society</h3>
-                                <p>Founded in 2011 to organize photographers in the University and promote the art of photography through exhibitions.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Library Media Room
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Sundays
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <div class="more">+150</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diups" target="_blank"
-                                    class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 5: Voluntary Service -->
-                    <div class="club-card reveal" data-category="arts" style="transition-delay: 0.1s;">
-                        <div class="club-banner">
-                            <div style="width: 100%; height: 100%; background: #e6fffa; display: flex; align-items: center; justify-content: center; font-size: 40px;">🙌</div>
-                            <span class="club-category">Voluntary</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">🧡</div>
-                            <div class="club-info">
-                                <h3>Voluntary Service Club</h3>
-                                <p>A student-led organization where students unselfishly strive to develop skills, promote good deeds or improve people's lives.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Student Lounge
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Fridays
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
-                                    <div class="more">+200</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diuvsc" target="_blank"
-                                    class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 6: Cultural Club -->
-                    <div class="club-card reveal" data-category="arts" style="transition-delay: 0.2s;">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/cultural_club.png') }}" alt="Cultural Club">
-                            <span class="club-category">Arts & Culture</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">🎶</div>
-                            <div class="club-info">
-                                <h3>DIU Cultural Club</h3>
-                                <p>Our mission is to promote & enrich our tradition and culture in and beyond the country through music, dance and art.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Main Auditorium
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Weekly
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <div class="more">+250</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/DIUCC" target="_blank"
-                                    class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 7: All Stars Daffodil -->
-                    <div class="club-card reveal" data-category="arts" style="transition-delay: 0.3s;">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/all_stars.png') }}" alt="All Stars Daffodil">
-                            <span class="club-category">Drama</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">🎭</div>
-                            <div class="club-info">
-                                <h3>All Stars Daffodil</h3>
-                                <p>All Stars Daffodil is a drama organization. It is the only theater club at DIU, practicing pure Bengali culture through various plays.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Central Building
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Weekend Basis
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
-                                    <div class="more">+120</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/asd" target="_blank"
-                                    class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 8: Debate -->
-                    <div class="club-card reveal" data-category="academic">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/debate.png') }}" alt="Debate Club">
-                            <span class="club-category">Academic</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">🎤</div>
-                            <div class="club-info">
-                                <h3>Debate & Model UN</h3>
-                                <p>DIU DC has a reputation for participating in various national and international tournaments. We believe in reasoning.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Room 215
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Wed, 3:30 PM
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <div class="more">+120</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diudc" target="_blank" class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Club 9: Sports -->
-                    <div class="club-card reveal" data-category="sports" id="sports-club">
-                        <div class="club-banner">
-                            <img src="{{ asset('images/clubs/sports.png') }}" alt="Sports Club">
-                            <span class="club-category">Sports</span>
-                        </div>
-                        <div class="club-body">
-                            <div class="club-logo">⚽</div>
-                            <div class="club-info">
-                                <h3>University Sports Athletics</h3>
-                                <p>From soccer to basketball, join our community of student athletes to stay fit and compete representing DIU.</p>
-                            </div>
-                            <div class="club-meta">
-                                <div class="meta-item">
-                                    <i class="fas fa-map-marker-alt"></i> Uni Stadium
-                                </div>
-                                <div class="meta-item">
-                                    <i class="fas fa-calendar-alt"></i> Tu/Th, 6 PM
-                                </div>
-                            </div>
-                            <div class="club-action">
-                                <div class="members-avatar">
-                                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Member">
-                                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Member">
-                                    <div class="more">+300</div>
-                                </div>
-                                <a href="https://clubs.daffodilvarsity.edu.bd/club/diusports" target="_blank" class="join-btn">Visit Website</a>
-                            </div>
-                        </div>
-                    </div>
+                    @empty
+                    <p style="color:var(--text-muted); padding: 20px;">No clubs uploaded by Admin yet.</p>
+                    @endforelse
                 </div>
             </section>
 
