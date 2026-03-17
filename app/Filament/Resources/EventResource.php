@@ -32,6 +32,9 @@ class EventResource extends Resource
                         Forms\Components\TextInput::make('title')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\DatePicker::make('event_date')
+                            ->label('Event Date')
+                            ->required(),
                         Forms\Components\Textarea::make('description')
                             ->nullable()
                             ->rows(3),
@@ -53,11 +56,11 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('event_date')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('description')
                     ->limit(50),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
             ])
             ->filters([
                 //

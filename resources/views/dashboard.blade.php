@@ -246,7 +246,7 @@ Standardized structure matching Routine page
               <div class="event-card-scroll" 
                    data-title="{{ $event->title }}" 
                    data-description="{{ $event->description }}" 
-                   data-date="{{ $event->created_at->format('M d, Y') }}">
+                   data-date="{{ $event->event_date ? $event->event_date->format('M d, Y') : 'N/A' }}">
                 <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}">
                 <div class="event-card-overlay">
                   <div class="event-card-date">
@@ -256,7 +256,7 @@ Standardized structure matching Routine page
                       <line x1="8" y1="2" x2="8" y2="6"></line>
                       <line x1="3" y1="10" x2="21" y2="10"></line>
                     </svg>
-                    {{ $event->created_at->format('M d, Y') }}
+                    {{ $event->event_date ? $event->event_date->format('M d, Y') : 'N/A' }}
                   </div>
                   <h4 class="event-card-title">{{ $event->title }}</h4>
                   <span class="event-card-btn">
