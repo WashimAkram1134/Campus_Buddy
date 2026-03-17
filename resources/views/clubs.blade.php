@@ -70,7 +70,6 @@
                             <span class="club-category">{{ ucfirst($club->type) }}</span>
                         </div>
                         <div class="club-body">
-                            <div class="club-logo">🌟</div>
                             <div class="club-info">
                                 <h3>{{ $club->name }}</h3>
                                 <p>{{ $club->description }}</p>
