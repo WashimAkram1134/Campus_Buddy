@@ -451,6 +451,18 @@
         }
       });
 
+      // ================= AUTOMATIC SEND FROM URL =================
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlMessage = urlParams.get('message');
+      
+      if (urlMessage) {
+          chatInput.value = urlMessage;
+          // Run on a slight delay to allow layout transitions
+          setTimeout(() => {
+              sendMessage();
+          }, 300);
+      }
+
       function addMessage(text, sender) {
         const row = document.createElement('div');
         row.className = `message-row ${sender}-row`;

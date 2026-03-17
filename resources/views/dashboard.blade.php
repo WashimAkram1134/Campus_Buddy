@@ -390,22 +390,8 @@ Standardized structure matching Routine page
         const text = chatInput.value.trim();
         if (!text) return;
 
-        // User message
-        const userMsg = document.createElement('div');
-        userMsg.className = 'chat-bubble user-bubble';
-        userMsg.textContent = text;
-        chatBody.appendChild(userMsg);
-        chatInput.value = '';
-        chatBody.scrollTop = chatBody.scrollHeight;
-
-        // Buddy AI response (simulation)
-        setTimeout(function () {
-          const buddyMsg = document.createElement('div');
-          buddyMsg.className = 'chat-bubble buddy-bubble';
-          buddyMsg.textContent = 'Got it! Looking into that for you. 🔍';
-          chatBody.appendChild(buddyMsg);
-          chatBody.scrollTop = chatBody.scrollHeight;
-        }, 800);
+        // Redirect to Buddy Chat with the message
+        window.location.href = "{{ route('buddy-chat') }}?message=" + encodeURIComponent(text);
       }
 
       if (sendBtn) sendBtn.addEventListener('click', sendMessage);
