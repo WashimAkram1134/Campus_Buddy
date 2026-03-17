@@ -364,13 +364,13 @@ Standardized structure matching Routine page
 
   <!-- FULL SCREEN EVENT VIEWER -->
   <style>
-    .event-detail-modal { background: #fff; border-radius: 16px; overflow: hidden; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; animation: zoomIn 0.3s ease; }
-    .event-detail-hero { width: 100%; height: 240px; background: #eaeff2; }
-    .event-detail-hero img { width: 100%; height: 100%; object-fit: cover !important; border-radius: 0 !important; }
-    .event-detail-content { padding: 20px; color: #333; }
+    .event-detail-modal { background: #fff; border-radius: 16px; overflow: hidden; width: 95%; max-width: 700px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; animation: zoomIn 0.3s ease; }
+    .event-detail-hero { width: 100%; height: auto; background: #eaeff2; }
+    .event-detail-hero img { width: 100%; height: auto; object-fit: cover; border-radius: 0 !important; }
+    .event-detail-content { padding: 25px; color: #333; }
     .detail-date { color: var(--primary); font-size: 13px; font-weight: 600; display: block; margin-bottom: 5px;}
-    .detail-title { font-size: 20px; font-weight: 800; color: #1a202c; margin-bottom: 12px; }
-    .detail-desc { font-size: 15px; color: #4a5568; line-height: 1.6; max-height: 180px; overflow-y: auto; }
+    .detail-title { font-size: 22px; font-weight: 800; color: #1a202c; margin-bottom: 12px; }
+    .detail-desc { font-size: 15px; color: #4a5568; line-height: 1.6; max-height: 250px; overflow-y: auto; }
     #closeViewer { position: absolute; z-index: 10000; font-size: 40px; cursor: pointer; color: white; top: -10px; right: 20px; }
   </style>
 
@@ -424,7 +424,7 @@ Standardized structure matching Routine page
           
           viewerImg.src = card.querySelector('img').src;
           viewerTitle.textContent = data.title;
-          viewerDate.textContent = 'Posted ' + data.date;
+          viewerDate.textContent = data.date;
           viewerDesc.textContent = data.description;
           
           if (viewer) viewer.classList.add('show');
