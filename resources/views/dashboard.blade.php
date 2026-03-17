@@ -241,47 +241,33 @@ Standardized structure matching Routine page
             <a href="#" class="section-link">See all</a>
           </div>
 
-          @php
-          $imageDir = public_path('images/eventImage/');
-          $eventImages = [];
-          if (is_dir($imageDir)) {
-          foreach (['jpg','jpeg','png','gif','webp'] as $ext) {
-          $eventImages = array_merge($eventImages, glob($imageDir . "*.$ext"));
-          }
-          }
-          @endphp
-
           <div class="event-scroll-container">
-            @if(empty($eventImages))
-            <p style="color:var(--text-muted); font-size:14px;">No event images found.</p>
-            @else
-            @foreach($eventImages as $index => $eventImg)
-            <div class="event-card-scroll">
-              <img src="{{ asset('images/eventImage/' . basename($eventImg)) }}" alt="Event Image">
-              <div class="event-card-overlay">
-                <div class="event-card-date">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                  {{ ['March 15, 2026', 'April 2, 2026', 'May 10, 2026', 'June 5, 2026'][$index % 4] }}
+            @forelse($events as $event)
+              <div class="event-card-scroll">
+                <img src="{{ asset('storage/' . $event->image_path) }}" alt="{{ $event->title }}">
+                <div class="event-card-overlay">
+                  <div class="event-card-date">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    {{ $event->created_at->format('M d, Y') }}
+                  </div>
+                  <h4 class="event-card-title">{{ $event->title }}</h4>
+                  <p class="event-card-desc">{{ $event->description }}</p>
+                  <span class="event-card-btn">
+                    Learn More
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                  </span>
                 </div>
-                <h4 class="event-card-title">{{ ['Spring Fest 2026', 'Tech Symposium', 'Cultural Night', 'Sports
-                  Day'][$index % 4] }}</h4>
-                <p class="event-card-desc">{{ ['Join us for the biggest festival', 'Explore latest technologies',
-                  'Celebrate diversity with us', 'Annual sports competition'][$index % 4] }}</p>
-                <span class="event-card-btn">
-                  Learn More
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </span>
               </div>
-            </div>
-            @endforeach
-            @endif
+            @empty
+              <p style="color:var(--text-muted); font-size:14px; padding: 20px;">No recent events uploaded by Admin.</p>
+            @endforelse
           </div>
 
         </div>{{-- /main-col --}}

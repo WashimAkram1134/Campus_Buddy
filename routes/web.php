@@ -91,17 +91,22 @@ Route::get('/dashboard', function () {
             ->orderBy('time_slot', 'asc')
             ->get();
 
-        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule'));
+        $events = \App\Models\Event::latest()->get();
+
+        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule', 'events'));
     })->name('dashboard')->middleware('auth');
 
 Route::get('/cr-dashboard', function () {
     return view('cr-dashboard');
 })->name('cr-dashboard')->middleware('auth');
 
+use App\Http\Controllers\EventController;
+
 Route::post('/assignments', [ClassTaskController::class , 'store'])->name('assignments.store')->middleware('auth');
 Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
 Route::post('/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
 Route::post('/materials', [\App\Http\Controllers\MaterialController::class , 'store'])->name('materials.store')->middleware('auth');
+Route::post('/events', [EventController::class , 'store'])->name('events.store')->middleware('auth');
 
 
 Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
