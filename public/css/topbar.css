@@ -29,7 +29,7 @@
 }
 
 .logo-img {
-    height: 60px;
+    height: 50px;
     width: auto;
     transition: transform 0.2s ease;
 }
@@ -40,8 +40,9 @@
 
 .logo-text {
     display: flex !important;
-    flex-direction: column !important;
-    font-size: 24px !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    font-size: 20px !important;
     font-weight: 800 !important;
     color: #2d3748 !important;
     font-family: 'Inter', sans-serif !important;
@@ -470,11 +471,11 @@
     }
 
     .logo-img {
-        height: 48px;
+        height: 44px;
     }
 
     .logo-text {
-        font-size: 20px !important;
+        font-size: 18px !important;
     }
 }
 
@@ -527,7 +528,7 @@
     }
 
     .logo-img {
-        height: 36px;
+        height: 34px;
     }
 
     .logo-text {
@@ -597,13 +598,14 @@ body .main {
     }
 
     .logo-img {
-        height: 32px;
+        height: 28px;
     }
 
     .logo-text {
-        font-size: 14px !important;
+        font-size: 13px !important;
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
+        gap: 4px !important;
         margin-bottom: 0 !important;
     }
 
