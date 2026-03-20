@@ -64,23 +64,43 @@
                 <div class="clubs-grid">
                     @forelse($clubs as $club)
                     <div class="club-card reveal" data-category="{{ $club->type }}">
-                        <div class="club-banner">
+                        {{-- Glowing accent strip --}}
+                        <div class="club-accent-strip"></div>
+                        
+                        {{-- Logo showcase - shows full image --}}
+                        <div class="club-logo-showcase">
+                            <div class="club-logo-glow"></div>
                             <img src="{{ Str::startsWith($club->image_path, 'http') ? $club->image_path : asset('storage/' . $club->image_path) }}" 
                                  alt="{{ $club->name }}">
-                            <span class="club-category">{{ ucfirst($club->type) }}</span>
                         </div>
+
+                        {{-- Category badge --}}
+                        <span class="club-category-badge">{{ ucfirst($club->type) }}</span>
+
+                        {{-- Card body --}}
                         <div class="club-body">
                             <div class="club-info">
                                 <h3>{{ $club->name }}</h3>
-                                <p>{{ $club->description }}</p>
+                                <p>{{ Str::limit($club->description, 100) }}</p>
                             </div>
-                            <div class="club-action" style="margin-top: auto;">
-                                <div class="members-avatar">
-                                    <div class="more">+{{ rand(50, 500) }}</div>
+                            <div class="club-action">
+                                <div class="club-members-badge">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                    </svg>
+                                    <span>{{ rand(50, 500) }}+ members</span>
                                 </div>
                                 @if($club->website_link)
-                                <a href="{{ $club->website_link }}" target="_blank"
-                                    class="join-btn primary pulse-primary">Visit Website</a>
+                                <a href="{{ $club->website_link }}" target="_blank" class="club-visit-btn">
+                                    Visit
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="7" y1="17" x2="17" y2="7"/>
+                                        <polyline points="7 7 17 7 17 17"/>
+                                    </svg>
+                                </a>
                                 @endif
                             </div>
                         </div>
