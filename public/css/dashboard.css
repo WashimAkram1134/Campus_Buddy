@@ -117,7 +117,7 @@ body {
 .dashboard-container {
     max-width: 1600px;
     margin: 0 auto;
-    padding: 0 30px 40px;
+    padding: 40px 30px 40px;
 }
 
 /* ============================================================
@@ -951,7 +951,7 @@ body {
 
 @media (max-width: 768px) {
     .dashboard-container {
-        padding: 0 20px 40px !important;
+        padding: 30px 20px 40px !important;
         overflow-x: hidden !important;
     }
 
