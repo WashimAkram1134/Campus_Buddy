@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\AlumniRegistration;
+use Illuminate\Http\Request;
+
+class AlumniController extends Controller
+{
+    /**
+     * Show the alumni page with approved alumni cards.
+     */
+    public function index()
+    {
+        $approvedAlumni = AlumniRegistration::approved()->latest()->get();
+        return view('alumni', compact('approvedAlumni'));
+    }
+
+    /**
+     * Store a new alumni registration request (pending admin approval).
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name'        => 'required|string|max:255',
+            'email'            => 'required|email|unique:alumni_registrations,email',
+            'phone'            => 'nullable|string|max:20',
+            'profile_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'student_id'       => 'required|string|max:50',
+            'department'       => 'required|string|max:255',
+            'batch'            => 'required|string|max:20',
+            'graduation_year'  => 'required|string|max:10',
+            'current_position' => 'required|string|max:255',
+            'company'          => 'required|string|max:255',
+            'company_logo'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'category'         => 'required|string|max:100',
+            'linkedin_url'     => 'nullable|url|max:500',
+        ]);
+
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            $validated['profile_image'] = $request->file('profile_image')
+                ->store('alumni/profiles', 'public');
+        }
+
+        // Handle company logo upload
+        if ($request->hasFile('company_logo')) {
+            $validated['company_logo'] = $request->file('company_logo')
+                ->store('alumni/logos', 'public');
+        }
+
+        $validated['status'] = 'pending';
+
+        AlumniRegistration::create($validated);
+
+        return back()->with('success', 'Your alumni registration has been submitted! It will be reviewed by admin.');
+    }
+}

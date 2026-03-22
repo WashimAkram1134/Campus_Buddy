@@ -5,6 +5,7 @@ use App\Http\Controllers\ClassTaskController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\AlumniController;
 use App\Models\ClassTask;
 use App\Models\Announcement;
 use App\Models\Schedule;
@@ -162,9 +163,8 @@ Route::get('/notes', function () {
             return view('notes', compact('classMaterials', 'handNotes'));
         })->name('notes')->middleware('auth');
 
-Route::get('/alumni', function () {
-    return view('alumni');
-})->name('alumni')->middleware('auth');
+Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni')->middleware('auth');
+Route::post('/alumni/register', [AlumniController::class, 'store'])->name('alumni.register')->middleware('auth');
 
 Route::get('/clubs', function () {
     $clubs = \App\Models\Club::all();

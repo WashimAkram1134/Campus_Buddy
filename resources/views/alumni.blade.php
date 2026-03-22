@@ -26,7 +26,7 @@
                 <p class="hero-desc animate-item up stagger-3">Connect with a global network of professionals who started
                     exactly where you are. Get mentorship, job alerts, and industry insights from Campus Buddy
                     alumni.</p>
-                <a href="https://alumni.daffodilvarsity.edu.bd/" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>
+                <a href="https://alumni.daffodilvarsity.edu.bd/" target="_blank" rel="noopener noreferrer" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>
             </div>
             <div class="hero-right">
                 <div class="hero-collage">
@@ -95,6 +95,52 @@
 
     <!-- ================= ALUMNI GRID ================= -->
     <div class="alumni-grid reveal">
+        @foreach($approvedAlumni as $alumni)
+        <div class="alumni-card featured-card reveal animate-item up" data-category="{{ $alumni->category }}">
+            <div class="card-top">
+                @if($alumni->card_bg_image)
+                    <img src="{{ asset('storage/' . $alumni->card_bg_image) }}" alt="{{ $alumni->company }}" class="field-img">
+                @else
+                    <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="{{ $alumni->company }}" class="field-img">
+                @endif
+                <div class="premium-badge">ALUMNI</div>
+                <div class="profile-img-wrap">
+                    @if($alumni->profile_image)
+                        <img src="{{ asset('storage/' . $alumni->profile_image) }}" alt="{{ $alumni->full_name }}" class="profile-img">
+                    @else
+                        <img src="{{ asset('images/alumni/profile_placeholder.png') }}" alt="{{ $alumni->full_name }}" class="profile-img">
+                    @endif
+                </div>
+                <div class="card-category">{{ ucfirst(str_replace('-', ' ', $alumni->category)) }}</div>
+            </div>
+            <div class="card-body">
+                <h3>{{ $alumni->current_position }} @ {{ $alumni->company }}</h3>
+                <div class="alumni-details">
+                    <div class="detail-item">
+                        <i class="fas fa-university"></i>
+                        <span>{{ $alumni->department }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Class of {{ $alumni->graduation_year }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                @if($alumni->linkedin_url)
+                    <a href="{{ $alumni->linkedin_url }}" target="_blank" rel="noopener noreferrer" class="connect-btn">Connect</a>
+                @else
+                    <a href="#" class="connect-btn">Connect</a>
+                @endif
+                <div class="rating">
+                    <span>5.0</span>
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                </div>
+                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">{{ $alumni->full_name }}</div>
+            </div>
+        </div>
+        @endforeach
+
         <!-- Alumni Card: Journalism (New) -->
         <div class="alumni-card featured-card reveal animate-item up stagger-1" data-category="journalism">
             <div class="card-top">
@@ -718,10 +764,145 @@
             </div>
 
             <div class="cta-action animate-item right stagger-4">
-                <a href="#" class="cta-btn new-cta-btn pulse-primary">Register Today</a>
+                <a href="#" id="registerTodayBtn" class="cta-btn new-cta-btn pulse-primary">Register Today</a>
             </div>
         </div>
     </section>
+
+    <!-- ================= ALUMNI REGISTRATION MODAL ================= -->
+    <div id="registrationModal" class="alumni-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; align-items: center; justify-content: center;">
+        <div class="modal-content" style="background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 20px; overflow-y: auto; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); position: relative; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <span id="closeModal" style="position: absolute; top: 15px; right: 20px; font-size: 24px; font-weight: bold; cursor: pointer; color: #777;">&times;</span>
+            <h2 style="font-size: 24px; font-weight: 800; color: #1a1e29; margin-bottom: 20px; text-align: center;">Alumni <span>Registration</span></h2>
+            
+            <form action="{{ route('alumni.register') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Full Name *</label>
+                        <input type="text" name="full_name" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Email *</label>
+                        <input type="email" name="email" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Student ID *</label>
+                        <input type="text" name="student_id" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Phone</label>
+                        <input type="text" name="phone" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Department *</label>
+                        <input type="text" name="department" required placeholder="e.g. CSE" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Batch *</label>
+                        <input type="text" name="batch" required placeholder="e.g. 52" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Graduation Year *</label>
+                        <input type="text" name="graduation_year" required placeholder="e.g. 2020" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Linkedin URL</label>
+                        <input type="url" name="linkedin_url" placeholder="https://" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Select Category *</label>
+                    <select name="category" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <option value="software-engineering">Software Engineering</option>
+                        <option value="data-science">Data Science</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="finance">Finance</option>
+                        <option value="journalism">Journalism</option>
+                        <option value="bba">BBA</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Current Position *</label>
+                        <input type="text" name="current_position" required placeholder="e.g. Software Engineer" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Company *</label>
+                        <input type="text" name="company" required placeholder="e.g. Google" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Profile Image</label>
+                        <input type="file" name="profile_image" style="width:100%; font-size: 12px;">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Company Logo</label>
+                        <input type="file" name="company_logo" style="width:100%; font-size: 12px;">
+                    </div>
+                </div>
+
+                <button type="submit" style="background: #00AAFF; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);">Submit for Approval</button>
+            </form>
+        </div>
+    </div>
+
+    @if(session('success'))
+        <div style="position: fixed; bottom: 30px; right: 30px; background: #10b981; color: #fff; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(16,185,129,0.3); z-index: 10000; animation: slideIn 0.3s ease;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const openModalBtn = document.getElementById('registerTodayBtn');
+            const modal = document.getElementById('registrationModal');
+            const closeModalSpan = document.getElementById('closeModal');
+
+            if (openModalBtn && modal) {
+                openModalBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modal.style.display = 'flex';
+                });
+
+                closeModalSpan.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+
+                window.addEventListener('click', function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    <style>
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+    @endpush
+
 @endsection
 
 @push('scripts')
