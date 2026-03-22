@@ -26,12 +26,27 @@
                 <p class="hero-desc animate-item up stagger-3">Connect with a global network of professionals who started
                     exactly where you are. Get mentorship, job alerts, and industry insights from Campus Buddy
                     alumni.</p>
-                <a href="#alumni-network" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>
+                <a href="https://alumni.daffodilvarsity.edu.bd/" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>
             </div>
             <div class="hero-right">
-                <div class="hero-img-container animate-item right stagger-2">
-                    <img src="{{ asset('images/alumni/alumni_hero_group.jpg') }}" alt="Alumni Group" class="hero-img">
-                    <div class="hero-stats-badge floating">
+                <div class="hero-collage">
+                    <div class="collage-item collage-item-1">
+                        <img src="{{ asset('images/alumni/alumni_hero-section_image1.jpg') }}" alt="Alumni in New York">
+                        <span class="collage-label">New York</span>
+                    </div>
+                    <div class="collage-item collage-item-2">
+                        <img src="{{ asset('images/alumni/alumni_hero-section_image2.png') }}" alt="Graduation Day">
+                        <span class="collage-label">Convocation</span>
+                    </div>
+                    <div class="collage-item collage-item-3">
+                        <img src="{{ asset('images/alumni/alumni_hero-section_image3.png') }}" alt="Alumni in Sydney">
+                        <span class="collage-label">Sydney</span>
+                    </div>
+                    <div class="collage-item collage-item-4">
+                        <img src="{{ asset('images/alumni/alumni_hero-section_image4.png') }}" alt="Alumni in Germany">
+                        <span class="collage-label">Germany</span>
+                    </div>
+                    <div class="collage-center-badge floating">
                         <span class="count">1,235</span>
                         <span class="label">Alumni</span>
                     </div>

@@ -207,121 +207,182 @@
 }
 
 .hero-right {
-    flex: 0 0 42%;
-    max-width: 42%;
+    flex: 0 0 46%;
+    max-width: 46%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     position: relative;
     overflow: visible;
     clip-path: none;
     z-index: 10;
 }
 
-/* 2. PREMIUM GLOW & SHINE ON IMAGE INTERACTIVITY */
-.hero-img-container {
+/* ============= COLLAGE GRID ============= */
+.hero-collage {
     position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
     width: 100%;
-    padding: 10px;
-    z-index: 5;
-    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    max-width: 480px;
+    perspective: 800px;
 }
 
-/* Ambient glow under the image */
-.hero-img-container::before {
-    content: '';
-    position: absolute;
-    inset: 15px;
-    background: linear-gradient(135deg, #00d4ff, #10b981);
-    border-radius: 20px;
-    filter: blur(35px);
-    opacity: 0.25;
-    z-index: 0;
-    transition: all 0.5s ease;
+.collage-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    border: 3px solid rgba(255, 255, 255, 0.25);
 }
 
-/* Dynamic Glare/Sweep Effect on Hover */
-.hero-img-container::after {
+/* Ambient under-glow per card */
+.collage-item::before {
     content: '';
     position: absolute;
-    top: 10px; left: 10px; right: 10px; bottom: 10px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+    inset: 0;
+    border-radius: 16px;
+    box-shadow: 0 0 25px rgba(0, 170, 255, 0.15);
     opacity: 0;
-    z-index: 3;
     transition: opacity 0.4s ease;
+    z-index: 0;
     pointer-events: none;
 }
 
-.hero-img-container:hover {
-    transform: translateY(-8px) rotateX(2deg) rotateY(-3deg);
+.collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease, filter 0.4s ease;
 }
 
-.hero-img-container:hover::before {
-    opacity: 0.45;
-    filter: blur(45px);
-    transform: scale(1.05);
+/* Location label */
+.collage-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: all 0.35s ease;
+    z-index: 5;
 }
 
-.hero-img-container:hover::after {
+/* ---- Individual card sizes & tilts ---- */
+.collage-item-1 {
+    height: 190px;
+    transform: rotate(-2deg);
+    animation: collageEnter 0.7s ease backwards 0.2s;
+}
+
+.collage-item-2 {
+    height: 180px;
+    transform: rotate(1.5deg) translateY(8px);
+    animation: collageEnter 0.7s ease backwards 0.35s;
+}
+
+.collage-item-3 {
+    height: 180px;
+    transform: rotate(1deg) translateY(-5px);
+    animation: collageEnter 0.7s ease backwards 0.5s;
+}
+
+.collage-item-4 {
+    height: 190px;
+    transform: rotate(-1.5deg);
+    animation: collageEnter 0.7s ease backwards 0.65s;
+}
+
+@keyframes collageEnter {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(30px) rotate(0deg);
+    }
+}
+
+/* ---- Hover interactions ---- */
+.collage-item:hover {
+    transform: scale(1.08) rotate(0deg) translateY(-6px) !important;
+    box-shadow: 0 20px 50px rgba(0, 170, 255, 0.35);
+    border-color: rgba(0, 212, 255, 0.6);
+    z-index: 20;
+}
+
+.collage-item:hover::before {
     opacity: 1;
 }
 
-.hero-img {
-    width: 100%;
-    max-width: 100%;
-    height: 400px;
-    object-fit: cover;
-    object-position: center top;
-    border-radius: 20px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-    position: relative;
-    z-index: 2;
-    border: 4px solid rgba(255, 255, 255, 0.9);
-    display: block;
-    transition: border-color 0.4s ease;
+.collage-item:hover img {
+    transform: scale(1.08);
+    filter: brightness(1.1);
 }
 
-.hero-img-container:hover .hero-img {
-    border-color: #ffffff;
+.collage-item:hover .collage-label {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.hero-stats-badge {
+/* ============= CENTER BADGE ============= */
+.collage-center-badge {
     position: absolute;
     top: 50%;
-    left: -70px;
-    transform: translateY(-50%);
-    background: var(--bg, #ffffff);
-    padding: 24px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    width: 130px;
-    height: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 212, 255, 0.3);
-    z-index: 10;
-    border: 6px solid #00AAFF;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), 0 0 20px rgba(0, 212, 255, 0.3);
+    z-index: 30;
+    border: 4px solid #00AAFF;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: badgePop 0.6s ease backwards 0.8s;
 }
 
-.hero-img-container:hover .hero-stats-badge {
-    transform: translateY(-50%) scale(1.08) rotate(5deg);
-    border-color: #00d4ff;
-    box-shadow: 0 20px 45px rgba(0, 212, 255, 0.4);
+@keyframes badgePop {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
 }
 
-.hero-stats-badge .count {
-    font-size: 24px;
+.collage-center-badge:hover {
+    transform: translate(-50%, -50%) scale(1.12);
+    box-shadow: 0 12px 40px rgba(0, 212, 255, 0.5);
+}
+
+.collage-center-badge .count {
+    font-size: 18px;
     font-weight: 800;
     color: #1a1e29;
+    line-height: 1;
 }
 
-.hero-stats-badge .label {
-    font-size: 11px;
+.collage-center-badge .label {
+    font-size: 9px;
     color: #555;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* ================= SECTION HEADER ================= */
