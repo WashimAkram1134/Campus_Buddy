@@ -125,24 +125,9 @@ body {
    Base hero layout/text/colors now in hero-common.css
    ============================================================ */
 .hero-banner {
-    width: 100%;
-    margin-left: 0;
-    padding-left: calc((100% - 1600px) / 2 + 15px);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-@media (max-width: 1630px) {
-    .hero-banner {
-        padding-left: 5%;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-banner {
-        padding-left: 20px;
-    }
 }
 
 /* Entrance Animations */
