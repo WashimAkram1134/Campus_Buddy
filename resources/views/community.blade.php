@@ -12,7 +12,7 @@
         <img src="{{ asset('images/community/community.jpg') }}" alt="Community" class="hero-bg">
         <div class="hero-overlay-dark"></div>
 
-        <div class="hero-content-wrapper">
+        <div class="hero-content-wrapper hero-text animate-up">
             <div class="hero-deco hero-deco-1"></div>
             <div class="hero-deco hero-deco-2"></div>
             <div class="hero-deco hero-deco-3"></div>

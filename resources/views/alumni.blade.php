@@ -19,10 +19,10 @@
         <div class="hero-content-wrapper hero-text animate-up">
             <div class="hero-left">
                 <span class="hero-date">{{ now()->format('F j, Y') }}</span>
-                <span class="hero-tag animate-item up stagger-1">Start your bright career</span>
+                <span class="hero-tag animate-item up stagger-1">START YOUR BRIGHT CAREER</span>
                 <h1 class="animate-item up stagger-2">Now learning from anywhere, and build your <span>bright
                         career.</span></h1>
-                <p class="animate-item up stagger-3">Connect with a global network of professionals who started
+                <p class="hero-desc animate-item up stagger-3">Connect with a global network of professionals who started
                     exactly where you are. Get mentorship, job alerts, and industry insights from Campus Buddy
                     alumni.</p>
                 <a href="#alumni-network" class="hero-btn animate-item up stagger-4 pulse">Explore Network</a>

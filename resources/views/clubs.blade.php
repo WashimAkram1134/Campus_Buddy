@@ -18,26 +18,11 @@
         <div class="hero-deco hero-deco-3"></div>
         <div class="hero-deco hero-deco-4"></div>
 
-        <div class="hero-inner text-left">
+        <div class="hero-content">
             <span class="hero-date">{{ now()->format('F j, Y') }}</span>
             <span class="hero-tag">EXTRACURRICULAR ACTIVITIES</span>
-            <h1 class="hero-title">Explore & Join <br><span class="title-accent">University Clubs.</span></h1>
-            <p class="hero-subtitle">Connect with students who share your passions and build lasting friendships outside the classroom.</p>
-
-            <div class="hero-stats">
-                <div class="stat-box">
-                    <span class="stat-value">50+</span>
-                    <span class="stat-label">Active Clubs</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value">1.2k+</span>
-                    <span class="stat-label">Members</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-value">15+</span>
-                    <span class="stat-label">Events This Week</span>
-                </div>
-            </div>
+            <h1>Explore & Join <span>University Clubs.</span></h1>
+            <p class="hero-desc">Connect with students who share your passions and build lasting friendships outside the classroom.</p>
         </div>
     </div>
 </section>

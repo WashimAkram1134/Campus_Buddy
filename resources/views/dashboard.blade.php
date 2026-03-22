@@ -9,35 +9,23 @@
 @section('content')
 {{-- ══════════════════════════════════════════════════
 HERO BANNER
-Standardized structure matching Routine page
+Standardized structure matching all pages
 ══════════════════════════════════════════════════ --}}
 <section class="hero-banner" style="background-image: url('{{ asset('images/community/dashboardBG.jpg') }}');">
-    <div class="hero-overlay absolute inset-0 bg-black/50"></div>
+    <div class="hero-overlay"></div>
 
-    {{-- decorative dots matching routine style --}}
-    <div class="hero-deco opacity-20 absolute w-20 h-20 rounded-full bg-white/10 -top-4 right-[20%] pointer-events-none"></div>
-    <div class="hero-deco opacity-20 absolute w-6 h-6 rounded-full bg-green-500/30 bottom-10 left-[42%] pointer-events-none"></div>
+    <div class="hero-content-wrapper hero-text animate-up">
+        <div class="hero-deco hero-deco-1"></div>
+        <div class="hero-deco hero-deco-2"></div>
+        <div class="hero-deco hero-deco-3"></div>
+        <div class="hero-deco hero-deco-4"></div>
 
-    <div class="hero-text relative z-10 text-white text-left px-6 max-w-3xl">
-        <span class="hero-date block text-sm opacity-70 mb-2 fade-in">{{ now()->format('F j, Y') }}</span>
-        <span class="hero-tag text-xs tracking-widest text-sky-400 font-bold uppercase mb-4 block fade-in-delay-1">STUDENT PORTAL</span>
-        <h1 class="hero-title interactive-title flex flex-col items-start fade-in-delay-2">
-            <span class="title-main">Start your day with</span>
-            <span class="title-accent mt-2">campusBuddy, {{ Auth::user()->name }}!</span>
-        </h1>
-        <p class="hero-desc text-lg text-gray-200 opacity-90 fade-in-delay-3">Always stay updated in your student portal.</p>
-        
-        @if(Auth::user()->is_cr)
-        <div class="hero-actions mt-8 fade-in-delay-4">
-            <a href="{{ route('cr.dashboard') }}" class="inline-flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-xl font-bold transition-all transform hover:-translate-y-1 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                CR Management Panel
-            </a>
+        <div class="hero-content">
+            <span class="hero-date">{{ now()->format('F j, Y') }}</span>
+            <span class="hero-tag">STUDENT PORTAL</span>
+            <h1>Start your day with <span>campusBuddy, {{ Auth::user()->name }}!</span></h1>
+            <p class="hero-desc">Always stay updated in your student portal.</p>
         </div>
-        @endif
     </div>
 </section>
 
