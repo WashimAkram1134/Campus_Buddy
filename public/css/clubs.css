@@ -381,47 +381,46 @@
 /* Logo showcase - displays full logo */
 .club-logo-showcase {
     position: relative;
-    height: 180px;
+    margin: 14px 14px 0;
+    height: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, #f0f7ff 0%, #f8f9ff 40%, #f0f0ff 100%);
-    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e8ecf1;
     overflow: hidden;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* Bottom gradient fade like the reference */
+.club-logo-showcase::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(200, 205, 215, 0.25) 100%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .club-logo-showcase .club-logo-glow {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 170, 255, 0.12) 0%, transparent 70%);
-    filter: blur(20px);
-    z-index: 0;
-    transition: all 0.5s ease;
-}
-
-.club-card:hover .club-logo-glow {
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, rgba(0, 170, 255, 0.2) 0%, transparent 70%);
+    display: none;
 }
 
 .club-logo-showcase img {
     position: relative;
     z-index: 1;
-    max-width: 85%;
-    max-height: 85%;
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
 }
 
 .club-card:hover .club-logo-showcase img {
-    transform: scale(1.08);
-    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.12));
+    transform: scale(1.05);
 }
 
 /* Category badge */

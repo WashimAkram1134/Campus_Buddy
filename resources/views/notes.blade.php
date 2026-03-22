@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PDF & Notes | Campus Buddy')
+@section('title', 'Pdf & Notes | Campus Buddy')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/notes.css') }}">
@@ -9,7 +9,7 @@
 @section('content')
     <!-- ================= HERO BANNER ================= -->
     <section class="hero-banner">
-        <img src="{{ asset('images/notes/notes_hero.png') }}" alt="PDF & Notes" class="hero-bg">
+        <img src="{{ asset('images/notes/notes_hero.png') }}" alt="Pdf & Notes" class="hero-bg">
         <div class="hero-overlay-dark"></div>
 
         <div class="hero-content-wrapper hero-text animate-up">
@@ -21,8 +21,8 @@
             <div class="hero-content">
                 <span class="hero-date">{{ now()->format('F j, Y') }}</span>
                 <span class="hero-tag">RESOURCES & MATERIALS</span>
-                <h1 class="desktop-only">Access your <span>PDF & Notes</span> <em>anytime, anywhere.</em></h1>
-                <h1 class="mobile-only">Access your <span>PDF & Notes</span></h1>
+                <h1 class="desktop-only">Access your <span>Pdf & Notes</span> <em>anytime, anywhere.</em></h1>
+                <h1 class="mobile-only">Access your <span>Pdf & Notes</span></h1>
 
                 <p class="hero-desc">
                     Your centralized repository for class materials, lecture slides, and student-contributed notes.
@@ -281,7 +281,7 @@
     <!-- ================= PERSONALIZED ROUTINE BANNER ================= -->
     <section class="personalized-banner reveal">
         <div class="banner-content">
-            <h2 class="banner-title">Summarize PDF or Notes</h2>
+            <h2 class="banner-title">Summarize Pdf or Notes</h2>
             <a href="{{ route('buddy-chat') }}" class="banner-chat-btn">Chat with Buddy</a>
             <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy" class="banner-mascot">
         </div>
