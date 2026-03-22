@@ -155,11 +155,41 @@
 /* ================= HERO SECTION — page-specific ================= */
 /* Base hero layout/text/colors now in hero-common.css */
 
-/* Alumni hero has a split layout with image on the right */
+/* Alumni hero with background animated ambient meshes and glowing frame interactivity */
 .hero-banner {
     max-height: 520px;
     margin-bottom: 50px;
-    background: var(--primary, #1a237e);
+    background: var(--primary, #0c1424);
+    overflow: visible;
+}
+
+/* 1. Interactive Background Background Shifts */
+.hero-overlay {
+    background: radial-gradient(radial-gradient(circle at 70% 30%, rgba(56, 189, 248, 0.15), transparent 40%), 
+                radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.12), transparent 40%),
+                linear-gradient(135deg, rgba(10, 20, 30, 0.9), rgba(0, 50, 90, 0.75)));
+    animation: bgMeshShimmer 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgMeshShimmer {
+    from { background-position: 0% 0%; }
+    to { background-position: 100% 100%; }
+}
+
+/* Drifting/floating continuous decorative dot animations in background */
+.hero-deco {
+    animation: driftRotate 14s ease-in-out infinite;
+}
+
+.hero-deco-1 { animation-delay: 0s; transform-origin: 200px 300px; }
+.hero-deco-2 { animation-delay: -3s; transform-origin: 100px 100px; }
+.hero-deco-3 { animation-delay: -7s; transform-origin: -100px 200px; }
+
+@keyframes driftRotate {
+    0% { transform: translate(0) rotate(0deg); }
+    33% { transform: translate(15px, -15px) rotate(10deg); filter: brightness(1.1); }
+    66% { transform: translate(-10px, 15px) rotate(-10deg); filter: brightness(0.9); }
+    100% { transform: translate(0) rotate(0deg); }
 }
 
 .hero-content-wrapper {
@@ -172,6 +202,8 @@
     flex: 1 1 0;
     min-width: 0;
     padding-right: 32px;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-right {
@@ -183,12 +215,56 @@
     position: relative;
     overflow: visible;
     clip-path: none;
+    z-index: 10;
 }
 
+/* 2. PREMIUM GLOW & SHINE ON IMAGE INTERACTIVITY */
 .hero-img-container {
     position: relative;
     width: 100%;
     padding: 10px;
+    z-index: 5;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Ambient glow under the image */
+.hero-img-container::before {
+    content: '';
+    position: absolute;
+    inset: 15px;
+    background: linear-gradient(135deg, #00d4ff, #10b981);
+    border-radius: 20px;
+    filter: blur(35px);
+    opacity: 0.25;
+    z-index: 0;
+    transition: all 0.5s ease;
+}
+
+/* Dynamic Glare/Sweep Effect on Hover */
+.hero-img-container::after {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+    opacity: 0;
+    z-index: 3;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.hero-img-container:hover {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-3deg);
+}
+
+.hero-img-container:hover::before {
+    opacity: 0.45;
+    filter: blur(45px);
+    transform: scale(1.05);
+}
+
+.hero-img-container:hover::after {
+    opacity: 1;
 }
 
 .hero-img {
@@ -198,11 +274,16 @@
     object-fit: cover;
     object-position: center top;
     border-radius: 20px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
     position: relative;
     z-index: 2;
-    border: 5px solid white;
+    border: 4px solid rgba(255, 255, 255, 0.9);
     display: block;
+    transition: border-color 0.4s ease;
+}
+
+.hero-img-container:hover .hero-img {
+    border-color: #ffffff;
 }
 
 .hero-stats-badge {
@@ -210,18 +291,25 @@
     top: 50%;
     left: -70px;
     transform: translateY(-50%);
-    background: white;
-    padding: 20px;
+    background: var(--bg, #ffffff);
+    padding: 24px;
     border-radius: 50%;
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 212, 255, 0.3);
     z-index: 10;
-    border: 8px solid #00AAFF;
+    border: 6px solid #00AAFF;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-img-container:hover .hero-stats-badge {
+    transform: translateY(-50%) scale(1.08) rotate(5deg);
+    border-color: #00d4ff;
+    box-shadow: 0 20px 45px rgba(0, 212, 255, 0.4);
 }
 
 .hero-stats-badge .count {
@@ -231,9 +319,9 @@
 }
 
 .hero-stats-badge .label {
-    font-size: 12px;
-    color: #666;
-    font-weight: 600;
+    font-size: 11px;
+    color: #555;
+    font-weight: 700;
 }
 
 /* ================= SECTION HEADER ================= */

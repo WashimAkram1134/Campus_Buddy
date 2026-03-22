@@ -9,6 +9,7 @@
 @section('content')
     <!-- ================= HERO SECTION ================= -->
     <section class="hero-banner reveal active">
+        <img src="{{ asset('images/alumni/Alumni_BG.png') }}" alt="Alumni Background" class="hero-bg">
         {{-- Decorative dots matching dashboard --}}
         <div class="hero-deco hero-deco-1"></div>
         <div class="hero-deco hero-deco-2"></div>
