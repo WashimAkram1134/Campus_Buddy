@@ -178,7 +178,41 @@
                         }
                     });
                 });
-            })
+            });
+
+            // Handle #sports-club hash from community page Sports Association link
+            if (window.location.hash === '#sports-club') {
+                // Find and click the Sports filter button
+                const sportsFilterBtn = document.querySelector('.filter-btn[data-filter="sports"]');
+                if (sportsFilterBtn) {
+                    sportsFilterBtn.click();
+                }
+
+                // Scroll to the clubs section and highlight sports cards
+                setTimeout(() => {
+                    const clubsSection = document.getElementById('explore-clubs');
+                    if (clubsSection) {
+                        clubsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+
+                    // Add highlight animation to all visible sports cards
+                    setTimeout(() => {
+                        const sportsCards = document.querySelectorAll('.club-card[data-category="sports"]');
+                        sportsCards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('highlighted');
+                            }, index * 150); // Stagger the highlight for each card
+                        });
+
+                        // Remove highlight class after animation completes
+                        setTimeout(() => {
+                            sportsCards.forEach(card => {
+                                card.classList.remove('highlighted');
+                            });
+                        }, 5000);
+                    }, 600);
+                }, 300);
+            }
         });
     </script>
 @endpush

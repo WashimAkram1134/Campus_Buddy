@@ -701,3 +701,46 @@
         background: white;
     }
 }
+
+/* ================= HIGHLIGHTED SPORTS CARD ================= */
+.club-card.highlighted {
+    border-color: #00AAFF !important;
+    border-width: 2px;
+    animation: highlightPulse 1.2s ease-in-out 3;
+    position: relative;
+    z-index: 5;
+}
+
+.club-card.highlighted::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 26px;
+    border: 2px solid #00AAFF;
+    opacity: 0;
+    animation: highlightBorderPulse 1.2s ease-in-out 3;
+    pointer-events: none;
+}
+
+@keyframes highlightPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 170, 255, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 25px 8px rgba(0, 170, 255, 0.25), 0 0 60px 15px rgba(0, 170, 255, 0.1);
+        transform: scale(1.025);
+        background: #f0faff;
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 170, 255, 0);
+        transform: scale(1);
+        background: white;
+    }
+}
+
+@keyframes highlightBorderPulse {
+    0% { opacity: 0; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.02); }
+}
