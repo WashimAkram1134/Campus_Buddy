@@ -35,9 +35,17 @@ class SignupController extends Controller
             'semester' => ['required', 'string', 'max:20'],
             'section' => ['required', 'string', 'max:10'],
             'major' => ['nullable', 'string', 'max:100'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
         $isCr = $request->role === 'cr';
+
+        $profileImagePath = null;
+        if ($request->hasFile('profile_image')) {
+            $imageName = time() . '_' . uniqid() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+            $request->file('profile_image')->move(public_path('images/profile'), $imageName);
+            $profileImagePath = 'images/profile/' . $imageName;
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -50,6 +58,7 @@ class SignupController extends Controller
             'semester' => $request->semester,
             'section' => $request->section,
             'major' => $request->is_major === 'yes' ? $request->major : null,
+            'profile_image' => $profileImagePath,
             'password' => Hash::make($request->password),
         ]);
 

@@ -109,7 +109,7 @@
                 </div>
                 <span class="card-tag">TALENTS</span>
                 <h3>Meet With Talents</h3>
-                <p>Discover skilled individuals and developers on campus. Connect for dynamic projects and innovation.</p>
+                <p>Connect with talented students eager to help you with studies, projects, assignments, and thesis mentoring.</p>
                 <div class="card-stats"><span>👥 150+</span><span>🔥 Top-Rated</span></div>
             </a>
 

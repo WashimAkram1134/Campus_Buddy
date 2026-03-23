@@ -27,7 +27,7 @@
         <section class="card" aria-labelledby="signup-title">
             <h1 id="signup-title" class="title">Join Campus Buddy!</h1>
 
-            <form method="POST" action="{{ url('/signup') }}" class="form" novalidate>
+            <form method="POST" action="{{ url('/signup') }}" class="form" enctype="multipart/form-data" novalidate>
                 @csrf
 
                 <div class="field">
@@ -104,6 +104,12 @@
                             value="{{ old('major') }}" placeholder="e.g. DS, CS, Robotics">
                         @error('major') <p class="error" role="alert">{{ $message }}</p> @enderror
                     </div>
+                </div>
+                
+                <div class="field" style="margin-top: 14px;">
+                    <label for="profile_image" class="label">Profile Picture (Optional)</label>
+                    <input id="profile_image" name="profile_image" type="file" class="input @error('profile_image') input--error @enderror" accept="image/*" style="padding-top: 8px;">
+                    @error('profile_image') <p class="error" role="alert">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="field">
