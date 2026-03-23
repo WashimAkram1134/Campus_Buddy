@@ -100,18 +100,18 @@
     <section class="community-cards" id="community-cards">
         <div class="cards-grid">
 
-            <div class="comm-card">
+            <a href="#" class="comm-card comm-card-link">
                 <div class="card-img-wrap">
-                    <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Study Groups">
+                    <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Meet With Talents">
                 </div>
                 <div class="card-badge">
-                    <span class="badge-icon">📚</span>
+                    <span class="badge-icon">🌟</span>
                 </div>
-                <span class="card-tag">STUDY GROUPS</span>
-                <h3>Collaborative Learning</h3>
-                <p>Join active study sessions with your classmates. Share notes & prepare for exams together.</p>
-                <div class="card-stats"><span>👥 234</span><span>📈 12</span></div>
-            </div>
+                <span class="card-tag">TALENTS</span>
+                <h3>Meet With Talents</h3>
+                <p>Discover skilled individuals and developers on campus. Connect for dynamic projects and innovation.</p>
+                <div class="card-stats"><span>👥 150+</span><span>🔥 Top-Rated</span></div>
+            </a>
 
             <a href="{{ route('clubs') }}" class="comm-card comm-card-link">
                 <div class="card-img-wrap">
