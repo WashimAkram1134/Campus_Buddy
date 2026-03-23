@@ -292,7 +292,7 @@ body {
     transition: all 0.2s ease;
 }
 
-.file { border: 1px solid #c8a45a; color: #c8a45a; background: rgba(200, 164, 90, 0.05); }
+.file { border: 1px solid #00AAFF; color: #00AAFF; background: rgba(200, 164, 90, 0.05); }
 .join { border: 1px solid #333; color: #333; background: #fdfdfd; }
 .join:hover { background: #333; color: #fff; }
 
@@ -411,8 +411,8 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 1px solid #c8a45a;
-    color: #c8a45a;
+    border: 1px solid #00AAFF;
+    color: #00AAFF;
     display: flex;
     align-items: center;
     justify-content: center;

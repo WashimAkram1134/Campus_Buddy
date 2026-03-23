@@ -444,6 +444,10 @@
                 </div>
             @endforeach
         </div>
+        <!-- View More for Districts -->
+        <button id="view-more-districts" class="view-more-districts-btn" style="display: none;">
+            View More<i class="fas fa-plus"></i>
+        </button>
     </section>
 
     <!-- ================= TRENDING ================= -->
@@ -480,12 +484,17 @@
             // Toggle Map Logic
             const toggleMapBtn = document.getElementById('toggle-map-btn');
             const mapContainer = document.querySelector('.map-container');
+            const divisionText = document.getElementById('selected-division-text');
 
             if (toggleMapBtn && mapContainer) {
                 toggleMapBtn.addEventListener('click', function () {
                     const isHidden = mapContainer.style.display === 'none';
                     mapContainer.style.display = isHidden ? 'flex' : 'none';
                     
+                    if (divisionText) {
+                        divisionText.style.display = isHidden ? 'block' : 'none';
+                    }
+
                     const icon = this.querySelector('i');
                     if (icon) {
                         icon.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
@@ -493,37 +502,83 @@
                 });
             }
 
-            // Map Filtering Logic
+            // Map Filtering & Grid Logic
             const divisions = document.querySelectorAll('.division');
             const cards = document.querySelectorAll('.district-card');
             const resetBtn = document.getElementById('reset-filter');
-            const divisionText = document.getElementById('selected-division-text');
+            const viewMoreDistrictsBtn = document.getElementById('view-more-districts');
+            const districtHeadline = document.querySelector('.district-header h2');
+
+            // --- Row Limit logic for Districts Start ---
+            let showAllDistricts = false;
+
+            function applyDistrictRowLimit() {
+                // If currently filtering, show all matches, don't limit with View More button
+                const isFiltered = divisionText.innerText.includes('Filtering');
+                if (isFiltered || showAllDistricts) {
+                    if (viewMoreDistrictsBtn) viewMoreDistrictsBtn.style.display = 'none';
+                    return; 
+                }
+
+                const isMobile = window.innerWidth < 768;
+                const visibleLimit = isMobile ? 4 : 8; // approx 2 rows on mobile (2 cols) and desktop (4 cols)
+
+                cards.forEach((card, index) => {
+                    if (index < visibleLimit) {
+                        card.style.display = 'block';
+                        card.classList.add('animate-in');
+                    } else {
+                        card.style.display = 'none';
+                        card.classList.remove('animate-in');
+                    }
+                });
+
+                if (viewMoreDistrictsBtn) {
+                     viewMoreDistrictsBtn.style.display = cards.length > visibleLimit ? 'flex' : 'none';
+                }
+            }
+
+            if (viewMoreDistrictsBtn) {
+                viewMoreDistrictsBtn.addEventListener('click', function() {
+                    showAllDistricts = true;
+                    cards.forEach(card => {
+                        card.style.display = 'block';
+                        card.classList.add('animate-in');
+                    });
+                    this.style.display = 'none';
+                });
+            }
+
+            window.addEventListener('resize', applyDistrictRowLimit);
+            applyDistrictRowLimit(); // Initial run
+
+            if (districtHeadline) {
+                districtHeadline.addEventListener('click', () => {
+                    if (toggleMapBtn) toggleMapBtn.click();
+                });
+            }
 
             divisions.forEach(div => {
                 div.addEventListener('click', function () {
                     const selectedDivision = this.id;
 
-                    // Update text
                     divisionText.innerText = `Filtering by: ${selectedDivision} Division`;
                     divisionText.style.color = '#c8a45a';
 
-                    // Keep all divisions highlighted (fully visible)
                     divisions.forEach(d => {
                         d.style.opacity = '1';
                         d.querySelectorAll('path').forEach(path => {
-                            path.style.stroke = ''; // reset to default
+                            path.style.stroke = ''; 
                             path.style.strokeWidth = '';
                         });
                     });
                     
                     this.querySelectorAll('path').forEach(activePath => {
-                        activePath.style.stroke = '#c8a45a'; // Gold highlight
+                        activePath.style.stroke = '#c8a45a'; 
                         activePath.style.strokeWidth = '12';
                     });
-                    // Bring the currently active division to the front so strokes aren't occluded
                     this.parentNode.appendChild(this);
 
-                    // Filter cards
                     let firstMatch = null;
                     cards.forEach(card => {
                         if (card.dataset.division === selectedDivision) {
@@ -535,6 +590,8 @@
                             card.classList.remove('animate-in');
                         }
                     });
+
+                    if (viewMoreDistrictsBtn) viewMoreDistrictsBtn.style.display = 'none';
 
                     if (firstMatch) {
                         setTimeout(() => {
@@ -551,17 +608,14 @@
 
                 divisions.forEach(d => {
                     d.style.opacity = '1';
-                    const path = d.querySelector('path');
-                    if (path) {
-                        path.style.stroke = '#fff'; // restore default
-                        path.style.strokeWidth = '4';
-                    }
+                    d.querySelectorAll('path').forEach(path => {
+                        path.style.stroke = '';
+                        path.style.strokeWidth = '';
+                    });
                 });
 
-                cards.forEach(card => {
-                    card.style.display = 'block';
-                    card.classList.add('animate-in');
-                });
+                showAllDistricts = false;
+                applyDistrictRowLimit();
             });
 
             // View More Posts functionality
