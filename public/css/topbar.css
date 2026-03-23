@@ -22,9 +22,9 @@
 
 .logo {
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-end !important;
     justify-content: flex-start !important;
-    gap: 12px !important;
+    gap: 4px !important;
     text-decoration: none;
 }
 
