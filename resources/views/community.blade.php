@@ -26,7 +26,7 @@
             height: 3px;
             bottom: -5px;
             left: 0;
-            background: linear-gradient(90deg, #00AAFF, #c8a45a);
+            background: linear-gradient(90deg, #00AAFF, #00AAFF);
             border-radius: 2px;
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -38,8 +38,8 @@
         /* View More button styling for districts */
         .view-more-districts-btn {
             background: rgba(200, 164, 90, 0.1);
-            color: #c8a45a;
-            border: 2px solid #c8a45a;
+            color: #00AAFF;
+            border: 2px solid #00AAFF;
             padding: 10px 24px;
             border-radius: 30px;
             font-weight: 700;
@@ -55,7 +55,7 @@
         }
 
         .view-more-districts-btn:hover {
-            background: #c8a45a;
+            background: #00AAFF;
             color: #fff;
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(200, 164, 90, 0.25);
@@ -273,7 +273,7 @@
                     Filter with Map <i class="fas fa-chevron-down" style="transition: transform 0.3s ease;"></i>
                 </button>
                 <a href="#" id="reset-filter"
-                    style="color: #c8a45a; text-decoration: none; font-size: 13px; font-weight: 500;">View All</a>
+                    style="color: #00AAFF; text-decoration: none; font-size: 13px; font-weight: 500;">View All</a>
             </div>
         </div>
 
@@ -563,7 +563,7 @@
                     const selectedDivision = this.id;
 
                     divisionText.innerText = `Filtering by: ${selectedDivision} Division`;
-                    divisionText.style.color = '#c8a45a';
+                    divisionText.style.color = '#00AAFF';
 
                     divisions.forEach(d => {
                         d.style.opacity = '1';
@@ -574,7 +574,7 @@
                     });
                     
                     this.querySelectorAll('path').forEach(activePath => {
-                        activePath.style.stroke = '#c8a45a'; 
+                        activePath.style.stroke = '#00AAFF'; 
                         activePath.style.strokeWidth = '12';
                     });
                     this.parentNode.appendChild(this);
