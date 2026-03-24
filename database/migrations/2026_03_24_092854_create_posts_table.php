@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('content');
-            $table->string('image_path')->nullable();
+            $table->string('attachment')->nullable(); // stored as file path or description link
+            $table->string('type')->default('general'); // like 'student', 'club', 'general'
             $table->timestamps();
         });
     }

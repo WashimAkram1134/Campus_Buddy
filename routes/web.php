@@ -125,12 +125,12 @@ Route::delete('/schedule/{schedule}', [ScheduleController::class , 'destroy'])->
 Route::get('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'index'])->name('question-bank')->middleware('auth');
 Route::post('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'store'])->name('question-bank.store')->middleware('auth');
 
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommunityController;
 
-Route::get('/community', [PostController::class, 'index'])->name('community')->middleware('auth');
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
-Route::post('/posts/{id}/like', [PostController::class, 'toggleLike'])->name('posts.like')->middleware('auth');
-Route::post('/posts/{id}/comment', [PostController::class, 'addComment'])->name('posts.comment')->middleware('auth');
+Route::get('/community', [CommunityController::class, 'index'])->name('community')->middleware('auth');
+Route::post('/community/post', [CommunityController::class, 'storePost'])->name('community.post.store')->middleware('auth');
+Route::post('/community/post/{post}/like', [CommunityController::class, 'like'])->name('community.post.like')->middleware('auth');
+Route::post('/community/post/{post}/comment', [CommunityController::class, 'comment'])->name('community.post.comment')->middleware('auth');
 
 Route::get('/notes', function () {
     $user = auth()->user();

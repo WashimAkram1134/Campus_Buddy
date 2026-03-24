@@ -168,99 +168,86 @@
         </div>
     </section>
 
-    <!-- ================= RECENT POSTS ================= -->
+    <!-- ================= COMMUNITY RECENT POST ================= -->
     <div class="recent-posts-heading" id="posts-section">
         <h2>📝 Community Recent post</h2>
-        <a href="#">View All Posts</a>
-    </div>
-
-    <!-- Create Post Section -->
-    <div class="create-post-card animate-up">
-        <div class="post-top">
-            <div class="avatar">
-                @if(auth()->user()->profile_image)
-                    <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Avatar" class="avatar-img">
-                @else
-                    {{ substr(auth()->user()->name, 0, 1) }}
-                @endif
-            </div>
-            <h4>Create a Post</h4>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <button id="open-post-modal" style="background: #00AAFF; color: white; padding: 8px 18px; border-radius: 25px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,170,255,0.2);">
+                <i class="fas fa-plus"></i> Post Something
+            </button>
+            <a href="#">View All Posts</a>
         </div>
-        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="post-form">
-            @csrf
-            <textarea name="content" placeholder="What's on your mind?" required></textarea>
-            <div class="form-actions">
-                <input type="file" name="image" id="post_image" hidden accept="image/*">
-                <label for="post_image" class="file-label"><i class="fas fa-image"></i> Add Image</label>
-                <button type="submit" class="submit-btn">Post <i class="fas fa-paper-plane"></i></button>
-            </div>
-        </form>
     </div>
 
     <section class="posts">
         @forelse($posts as $post)
-            <div class="post animate-up">
+            <div class="post" id="post-{{ $post->id }}" style="background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; transition: transform 0.2s ease;">
                 <div class="post-top">
-                    <div class="avatar" style="width: 45px; height: 45px; background: #e0e0e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; overflow: hidden; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <!-- Avatar with Flex Fallback -->
+                    <div class="avatar">
                         @if($post->user->profile_image)
-                            <img src="{{ asset('storage/' . $post->user->profile_image) }}" alt="Avatar" class="avatar-img" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                            <img src="{{ asset('storage/' . $post->user->profile_image) }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}&color=00AAFF&background=E0F7FA'">
                         @else
-                            {{ substr($post->user->name, 0, 1) }}
+                            👨‍🎓
                         @endif
                     </div>
                     <div>
-                        <h4>{{ $post->user->name }} <span>{{ $post->user->role }}</span></h4>
-                        <p class="post-date" style="font-size: 11px; color: #999; margin-top: 2px;">{{ $post->created_at->diffForHumans() }}</p>
+                        <h4>{{ $post->user->name }} <span>{{ $post->user->batch ?? 'Batch' }} | {{ $post->user->department ?? 'Dept' }}</span></h4>
+                        <p>{{ $post->content }}</p>
                     </div>
                 </div>
-                <!-- Content -->
-                <p class="post-content" style="margin-top: 15px; color: #2C3E50; font-size: 15px; line-height: 1.5; white-space: pre-line;">{{ $post->content }}</p>
-                @if($post->image_path)
-                    <div class="post-image" style="margin-top: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
-                        <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post image" style="width: 100%; max-height: 350px; object-fit: cover;">
-                    </div>
+
+                @if($post->attachment)
+                    <a class="file" href="{{ asset('storage/' . $post->attachment) }}" target="_blank" style="margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(0,170,255,0.08); color: #00AAFF; border-radius: 10px; font-size: 13px; font-weight: 600; text-decoration: none;">
+                        <i class="fas fa-paperclip"></i> View File
+                    </a>
                 @endif
-                <!-- Action Footer -->
-                <div class="meta" style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #F1F3F5; display: flex; gap: 20px;">
-                    <button class="action-btn like-btn" data-id="{{ $post->id }}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #5A6772; font-size: 14px; font-weight: 500; transition: color 0.2s;">
-                        <i class="fa-heart {{ $post->likes->contains('user_id', auth()->id()) ? 'fas' : 'far' }}" 
-                            style="color: {{ $post->likes->contains('user_id', auth()->id()) ? '#E0245E' : '#5A6772' }}; font-size: 16px;"></i> 
-                        <span class="count" id="like-count-{{ $post->id }}">{{ $post->likes->count() }}</span>
-                    </button>
-                    <button class="action-btn comment-trigger" data-id="{{ $post->id }}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #5A6772; font-size: 14px; font-weight: 500;">
-                        <i class="far fa-comment" style="font-size: 16px;"></i> <span id="comment-count-{{ $post->id }}">{{ $post->comments->count() }}</span>
-                    </button>
+
+                <div class="meta" style="display: flex; gap: 18px; margin-top: 15px; font-weight: 700; font-size: 13px; color: #555;">
+                    <!-- Like Trigger -->
+                    <span class="like-btn" data-id="{{ $post->id }}" style="cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease;">
+                        <i class="{{ $post->isLikedBy(auth()->user()) ? 'fas' : 'far' }} fa-heart" style="{{ $post->isLikedBy(auth()->user()) ? 'color: #E0245E;' : 'color: #718096;' }}"></i> 
+                        <span class="count">{{ $post->likes->count() }}</span>
+                    </span>
+
+                    <!-- Comment Trigger -->
+                    <span class="comment-trigger" data-id="{{ $post->id }}" style="cursor: pointer; display: flex; align-items: center; gap: 6px; color: #718096;">
+                        <i class="far fa-comment-dots"></i> 
+                        <span class="count">{{ $post->comments->count() }}</span>
+                    </span>
+                    
+                    <span style="margin-left: auto; font-weight: 500; font-size: 12px; color: #A0AEC0;">{{ $post->created_at->diffForHumans() }}</span>
                 </div>
-                <!-- Comment Container -->
-                <div class="comment-box" id="comments-{{ $post->id }}" style="display: none; margin-top: 15px; border-top: 1px solid #F1F3F5; padding-top: 15px;">
-                    <div class="comments-list" id="comments-list-{{ $post->id }}" style="max-height: 250px; overflow-y: auto;">
-                        @foreach($post->comments as $comment)
-                        <div class="comment" style="display: flex; gap: 10px; margin-bottom: 12px;">
-                            <div class="comment-avatar" style="width: 32px; height: 32px; background: #E9ECEF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; flex-shrink: 0;">
-                                @if($comment->user->profile_image)
-                                    <img src="{{ asset('storage/' . $comment->user->profile_image) }}" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    {{ substr($comment->user->name, 0, 1) }}
-                                @endif
+
+                <!-- Collapsible Comment Drawer -->
+                <div class="comment-section" id="comments-{{ $post->id }}" style="display: none; margin-top: 15px; border-top: 1px dashed #EDF2F7; padding-top: 15px;">
+                    <div class="comments-list" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
+                        @forelse($post->comments as $comment)
+                            <div style="background: #F7FAFC; padding: 12px; border-radius: 12px; font-size: 13px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);">
+                                <span style="font-weight: 800; color: #2D3748; display: block; margin-bottom: 2px;">{{ $comment->user->name }}</span>
+                                <span style="color: #4A5568; line-height: 1.4;">{{ $comment->content }}</span>
                             </div>
-                            <div class="comment-content" style="background: #F8F9FA; padding: 10px 14px; border-radius: 16px; flex-grow: 1;">
-                                <h5 style="margin: 0; font-size: 13px; font-weight: 600; color: #2C3E50;">{{ $comment->user->name }} <span style="font-size: 11px; color: #ADB5BD; font-weight: 400; margin-left: 6px;">{{ $comment->created_at->diffForHumans() }}</span></h5>
-                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #495057; line-height: 1.4;">{{ $comment->content }}</p>
-                            </div>
-                        </div>
-                        @endforeach
+                        @empty
+                            <div style="text-align: center; font-size: 12px; color: #A0AEC0; padding: 10px;">Zero comments yet. Spark the talk!</div>
+                        @endforelse
                     </div>
-                    <!-- Form -->
-                    <form class="comment-form" data-id="{{ $post->id }}" style="display: flex; gap: 10px; margin-top: 12px; align-items: center;">
+
+                    <form action="{{ route('community.post.comment', $post) }}" method="POST" class="comment-form" data-id="{{ $post->id }}" style="display: flex; gap: 8px;">
                         @csrf
-                        <input type="text" name="content" placeholder="Write a comment..." required style="flex-grow: 1; border: 1px solid #E9ECEF; padding: 10px 16px; border-radius: 24px; outline: none; font-size: 13px; background: #F8F9FA; transition: border 0.3s;" onfocus="this.style.borderColor='#00AAFF'" onblur="this.style.borderColor='#E9ECEF'">
-                        <button type="submit" style="background: #00AAFF; color: white; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"><i class="fas fa-paper-plane" style="font-size: 12px;"></i></button>
+                        <input type="text" name="content" style="flex: 1; padding: 10px 14px; border: 1px solid #E2E8F0; border-radius: 12px; font-size: 13px; background: #F8FAFC;" placeholder="Say something nice..." required>
+                        <button type="submit" style="background: #00AAFF; color: white; border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s;">
+                            Send
+                        </button>
                     </form>
                 </div>
             </div>
         @empty
-            <p style="text-align: center; color: #ADB5BD; margin-top: 30px; font-size: 15px;">No posts yet. Be the first to share something with the campus!</p>
+            <div style="text-align: center; color: #718096; padding: 50px 20px; font-weight: 600;">
+                 🌵 Nothing here yet. Step up and post something awesome!
+            </div>
         @endforelse
+
+        <button class="view-more" id="view-more-posts" style="display: {{ $posts->count() > 5 ? 'block' : 'none' }};">View More</button>
     </section>
 
     <!-- ================= DISTRICT ASSOCIATIONS ================= -->
@@ -458,7 +445,47 @@
             #Assignment &nbsp; #TechFest2025 &nbsp; #Campus <br>
             #MachineLearning &nbsp; #CodeTrap2025
         </p>
-    </section>
+    <!-- Create Post Modal -->
+    <div id="post-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: center; padding: 15px;">
+        <div style="background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; animation: modalZoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <button id="close-post-modal" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #888;">&times;</button>
+            <h3 style="margin-bottom: 20px; color: #2C3E50; font-weight: 800; display: flex; align-items: center; gap: 8px;"><i class="fas fa-feather" style="color: #00AAFF;"></i> Share on Community</h3>
+
+            <form action="{{ route('community.post.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div style="margin-bottom: 15px;">
+                    <textarea name="content" rows="4" style="width: 100%; padding: 15px; border: 1px solid #E0E6ED; border-radius: 15px; resize: none; font-size: 14px; font-family: inherit;" placeholder="What's causing the buzz today? Add notes, ask questions, or just share..." required></textarea>
+                </div>
+
+                <div style="margin-bottom: 15px; display: flex; flex-direction: column; gap: 7px;">
+                    <label style="font-size: 13px; font-weight: 700; color: #4A5568;">Attachment (Optional)</label>
+                    <input type="file" name="attachment" style="font-size: 13px; color: #718096; padding: 8px; background: #F7FAFC; border-radius: 10px; border: 1px dashed #CBD5E0;">
+                </div>
+
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 13px; font-weight: 700; color: #4A5568; display: block; margin-bottom: 5px;">Post Type</label>
+                    <select name="type" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #E0E6ED; font-size: 14px; background: white; cursor: pointer;">
+                        <option value="general">📚 General Update</option>
+                        <option value="notes">📝 Notes / Materials</option>
+                        <option value="study_group">🤝 Study Group</option>
+                        <option value="announcement">📢 Advisory / Announcement</option>
+                    </select>
+                </div>
+
+                <button type="submit" style="width: 100%; background: #00AAFF; color: white; border: none; padding: 14px; border-radius: 15px; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);">
+                    🚀 POST
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Animation View Rules -->
+    <style>
+        @keyframes modalZoom {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
 @endsection
 
 @push('scripts')
@@ -619,14 +646,41 @@
                 applyDistrictRowLimit();
             });
 
-            // Toggle Like Logic using Fetch API
-            document.querySelectorAll('.like-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const id = this.dataset.id;
-                    const countSpan = document.getElementById(`like-count-${id}`);
-                    const icon = this.querySelector('i');
+            // Modal Logic
+            const openModalBtn = document.getElementById('open-post-modal');
+            const closeModalBtn = document.getElementById('close-post-modal');
+            const postModal = document.getElementById('post-modal');
 
-                    fetch(`/posts/${id}/like`, {
+            if (openModalBtn && postModal) {
+                openModalBtn.addEventListener('click', () => postModal.style.display = 'flex');
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', () => postModal.style.display = 'none');
+                }
+                postModal.addEventListener('click', (e) => {
+                    if (e.target === postModal) postModal.style.display = 'none';
+                });
+            }
+
+            // --- Comment Section Trigger ---
+            document.querySelectorAll('.comment-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function() {
+                    const postId = this.dataset.id;
+                    const commentSec = document.getElementById(`comments-${postId}`);
+                    if (commentSec) {
+                        const isHidden = commentSec.style.display === 'none';
+                        commentSec.style.display = isHidden ? 'block' : 'none';
+                    }
+                });
+            });
+
+            // --- Like Post Functionality (AJAX) ---
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const postId = this.dataset.id;
+                    const heartIcon = this.querySelector('i');
+                    const countSpan = this.querySelector('.count');
+
+                    fetch(`/community/post/${postId}/like`, {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -635,77 +689,44 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.status === 'success') {
+                        if (data.success) {
                             countSpan.innerText = data.likes_count;
                             if (data.liked) {
-                                icon.classList.remove('far');
-                                icon.classList.add('fas');
-                                icon.style.color = '#E0245E';
+                                heartIcon.classList.remove('far');
+                                heartIcon.classList.add('fas');
+                                heartIcon.style.color = '#E0245E';
                             } else {
-                                icon.classList.remove('fas');
-                                icon.classList.add('far');
-                                icon.style.color = '#5A6772';
+                                heartIcon.classList.remove('fas');
+                                heartIcon.classList.add('far');
+                                heartIcon.style.color = '#718096';
                             }
                         }
-                    });
-                });
-            });
-
-            // Toggle Comment Box Logic
-            document.querySelectorAll('.comment-trigger').forEach(trigger => {
-                trigger.addEventListener('click', function () {
-                    const id = this.dataset.id;
-                    const box = document.getElementById(`comments-${id}`);
-                    box.style.display = box.style.display === 'none' ? 'block' : 'none';
-                });
-            });
-
-            // Add Comment Logic
-            document.querySelectorAll('.comment-form').forEach(form => {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    const id = this.dataset.id;
-                    const input = this.querySelector('input[name="content"]');
-                    const content = input.value;
-                    const list = document.getElementById(`comments-list-${id}`);
-                    const countSpan = document.getElementById(`comment-count-${id}`);
-
-                    if (!content.trim()) return;
-
-                    fetch(`/posts/${id}/comment`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ content: content })
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            input.value = '';
-                            
-                            // Append new comment to list
-                            const c = data.comment;
-                            const commentHtml = `
-                                <div class="comment" style="display: flex; gap: 10px; margin-bottom: 12px;">
-                                    <div class="comment-avatar" style="width: 32px; height: 32px; background: #E9ECEF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; flex-shrink: 0;">
-                                        ${c.user.profile_image ? `<img src="${c.user.profile_image}" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;">` : `<span>${c.user.name.substring(0,1)}</span>`}
-                                    </div>
-                                    <div class="comment-content" style="background: #F8F9FA; padding: 10px 14px; border-radius: 16px; flex-grow: 1;">
-                                        <h5 style="margin: 0; font-size: 13px; font-weight: 600; color: #2C3E50;">${c.user.name} <span style="font-size: 11px; color: #ADB5BD; font-weight: 400; margin-left: 6px;">${c.created_at}</span></h5>
-                                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #495057; line-height: 1.4;">${c.content}</p>
-                                    </div>
-                                </div>
-                            `;
-                            list.insertAdjacentHTML('beforeend', commentHtml);
-                            countSpan.innerText = parseInt(countSpan.innerText) + 1;
-                            list.scrollTop = list.scrollHeight;
-                        }
-                    });
+                    .catch(err => console.error('Error liking post:', err));
                 });
             });
+
+            // View More Posts functionality
+            const viewMorePostsBtn = document.getElementById('view-more-posts');
+            const allPosts = document.querySelectorAll('.posts .post');
+            const visibleLimit = 5;
+
+            if (viewMorePostsBtn && allPosts.length > visibleLimit) {
+                allPosts.forEach((post, index) => {
+                    if (index >= visibleLimit) {
+                        post.style.display = 'none';
+                    }
+                });
+                viewMorePostsBtn.addEventListener('click', function () {
+                    allPosts.forEach(post => {
+                        post.style.display = 'block';
+                        post.classList.add('animate-in');
+                    });
+                    this.style.display = 'none';
+                });
+            } else if (viewMorePostsBtn) {
+                viewMorePostsBtn.style.display = 'none';
+            }
         });
     </script>
 @endpush

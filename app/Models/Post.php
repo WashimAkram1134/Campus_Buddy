@@ -6,20 +6,28 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['user_id', 'content', 'image_path'];
+    protected $fillable = ['user_id', 'content', 'attachment', 'type'];
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function likes()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Like::class);
     }
 
-    public function comments()
+    public function isLikedBy($user = null): bool
     {
-        return $this->hasMany(Comment::class);
+        if (!$user) {
+            return false;
+        }
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 }
