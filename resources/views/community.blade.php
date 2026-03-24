@@ -170,96 +170,97 @@
 
     <!-- ================= RECENT POSTS ================= -->
     <div class="recent-posts-heading" id="posts-section">
-        <h2>📝 Recent Posts</h2>
+        <h2>📝 Community Recent post</h2>
         <a href="#">View All Posts</a>
     </div>
 
+    <!-- Create Post Section -->
+    <div class="create-post-card animate-up">
+        <div class="post-top">
+            <div class="avatar">
+                @if(auth()->user()->profile_image)
+                    <img src="{{ asset('storage/' . auth()->user()->profile_image) }}" alt="Avatar" class="avatar-img">
+                @else
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                @endif
+            </div>
+            <h4>Create a Post</h4>
+        </div>
+        <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" class="post-form">
+            @csrf
+            <textarea name="content" placeholder="What's on your mind?" required></textarea>
+            <div class="form-actions">
+                <input type="file" name="image" id="post_image" hidden accept="image/*">
+                <label for="post_image" class="file-label"><i class="fas fa-image"></i> Add Image</label>
+                <button type="submit" class="submit-btn">Post <i class="fas fa-paper-plane"></i></button>
+            </div>
+        </form>
+    </div>
+
     <section class="posts">
-        <div class="post">
-            <div class="post-top">
-                <div class="avatar">🎓</div>
-                <div>
-                    <h4>Adnan Hossain <span>3rd Year SWE</span></h4>
-                    <p>Shared updated Software Engineering notes for Week 6.</p>
+        @forelse($posts as $post)
+            <div class="post animate-up">
+                <div class="post-top">
+                    <div class="avatar" style="width: 45px; height: 45px; background: #e0e0e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; overflow: hidden; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                        @if($post->user->profile_image)
+                            <img src="{{ asset('storage/' . $post->user->profile_image) }}" alt="Avatar" class="avatar-img" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                        @else
+                            {{ substr($post->user->name, 0, 1) }}
+                        @endif
+                    </div>
+                    <div>
+                        <h4>{{ $post->user->name }} <span>{{ $post->user->role }}</span></h4>
+                        <p class="post-date" style="font-size: 11px; color: #999; margin-top: 2px;">{{ $post->created_at->diffForHumans() }}</p>
+                    </div>
+                </div>
+                <!-- Content -->
+                <p class="post-content" style="margin-top: 15px; color: #2C3E50; font-size: 15px; line-height: 1.5; white-space: pre-line;">{{ $post->content }}</p>
+                @if($post->image_path)
+                    <div class="post-image" style="margin-top: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06);">
+                        <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post image" style="width: 100%; max-height: 350px; object-fit: cover;">
+                    </div>
+                @endif
+                <!-- Action Footer -->
+                <div class="meta" style="margin-top: 18px; padding-top: 12px; border-top: 1px solid #F1F3F5; display: flex; gap: 20px;">
+                    <button class="action-btn like-btn" data-id="{{ $post->id }}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #5A6772; font-size: 14px; font-weight: 500; transition: color 0.2s;">
+                        <i class="fa-heart {{ $post->likes->contains('user_id', auth()->id()) ? 'fas' : 'far' }}" 
+                            style="color: {{ $post->likes->contains('user_id', auth()->id()) ? '#E0245E' : '#5A6772' }}; font-size: 16px;"></i> 
+                        <span class="count" id="like-count-{{ $post->id }}">{{ $post->likes->count() }}</span>
+                    </button>
+                    <button class="action-btn comment-trigger" data-id="{{ $post->id }}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #5A6772; font-size: 14px; font-weight: 500;">
+                        <i class="far fa-comment" style="font-size: 16px;"></i> <span id="comment-count-{{ $post->id }}">{{ $post->comments->count() }}</span>
+                    </button>
+                </div>
+                <!-- Comment Container -->
+                <div class="comment-box" id="comments-{{ $post->id }}" style="display: none; margin-top: 15px; border-top: 1px solid #F1F3F5; padding-top: 15px;">
+                    <div class="comments-list" id="comments-list-{{ $post->id }}" style="max-height: 250px; overflow-y: auto;">
+                        @foreach($post->comments as $comment)
+                        <div class="comment" style="display: flex; gap: 10px; margin-bottom: 12px;">
+                            <div class="comment-avatar" style="width: 32px; height: 32px; background: #E9ECEF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; flex-shrink: 0;">
+                                @if($comment->user->profile_image)
+                                    <img src="{{ asset('storage/' . $comment->user->profile_image) }}" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
+                                    {{ substr($comment->user->name, 0, 1) }}
+                                @endif
+                            </div>
+                            <div class="comment-content" style="background: #F8F9FA; padding: 10px 14px; border-radius: 16px; flex-grow: 1;">
+                                <h5 style="margin: 0; font-size: 13px; font-weight: 600; color: #2C3E50;">{{ $comment->user->name }} <span style="font-size: 11px; color: #ADB5BD; font-weight: 400; margin-left: 6px;">{{ $comment->created_at->diffForHumans() }}</span></h5>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: #495057; line-height: 1.4;">{{ $comment->content }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <!-- Form -->
+                    <form class="comment-form" data-id="{{ $post->id }}" style="display: flex; gap: 10px; margin-top: 12px; align-items: center;">
+                        @csrf
+                        <input type="text" name="content" placeholder="Write a comment..." required style="flex-grow: 1; border: 1px solid #E9ECEF; padding: 10px 16px; border-radius: 24px; outline: none; font-size: 13px; background: #F8F9FA; transition: border 0.3s;" onfocus="this.style.borderColor='#00AAFF'" onblur="this.style.borderColor='#E9ECEF'">
+                        <button type="submit" style="background: #00AAFF; color: white; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"><i class="fas fa-paper-plane" style="font-size: 12px;"></i></button>
+                    </form>
                 </div>
             </div>
-            <a class="file" href="#">software_eng_notes.pdf</a>
-            <div class="meta"><span>👍 78</span><span>💬 25</span></div>
-        </div>
-
-        <div class="post">
-            <div class="post-top">
-                <div class="avatar">👨‍💻</div>
-                <div>
-                    <h4>Mazharul Islam <span>3rd Year CSE</span></h4>
-                    <p>Creating a study group for Quizzes in Data structures.</p>
-                </div>
-            </div>
-            <a class="join">Join Study Group</a>
-            <div class="meta"><span>👍 55</span><span>💬 16</span></div>
-        </div>
-
-        <div class="post">
-            <div class="post-top">
-                <div class="avatar">🤖</div>
-                <div>
-                    <h4>Robotics Club <span>Friday</span></h4>
-                    <p>Robotics Workshop This week</p>
-                </div>
-            </div>
-            <div class="event-tag" style="display: inline-block; margin-top: 10px; padding: 5px 12px; background: #f8f9fa; border-radius: 5px; font-size: 12px; color: #555; border: 1px solid #e0e0e0;">Friday, 5PM – Lab 301</div>
-            <div class="meta"><span>👍 27</span><span>💬 12</span></div>
-        </div>
-
-        <div class="post">
-            <div class="post-top">
-                <div class="avatar">🎨</div>
-                <div>
-                    <h4>Art & Design <span>2h ago</span></h4>
-                    <p>New gallery exhibition featuring student artwork. Come see!</p>
-                </div>
-            </div>
-            <a class="join">View Gallery</a>
-            <div class="meta"><span>👍 42</span><span>💬 8</span></div>
-        </div>
-
-        <div class="post extra-post">
-            <div class="post-top">
-                <div class="avatar">🏐</div>
-                <div>
-                    <h4>Sports Club <span>Today</span></h4>
-                    <p>Intra-university Volleyball tournament registrations are open.</p>
-                </div>
-            </div>
-            <a class="join">Register Now</a>
-            <div class="meta"><span>👍 65</span><span>💬 31</span></div>
-        </div>
-
-        <div class="post extra-post">
-            <div class="post-top">
-                <div class="avatar">🔍</div>
-                <div>
-                    <h4>Lost & Found <span>1h ago</span></h4>
-                    <p>Found a blue water bottle in C-Block room 402.</p>
-                </div>
-            </div>
-            <a class="join">Claim Item</a>
-            <div class="meta"><span>👍 12</span><span>💬 5</span></div>
-        </div>
-
-        <div class="post extra-post">
-            <div class="post-top">
-                <div class="avatar">📅</div>
-                <div>
-                    <h4>SWE Dept <span>Tomorrow</span></h4>
-                    <p>Guest lecture on "Modern Software Architecture" by Tech Lead from Google.</p>
-                </div>
-            </div>
-            <a class="join">Set Reminder</a>
-            <div class="meta"><span>👍 110</span><span>💬 45</span></div>
-        </div>
-
-        <button class="view-more" id="view-more-posts">View More</button>
+        @empty
+            <p style="text-align: center; color: #ADB5BD; margin-top: 30px; font-size: 15px;">No posts yet. Be the first to share something with the campus!</p>
+        @endforelse
     </section>
 
     <!-- ================= DISTRICT ASSOCIATIONS ================= -->
@@ -618,19 +619,93 @@
                 applyDistrictRowLimit();
             });
 
-            // View More Posts functionality
-            const viewMorePostsBtn = document.getElementById('view-more-posts');
-            const hiddenPosts = document.querySelectorAll('.extra-post');
+            // Toggle Like Logic using Fetch API
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const id = this.dataset.id;
+                    const countSpan = document.getElementById(`like-count-${id}`);
+                    const icon = this.querySelector('i');
 
-            if (viewMorePostsBtn) {
-                viewMorePostsBtn.addEventListener('click', function () {
-                    hiddenPosts.forEach(post => {
-                        post.classList.remove('extra-post');
-                        post.classList.add('animate-in');
+                    fetch(`/posts/${id}/like`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            countSpan.innerText = data.likes_count;
+                            if (data.liked) {
+                                icon.classList.remove('far');
+                                icon.classList.add('fas');
+                                icon.style.color = '#E0245E';
+                            } else {
+                                icon.classList.remove('fas');
+                                icon.classList.add('far');
+                                icon.style.color = '#5A6772';
+                            }
+                        }
                     });
-                    this.style.display = 'none';
                 });
-            }
+            });
+
+            // Toggle Comment Box Logic
+            document.querySelectorAll('.comment-trigger').forEach(trigger => {
+                trigger.addEventListener('click', function () {
+                    const id = this.dataset.id;
+                    const box = document.getElementById(`comments-${id}`);
+                    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+                });
+            });
+
+            // Add Comment Logic
+            document.querySelectorAll('.comment-form').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const id = this.dataset.id;
+                    const input = this.querySelector('input[name="content"]');
+                    const content = input.value;
+                    const list = document.getElementById(`comments-list-${id}`);
+                    const countSpan = document.getElementById(`comment-count-${id}`);
+
+                    if (!content.trim()) return;
+
+                    fetch(`/posts/${id}/comment`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ content: content })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            input.value = '';
+                            
+                            // Append new comment to list
+                            const c = data.comment;
+                            const commentHtml = `
+                                <div class="comment" style="display: flex; gap: 10px; margin-bottom: 12px;">
+                                    <div class="comment-avatar" style="width: 32px; height: 32px; background: #E9ECEF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; overflow: hidden; flex-shrink: 0;">
+                                        ${c.user.profile_image ? `<img src="${c.user.profile_image}" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;">` : `<span>${c.user.name.substring(0,1)}</span>`}
+                                    </div>
+                                    <div class="comment-content" style="background: #F8F9FA; padding: 10px 14px; border-radius: 16px; flex-grow: 1;">
+                                        <h5 style="margin: 0; font-size: 13px; font-weight: 600; color: #2C3E50;">${c.user.name} <span style="font-size: 11px; color: #ADB5BD; font-weight: 400; margin-left: 6px;">${c.created_at}</span></h5>
+                                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #495057; line-height: 1.4;">${c.content}</p>
+                                    </div>
+                                </div>
+                            `;
+                            list.insertAdjacentHTML('beforeend', commentHtml);
+                            countSpan.innerText = parseInt(countSpan.innerText) + 1;
+                            list.scrollTop = list.scrollHeight;
+                        }
+                    });
+                });
+            });
         });
     </script>
 @endpush

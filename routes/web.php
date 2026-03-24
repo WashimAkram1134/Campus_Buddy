@@ -125,9 +125,12 @@ Route::delete('/schedule/{schedule}', [ScheduleController::class , 'destroy'])->
 Route::get('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'index'])->name('question-bank')->middleware('auth');
 Route::post('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'store'])->name('question-bank.store')->middleware('auth');
 
-Route::get('/community', function () {
-    return view('community');
-})->name('community')->middleware('auth');
+use App\Http\Controllers\PostController;
+
+Route::get('/community', [PostController::class, 'index'])->name('community')->middleware('auth');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+Route::post('/posts/{id}/like', [PostController::class, 'toggleLike'])->name('posts.like')->middleware('auth');
+Route::post('/posts/{id}/comment', [PostController::class, 'addComment'])->name('posts.comment')->middleware('auth');
 
 Route::get('/notes', function () {
     $user = auth()->user();

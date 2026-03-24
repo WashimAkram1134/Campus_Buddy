@@ -440,3 +440,99 @@ body {
     .quick-actions { grid-template-columns: 1fr; }
     .district-grid { grid-template-columns: 1fr; }
 }
+
+/* ================= CREATE POST CARD ================= */
+.create-post-card {
+    background: white;
+    margin: 0 35px 20px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f4f8;
+}
+
+.create-post-card .post-top {
+    margin-bottom: 15px;
+}
+
+.create-post-card textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.create-post-card textarea:focus {
+    border-color: #00AAFF;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.file-label {
+    font-size: 13px;
+    color: #4b5563;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+
+.file-label:hover {
+    color: #00AAFF;
+}
+
+.file-label i {
+    font-size: 16px;
+    color: #00AAFF;
+}
+
+.submit-btn {
+    background: #00AAFF;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.submit-btn:hover {
+    background: #0088cc;
+    transform: translateY(-1px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Scrollbars for comment lists */
+.comments-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 10px;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1; 
+    border-radius: 10px;
+}
