@@ -181,7 +181,7 @@
 
     <section class="posts">
         @forelse($posts as $post)
-            <div class="post" id="post-{{ $post->id }}" style="background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; transition: transform 0.2s ease;">
+            <div class="post" id="post-{{ $post->id }}" style="background: transparent; padding: 12px 10px; border-bottom: 1px solid #E2E8F0; border-radius: 0; box-shadow: none; margin-bottom: 8px; transition: transform 0.2s ease;">
                 <div class="post-top">
                     <!-- Avatar with Flex Fallback -->
                     <div class="avatar">
@@ -209,7 +209,7 @@
                     </a>
                 @endif
 
-                <div class="meta" style="display: flex; gap: 18px; margin-top: 15px; font-weight: 700; font-size: 13px; color: #555;">
+                <div class="meta" style="display: flex; gap: 18px; margin-top: 8px; font-weight: 700; font-size: 13px; color: #555;">
                     <!-- Like Trigger -->
                     <span class="like-btn" data-id="{{ $post->id }}" style="cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease;">
                         <i class="{{ $post->isLikedBy(auth()->user()) ? 'fas' : 'far' }} fa-heart" style="{{ $post->isLikedBy(auth()->user()) ? 'color: #E0245E;' : 'color: #718096;' }}"></i> 
