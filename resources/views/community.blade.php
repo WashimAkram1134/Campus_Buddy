@@ -462,10 +462,23 @@
 
         @php
             include resource_path('views/data/district_data.php');
+            
+            $dynamicAssoc = \App\Models\DistrictAssociation::all()->map(function($assoc) {
+                return [
+                    'name' => $assoc->name,
+                    'division' => $assoc->division,
+                    'logo' => $assoc->image ? 'storage/' . $assoc->image : 'images/alumni/profile_1.png',
+                    'motto' => 'District Association',
+                    'members' => $assoc->members_count . '+',
+                    'link' => $assoc->link ?? '#',
+                ];
+            });
+
+            $allAssociations = collect($districtAssociations)->merge($dynamicAssoc);
         @endphp
 
         <div class="district-grid" id="district-cards-container">
-            @foreach($districtAssociations as $district)
+            @foreach($allAssociations as $district)
                 <div class="district-card" data-division="{{ $district['division'] }}">
                     <div class="district-logo-wrap">
                         <img src="{{ asset($district['logo']) }}" alt="{{ $district['name'] }}"
