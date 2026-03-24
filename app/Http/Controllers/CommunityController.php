@@ -89,4 +89,41 @@ class CommunityController extends Controller
 
         return redirect()->back()->with('success', 'Comment added successfully!');
     }
+
+    public function updateComment(Request $request, Comment $comment)
+    {
+        if ($comment->user_id !== Auth::id()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+
+        $comment->update([
+            'content' => $request->content,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment updated',
+            'content' => $comment->content
+        ]);
+    }
+
+    public function destroyComment(Comment $comment)
+    {
+        if ($comment->user_id !== Auth::id()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $post = $comment->post;
+        $comment->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment deleted',
+            'comments_count' => $post->comments()->count()
+        ]);
+    }
 }

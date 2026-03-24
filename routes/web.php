@@ -131,6 +131,8 @@ Route::get('/community', [CommunityController::class, 'index'])->name('community
 Route::post('/community/post', [CommunityController::class, 'storePost'])->name('community.post.store')->middleware('auth');
 Route::post('/community/post/{post}/like', [CommunityController::class, 'like'])->name('community.post.like')->middleware('auth');
 Route::post('/community/post/{post}/comment', [CommunityController::class, 'comment'])->name('community.post.comment')->middleware('auth');
+Route::put('/community/comment/{comment}', [CommunityController::class, 'updateComment'])->name('community.comment.update')->middleware('auth');
+Route::delete('/community/comment/{comment}', [CommunityController::class, 'destroyComment'])->name('community.comment.destroy')->middleware('auth');
 
 Route::get('/notes', function () {
     $user = auth()->user();

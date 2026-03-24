@@ -229,9 +229,32 @@
                 <div class="comment-section" id="comments-{{ $post->id }}" style="display: none; margin-top: 15px; border-top: 1px dashed #EDF2F7; padding-top: 15px;">
                     <div class="comments-list" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
                         @forelse($post->comments as $comment)
-                            <div style="background: #F7FAFC; padding: 12px; border-radius: 12px; font-size: 13px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);">
-                                <span style="font-weight: 800; color: #2D3748; display: block; margin-bottom: 2px;">{{ $comment->user->name }}</span>
-                                <span style="color: #4A5568; line-height: 1.4;">{{ $comment->content }}</span>
+                            <div class="comment-item" id="comment-{{ $comment->id }}" style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
+                                <div style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+                                    @if($comment->user->profile_image)
+                                        <img src="{{ asset('storage/' . $comment->user->profile_image) }}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&color=00AAFF&background=E0F7FA'">
+                                    @else
+                                        🎓
+                                    @endif
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="background: #F0F2F5; padding: 10px 14px; border-radius: 18px; display: inline-block; max-width: 88%; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+                                        <span style="font-weight: 700; color: #1A202C; font-size: 13px; display: block; margin-bottom: 2px;">{{ $comment->user->name }}</span>
+                                        <span class="comment-content" style="color: #4A5568; font-size: 13px; line-height: 1.4; word-break: break-word;">{{ $comment->content }}</span>
+                                        
+                                        @if($comment->user_id == Auth::id())
+                                            <div style="position: absolute; top: 8px; right: -25px; display: flex; flex-direction: column; gap: 4px;">
+                                                <i class="fas fa-pencil-alt edit-comment-btn" data-id="{{ $comment->id }}" style="cursor: pointer; color: #A0AEC0; font-size: 10px;" title="Edit"></i>
+                                                <i class="fas fa-trash-alt delete-comment-btn" data-id="{{ $comment->id }}" style="cursor: pointer; color: #FC8181; font-size: 10px;" title="Delete"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div style="display: flex; gap: 12px; font-size: 11px; color: #718096; margin-top: 4px; margin-left: 10px; font-weight: 600;">
+                                        <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                        <span style="cursor: pointer; color: #4A5568;">Like</span>
+                                        <span style="cursor: pointer; color: #4A5568;">Reply</span>
+                                    </div>
+                                </div>
                             </div>
                         @empty
                             <div style="text-align: center; font-size: 12px; color: #A0AEC0; padding: 10px;">Zero comments yet. Spark the talk!</div>
@@ -691,6 +714,167 @@
                         commentSec.style.display = isHidden ? 'block' : 'none';
                     }
                 });
+            });
+
+            // --- Comment Submit Functionality (AJAX) ---
+            document.querySelectorAll('.comment-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const postId = this.dataset.id;
+                    const input = this.querySelector('input[name="content"]');
+                    const content = input.value;
+                    const commentsList = document.querySelector(`#comments-${postId} .comments-list`);
+                    const countSpan = document.querySelector(`.comment-trigger[data-id="${postId}"] .count`);
+
+                    if (!content.trim()) return;
+
+                    fetch(`/community/post/${postId}/comment`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({ content: content })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            input.value = ''; // clear input
+                            
+                            const commentDiv = document.createElement('div');
+                            commentDiv.setAttribute('id', `comment-${data.comment.id}`);
+                            commentDiv.style.display = 'flex';
+                            commentDiv.style.gap = '10px';
+                            commentDiv.style.alignItems = 'flex-start';
+                            commentDiv.style.marginBottom = '12px';
+                            
+                            const avatarSrc = data.comment.user.profile_image ? `/storage/${data.comment.user.profile_image}` : '';
+                            const avatarHtml = avatarSrc 
+                                ? `<img src="${avatarSrc}" style="width:100%; height:100%; object-fit:cover;">` 
+                                : `🎓`;
+
+                            commentDiv.innerHTML = `
+                                <div style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center; font-size: 16px;">
+                                    ${avatarHtml}
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="background: #F0F2F5; padding: 10px 14px; border-radius: 18px; display: inline-block; max-width: 88%; position: relative; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+                                        <span style="font-weight: 700; color: #1A202C; font-size: 13px; display: block; margin-bottom: 2px;">${data.comment.user.name}</span>
+                                        <span class="comment-content" style="color: #4A5568; font-size: 13px; line-height: 1.4; word-break: break-word;">${data.comment.content}</span>
+                                        <div style="position: absolute; top: 8px; right: -25px; display: flex; flex-direction: column; gap: 4px;">
+                                            <i class="fas fa-pencil-alt edit-comment-btn" data-id="${data.comment.id}" style="cursor: pointer; color: #A0AEC0; font-size: 10px;" title="Edit"></i>
+                                            <i class="fas fa-trash-alt delete-comment-btn" data-id="${data.comment.id}" style="cursor: pointer; color: #FC8181; font-size: 10px;" title="Delete"></i>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 12px; font-size: 11px; color: #718096; margin-top: 4px; margin-left: 10px; font-weight: 600;">
+                                        <span>Just now</span>
+                                        <span style="cursor: pointer; color: #4A5568;">Like</span>
+                                        <span style="cursor: pointer; color: #4A5568;">Reply</span>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            // Remove empty placeholder
+                            const emptyDiv = commentsList.querySelector('div[style*="text-align: center"]');
+                            if (emptyDiv) emptyDiv.remove();
+                            
+                            commentsList.appendChild(commentDiv);
+                            commentsList.scrollTop = commentsList.scrollHeight; // scroll down
+                            
+                            if(countSpan) countSpan.innerText = data.comments_count;
+                        }
+                    })
+                    .catch(err => console.error('Error posting comment:', err));
+                });
+            });
+
+            // --- Edit & Delete Comment Functionality (AJAX) ---
+            document.addEventListener('click', function(e) {
+                // DELETE COMMENT
+                if (e.target.classList.contains('delete-comment-btn')) {
+                    const commentId = e.target.dataset.id;
+                    if (!confirm('Are you sure you want to delete this comment?')) return;
+
+                    fetch(`/community/comment/${commentId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const commentDiv = document.getElementById(`comment-${commentId}`);
+                            const commentSec = commentDiv.closest('.comment-section');
+                            const postId = commentSec.id.replace('comments-', '');
+                            commentDiv.remove();
+                            
+                            // Update Count
+                            const countSpan = document.querySelector(`.comment-trigger[data-id="${postId}"] .count`);
+                            if (countSpan) countSpan.innerText = data.comments_count;
+                        }
+                    })
+                    .catch(err => console.error('Error deleting comment:', err));
+                }
+
+                // EDIT COMMENT (Switch to Input)
+                if (e.target.classList.contains('edit-comment-btn')) {
+                    const commentId = e.target.dataset.id;
+                    const commentItem = document.getElementById(`comment-${commentId}`);
+                    const contentSpan = commentItem.querySelector('.comment-content');
+
+                    if (commentItem.querySelector('.edit-form')) return; // Already editing
+
+                    const currentText = contentSpan.innerText;
+                    contentSpan.style.display = 'none';
+
+                    const formHtml = `
+                        <form class="edit-form" style="display: flex; gap: 8px; margin-top: 5px; width: 100%;">
+                            <input type="text" value="${currentText}" style="flex: 1; padding: 6px 10px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 13px;" required>
+                            <button type="submit" style="background: #00AAFF; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer;">Save</button>
+                            <button type="button" class="cancel-edit" style="background: #e2e8f0; color: #4a5568; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer;">Cancel</button>
+                        </form>
+                    `;
+                    commentItem.insertAdjacentHTML('beforeend', formHtml);
+
+                    const form = commentItem.querySelector('.edit-form');
+                    const input = form.querySelector('input');
+
+                    // Handle Save
+                    form.addEventListener('submit', function(ev) {
+                        ev.preventDefault();
+                        const newText = input.value;
+
+                        fetch(`/community/comment/${commentId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ content: newText })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                contentSpan.innerText = data.content;
+                                contentSpan.style.display = 'block';
+                                form.remove();
+                            }
+                        })
+                        .catch(err => console.error('Error updating comment:', err));
+                    });
+
+                    // Handle Cancel
+                    form.querySelector('.cancel-edit').addEventListener('click', function() {
+                        contentSpan.style.display = 'block';
+                        form.remove();
+                    });
+                }
             });
 
             // --- Like Post Functionality (AJAX) ---
