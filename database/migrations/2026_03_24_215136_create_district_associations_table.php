@@ -13,11 +13,6 @@ return new class extends Migration
     {
         Schema::create('district_associations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('division'); // e.g. 'Dhaka', 'Rangpur', 'Sylhet'
-            $table->string('image')->nullable();
-            $table->string('link')->nullable(); // Join/Action link
-            $table->integer('members_count')->default(0);
             $table->timestamps();
         });
     }

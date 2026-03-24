@@ -460,49 +460,32 @@
             </div>
         </div>
 
-        @php
-            include resource_path('views/data/district_data.php');
-            
-            $dynamicAssoc = \App\Models\DistrictAssociation::all()->map(function($assoc) {
-                return [
-                    'name' => $assoc->name,
-                    'division' => $assoc->division,
-                    'logo' => $assoc->image ? 'storage/' . $assoc->image : 'images/alumni/profile_1.png',
-                    'motto' => 'District Association',
-                    'members' => $assoc->members_count . '+',
-                    'link' => $assoc->link ?? '#',
-                ];
-            });
-
-            $allAssociations = collect($districtAssociations)->merge($dynamicAssoc);
-        @endphp
-
         <div class="district-grid" id="district-cards-container">
-            @foreach($allAssociations as $district)
-                <div class="district-card" data-division="{{ $district['division'] }}">
+            @foreach($districtAssociations as $district)
+                <div class="district-card" data-division="{{ $district->division }}">
                     <div class="district-logo-wrap">
-                        <img src="{{ asset($district['logo']) }}" alt="{{ $district['name'] }}"
+                        <img src="{{ $district->image ? asset('storage/' . $district->image) : asset('images/alumni/profile_1.png') }}" alt="{{ $district->name }}"
                             onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
                     </div>
-                    <h3>{{ $district['name'] }}</h3>
-                    <span class="district-motto">{{ $district['motto'] }}</span>
+                    <h3>{{ $district->name }}</h3>
 
                     <div class="district-stats">
                         <div class="dist-stat">
-                            <span>{{ $district['members'] }}</span>
+                            <span>{{ $district->members_count }}</span>
                             Members
                         </div>
                         <div class="dist-stat">
-                            <span>{{ $district['status'] }}</span>
+                            <span>Active</span>
                             Status
                         </div>
                     </div>
 
                     <div class="district-socials">
-                        <a href="{{ $district['fb'] }}" target="_blank" rel="noopener noreferrer" class="dist-social-link"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="dist-social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="dist-social-link"><i class="fas fa-globe"></i></a>
+                        @if($district->link)
+                            <a href="{{ $district->link }}" target="_blank" rel="noopener noreferrer" class="dist-social-link">
+                                <i class="fab {{ strpos($district->link, 'facebook.com') !== false ? 'fa-facebook-f' : (strpos($district->link, 'twitter.com') !== false ? 'fa-twitter' : 'fas fa-link') }}"></i>
+                            </a>
+                        @endif
                     </div>
                 </div>
             @endforeach

@@ -136,12 +136,6 @@ Route::delete('/community/comment/{comment}', [CommunityController::class, 'dest
 Route::post('/community/comment/{comment}/like', [CommunityController::class, 'likeComment'])->name('community.comment.like')->middleware('auth');
 Route::post('/community/comment/{comment}/reply', [CommunityController::class, 'replyComment'])->name('community.comment.reply')->middleware('auth');
 
-use App\Http\Controllers\AdminController;
-Route::get('/admin/community', [AdminController::class, 'communitySettings'])->name('admin.community')->middleware('auth');
-Route::delete('/admin/community/post/{post}', [AdminController::class, 'destroyPost'])->name('admin.community.post.destroy')->middleware('auth');
-Route::post('/admin/community/associations', [AdminController::class, 'storeAssociation'])->name('admin.community.associations.store')->middleware('auth');
-Route::delete('/admin/community/associations/{association}', [AdminController::class, 'destroyAssociation'])->name('admin.community.associations.destroy')->middleware('auth');
-
 Route::get('/notes', function () {
     $user = auth()->user();
 

@@ -8,14 +8,20 @@ use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
 use App\Models\CommentLike;
+use App\Models\DistrictAssociation; // Added this line
 use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['user', 'likes', 'comments.user'])->latest()->get();
-        return view('community', compact('posts'));
+        $posts = Post::with(['user', 'likes', 'comments.user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $districtAssociations = DistrictAssociation::all();
+
+        return view('community', compact('posts', 'districtAssociations'));
     }
 
     public function storePost(Request $request)
