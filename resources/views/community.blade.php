@@ -5,7 +5,10 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/community.css') }}">
     <style>
-        .district-header h2 {
+        .district-header h2, .recent-posts-heading h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1A202C;
             position: relative;
             cursor: pointer;
             display: inline-flex;
@@ -14,12 +17,12 @@
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
         }
 
-        .district-header h2:hover {
+        .district-header h2:hover, .recent-posts-heading h2:hover {
             transform: scale(1.04) translateY(-2px);
             color: #00AAFF;
         }
 
-        .district-header h2::after {
+        .district-header h2::after, .recent-posts-heading h2::after {
             content: '';
             position: absolute;
             width: 0;
@@ -31,7 +34,7 @@
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .district-header h2:hover::after {
+        .district-header h2:hover::after, .recent-posts-heading h2:hover::after {
             width: 100%;
         }
 
