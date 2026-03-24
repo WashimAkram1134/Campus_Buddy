@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\CommentLike;
 use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
@@ -70,12 +71,14 @@ class CommunityController extends Controller
     {
         $request->validate([
             'content' => 'required|string|max:500',
+            'parent_id' => 'nullable|exists:comments,id',
         ]);
 
         $comment = Comment::create([
             'post_id' => $post->id,
             'user_id' => Auth::id(),
             'content' => $request->content,
+            'parent_id' => $request->parent_id,
         ]);
 
         // Support both AJAX and Normal submit if needed, but for simplicity we can response json or redirect
@@ -124,6 +127,47 @@ class CommunityController extends Controller
             'success' => true,
             'message' => 'Comment deleted',
             'comments_count' => $post->comments()->count()
+        ]);
+    }
+
+    public function likeComment(Comment $comment)
+    {
+        $like = CommentLike::where('comment_id', '=', $comment->id)->where('user_id', '=', Auth::id())->first();
+
+        if ($like) {
+            $like->delete();
+            $liked = false;
+        } else {
+            CommentLike::create([
+                'comment_id' => $comment->id,
+                'user_id' => Auth::id(),
+            ]);
+            $liked = true;
+        }
+
+        return response()->json([
+            'success' => true,
+            'liked' => $liked,
+            'likes_count' => $comment->likes()->count(),
+        ]);
+    }
+
+    public function replyComment(Request $request, Comment $comment)
+    {
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
+
+        $reply = Comment::create([
+            'post_id' => $comment->post_id,
+            'user_id' => Auth::id(),
+            'parent_id' => $comment->id,
+            'content' => $request->content,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'reply' => $reply->load('user'),
         ]);
     }
 }

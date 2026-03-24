@@ -231,7 +231,7 @@
                 <!-- Collapsible Comment Drawer -->
                 <div class="comment-section" id="comments-{{ $post->id }}" style="display: none; margin-top: 15px; border-top: 1px dashed #EDF2F7; padding-top: 15px;">
                     <div class="comments-list" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px;">
-                        @forelse($post->comments as $comment)
+                        @forelse($post->comments->where('parent_id', null) as $comment)
                             <div class="comment-item" id="comment-{{ $comment->id }}" style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
                                 <div style="width: 32px; height: 32px; min-width: 32px; border-radius: 50%; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center; font-size: 16px;">
                                     @if($comment->user->profile_image)
@@ -254,8 +254,37 @@
                                     </div>
                                     <div style="display: flex; gap: 12px; font-size: 11px; color: #718096; margin-top: 4px; margin-left: 10px; font-weight: 600;">
                                         <span>{{ $comment->created_at->diffForHumans() }}</span>
-                                        <span style="cursor: pointer; color: #4A5568;">Like</span>
-                                        <span style="cursor: pointer; color: #4A5568;">Reply</span>
+                                        <span class="comment-like-btn" data-id="{{ $comment->id }}" style="cursor: pointer; color: {{ $comment->isLikedBy(auth()->user()) ? '#00AAFF' : '#4A5568' }};">
+                                            Like <span class="like-count">{{ $comment->likes->count() > 0 ? '(' . $comment->likes->count() . ')' : '' }}</span>
+                                        </span>
+                                        <span class="comment-reply-btn" data-id="{{ $comment->id }}" data-username="{{ $comment->user->name }}" style="cursor: pointer; color: #4A5568;">Reply</span>
+                                    </div>
+
+                                    <!-- Replies List -->
+                                    <div class="replies-list" id="replies-{{ $comment->id }}" style="margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 8px;">
+                                        @foreach($comment->replies as $reply)
+                                            <div class="comment-item" id="comment-{{ $reply->id }}" style="display: flex; gap: 8px; align-items: flex-start;">
+                                                <div style="width: 24px; height: 24px; min-width: 24px; border-radius: 50%; overflow: hidden; background: #E2E8F0; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+                                                    @if($reply->user->profile_image)
+                                                        <img src="{{ asset('storage/' . $reply->user->profile_image) }}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}&color=00AAFF&background=E0F7FA'">
+                                                    @else
+                                                        🎓
+                                                    @endif
+                                                </div>
+                                                <div style="flex: 1;">
+                                                    <div style="background: #F0F2F5; padding: 8px 12px; border-radius: 16px; display: inline-block; max-width: 88%; position: relative;">
+                                                        <span style="font-weight: 700; color: #1A202C; font-size: 12px; display: block;">{{ $reply->user->name }}</span>
+                                                        <span class="comment-content" style="color: #4A5568; font-size: 12px; line-height: 1.4;">{{ $reply->content }}</span>
+                                                    </div>
+                                                    <div style="display: flex; gap: 10px; font-size: 10px; color: #718096; margin-top: 2px; margin-left: 8px;">
+                                                        <span>{{ $reply->created_at->diffForHumans() }}</span>
+                                                        <span class="comment-like-btn" data-id="{{ $reply->id }}" style="cursor: pointer; color: {{ $reply->isLikedBy(auth()->user()) ? '#00AAFF' : '#4A5568' }};">
+                                                            Like <span class="like-count">{{ $reply->likes->count() > 0 ? '(' . $reply->likes->count() . ')' : '' }}</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -266,6 +295,7 @@
 
                     <form action="{{ route('community.post.comment', $post) }}" method="POST" class="comment-form" data-id="{{ $post->id }}" style="display: flex; gap: 8px;">
                         @csrf
+                        <input type="hidden" name="parent_id" value="">
                         <input type="text" name="content" style="flex: 1; padding: 10px 14px; border: 1px solid #E2E8F0; border-radius: 12px; font-size: 13px; background: #F8FAFC;" placeholder="Say something nice..." required>
                         <button type="submit" style="background: #00AAFF; color: white; border: none; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s;">
                             Send
@@ -726,7 +756,10 @@
                     
                     const postId = this.dataset.id;
                     const input = this.querySelector('input[name="content"]');
+                    const parentInput = this.querySelector('input[name="parent_id"]');
                     const content = input.value;
+                    const parentId = parentInput ? parentInput.value : null;
+
                     const commentsList = document.querySelector(`#comments-${postId} .comments-list`);
                     const countSpan = document.querySelector(`.comment-trigger[data-id="${postId}"] .count`);
 
@@ -740,7 +773,7 @@
                             'Content-Type': 'application/json',
                             'X-Requested-With': 'XMLHttpRequest'
                         },
-                        body: JSON.stringify({ content: content })
+                        body: JSON.stringify({ content: content, parent_id: parentId })
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -780,12 +813,28 @@
                                 </div>
                             `;
                             
-                            // Remove empty placeholder
-                            const emptyDiv = commentsList.querySelector('div[style*="text-align: center"]');
-                            if (emptyDiv) emptyDiv.remove();
-                            
-                            commentsList.appendChild(commentDiv);
-                            commentsList.scrollTop = commentsList.scrollHeight; // scroll down
+                            if (parentId) {
+                                const repliesList = document.querySelector(`#replies-${parentId}`);
+                                if (repliesList) {
+                                    // Scale it slightly smaller to fit reply layout visual
+                                    commentDiv.style.marginLeft = '20px';
+                                    const avatarNode = commentDiv.querySelector('div[style*="width: 32px"]');
+                                    const bubbleNode = commentDiv.querySelector('div[style*="padding: 10px 14px"]');
+                                    if(avatarNode) { avatarNode.style.width = '24px'; avatarNode.style.height = '24px'; avatarNode.style.minWidth = '24px'; avatarNode.style.fontSize = '12px'; }
+                                    if(bubbleNode) { bubbleNode.style.padding = '8px 12px'; }
+                                    
+                                    repliesList.appendChild(commentDiv);
+                                }
+                                if (parentInput) parentInput.value = '';
+                                input.placeholder = 'Say something nice...';
+                            } else {
+                                // Remove empty placeholder
+                                const emptyDiv = commentsList.querySelector('div[style*="text-align: center"]');
+                                if (emptyDiv) emptyDiv.remove();
+                                
+                                commentsList.appendChild(commentDiv);
+                                commentsList.scrollTop = commentsList.scrollHeight;
+                            }
                             
                             if(countSpan) countSpan.innerText = data.comments_count;
                         }
@@ -877,6 +926,45 @@
                         contentSpan.style.display = 'block';
                         form.remove();
                     });
+                }
+                // LIKE COMMENT
+                if (e.target.classList.contains('comment-like-btn') || e.target.closest('.comment-like-btn')) {
+                    const btn = e.target.classList.contains('comment-like-btn') ? e.target : e.target.closest('.comment-like-btn');
+                    const commentId = btn.dataset.id;
+                    const countSpan = btn.querySelector('.like-count');
+
+                    fetch(`/community/comment/${commentId}/like`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            btn.style.color = data.liked ? '#00AAFF' : '#4A5568';
+                            if (countSpan) {
+                                countSpan.innerText = data.likes_count > 0 ? `(${data.likes_count})` : '';
+                            }
+                        }
+                    })
+                    .catch(err => console.error('Error liking comment:', err));
+                }
+
+                // REPLY COMMENT
+                if (e.target.classList.contains('comment-reply-btn')) {
+                    const commentId = e.target.dataset.id;
+                    const username = e.target.dataset.username;
+                    const commentSec = e.target.closest('.comment-section');
+                    const input = commentSec.querySelector('.comment-form input[name="content"]');
+                    const parentInput = commentSec.querySelector('.comment-form input[name="parent_id"]');
+                    
+                    if (parentInput) parentInput.value = commentId;
+                    if (input) {
+                        input.placeholder = `Reply to ${username}...`;
+                        input.focus();
+                    }
                 }
             });
 
