@@ -23,6 +23,8 @@ class CommunityController extends Controller
             'content' => 'required|string|max:1000',
             'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,docx|max:10240', // 10MB
             'type' => 'nullable|string',
+            'action_text' => 'nullable|string|max:50',
+            'action_link' => 'nullable|string|max:255',
         ]);
 
         $attachmentPath = null;
@@ -35,6 +37,8 @@ class CommunityController extends Controller
             'content' => $request->content,
             'attachment' => $attachmentPath,
             'type' => $request->type ?? 'general',
+            'action_text' => $request->action_text,
+            'action_link' => $request->action_link,
         ]);
 
         return redirect()->back()->with('success', 'Post created successfully!');

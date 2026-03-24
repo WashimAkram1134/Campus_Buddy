@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    protected $fillable = ['user_id', 'content', 'attachment', 'type'];
+    protected $fillable = ['user_id', 'content', 'attachment', 'type', 'action_text', 'action_link'];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

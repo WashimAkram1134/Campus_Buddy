@@ -203,6 +203,12 @@
                     </a>
                 @endif
 
+                @if($post->action_text)
+                    <a class="join" href="{{ $post->action_link && Str::startsWith($post->action_link, 'http') ? $post->action_link : 'http://' . ($post->action_link ?? '#') }}" target="_blank" style="margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #fff; border: 1.5px solid #1A202C; color: #1A202C; border-radius: 10px; font-size: 13px; font-weight: 700; text-decoration: none; margin-left: 8px; transition: all 0.2s ease;">
+                        <i class="fas fa-external-link-alt"></i> {{ $post->action_text }}
+                    </a>
+                @endif
+
                 <div class="meta" style="display: flex; gap: 18px; margin-top: 15px; font-weight: 700; font-size: 13px; color: #555;">
                     <!-- Like Trigger -->
                     <span class="like-btn" data-id="{{ $post->id }}" style="cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.2s ease;">
@@ -445,6 +451,7 @@
             #Assignment &nbsp; #TechFest2025 &nbsp; #Campus <br>
             #MachineLearning &nbsp; #CodeTrap2025
         </p>
+    </section>
     <!-- Create Post Modal -->
     <div id="post-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: center; padding: 15px;">
         <div style="background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; animation: modalZoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
@@ -460,6 +467,17 @@
                 <div style="margin-bottom: 15px; display: flex; flex-direction: column; gap: 7px;">
                     <label style="font-size: 13px; font-weight: 700; color: #4A5568;">Attachment (Optional)</label>
                     <input type="file" name="attachment" style="font-size: 13px; color: #718096; padding: 8px; background: #F7FAFC; border-radius: 10px; border: 1px dashed #CBD5E0;">
+                </div>
+
+                <div style="margin-bottom: 15px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 13px; font-weight: 700; color: #4A5568; display: block; margin-bottom: 5px;">Action Button Text (Optional)</label>
+                        <input type="text" name="action_text" style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #E0E6ED; font-size: 13px; padding: 10px 12px;" placeholder="e.g. Join Group, Register">
+                    </div>
+                    <div>
+                        <label style="font-size: 13px; font-weight: 700; color: #4A5568; display: block; margin-bottom: 5px;">Action Link (Optional)</label>
+                        <input type="text" name="action_link" style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #E0E6ED; font-size: 13px; padding: 10px 12px;" placeholder="e.g. Join Link etc">
+                    </div>
                 </div>
 
                 <div style="margin-bottom: 25px;">
@@ -491,6 +509,21 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Modal Logic
+            const openModalBtn = document.getElementById('open-post-modal');
+            const closeModalBtn = document.getElementById('close-post-modal');
+            const postModal = document.getElementById('post-modal');
+
+            if (openModalBtn && postModal) {
+                openModalBtn.addEventListener('click', () => postModal.style.display = 'flex');
+                if (closeModalBtn) {
+                    closeModalBtn.addEventListener('click', () => postModal.style.display = 'none');
+                }
+                postModal.addEventListener('click', (e) => {
+                    if (e.target === postModal) postModal.style.display = 'none';
+                });
+            }
+
             // Global Observer for Animations
             const sections = document.querySelectorAll(
                 '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section'
@@ -646,20 +679,7 @@
                 applyDistrictRowLimit();
             });
 
-            // Modal Logic
-            const openModalBtn = document.getElementById('open-post-modal');
-            const closeModalBtn = document.getElementById('close-post-modal');
-            const postModal = document.getElementById('post-modal');
 
-            if (openModalBtn && postModal) {
-                openModalBtn.addEventListener('click', () => postModal.style.display = 'flex');
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', () => postModal.style.display = 'none');
-                }
-                postModal.addEventListener('click', (e) => {
-                    if (e.target === postModal) postModal.style.display = 'none';
-                });
-            }
 
             // --- Comment Section Trigger ---
             document.querySelectorAll('.comment-trigger').forEach(trigger => {
