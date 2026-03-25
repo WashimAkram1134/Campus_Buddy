@@ -103,7 +103,7 @@
     <section class="community-cards" id="community-cards">
         <div class="cards-grid">
 
-            <a href="#" class="comm-card comm-card-link">
+            <a href="{{ route('talents') }}" class="comm-card comm-card-link">
                 <div class="card-img-wrap">
                     <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Meet With Talents">
                 </div>
@@ -161,7 +161,9 @@
     <!-- ================= QUICK ACTIONS ================= -->
     <section class="quick-section">
         <div class="quick-actions">
-            <div class="talent">Meet With Talents</div>
+            <a href="{{ route('talents') }}" class="qlink">
+                <div class="talent">Meet With Talents</div>
+            </a>
             <a href="#district-section" class="qlink">
                 <div class="qbox">District Association</div>
             </a>

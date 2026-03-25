@@ -136,6 +136,9 @@ Route::delete('/community/comment/{comment}', [CommunityController::class, 'dest
 Route::post('/community/comment/{comment}/like', [CommunityController::class, 'likeComment'])->name('community.comment.like')->middleware('auth');
 Route::post('/community/comment/{comment}/reply', [CommunityController::class, 'replyComment'])->name('community.comment.reply')->middleware('auth');
 
+Route::get('/talents', [\App\Http\Controllers\TalentController::class, 'index'])->name('talents')->middleware('auth');
+Route::post('/talents', [\App\Http\Controllers\TalentController::class, 'store'])->name('talents.store')->middleware('auth');
+
 Route::get('/notes', function () {
     $user = auth()->user();
 
