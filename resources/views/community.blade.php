@@ -314,8 +314,14 @@
 
     <!-- ================= DISTRICT ASSOCIATIONS ================= -->
     <section class="district-section" id="district-section">
-        <div class="district-header">
-            <h2>🌍 District Associations</h2>
+        <div class="district-header" style="flex-wrap: wrap; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <h2 style="margin: 0;">🌍 District Associations</h2>
+                <div class="search-wrap" style="position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A0AEC0;"></i>
+                    <input type="text" id="district-search" placeholder="Search by district name..." style="padding: 10px 15px 10px 38px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 14px; outline: none; width: 250px; background: #F8FAFC; transition: all 0.3s ease;">
+                </div>
+            </div>
             <div class="division-info" id="selected-division-text"
                 style="color: #666; font-size: 14px; font-weight: 500; display: none;">Click on a division to filter</div>
             <div style="display: flex; gap: 15px; align-items: center;">
@@ -732,10 +738,11 @@
             });
 
             resetBtn.addEventListener('click', function (e) {
-                e.preventDefault();
+                if (e) e.preventDefault();
                 divisionText.innerText = 'Click on a division to filter';
                 divisionText.style.color = '#666';
 
+                // Reset map styling
                 divisions.forEach(d => {
                     d.style.opacity = '1';
                     d.querySelectorAll('path').forEach(path => {
@@ -744,9 +751,55 @@
                     });
                 });
 
+                // Clear search field visually without triggering 'input' event indefinitely
+                const searchInput = document.getElementById('district-search');
+                if (searchInput && searchInput.value !== '') {
+                    searchInput.value = '';
+                }
+
                 showAllDistricts = false;
                 applyDistrictRowLimit();
             });
+
+            // --- District Search Logic ---
+            const districtSearchInput = document.getElementById('district-search');
+            if (districtSearchInput) {
+                districtSearchInput.addEventListener('input', function() {
+                    const query = this.value.trim().toLowerCase();
+                    
+                    if (query === '') {
+                        resetBtn.click();
+                        return;
+                    }
+
+                    if (viewMoreDistrictsBtn) viewMoreDistrictsBtn.style.display = 'none';
+                    
+                    divisionText.innerText = 'Search results...';
+                    divisionText.style.color = '#666';
+                    
+                    // Reset map
+                    divisions.forEach(d => {
+                        d.style.opacity = '1';
+                        d.querySelectorAll('path').forEach(path => {
+                            path.style.stroke = '';
+                            path.style.strokeWidth = '';
+                        });
+                    });
+
+                    cards.forEach(card => {
+                        const cardName = card.querySelector('h3').innerText.trim().toLowerCase();
+                        
+                        // User requirement: Matches only cards whose first letters match the query (case insensitive)
+                        if (cardName.startsWith(query)) {
+                            card.style.display = 'block';
+                            card.classList.add('animate-in');
+                        } else {
+                            card.style.display = 'none';
+                            card.classList.remove('animate-in');
+                        }
+                    });
+                });
+            }
 
 
 
