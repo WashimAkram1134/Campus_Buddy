@@ -463,28 +463,45 @@
         <div class="district-grid" id="district-cards-container">
             @foreach($districtAssociations as $district)
                 <div class="district-card" data-division="{{ $district->division }}">
+                    <div class="card-cover"></div>
                     <div class="district-logo-wrap">
                         <img src="{{ $district->image ? asset('storage/' . $district->image) : asset('images/alumni/profile_1.png') }}" alt="{{ $district->name }}"
                             onerror="this.src='{{ asset('images/alumni/profile_1.png') }}'">
                     </div>
-                    <h3>{{ $district->name }}</h3>
-
-                    <div class="district-stats">
-                        <div class="dist-stat">
-                            <span>{{ $district->members_count }}</span>
-                            Members
+                    
+                    <div class="card-content">
+                        <h3>{{ $district->name }}</h3>
+                        
+                        <div class="card-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-users-viewfinder"></i>
+                                <div class="stat-info">
+                                    <span>{{ $district->members_count }}</span>
+                                    <p>Members</p>
+                                </div>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item">
+                                <i class="fas fa-satellite-dish"></i>
+                                <div class="stat-info">
+                                    <span>Active</span>
+                                    <p>Status</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="dist-stat">
-                            <span>Active</span>
-                            Status
-                        </div>
-                    </div>
 
-                    <div class="district-socials">
                         @if($district->link)
-                            <a href="{{ $district->link }}" target="_blank" rel="noopener noreferrer" class="dist-social-link">
-                                <i class="fab {{ strpos($district->link, 'facebook.com') !== false ? 'fa-facebook-f' : (strpos($district->link, 'twitter.com') !== false ? 'fa-twitter' : 'fas fa-link') }}"></i>
-                            </a>
+                            <div class="card-actions">
+                                <a href="{{ $district->link }}" target="_blank" rel="noopener noreferrer" class="join-btn">
+                                    Connect <i class="fas fa-arrow-right-long"></i>
+                                </a>
+                            </div>
+                        @else
+                            <div class="card-actions">
+                                <a href="#" onclick="event.preventDefault()" class="join-btn" style="opacity:0.5; cursor:not-allowed;">
+                                    Offline <i class="fas fa-ban"></i>
+                                </a>
+                            </div>
                         @endif
                     </div>
                 </div>
