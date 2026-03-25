@@ -72,20 +72,29 @@
             transform: rotate(360deg);
         }
 
-        /* Talents Section Animation hooks */
+        /* Talents Section & Universal Scroll Entrance */
+        .talents-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
         .talents-section.animate-in {
             opacity: 1 !important;
+            transform: translateY(0) !important;
         }
 
-        .id-card {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* UNIFIED CARD ANIMATION: Post, District Association, Talent, Feature Cards */
+        .comm-card, .post, .district-card, .id-card, .qbox, .talent {
+            opacity: 0;
+            transform: translateY(50px) scale(0.96);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
         }
 
-        .id-card.animate-in {
-            opacity: 1;
-            transform: translateY(0);
+        .comm-card.animate-in, .post.animate-in, .district-card.animate-in, .id-card.animate-in, .qbox.animate-in, .talent.animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) scale(1) !important;
         }
     </style>
 @endpush
@@ -544,8 +553,8 @@
                 <h2 style="font-size: 28px; font-weight: 800; color: #1A202C; margin-bottom: 5px;">🔥 Talents</h2>
                 <p style="font-size: 14px; color: #718096; font-style: italic; max-width: 600px;">"Talent isn't just about high CGPA—it's about passion, problem-solving, and unique skills."</p>
             </div>
-            <button id="open-talent-modal" style="padding: 10px 20px; background: #16a34a; color: white; border: none; border-radius: 20px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); transition: transform 0.2s;">
-                Apply to be Talent
+            <button id="open-talent-modal" style="padding: 12px 28px; background: #00AAFF; color: white; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3); transition: all 0.3s ease; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px;">
+                Eager to help
             </button>
         </div>
 
@@ -778,11 +787,18 @@
                     if (entry.isIntersecting) {
                         entry.target.classList.add('animate-in');
                         const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card, .id-card');
-                        children.forEach(child => child.classList.add('animate-in'));
+                        children.forEach((child, index) => {
+                            setTimeout(() => {
+                                child.classList.add('animate-in');
+                            }, index * 80); // STAGGERED ENTRANCE 
+                        });
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.05 });
+            }, { 
+                threshold: 0.05,
+                rootMargin: '0px 0px -50px 0px' 
+            });
 
             sections.forEach(section => observer.observe(section));
 
