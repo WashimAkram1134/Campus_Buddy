@@ -71,6 +71,22 @@
         .view-more-districts-btn:hover i {
             transform: rotate(360deg);
         }
+
+        /* Talents Section Animation hooks */
+        .talents-section.animate-in {
+            opacity: 1 !important;
+        }
+
+        .id-card {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .id-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 @endpush
 
@@ -103,7 +119,7 @@
     <section class="community-cards" id="community-cards">
         <div class="cards-grid">
 
-            <a href="{{ route('talents') }}" class="comm-card comm-card-link">
+            <a href="#talents-section" class="comm-card comm-card-link">
                 <div class="card-img-wrap">
                     <img src="{{ asset('images/community/studygroup.jpg') }}" alt="Meet With Talents">
                 </div>
@@ -161,7 +177,7 @@
     <!-- ================= QUICK ACTIONS ================= -->
     <section class="quick-section">
         <div class="quick-actions">
-            <a href="{{ route('talents') }}" class="qlink">
+            <a href="#talents-section" class="qlink">
                 <div class="talent">Meet With Talents</div>
             </a>
             <a href="#district-section" class="qlink">
@@ -521,6 +537,133 @@
         </button>
     </section>
 
+    <!-- ================= TALENTS ================= -->
+    <section class="talents-section" id="talents-section" style="padding: 20px 35px 60px;">
+        <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <h2 style="font-size: 28px; font-weight: 800; color: #1A202C; margin-bottom: 5px;">🔥 Talents</h2>
+                <p style="font-size: 14px; color: #718096; font-style: italic; max-width: 600px;">"Talent isn't just about high CGPA—it's about passion, problem-solving, and unique skills."</p>
+            </div>
+            <button id="open-talent-modal" style="padding: 10px 20px; background: #16a34a; color: white; border: none; border-radius: 20px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); transition: transform 0.2s;">
+                Apply to be Talent
+            </button>
+        </div>
+
+        @if(session('success'))
+            <div style="background: #c6f6d5; color: #22c55e; padding: 15px; border-radius: 8px; margin-bottom: 25px; text-align: center; font-weight: 600;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="talents-grid" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
+            @forelse($talents as $talent)
+                <div class="id-card" style="width: 320px; background: #0f7632; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; transition: transform 0.3s; padding-bottom: 0;">
+                    <div class="card-top-bg" style="background: white; height: 190px; position: relative;">
+                        <div class="lanyard-hole" style="position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 50px; height: 12px; background: #e2e8f0; border-radius: 10px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); z-index: 10;"></div>
+                        
+                        <div class="id-avatar-wrap" style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; border-radius: 50%; border: 4px solid #16a34a; overflow: hidden; z-index: 5; background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+                            @if($talent->user->profile_image)
+                                <img src="{{ asset('storage/' . $talent->user->profile_image) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($talent->user->name) }}&background=16a34a&color=fff" style="width: 100%; height: 100%; object-fit: cover;">
+                            @endif
+                        </div>
+
+                        <svg class="wave" viewBox="0 0 320 120" xmlns="http://www.w3.dom/svg" style="position: absolute; bottom: 0; width: 100%; z-index: 1;">
+                            <path fill="#16a34a" d="M0,64L40,58.7C80,53,160,43,240,53.3C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                            <path fill="#0f7632" d="M0,96L40,85.3C80,75,160,53,240,64C320,75,400,117,440,138.7L480,160L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="card-body" style="padding: 35px 25px 35px; text-align: center; flex-grow: 1; z-index: 3; background: #0f7632;">
+                        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0 0 5px; color: white;">{{ $talent->user->name }}</h2>
+                        <p style="font-size: 14px; font-weight: 500; color: #86efac; margin: 0 0 15px;">{{ $talent->designation ?? 'Campus Talent' }}</p>
+                        
+                        <div style="width: 80%; height: 1px; background: rgba(255,255,255,0.2); margin: 0 auto 20px;"></div>
+
+                        <div class="card-details" style="text-align: left; font-size: 12px; line-height: 2; font-weight: 500;">
+                            <div style="display: flex; margin-bottom: 8px;">
+                                <div style="width: 65px; color: #bbf7d0;">ID NO</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1; word-break: break-word;">{{ $talent->id_no ?? $talent->user->student_id ?? '0000000000' }}</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 8px;">
+                                <div style="width: 65px; color: #bbf7d0;">Dept</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1;">{{ $talent->user->department ?? 'CSE' }}</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 8px;">
+                                <div style="width: 65px; color: #bbf7d0;">Batch</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1;">{{ $talent->user->batch ?? '10th' }}</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 8px;">
+                                <div style="width: 65px; color: #bbf7d0;">Phone</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1;">{{ $talent->phone ?? '+880...' }}</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 8px;">
+                                <div style="width: 65px; color: #bbf7d0;">E-mail</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1; word-break: break-word;">{{ $talent->email ?? $talent->user->email }}</div>
+                            </div>
+                            <div style="display: flex; margin-bottom: 8px; align-items: center;">
+                                <div style="width: 65px; color: #bbf7d0;">Social</div>
+                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="flex: 1; display: flex; gap: 15px; font-size: 18px;">
+                                    <a href="{{ Str::contains($talent->website ?? '', 'facebook') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-facebook"></i></a>
+                                    <a href="{{ Str::contains($talent->website ?? '', 'linkedin') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <svg class="bottom-wave" viewBox="0 0 320 120" xmlns="http://www.w3.dom/svg" style="position: absolute; bottom: 0; left: 0; width: 150%; height: auto; z-index: 1; opacity: 0.4; pointer-events: none;">
+                        <path fill="#16a34a" d="M0,96L40,85.3C80,75,160,53,240,58.7C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                    </svg>
+                </div>
+            @empty
+                <div style="width: 100%; text-align: center; color: #718096; padding: 40px; background: #F8FAFC; border-radius: 12px; border: 1px dashed #CBD5E0;">
+                    No talents found.
+                </div>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- Talent Application Modal -->
+    <div id="talent-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: center; padding: 15px; opacity: 0; transition: opacity 0.3s;">
+        <div style="background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; animation: modalZoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 90vh; overflow-y: auto;">
+            <button id="close-talent-modal" style="position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 24px; cursor: pointer; color: #888;">&times;</button>
+            <h3 style="margin-bottom: 10px; color: #2C3E50; font-weight: 800; font-size: 22px;">Become a Talent</h3>
+            <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">Fill out this application. Once approved by an admin, your Talent ID Card will appear publicly!</p>
+            
+            <form action="{{ route('talents.store') }}" method="POST">
+                @csrf
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">What's your core skill? (Designation)</label>
+                    <input type="text" name="designation" style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;" placeholder="e.g. Problem Solving, Full-Stack" required>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">ID NO</label>
+                    <input type="text" name="id_no" value="{{ auth()->user()->student_id ?? '' }}" style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Phone Number</label>
+                    <input type="text" name="phone" placeholder="+8801..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Public E-mail</label>
+                    <input type="email" name="email" value="{{ auth()->user()->email }}" style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Social Link (e.g. Facebook/LinkedIn Profile URL)</label>
+                    <input type="text" name="website" placeholder="https://..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                </div>
+                <button type="submit" style="width: 100%; padding: 12px; background: #0f7632; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= TRENDING ================= -->
     <section class="trending-section">
         <h3>🔥 Trending Topics</h3>
@@ -601,16 +744,40 @@
                 });
             }
 
+            // Talent Modal Logic
+            const openTalentBtn = document.getElementById('open-talent-modal');
+            const closeTalentBtn = document.getElementById('close-talent-modal');
+            const talentModal = document.getElementById('talent-modal');
+
+            if (openTalentBtn && talentModal) {
+                openTalentBtn.addEventListener('click', () => {
+                    talentModal.style.display = 'flex';
+                    setTimeout(() => talentModal.style.opacity = '1', 10);
+                });
+                if (closeTalentBtn) {
+                    closeTalentBtn.addEventListener('click', () => {
+                        talentModal.style.opacity = '0';
+                        setTimeout(() => talentModal.style.display = 'none', 300);
+                    });
+                }
+                talentModal.addEventListener('click', (e) => {
+                    if (e.target === talentModal) {
+                        talentModal.style.opacity = '0';
+                        setTimeout(() => talentModal.style.display = 'none', 300);
+                    }
+                });
+            }
+
             // Global Observer for Animations
             const sections = document.querySelectorAll(
-                '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section'
+                '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section, .talents-section'
             );
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('animate-in');
-                        const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card');
+                        const children = entry.target.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card, .id-card');
                         children.forEach(child => child.classList.add('animate-in'));
                         observer.unobserve(entry.target);
                     }

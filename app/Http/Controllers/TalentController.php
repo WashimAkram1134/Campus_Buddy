@@ -9,7 +9,7 @@ class TalentController extends Controller
 {
     public function index()
     {
-        $talents = Talent::query()->with('user')->where('status', 'approved')->get();
+        $talents = Talent::where('status', '=', 'approved')->with('user')->get();
         return view('talents', compact('talents'));
     }
 

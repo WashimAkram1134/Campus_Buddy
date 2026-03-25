@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\CommentLike;
 use App\Models\DistrictAssociation; // Added this line
 use Illuminate\Support\Facades\Auth;
+use App\Models\Talent;
 
 class CommunityController extends Controller
 {
@@ -20,8 +21,9 @@ class CommunityController extends Controller
             ->get();
 
         $districtAssociations = DistrictAssociation::all();
+        $talents = Talent::where('status', '=', 'approved')->with('user')->get();
 
-        return view('community', compact('posts', 'districtAssociations'));
+        return view('community', compact('posts', 'districtAssociations', 'talents'));
     }
 
     public function storePost(Request $request)
