@@ -17,8 +17,6 @@ class DistrictAssociationResource extends Resource
 {
     protected static ?string $model = DistrictAssociation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $navigationGroup = 'Community Setting';
 
     public static function form(Form $form): Form
@@ -32,7 +30,8 @@ class DistrictAssociationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->directory('community/district_associations/logos'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255)
                     ->default(null),
@@ -40,6 +39,10 @@ class DistrictAssociationResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(0),
+                Forms\Components\FileUpload::make('cover_image')
+                    ->image()
+                    ->directory('community/district_associations/covers')
+                    ->label('Hero Image (Blue Portion)'),
             ]);
     }
 
@@ -52,6 +55,7 @@ class DistrictAssociationResource extends Resource
                 Tables\Columns\TextColumn::make('division')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('cover_image')->label('Hero Image'),
                 Tables\Columns\TextColumn::make('link')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('members_count')
