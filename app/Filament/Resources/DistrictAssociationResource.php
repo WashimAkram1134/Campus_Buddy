@@ -30,8 +30,11 @@ class DistrictAssociationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
+                    ->id('logo_image_field')
                     ->image()
-                    ->directory('community/district_associations/logos'),
+                    ->disk('public')
+                    ->directory('community/district_associations/logos')
+                    ->label('Logo Image'),
                 Forms\Components\TextInput::make('link')
                     ->maxLength(255)
                     ->default(null),
@@ -40,7 +43,9 @@ class DistrictAssociationResource extends Resource
                     ->numeric()
                     ->default(0),
                 Forms\Components\FileUpload::make('cover_image')
+                    ->id('hero_image_field')
                     ->image()
+                    ->disk('public')
                     ->directory('community/district_associations/covers')
                     ->label('Hero Image (Blue Portion)'),
             ]);
