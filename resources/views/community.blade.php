@@ -566,11 +566,11 @@
 
         <div class="talents-grid" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
             @forelse($talents as $talent)
-                <div class="id-card" style="width: 320px; background: #0f7632; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; transition: transform 0.3s; padding-bottom: 0;">
-                    <div class="card-top-bg" style="background: white; height: 190px; position: relative;">
-                        <div class="lanyard-hole" style="position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 50px; height: 12px; background: #e2e8f0; border-radius: 10px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); z-index: 10;"></div>
+                <div class="id-card" style="width: 300px; background: #0f7632; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; transition: transform 0.3s; padding-bottom: 0;">
+                    <div class="card-top-bg" style="background: white; height: 150px; position: relative;">
+                        <div class="lanyard-hole" style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 10px; background: #e2e8f0; border-radius: 10px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); z-index: 10;"></div>
                         
-                        <div class="id-avatar-wrap" style="position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; border-radius: 50%; border: 4px solid #16a34a; overflow: hidden; z-index: 5; background: white; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+                        <div class="id-avatar-wrap" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; border-radius: 50%; border: 4px solid #16a34a; overflow: hidden; z-index: 5; background: white; box-shadow: 0 8px 15px rgba(0,0,0,0.15);">
                             @if($talent->user->profile_image)
                                 <img src="{{ asset('storage/' . $talent->user->profile_image) }}" style="width: 100%; height: 100%; object-fit: cover;">
                             @else
@@ -584,42 +584,42 @@
                         </svg>
                     </div>
 
-                    <div class="card-body" style="padding: 35px 25px 35px; text-align: center; flex-grow: 1; z-index: 3; background: #0f7632;">
-                        <h2 style="font-size: 22px; font-weight: 900; text-transform: uppercase; margin: 0 0 5px; color: white;">{{ $talent->user->name }}</h2>
-                        <p style="font-size: 14px; font-weight: 500; color: #86efac; margin: 0 0 15px;">{{ $talent->designation ?? 'Campus Talent' }}</p>
+                    <div class="card-body" style="padding: 25px 20px 20px; text-align: center; flex-grow: 1; z-index: 3; background: #0f7632;">
+                        <h2 style="font-size: 19px; font-weight: 900; text-transform: uppercase; margin: 0 0 4px; color: white; letter-spacing: 0.5px;">{{ $talent->user->name }}</h2>
+                        <p style="font-size: 13px; font-weight: 500; color: #86efac; margin: 0 0 12px;">{{ $talent->designation ?? 'Campus Talent' }}</p>
                         
-                        <div style="width: 80%; height: 1px; background: rgba(255,255,255,0.2); margin: 0 auto 20px;"></div>
+                        <div style="width: 70%; height: 1px; background: rgba(255,255,255,0.15); margin: 0 auto 15px;"></div>
 
-                        <div class="card-details" style="text-align: left; font-size: 12px; line-height: 2; font-weight: 500;">
-                            <div style="display: flex; margin-bottom: 8px;">
-                                <div style="width: 65px; color: #bbf7d0;">ID NO</div>
+                        <div class="card-details" style="text-align: left; font-size: 11.5px; line-height: 1.8; font-weight: 500;">
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60px; color: #bbf7d0;">ID NO</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
                                 <div style="flex: 1; word-break: break-word;">{{ $talent->id_no ?? $talent->user->student_id ?? '0000000000' }}</div>
                             </div>
-                            <div style="display: flex; margin-bottom: 8px;">
-                                <div style="width: 65px; color: #bbf7d0;">Dept</div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60px; color: #bbf7d0;">Dept</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
                                 <div style="flex: 1;">{{ $talent->user->department ?? 'CSE' }}</div>
                             </div>
-                            <div style="display: flex; margin-bottom: 8px;">
-                                <div style="width: 65px; color: #bbf7d0;">Batch</div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60px; color: #bbf7d0;">Batch</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
                                 <div style="flex: 1;">{{ $talent->user->batch ?? '10th' }}</div>
                             </div>
-                            <div style="display: flex; margin-bottom: 8px;">
-                                <div style="width: 65px; color: #bbf7d0;">Phone</div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60px; color: #bbf7d0;">Phone</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
                                 <div style="flex: 1;">{{ $talent->phone ?? '+880...' }}</div>
                             </div>
-                            <div style="display: flex; margin-bottom: 8px;">
-                                <div style="width: 65px; color: #bbf7d0;">E-mail</div>
+                            <div style="display: flex; margin-bottom: 5px;">
+                                <div style="width: 60px; color: #bbf7d0;">E-mail</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
-                                <div style="flex: 1; word-break: break-word;">{{ $talent->email ?? $talent->user->email }}</div>
+                                <div style="flex: 1; word-break: break-word; font-size: 11px;">{{ $talent->email ?? $talent->user->email }}</div>
                             </div>
-                            <div style="display: flex; margin-bottom: 8px; align-items: center;">
-                                <div style="width: 65px; color: #bbf7d0;">Social</div>
+                            <div style="display: flex; margin-bottom: 5px; align-items: center; margin-top: 8px;">
+                                <div style="width: 60px; color: #bbf7d0;">Social</div>
                                 <div style="width: 15px; color: #bbf7d0;">:</div>
-                                <div style="flex: 1; display: flex; gap: 15px; font-size: 18px;">
+                                <div style="flex: 1; display: flex; gap: 12px; font-size: 16px;">
                                     <a href="{{ Str::contains($talent->website ?? '', 'facebook') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-facebook"></i></a>
                                     <a href="{{ Str::contains($talent->website ?? '', 'linkedin') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-linkedin"></i></a>
                                 </div>
