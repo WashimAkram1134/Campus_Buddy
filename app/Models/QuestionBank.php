@@ -18,6 +18,7 @@ class QuestionBank extends Model
         'tags',
         'year_semester',
         'file_path',
+        'status',
     ];
 
     public function user()

@@ -9,7 +9,7 @@ class QuestionBankController extends Controller
 {
     public function index(Request $request)
     {
-        $query = QuestionBank::query();
+        $query = QuestionBank::query()->where('status', 'approved');
 
         if ($request->filled('department')) {
             $query->where('department', 'like', '%' . $request->department . '%');
@@ -51,6 +51,7 @@ class QuestionBankController extends Controller
         ]);
         $data['user_id'] = auth()->id();
         $data['tags'] = $request->tags; // Optional
+        $data['status'] = 'pending'; // New uploads need admin approval
 
         if ($request->hasFile('file')) {
             $data['file_path'] = $request->file('file')->store('question_banks', 'public');
