@@ -142,7 +142,7 @@
 
 .more-dropdown-content {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 5px);
     right: 0;
     min-width: 180px;
     background: #ffffff;
@@ -153,6 +153,16 @@
     display: none;
     z-index: 1001;
     animation: dropdownFade 0.2s ease-out;
+}
+
+.more-dropdown-content::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: transparent;
 }
 
 .nav-more:hover .more-dropdown-content {
