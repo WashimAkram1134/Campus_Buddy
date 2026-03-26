@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
   --bg: #d9eefb;
   --card: rgba(255, 255, 255, 0.78);
@@ -30,45 +32,45 @@ body {
 
 .page-header {
   position: fixed;
-  top: 18px;
-  left: 18px;
-  right: 18px;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
   display: flex;
-  justify-content: flex-start;
-}
-
-.brand {
-  display: inline-flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #1b5c7a;
-  padding: 10px 12px;
-  border-radius: 14px;
+  padding: 0 5%;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
 }
 
-.brand:focus-visible {
-  outline: 3px solid rgba(0, 166, 232, 0.35);
-  outline-offset: 3px;
+.logo {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 0px !important;
+    text-decoration: none;
 }
 
-.brand__logo {
-  height: 48px;
-  width: auto;
-  object-fit: contain;
-  transition: transform 0.2s ease;
+.logo-img {
+    height: 50px;
+    width: auto;
+    transition: transform 0.2s ease;
 }
 
-.brand__logo:hover {
-  transform: scale(1.05);
-}
-
-.brand__name {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1b5c7a;
-  letter-spacing: -0.5px;
+.logo-text {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 4px !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #2d3748 !important;
+    font-family: 'Inter', sans-serif !important;
+    line-height: 1.1 !important;
+    margin-bottom: -5px !important;
+    margin-left: -2px !important;
 }
 
 .page {

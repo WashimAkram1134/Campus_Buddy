@@ -15,11 +15,12 @@
 
 <body>
     <header class="page-header">
-        <a class="brand" href="{{ url('/') }}" aria-label="Campus Buddy home">
-            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="brand__logo">
-            <span class="brand__text">
-                <span class="brand__name">Join Campus Buddy</span>
-            </span>
+        <a class="logo" href="{{ url('/') }}" aria-label="Campus Buddy home">
+            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
+            <div class="logo-text">
+                <span>Campus</span>
+                <span>Buddy</span>
+            </div>
         </a>
     </header>
 

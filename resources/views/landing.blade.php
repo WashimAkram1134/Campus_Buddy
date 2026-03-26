@@ -18,8 +18,11 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">
-            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img" style="height: 40px; width: auto; object-fit: contain;">
-            <span>Campus Buddy</span>
+            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
+            <div class="logo-text">
+                <span>Campus</span>
+                <span>Buddy</span>
+            </div>
         </div>
         <div class="nav-links">
             <a href="{{ route('login') }}" class="nav-link">Log In</a>
