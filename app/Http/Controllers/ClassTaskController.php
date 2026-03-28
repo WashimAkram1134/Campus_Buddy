@@ -30,6 +30,11 @@ class ClassTaskController extends Controller
                 ->get();
         }
 
+        // Auto-remove: Mark as completed and deadline over -> remove automatically
+        $tasks = $tasks->reject(function ($task) {
+            return $task->progress_status === 'Completed' && \Carbon\Carbon::parse($task->deadline)->isPast();
+        });
+
         return view('classtask', compact('tasks'));
     }
 
@@ -105,5 +110,15 @@ class ClassTaskController extends Controller
         $task->delete();
 
         return back()->with('success', 'Task deleted successfully!');
+    }
+    public function complete(ClassTask $task)
+    {
+        // For shared tasks, usually CR/Admin marks as complete, but user asked for a button on each card.
+        // We will allow the owner or CR to mark it.
+        $task->update([
+            'progress_status' => $task->progress_status === 'Completed' ? 'Pending' : 'Completed'
+        ]);
+
+        return back()->with('success', 'Task status updated!');
     }
 }

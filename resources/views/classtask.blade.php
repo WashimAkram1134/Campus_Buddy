@@ -26,16 +26,20 @@
 
                 <div class="hero-stats">
                     <div class="stat-box">
-                        <span class="stat-value">{{ $tasks->where('progress', '!=', 'Completed')->count() }}</span>
+                        <span class="stat-value">{{ $tasks->filter(fn($t) => \Carbon\Carbon::parse($t->deadline)->isFuture())->count() }}</span>
                         <span class="stat-label">Active</span>
                     </div>
                     <div class="stat-box">
-                        <span class="stat-value">{{ $tasks->where('deadline', '<', now()->addDays(3))->where('deadline', '>', now())->count() }}</span>
-                        <span class="stat-label">Due soon</span>
+                        <span class="stat-value">{{ $tasks->filter(fn($t) => \Carbon\Carbon::parse($t->deadline)->isFuture() && $t->progress_status !== 'Completed')->count() }}</span>
+                        <span class="stat-label">Due</span>
                     </div>
                     <div class="stat-box">
-                        <span class="stat-value">{{ $tasks->where('progress', 'Completed')->count() }}</span>
+                        <span class="stat-value">{{ $tasks->where('progress_status', 'Completed')->count() }}</span>
                         <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-box highlight-overdue">
+                        <span class="stat-value">{{ $tasks->filter(fn($t) => \Carbon\Carbon::parse($t->deadline)->isPast() && $t->progress_status !== 'Completed')->count() }}</span>
+                        <span class="stat-label">Overdue</span>
                     </div>
                 </div>
             </div>
@@ -134,7 +138,16 @@
                                 <div class="buddy-content">
                                     <p class="buddy-tip-text">{{ $task->tip_1 }}</p>
                                 </div>
-                                <button class="buddy-help-btn" onclick='showTaskDetails(@json($task))'>View Details</button>
+                                <div class="card-footer-actions">
+                                    <button class="buddy-help-btn" onclick='showTaskDetails(@json($task))'>View Details</button>
+                                    <form action="{{ route('classtask.complete', $task) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="complete-btn {{ $task->progress_status === 'Completed' ? 'is-completed' : '' }}">
+                                            <i class="fas {{ $task->progress_status === 'Completed' ? 'fa-check-circle' : 'fa-circle-notch' }}"></i>
+                                            {{ $task->progress_status === 'Completed' ? 'Done' : 'Mark Done' }}
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach

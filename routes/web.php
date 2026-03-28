@@ -184,6 +184,7 @@ Route::get('/clubs', function () {
 Route::get('/classtask', [ClassTaskController::class , 'index'])->name('classtask')->middleware('auth');
 Route::put('/classtask/{task}', [ClassTaskController::class , 'update'])->name('classtask.update')->middleware('auth');
 Route::delete('/classtask/{task}', [ClassTaskController::class , 'destroy'])->name('classtask.destroy')->middleware('auth');
+Route::post('/classtask/{task}/complete', [ClassTaskController::class , 'complete'])->name('classtask.complete')->middleware('auth');
 
 Route::get('/buddy-chat', function () {
     return view('buddy-chat');
