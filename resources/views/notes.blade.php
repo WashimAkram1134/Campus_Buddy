@@ -125,9 +125,11 @@
                     <h2>Class Materials</h2>
                 </div>
                 <div style="display: flex; align-items: center; gap: 10px;">
+                    @if(Auth::check() && in_array(Auth::user()->role, ['cr', 'admin']))
                     <button onclick="openModal('pdfUploadModal')" class="upload-trigger-btn pdf-upload-btn">
                         + Upload PDF
                     </button>
+                    @endif
                     <span class="count">{{ $classMaterials->count() }} Files</span>
                 </div>
             </div>
@@ -180,6 +182,10 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-dept-info">
+                            <span class="dept-badge">{{ $material->department }}</span>
+                            <span class="batch-badge">Batch {{ $material->batch }}</span>
                         </div>
                     </div>
                 @endforeach
@@ -261,6 +267,10 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="card-dept-info">
+                            <span class="dept-badge">{{ $material->department }}</span>
+                            <span class="batch-badge">Batch {{ $material->batch }}</span>
                         </div>
                     </div>
                 @endforeach
@@ -381,19 +391,14 @@
 
 @push('scripts')
     <script>
-        function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
-        }
+        // openModal and closeModal are defined globally in topbar.blade.php
+        // They use classList.add/remove('show')
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        window.onclick = function (event) {
+        window.addEventListener('click', function (event) {
             if (event.target.classList && event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+                event.target.classList.remove('show');
             }
-        }
+        })
 
         function toggleGrid(gridId, btn) {
             const grid = document.getElementById(gridId);

@@ -473,8 +473,8 @@
       };
 
       window.onclick = function (event) {
-        if (event.target.classList.contains('modal')) {
-          event.target.style.display = "none";
+        if (event.target.classList && (event.target.classList.contains('modal') || event.target.classList.contains('account-settings-modal'))) {
+          event.target.classList.remove('show');
         }
       }
     });
