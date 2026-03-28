@@ -124,7 +124,12 @@
                     </div>
                     <h2>Class Materials</h2>
                 </div>
-                <span class="count">{{ $classMaterials->count() }} Files</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button onclick="openModal('pdfUploadModal')" class="upload-trigger-btn pdf-upload-btn">
+                        + Upload PDF
+                    </button>
+                    <span class="count">{{ $classMaterials->count() }} Files</span>
+                </div>
             </div>
             <div class="resources-grid collapsed" id="pdfGrid">
                 @foreach($classMaterials as $index => $material)
@@ -287,6 +292,49 @@
         </div>
     </section>
 
+    <!-- ================= PDF UPLOAD MODAL ================= -->
+    <div id="pdfUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Class Material</h2>
+                <span class="close" onclick="closeModal('pdfUploadModal')">&times;</span>
+            </div>
+            <form action="{{ route('materials.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="type" value="class_material">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pdf_department">Department</label>
+                        <input type="text" name="department" id="pdf_department" value="{{ auth()->user()->department }}" placeholder="e.g. CSE" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf_batch">Batch</label>
+                        <input type="text" name="batch" id="pdf_batch" value="{{ auth()->user()->batch }}" placeholder="e.g. 61" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pdf_section">Section</label>
+                        <input type="text" name="section" id="pdf_section" value="{{ auth()->user()->section }}" placeholder="e.g. A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf_course_code">Course Code</label>
+                        <input type="text" name="course_code" id="pdf_course_code" placeholder="e.g. CSE 421" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pdf_title">Material Title</label>
+                    <input type="text" name="title" id="pdf_title" placeholder="e.g. Lecture 5 Slides" required>
+                </div>
+                <div class="form-group">
+                    <label for="pdf_file">Upload File (PDF, PPTX, DOCS - Max 64MB)</label>
+                    <input type="file" name="file" id="pdf_file" accept=".pdf,.pptx,.docx,.doc" required class="file-input">
+                </div>
+                <button type="submit" class="submit-btn">Upload Material</button>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= HAND NOTE UPLOAD MODAL ================= -->
     <div id="noteUploadModal" class="modal">
         <div class="modal-content">
@@ -297,10 +345,25 @@
             <form action="{{ route('materials.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="type" value="hand_note">
-                <div class="form-group">
-                    <label for="note_course_code">Course Code</label>
-                    <input type="text" name="course_code" id="note_course_code" placeholder="e.g. CSE 421"
-                        required>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="note_department">Department</label>
+                        <input type="text" name="department" id="note_department" value="{{ auth()->user()->department }}" placeholder="e.g. CSE" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note_batch">Batch</label>
+                        <input type="text" name="batch" id="note_batch" value="{{ auth()->user()->batch }}" placeholder="e.g. 61" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="note_section">Section</label>
+                        <input type="text" name="section" id="note_section" value="{{ auth()->user()->section }}" placeholder="e.g. A" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="note_course_code">Course Code</label>
+                        <input type="text" name="course_code" id="note_course_code" placeholder="e.g. CSE 421" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="note_title">Note Title</label>
@@ -308,8 +371,7 @@
                 </div>
                 <div class="form-group">
                     <label for="note_file">Upload File (PDF, PPTX, DOCS - Max 64MB)</label>
-                    <input type="file" name="file" id="note_file" accept=".pdf,.pptx,.docx,.doc" required
-                        class="file-input">
+                    <input type="file" name="file" id="note_file" accept=".pdf,.pptx,.docx,.doc" required class="file-input">
                 </div>
                 <button type="submit" class="submit-btn">Upload Note</button>
             </form>
@@ -328,7 +390,7 @@
         }
 
         window.onclick = function (event) {
-            if (event.target.className === 'modal') {
+            if (event.target.classList && event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }
         }

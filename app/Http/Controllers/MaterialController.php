@@ -16,6 +16,9 @@ class MaterialController extends Controller
             'course_code' => 'required|string|max:20',
             'file' => 'required|file|mimes:pdf,pptx,docx,doc|max:65536', // 64MB max
             'type' => 'nullable|string|in:class_material,hand_note',
+            'department' => 'nullable|string|max:50',
+            'batch' => 'nullable|string|max:20',
+            'section' => 'nullable|string|max:10',
         ]);
 
         $user = Auth::user();
@@ -23,17 +26,21 @@ class MaterialController extends Controller
         $extension = $file->getClientOriginalExtension();
         $path = $file->store('materials', 'public');
 
-        if (!$user->department || !$user->section || !$user->batch) {
-            return redirect()->back()->withErrors(['file' => 'Your profile is missing Department, Section, or Batch. Please update your profile first.']);
+        $department = $request->department ?: $user->department;
+        $batch = $request->batch ?: $user->batch;
+        $section = $request->section ?: $user->section;
+
+        if (!$department || !$section || !$batch) {
+            return redirect()->back()->withErrors(['file' => 'Department, Section, and Batch are required. Please fill them in or update your profile.']);
         }
 
         $material = Material::create([
             'user_id' => $user->id,
             'type' => $request->type ?? 'class_material',
-            'department' => $user->department,
+            'department' => $department,
             'major' => $user->major,
-            'section' => $user->section,
-            'batch' => $user->batch,
+            'section' => $section,
+            'batch' => $batch,
             'course_code' => $request->course_code,
             'title' => $request->title,
             'file_path' => $path,
