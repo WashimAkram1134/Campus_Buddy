@@ -95,7 +95,16 @@
                 </div>
                 <div class="task-cards-grid">
                     @foreach($tasks->where('type', $type) as $task)
-                        <div class="task-card active" data-type="{{ $type }}">
+                        @php
+                            $deadline = \Carbon\Carbon::parse($task->deadline);
+                            $isPast = $deadline->isPast();
+                            $isCompleted = $task->progress_status === 'Completed';
+                            
+                            $statusClass = 'status-active';
+                            if ($isCompleted) $statusClass = 'status-completed';
+                            elseif ($isPast) $statusClass = 'status-overdue';
+                        @endphp
+                        <div class="task-card {{ $statusClass }} active" data-type="{{ $type }}">
                             <div class="card-status-bar {{ $type }}-bar"></div>
                             <div class="card-header">
                                 <h3 class="card-title">{{ $task->title }}</h3>

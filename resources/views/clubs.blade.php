@@ -106,7 +106,7 @@
                             become an officially recognized campus club.</p>
                     </div>
                     <div class="cc-action">
-                        <a href="#" class="btn-primary">Start a New Club</a>
+                        <a href="#" class="btn-primary">Coming Soon</a>
                     </div>
                 </div>
             </section>
