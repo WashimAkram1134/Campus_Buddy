@@ -17,11 +17,11 @@ class QuestionBankResource extends Resource
 {
     protected static ?string $model = QuestionBank::class;
     
-    protected static ?string $navigationGroup = 'Academics Setting';
-    
     protected static ?string $navigationLabel = 'QuestionBank Setting';
 
     protected static ?string $pluralModelLabel = 'QuestionBank Setting';
+
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 

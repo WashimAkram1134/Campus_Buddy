@@ -21,6 +21,8 @@ class ScheduleResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Routine Setting';
 
+    protected static ?int $navigationSort = 3;
+
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
     public static function form(Form $form): Form

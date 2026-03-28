@@ -17,9 +17,9 @@ class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
 
-    protected static ?string $navigationLabel = 'Home Setting';
-    
     protected static ?string $pluralModelLabel = 'Home Setting';
+
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-home';
 
