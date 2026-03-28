@@ -340,14 +340,7 @@ body {
 
 /* Timeline vertical line setup inside day-group */
 .day-group::before {
-    content: '';
-    position: absolute;
-    left: 120px;
-    top: 40px;
-    bottom: 20px;
-    width: 2px;
-    background: linear-gradient(to bottom, transparent, rgba(0, 170, 255, 0.2) 10%, rgba(0, 170, 255, 0.2) 90%, transparent);
-    z-index: -1;
+    display: none;
 }
 
 .class-card {
@@ -370,18 +363,7 @@ body {
 
 /* Timeline dot */
 .class-card::before {
-    content: '';
-    position: absolute;
-    left: 115px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    background: #00AAFF;
-    border-radius: 50%;
-    box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.2);
-    z-index: 2;
-    transition: all 0.3s ease;
+    display: none;
 }
 
 .class-card:hover::before {
@@ -1340,12 +1322,15 @@ body {
 }
 
 /* Status Specific Colors */
-.mini-card.ongoing::before,
-.class-card.ongoing::before {
+.mini-card.ongoing::before {
     border-color: #4ade80 !important;
     background: #4ade80 !important;
     box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.2) !important;
     animation: pulse-green 2s infinite;
+}
+
+.class-card.ongoing::before {
+    display: none !important;
 }
 
 .mini-card.ongoing .mini-status-tag,
@@ -1354,11 +1339,14 @@ body {
     color: #16a34a;
 }
 
-.mini-card.completed::before,
-.class-card.completed::before {
+.mini-card.completed::before {
     border-color: #ff4d4d !important;
     background: #ff4d4d !important;
     box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.1) !important;
+}
+
+.class-card.completed::before {
+    display: none !important;
 }
 
 .mini-card.completed .mini-status-tag,
@@ -1367,11 +1355,14 @@ body {
     color: #ff4d4d;
 }
 
-.mini-card.upcoming::before,
-.class-card.upcoming::before {
+.mini-card.upcoming::before {
     border-color: #00AAFF !important;
     background: white !important;
     box-shadow: 0 0 0 4px rgba(0, 170, 255, 0.1) !important;
+}
+
+.class-card.upcoming::before {
+    display: none !important;
 }
 
 .mini-card.upcoming .mini-status-tag,
