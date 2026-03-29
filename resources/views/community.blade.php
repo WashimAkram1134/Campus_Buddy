@@ -96,12 +96,6 @@
             opacity: 1 !important;
             transform: translateY(0) scale(1) !important;
         }
-
-        /* Instant show for cards already in viewport on page load (no flash) */
-        .comm-card.no-transition, .post.no-transition, .district-card.no-transition,
-        .id-card.no-transition, .qbox.no-transition, .talent.no-transition {
-            transition: none !important;
-        }
     </style>
 @endpush
 
@@ -794,20 +788,15 @@
                 return rect.top < window.innerHeight && rect.bottom > 0;
             }
 
-            // Immediately animate sections already visible on page load (no stagger, no flash)
+            // Smoothly animate sections already visible on page load with stagger
             sections.forEach(section => {
                 if (isInViewport(section)) {
                     section.classList.add('animate-in');
                     const children = section.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card, .id-card');
-                    children.forEach(child => {
-                        child.classList.add('no-transition');
-                        child.classList.add('animate-in');
-                    });
-                    // Remove no-transition after paint so future hover/interactions still animate
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            children.forEach(child => child.classList.remove('no-transition'));
-                        });
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('animate-in');
+                        }, index * 120);
                     });
                 }
             });
