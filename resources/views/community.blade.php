@@ -75,8 +75,8 @@
         /* Talents Section & Universal Scroll Entrance */
         .talents-section {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
+            transform: translateY(15px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
 
         .talents-section.animate-in {
@@ -87,14 +87,20 @@
         /* UNIFIED CARD ANIMATION: Post, District Association, Talent, Feature Cards */
         .comm-card, .post, .district-card, .id-card, .qbox, .talent {
             opacity: 0;
-            transform: translateY(50px) scale(0.96);
-            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translateY(25px) scale(0.98);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
             will-change: transform, opacity;
         }
 
         .comm-card.animate-in, .post.animate-in, .district-card.animate-in, .id-card.animate-in, .qbox.animate-in, .talent.animate-in {
             opacity: 1 !important;
             transform: translateY(0) scale(1) !important;
+        }
+
+        /* Instant show for cards already in viewport on page load (no flash) */
+        .comm-card.no-transition, .post.no-transition, .district-card.no-transition,
+        .id-card.no-transition, .qbox.no-transition, .talent.no-transition {
+            transition: none !important;
         }
     </style>
 @endpush
@@ -782,6 +788,30 @@
                 '.community-cards, .quick-section, .recent-posts-heading, .posts, .district-section, .trending-section, .talents-section'
             );
 
+            // Helper: check if element is in viewport
+            function isInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return rect.top < window.innerHeight && rect.bottom > 0;
+            }
+
+            // Immediately animate sections already visible on page load (no stagger, no flash)
+            sections.forEach(section => {
+                if (isInViewport(section)) {
+                    section.classList.add('animate-in');
+                    const children = section.querySelectorAll('.comm-card, .post, .talent, .qbox, .district-card, .id-card');
+                    children.forEach(child => {
+                        child.classList.add('no-transition');
+                        child.classList.add('animate-in');
+                    });
+                    // Remove no-transition after paint so future hover/interactions still animate
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            children.forEach(child => child.classList.remove('no-transition'));
+                        });
+                    });
+                }
+            });
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -790,7 +820,7 @@
                         children.forEach((child, index) => {
                             setTimeout(() => {
                                 child.classList.add('animate-in');
-                            }, index * 80); // STAGGERED ENTRANCE 
+                            }, index * 80); // STAGGERED ENTRANCE for scroll reveals
                         });
                         observer.unobserve(entry.target);
                     }
@@ -800,7 +830,12 @@
                 rootMargin: '0px 0px -50px 0px' 
             });
 
-            sections.forEach(section => observer.observe(section));
+            // Only observe sections NOT already animated
+            sections.forEach(section => {
+                if (!section.classList.contains('animate-in')) {
+                    observer.observe(section);
+                }
+            });
 
             // Toggle Map Logic
             const toggleMapBtn = document.getElementById('toggle-map-btn');
