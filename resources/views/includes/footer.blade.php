@@ -1,12 +1,71 @@
-{{-- Campus Buddy Footer Component --}}
-<footer class="footer">
-  <div class="footer-content">
-    <p>&copy; {{ date('Y') }} Campus Buddy. All rights reserved.</p>
-    <div class="footer-links">
-      <a href="#">About</a>
-      <a href="#">Contact</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
+{{-- Campus Buddy Professional Universal Footer --}}
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Campus<span>Buddy</span></span>
+                </div>
+                <p class="brand-description">
+                    Your all-in-one campus companion. Stay organized, connected, and ahead in your academic journey.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <div class="footer-col">
+                    <h4>Academics</h4>
+                    <ul>
+                        <li><a href="{{ route('routine') }}"><i class="far fa-calendar-alt"></i> Class Routine</a></li>
+                        <li><a href="{{ route('notes') }}"><i class="far fa-file-alt"></i> Study Materials</a></li>
+                        <li><a href="{{ route('question-bank') }}"><i class="fas fa-university"></i> Question Bank</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Campus Life</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-users"></i> District Association</a></li>
+                        <li><a href="{{ route('clubs') }}"><i class="fas fa-flag"></i> University Clubs</a></li>
+                        <li><a href="{{ route('dashboard') }}#events"><i class="far fa-star"></i> Event Calendar</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="{{ route('alumni') }}"><i class="fas fa-user-friends"></i> Alumni Network</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="mailto:support@campusbuddy.com"><i class="fas fa-headset"></i> Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Admin</h4>
+                    <ul>
+                        <li><a href="{{ route('cr-dashboard') }}"><i class="fas fa-user-shield"></i> CR Portal</a></li>
+                        <li><a href="/admin"><i class="fas fa-lock"></i> Admin Login</a></li>
+                        <li><a href="#"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; {{ date('Y') }} Campus Buddy. Built for Students with <i class="fas fa-heart" style="color: #ff4757;"></i>
+            </div>
+            <div class="footer-bottom-links">
+                <a href="#">Terms of Use</a>
+                <a href="#">Cookies Policy</a>
+                <a href="#">Help Center</a>
+            </div>
+        </div>
     </div>
-  </div>
 </footer>
