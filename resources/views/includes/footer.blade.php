@@ -5,6 +5,9 @@
             <div class="footer-brand">
                 <a href="{{ url('/') }}" class="footer-logo">
                     <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo">
+                    <div class="footer-logo-text">
+                        <span>Campus</span><span>Buddy</span>
+                    </div>
                 </a>
                 <p class="brand-description">
                     Your all-in-one campus companion. Stay organized, connected, and ahead in your academic journey.

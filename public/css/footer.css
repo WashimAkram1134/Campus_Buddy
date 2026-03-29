@@ -34,7 +34,9 @@
 }
 
 .footer-logo {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 25px;
     text-decoration: none;
     transition: transform 0.3s ease;
@@ -45,9 +47,21 @@
 }
 
 .footer-logo img {
-    height: 60px; /* Adjust based on logo proportions */
+    height: 45px;
     width: auto;
     object-fit: contain;
+    filter: brightness(0) invert(1); /* Force the logo to be pure white */
+}
+
+.footer-logo-text {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.footer-logo-text span:last-child {
+    color: white; /* Changed to white as per user's request */
 }
 
 .brand-description {
