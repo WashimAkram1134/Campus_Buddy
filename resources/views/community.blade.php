@@ -566,59 +566,59 @@
 
         <div class="talents-grid" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
             @forelse($talents as $talent)
-                <div class="id-card" style="width: 300px; background: #0f7632; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.15); color: white; display: flex; flex-direction: column; transition: transform 0.3s; padding-bottom: 0;">
+                <div class="id-card" style="width: 300px; background: #1e293b; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.25); color: white; display: flex; flex-direction: column; transition: all 0.3s ease; padding-bottom: 0;">
                     <div class="card-top-bg" style="background: white; height: 150px; position: relative;">
                         <div class="lanyard-hole" style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 10px; background: #e2e8f0; border-radius: 10px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); z-index: 10;"></div>
                         
-                        <div class="id-avatar-wrap" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; border-radius: 50%; border: 4px solid #16a34a; overflow: hidden; z-index: 5; background: white; box-shadow: 0 8px 15px rgba(0,0,0,0.15);">
+                        <div class="id-avatar-wrap" style="position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 100px; height: 100px; border-radius: 50%; border: 4px solid #0ea5e9; overflow: hidden; z-index: 5; background: white; box-shadow: 0 8px 15px rgba(14, 165, 233, 0.25);">
                             @if($talent->user->profile_image)
                                 <img src="{{ asset('storage/' . $talent->user->profile_image) }}" style="width: 100%; height: 100%; object-fit: cover;">
                             @else
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($talent->user->name) }}&background=16a34a&color=fff" style="width: 100%; height: 100%; object-fit: cover;">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($talent->user->name) }}&background=0ea5e9&color=fff" style="width: 100%; height: 100%; object-fit: cover;">
                             @endif
                         </div>
 
-                        <svg class="wave" viewBox="0 0 320 120" xmlns="http://www.w3.dom/svg" style="position: absolute; bottom: 0; width: 100%; z-index: 1;">
-                            <path fill="#16a34a" d="M0,64L40,58.7C80,53,160,43,240,53.3C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
-                            <path fill="#0f7632" d="M0,96L40,85.3C80,75,160,53,240,64C320,75,400,117,440,138.7L480,160L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                        <svg class="wave" viewBox="0 0 320 120" xmlns="http://www.w3.org/svg" style="position: absolute; bottom: 0; width: 100%; z-index: 1;">
+                            <path fill="#0ea5e9" d="M0,64L40,58.7C80,53,160,43,240,53.3C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                            <path fill="#1e293b" d="M0,96L40,85.3C80,75,160,53,240,64C320,75,400,117,440,138.7L480,160L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
                         </svg>
                     </div>
 
-                    <div class="card-body" style="padding: 25px 20px 20px; text-align: center; flex-grow: 1; z-index: 3; background: #0f7632;">
+                    <div class="card-body" style="padding: 25px 20px 20px; text-align: center; flex-grow: 1; z-index: 3; background: #1e293b;">
                         <h2 style="font-size: 19px; font-weight: 900; text-transform: uppercase; margin: 0 0 4px; color: white; letter-spacing: 0.5px;">{{ $talent->user->name }}</h2>
-                        <p style="font-size: 13px; font-weight: 500; color: #86efac; margin: 0 0 12px;">{{ $talent->designation ?? 'Campus Talent' }}</p>
+                        <p style="font-size: 13px; font-weight: 500; color: #7dd3fc; margin: 0 0 12px;">{{ $talent->designation ?? 'Campus Talent' }}</p>
                         
-                        <div style="width: 70%; height: 1px; background: rgba(255,255,255,0.15); margin: 0 auto 15px;"></div>
+                        <div style="width: 70%; height: 1px; background: rgba(255,255,255,0.1); margin: 0 auto 15px;"></div>
 
                         <div class="card-details" style="text-align: left; font-size: 11.5px; line-height: 1.8; font-weight: 500;">
                             <div style="display: flex; margin-bottom: 5px;">
-                                <div style="width: 60px; color: #bbf7d0;">ID NO</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">ID NO</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1; word-break: break-word;">{{ $talent->id_no ?? $talent->user->student_id ?? '0000000000' }}</div>
                             </div>
                             <div style="display: flex; margin-bottom: 5px;">
-                                <div style="width: 60px; color: #bbf7d0;">Dept</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">Dept</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1;">{{ $talent->user->department ?? 'CSE' }}</div>
                             </div>
                             <div style="display: flex; margin-bottom: 5px;">
-                                <div style="width: 60px; color: #bbf7d0;">Batch</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">Batch</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1;">{{ $talent->user->batch ?? '10th' }}</div>
                             </div>
                             <div style="display: flex; margin-bottom: 5px;">
-                                <div style="width: 60px; color: #bbf7d0;">Phone</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">Phone</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1;">{{ $talent->phone ?? '+880...' }}</div>
                             </div>
                             <div style="display: flex; margin-bottom: 5px;">
-                                <div style="width: 60px; color: #bbf7d0;">E-mail</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">E-mail</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1; word-break: break-word; font-size: 11px;">{{ $talent->email ?? $talent->user->email }}</div>
                             </div>
                             <div style="display: flex; margin-bottom: 5px; align-items: center; margin-top: 8px;">
-                                <div style="width: 60px; color: #bbf7d0;">Social</div>
-                                <div style="width: 15px; color: #bbf7d0;">:</div>
+                                <div style="width: 60px; color: #bae6fd;">Social</div>
+                                <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1; display: flex; gap: 12px; font-size: 16px;">
                                     <a href="{{ Str::contains($talent->website ?? '', 'facebook') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-facebook"></i></a>
                                     <a href="{{ Str::contains($talent->website ?? '', 'linkedin') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-linkedin"></i></a>
@@ -627,8 +627,8 @@
                         </div>
                     </div>
 
-                    <svg class="bottom-wave" viewBox="0 0 320 120" xmlns="http://www.w3.dom/svg" style="position: absolute; bottom: 0; left: 0; width: 150%; height: auto; z-index: 1; opacity: 0.4; pointer-events: none;">
-                        <path fill="#16a34a" d="M0,96L40,85.3C80,75,160,53,240,58.7C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
+                    <svg class="bottom-wave" viewBox="0 0 320 120" xmlns="http://www.w3.org/svg" style="position: absolute; bottom: 0; left: 0; width: 150%; height: auto; z-index: 1; opacity: 0.2; pointer-events: none;">
+                        <path fill="#0ea5e9" d="M0,96L40,85.3C80,75,160,53,240,58.7C320,64,400,96,440,112L480,128L480,120L440,120C400,120,320,120,240,120C160,120,80,120,40,120L0,120Z"></path>
                     </svg>
                 </div>
             @empty
@@ -668,7 +668,7 @@
                     <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Social Link (e.g. Facebook/LinkedIn Profile URL)</label>
                     <input type="text" name="website" placeholder="https://..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
                 </div>
-                <button type="submit" style="width: 100%; padding: 12px; background: #0f7632; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">Submit Application</button>
+                <button type="submit" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">Submit Application</button>
             </form>
         </div>
     </div>
