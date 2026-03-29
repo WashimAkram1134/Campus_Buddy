@@ -136,11 +136,25 @@ body {
     opacity: 0;
 }
 
-.fade-in-delay-1 { animation: fadeInUp 0.8s ease forwards 0.2s; opacity: 0; }
-.fade-in-delay-2 { animation: fadeInUp 0.8s ease forwards 0.4s; opacity: 0; }
-.fade-in-delay-3 { animation: fadeInUp 0.8s ease forwards 0.6s; opacity: 0; }
-.fade-in-delay-4 { animation: fadeInUp 0.8s ease forwards 0.8s; opacity: 0; }
-.fade-in-delay-5 { animation: fadeInUp 0.8s ease forwards 1.0s; opacity: 0; }
+.fade-in-delay-1 {
+    animation: fadeInUp 0.8s ease forwards 0.2s;
+    opacity: 0;
+}
+
+.fade-in-delay-2 {
+    animation: fadeInUp 0.8s ease forwards 0.4s;
+    opacity: 0;
+}
+
+.fade-in-delay-3 {
+    animation: fadeInUp 0.8s ease forwards 0.6s;
+    opacity: 0;
+}
+
+.fade-in-delay-4 {
+    animation: fadeInUp 0.8s ease forwards 0.8s;
+    opacity: 0;
+}
 
 /* Dashboard Hero Right Layout Override */
 .hero-banner .hero-content-wrapper {
@@ -158,6 +172,14 @@ body {
 .hero-text {
     flex: 1;
     max-width: 55%;
+}
+
+.hero-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 /* Mascot & Glass elements */
@@ -179,7 +201,7 @@ body {
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 36px;
-    padding: 50px 40px 40px 120px; /* More left padding to accommodate robot */
+    padding: 50px 40px 40px 140px; /* Increased left padding for larger Buddy */
     z-index: 10;
     overflow: visible; /* Allows mascot to float outside */
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
@@ -196,9 +218,9 @@ body {
 .hero-mascot {
     position: absolute;
     top: 50%;
-    left: -180px; /* Float outside card boundary */
+    left: -190px; /* Float outside card boundary - Adjusted for larger size */
     transform: translateY(-50%);
-    width: 500px; /* Resized larger as requested */
+    width: 500px;
     height: auto;
     z-index: 15;
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4));
@@ -208,7 +230,7 @@ body {
 }
 
 .hero-glass-card:hover .hero-mascot {
-    left: -190px; /* Moves slightly on hover for "alive" feel */
+    left: -200px; /* Moves slightly on hover for "alive" feel */
     filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5));
 }
 
