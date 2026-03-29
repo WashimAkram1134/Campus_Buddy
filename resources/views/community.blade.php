@@ -620,8 +620,8 @@
                                 <div style="width: 60px; color: #bae6fd;">Social</div>
                                 <div style="width: 15px; color: #bae6fd;">:</div>
                                 <div style="flex: 1; display: flex; gap: 12px; font-size: 16px;">
-                                    <a href="{{ Str::contains($talent->website ?? '', 'facebook') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-facebook"></i></a>
-                                    <a href="{{ Str::contains($talent->website ?? '', 'linkedin') ? $talent->website : '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-linkedin"></i></a>
+                                    <a href="{{ $talent->facebook_link ?? '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-facebook"></i></a>
+                                    <a href="{{ $talent->website ?? '#' }}" target="_blank" style="color: white; transition: color 0.2s;"><i class="fab fa-linkedin"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -665,8 +665,12 @@
                     <input type="email" name="email" value="{{ auth()->user()->email }}" style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
                 </div>
                 <div style="margin-bottom: 15px;">
-                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Social Link (e.g. Facebook/LinkedIn Profile URL)</label>
-                    <input type="text" name="website" placeholder="https://..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">LinkedIn / Portfolio URL</label>
+                    <input type="text" name="website" placeholder="https://linkedin.com/in/..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 13px; font-weight: 700; color: #4A5568; margin-bottom: 5px;">Facebook Link</label>
+                    <input type="text" name="facebook_link" placeholder="https://facebook.com/..." style="width: 100%; padding: 10px 12px; border: 1px solid #E2E8F0; border-radius: 8px; font-size: 14px; outline: none;">
                 </div>
                 <button type="submit" style="width: 100%; padding: 12px; background: #1e293b; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; margin-top: 10px;">Submit Application</button>
             </form>

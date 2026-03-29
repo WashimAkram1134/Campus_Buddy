@@ -22,6 +22,8 @@ class TalentController extends Controller
             'phone' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|string',
+            'website' => 'nullable|url|max:255',
+            'facebook_link' => 'nullable|url|max:255',
         ]);
 
         $talent = Talent::where('user_id', auth()->id())->first();

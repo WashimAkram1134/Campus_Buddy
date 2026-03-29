@@ -44,7 +44,11 @@ class TalentResource extends Resource
                     ->email()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('website')
-                    ->label('Website / Portfolio URL')
+                    ->label('LinkedIn / Portfolio URL')
+                    ->url()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('facebook_link')
+                    ->label('Facebook Link')
                     ->url()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('address')

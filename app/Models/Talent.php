@@ -17,6 +17,7 @@ class Talent extends Model
         'email',
         'address',
         'website',
+        'facebook_link',
         'status',
     ];
 
