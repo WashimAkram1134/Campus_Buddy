@@ -30,23 +30,26 @@ Standardized structure matching all pages
         </div>
 
         <div class="hero-right animate-right delay-2">
-            <div class="hero-mascot-container">
+            <div class="hero-glass-card">
+                <!-- Buddy Mascot positioned relative to card edge -->
                 <img src="{{ asset('images/dashboard/image.png') }}" alt="Buddy Mascot" class="hero-mascot">
-                <div class="hero-glass-card">
-                    <div class="glass-header">
-                        <div class="glass-dot"></div>
-                        <div class="glass-dot"></div>
-                    </div>
-                    <div class="glass-body">
-                        <div class="glass-line-long"></div>
-                        <div class="glass-line-long"></div>
-                        <div class="glass-line-short"></div>
-                    </div>
-                    <div class="glass-shimmer"></div>
+                
+                <div class="glass-header">
+                    <div class="glass-dot"></div>
+                    <div class="glass-dot"></div>
                 </div>
-                <div class="mascot-trail"></div>
-                <div class="mascot-trail-2"></div>
+                <div class="glass-content">
+                    <span class="glass-tag">AI ASSISTANT</span>
+                    <h3>Need a helping hand?</h3>
+                    <p>Buddy AI can guide you through campus life, clarify assignments, and help you stay ahead in your studies.</p>
+                    <a href="{{ route('buddy-chat') }}" class="glass-btn">
+                        <span>Let's Talk</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </a>
+                </div>
+                <div class="glass-shimmer"></div>
             </div>
+            <div class="mascot-trail"></div>
         </div>
     </div>
 </section>
