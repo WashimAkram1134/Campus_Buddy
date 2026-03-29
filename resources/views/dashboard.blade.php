@@ -14,17 +14,39 @@ Standardized structure matching all pages
 <section class="hero-banner" style="background-image: url('{{ asset('images/community/dashboardBG.jpg') }}');">
     <div class="hero-overlay"></div>
 
-    <div class="hero-content-wrapper hero-text animate-up">
-        <div class="hero-deco hero-deco-1"></div>
-        <div class="hero-deco hero-deco-2"></div>
-        <div class="hero-deco hero-deco-3"></div>
-        <div class="hero-deco hero-deco-4"></div>
+    <div class="hero-content-wrapper">
+        <div class="hero-text animate-up">
+            <div class="hero-deco hero-deco-1"></div>
+            <div class="hero-deco hero-deco-2"></div>
+            <div class="hero-deco hero-deco-3"></div>
+            <div class="hero-deco hero-deco-4"></div>
 
-        <div class="hero-content">
-            <span class="hero-date">{{ now()->format('F j, Y') }}</span>
-            <span class="hero-tag">STUDENT PORTAL</span>
-            <h1>Start your day with <span>campusBuddy, {{ Auth::user()->name }}!</span></h1>
-            <p class="hero-desc">Our goal is to empower your journey by providing essential campus information.</p>
+            <div class="hero-content">
+                <span class="hero-date">{{ now()->format('F j, Y') }}</span>
+                <span class="hero-tag">STUDENT PORTAL</span>
+                <h1>Start your day with <span>campusBuddy, {{ Auth::user()->name }}!</span></h1>
+                <p class="hero-desc">Our goal is to empower your journey by providing essential campus information.</p>
+            </div>
+        </div>
+
+        <div class="hero-right animate-right delay-2">
+            <div class="hero-mascot-container">
+                <img src="{{ asset('images/dashboard/image.png') }}" alt="Buddy Mascot" class="hero-mascot">
+                <div class="hero-glass-card">
+                    <div class="glass-header">
+                        <div class="glass-dot"></div>
+                        <div class="glass-dot"></div>
+                    </div>
+                    <div class="glass-body">
+                        <div class="glass-line-long"></div>
+                        <div class="glass-line-long"></div>
+                        <div class="glass-line-short"></div>
+                    </div>
+                    <div class="glass-shimmer"></div>
+                </div>
+                <div class="mascot-trail"></div>
+                <div class="mascot-trail-2"></div>
+            </div>
         </div>
     </div>
 </section>
@@ -272,7 +294,7 @@ Standardized structure matching all pages
 
           <div class="chatbox-widget">
             <div class="chatbox-header">
-              <img src="{{ asset('images/mascot/Buddy.png') }}" alt="Buddy Avatar">
+              <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy Avatar">
               <h3>Buddy AI Assistant</h3>
             </div>
 
