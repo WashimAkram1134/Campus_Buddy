@@ -3,10 +3,9 @@
     <div class="footer-container">
         <div class="footer-top">
             <div class="footer-brand">
-                <div class="footer-logo">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Campus<span>Buddy</span></span>
-                </div>
+                <a href="{{ url('/') }}" class="footer-logo">
+                    <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo">
+                </a>
                 <p class="brand-description">
                     Your all-in-one campus companion. Stay organized, connected, and ahead in your academic journey.
                 </p>

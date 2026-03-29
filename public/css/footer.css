@@ -34,22 +34,20 @@
 }
 
 .footer-logo {
-    font-size: 28px;
-    font-weight: 800;
-    color: white;
+    display: inline-block;
     margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
 }
 
-.footer-logo i {
-    color: #38bdf8; /* Sky Blue accent */
-    font-size: 32px;
+.footer-logo:hover {
+    transform: scale(1.02);
 }
 
-.footer-logo span span {
-    color: #38bdf8;
+.footer-logo img {
+    height: 60px; /* Adjust based on logo proportions */
+    width: auto;
+    object-fit: contain;
 }
 
 .brand-description {
