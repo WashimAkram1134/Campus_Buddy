@@ -136,25 +136,11 @@ body {
     opacity: 0;
 }
 
-.fade-in-delay-1 {
-    animation: fadeInUp 0.8s ease forwards 0.2s;
-    opacity: 0;
-}
-
-.fade-in-delay-2 {
-    animation: fadeInUp 0.8s ease forwards 0.4s;
-    opacity: 0;
-}
-
-.fade-in-delay-3 {
-    animation: fadeInUp 0.8s ease forwards 0.6s;
-    opacity: 0;
-}
-
-.fade-in-delay-4 {
-    animation: fadeInUp 0.8s ease forwards 0.8s;
-    opacity: 0;
-}
+.fade-in-delay-1 { animation: fadeInUp 0.8s ease forwards 0.2s; opacity: 0; }
+.fade-in-delay-2 { animation: fadeInUp 0.8s ease forwards 0.4s; opacity: 0; }
+.fade-in-delay-3 { animation: fadeInUp 0.8s ease forwards 0.6s; opacity: 0; }
+.fade-in-delay-4 { animation: fadeInUp 0.8s ease forwards 0.8s; opacity: 0; }
+.fade-in-delay-5 { animation: fadeInUp 0.8s ease forwards 1.0s; opacity: 0; }
 
 /* Dashboard Hero Right Layout Override */
 .hero-banner .hero-content-wrapper {
@@ -172,14 +158,6 @@ body {
 .hero-text {
     flex: 1;
     max-width: 55%;
-}
-
-.hero-right {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
 }
 
 /* Mascot & Glass elements */
@@ -218,9 +196,9 @@ body {
 .hero-mascot {
     position: absolute;
     top: 50%;
-    left: -160px; /* Float outside card boundary */
+    left: -180px; /* Float outside card boundary */
     transform: translateY(-50%);
-    width: 440px;
+    width: 500px; /* Resized larger as requested */
     height: auto;
     z-index: 15;
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4));
@@ -230,7 +208,7 @@ body {
 }
 
 .hero-glass-card:hover .hero-mascot {
-    left: -170px; /* Moves slightly on hover for "alive" feel */
+    left: -190px; /* Moves slightly on hover for "alive" feel */
     filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.5));
 }
 

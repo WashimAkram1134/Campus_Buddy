@@ -39,13 +39,14 @@ Standardized structure matching all pages
                     <div class="glass-dot"></div>
                 </div>
                 <div class="glass-content">
-                    <span class="glass-tag">AI ASSISTANT</span>
-                    <h3>Need a helping hand?</h3>
-                    <p>Buddy AI can guide you through campus life, clarify assignments, and help you stay ahead in your studies.</p>
-                    <a href="{{ route('buddy-chat') }}" class="glass-btn">
-                        <span>Let's Talk</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </a>
+                    <h3 class="fade-in-delay-3">Buddy (AI Assistant)</h3>
+                    <p class="fade-in-delay-4">Get instant help with your studies, campus navigation, and assignment support 24/7!</p>
+                    <div class="fade-in-delay-5">
+                        <a href="{{ route('buddy-chat') }}" class="glass-btn">
+                            <span>Let's Talk</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="glass-shimmer"></div>
             </div>
