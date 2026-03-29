@@ -1,7 +1,6 @@
 /* ===== CLASS TASK PAGE STYLES ===== */
 
 body {
-    background: #faf8f5 !important;
     font-family: 'Inter', sans-serif;
     color: #00D4FF;
     overflow-x: hidden;
@@ -639,7 +638,7 @@ body {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    background: #faf8f5 !important;
+    background: #f4efe8 !important;
     margin: 0 20px;
     border-radius: 12px;
     gap: 10px;
