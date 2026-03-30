@@ -295,10 +295,12 @@
     </div>
 
     <!-- ================= SUMMARIZE BUDDY ================= -->
-    <x-buddy-card 
-        title="🤖 Need Help with these Notes?" 
-        description="Ask Buddy to summarize long PDFs, explain complex topics, or generate practice questions from your notes!" 
-    />
+    <div class="buddy-card-container">
+        <x-buddy-card 
+            title="🤖 Need Help with these Notes?" 
+            description="Ask Buddy to summarize long PDFs, explain complex topics, or generate practice questions from your notes!" 
+        />
+    </div>
 
     <!-- ================= PDF UPLOAD MODAL ================= -->
     <div id="pdfUploadModal" class="modal">

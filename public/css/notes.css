@@ -791,3 +791,28 @@ body {
         gap: 0;
     }
 }
+
+/* ================= BUDDY CARD ALIGNMENT ================= */
+.buddy-card-container {
+    max-width: 1650px;
+    width: 100%;
+    margin: 0 auto 40px auto; 
+    padding: 0 40px; /* Matching .notes-container padding */
+}
+
+/* Ensure the universal card inside this container takes full width and has clean spacing */
+.buddy-card-container .buddy-section {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.buddy-card-container .buddy-card {
+    margin: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .buddy-card-container {
+        padding: 0 20px;
+    }
+}
