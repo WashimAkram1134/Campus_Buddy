@@ -290,52 +290,51 @@ Standardized structure matching all pages
         {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
         <div class="side-col animate-right delay-5">
 
-          {{-- LATEST COMMUNITY POSTS --}}
+          {{-- COMMUNITY FEED (Single Card Version) --}}
           <div class="section-head">
             <h2 class="section-title">Community Feed</h2>
             <a href="{{ route('community') }}" class="section-link">View all</a>
           </div>
 
-          <div class="community-posts-list animate-right delay-5">
-            @forelse($latestPosts as $index => $post)
-            <a href="{{ route('community') }}#post-{{ $post->id }}" class="latest-post-card">
-              @if($index === 0)
-              <div class="post-badge">Newest</div>
-              @endif
-              <div class="post-user-info">
-                  <div class="post-avatar">
-                      @if($post->user->profile_image)
-                          <img src="{{ asset('storage/' . $post->user->profile_image) }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}&color=00AAFF&background=E0F7FA'">
-                      @else
-                          👨‍🎓
-                      @endif
+          <div class="community-feed-card animate-right delay-5">
+            <div class="community-posts-list">
+                @forelse($latestPosts as $index => $post)
+                <a href="{{ route('community') }}#post-{{ $post->id }}" class="feed-post-item">
+                  <div class="post-user-info">
+                      <div class="post-avatar">
+                          @if($post->user->profile_image)
+                              <img src="{{ asset('storage/' . $post->user->profile_image) }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}&color=00AAFF&background=E0F7FA'">
+                          @else
+                              👨‍🎓
+                          @endif
+                      </div>
+                      <div class="post-user-details">
+                          <h4>{{ $post->user->name }}</h4>
+                          <span>{{ $post->created_at->diffForHumans() }}</span>
+                      </div>
                   </div>
-                  <div class="post-user-details">
-                      <h4>{{ $post->user->name }}</h4>
-                      <span>{{ $post->created_at->diffForHumans() }}</span>
-                  </div>
-              </div>
 
-              <div class="post-content-preview">
-                  {{ $post->content }}
-              </div>
+                  <div class="post-content-preview">
+                      {{ $post->content }}
+                  </div>
 
-              <div class="post-card-footer">
-                  <div class="post-stats">
-                      <span><i class="far fa-heart"></i> {{ $post->likes->count() }}</span>
-                      <span><i class="far fa-comment"></i> {{ $post->comments->count() }}</span>
+                  <div class="post-card-footer">
+                      <div class="post-stats">
+                          <span><i class="far fa-heart"></i> {{ $post->likes->count() }}</span>
+                          <span><i class="far fa-comment"></i> {{ $post->comments->count() }}</span>
+                      </div>
+                      <div class="view-post-link">
+                          Read more <i class="fas fa-arrow-right"></i>
+                      </div>
                   </div>
-                  <div class="view-post-link">
-                      Read more <i class="fas fa-arrow-right"></i>
-                  </div>
-              </div>
-            </a>
-            @empty
-            <div class="latest-post-card" style="justify-content: center; align-items: center; min-height: 200px; border-style: dashed; opacity: 0.7;">
-              <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">No community posts yet.</p>
-              <a href="{{ route('community') }}" class="section-link" style="margin-top: 10px;">Be the first to post!</a>
+                </a>
+                @empty
+                <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+                  <p style="font-size: 14px; font-weight: 600;">No community posts yet.</p>
+                  <a href="{{ route('community') }}" class="section-link" style="margin-top: 10px; display: block;">Be the first to post!</a>
+                </div>
+                @endforelse
             </div>
-            @endforelse
           </div>
 
         </div>{{-- /side-col --}}
