@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/question-bank.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/buddy-card.css') }}">
 @endpush
 
 @section('content')
@@ -121,13 +122,10 @@
         </div>
 
         <!-- Buddy Section -->
-        <div class="buddy-section reveal">
-            <div class="buddy-card">
-                <h3>🤖 Need Help with Questions?</h3>
-                <p>Based on your department, you might want to check the latest questions.</p>
-                <a href="{{ route('buddy-chat') }}" class="btn">Ask Buddy</a>
-            </div>
-        </div>
+        <x-buddy-card 
+            title="🤖 Need Help with Questions?" 
+            description="Based on your department, you might want to check the latest questions and solutions!" 
+        />
     </div>
 
     <!-- Upload Modal -->

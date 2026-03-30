@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/notes.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/buddy-card.css') }}">
 @endpush
 
 @section('content')
@@ -293,14 +294,11 @@
         </div>
     </div>
 
-    <!-- ================= PERSONALIZED ROUTINE BANNER ================= -->
-    <section class="personalized-banner reveal">
-        <div class="banner-content">
-            <h2 class="banner-title">Summarize Pdf or Notes</h2>
-            <a href="{{ route('buddy-chat') }}" class="banner-chat-btn">Chat with Buddy</a>
-            <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy" class="banner-mascot">
-        </div>
-    </section>
+    <!-- ================= SUMMARIZE BUDDY ================= -->
+    <x-buddy-card 
+        title="🤖 Need Help with these Notes?" 
+        description="Ask Buddy to summarize long PDFs, explain complex topics, or generate practice questions from your notes!" 
+    />
 
     <!-- ================= PDF UPLOAD MODAL ================= -->
     <div id="pdfUploadModal" class="modal">

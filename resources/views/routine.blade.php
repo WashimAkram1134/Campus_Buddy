@@ -59,6 +59,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/routine.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/buddy-card.css') }}">
 @endpush
 
 @section('content')
@@ -261,14 +262,13 @@
         </div>
       </section>
 
-      <!-- ================= PERSONALIZED ROUTINE BANNER ================= -->
-      <section class="personalized-banner">
-        <div class="banner-content">
-          <h2 class="banner-title">Personalized Routine</h2>
-          <a href="{{ route('buddy-chat') }}" class="banner-chat-btn">Chat with Buddy</a>
-          <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy" class="banner-mascot">
-        </div>
-      </section>
+      <!-- ================= PERSONALIZED ROUTINE BUDDY ================= -->
+      <div class="buddy-card-container">
+          <x-buddy-card 
+              title="🤖 Need Help with your Routine?" 
+              description="Ask Buddy to find your next class, check room availability, or manage your schedule!" 
+          />
+      </div>
 
   @if(auth()->user()->role === 'cr')
   <!-- ================= EDIT SCHEDULE MODAL ================= -->

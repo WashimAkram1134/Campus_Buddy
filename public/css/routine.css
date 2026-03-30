@@ -644,58 +644,7 @@ body {
     }
 }
 
-/* ================= PERSONALIZED ROUTINE BANNER ================= */
-.personalized-banner {
-    max-width: 1400px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.banner-content {
-    background: white;
-    border-radius: 12px;
-    padding: 8px 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-    position: relative;
-    overflow: visible;
-}
-
-.banner-title {
-    font-size: 14px;
-    font-weight: 800;
-    color: #1a1e29;
-    margin: 0;
-}
-
-.banner-chat-btn {
-    background: #00AAFF;
-    color: white;
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 12px;
-    box-shadow: 0 3px 10px rgba(0, 170, 255, 0.15);
-    transition: all 0.3s ease;
-}
-
-.banner-chat-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.4);
-    background: #0088cc;
-}
-
-.banner-mascot {
-    height: 45px;
-    width: auto;
-    position: relative;
-    top: -2px;
-    margin-left: -5px;
-}
+/* Personalized banner replaced by universal x-buddy-card */
 
 /* ================= PRINT STYLES ================= */
 @media print {
@@ -1458,4 +1407,30 @@ body {
 
 .mini-card::before {
     left: 17px !important;
+}
+
+/* ================= BUDDY CARD ALIGNMENT ================= */
+.buddy-card-container {
+    max-width: 1600px;
+    width: 96%;
+    margin: 0 auto 40px auto; /* Same auto-margin as .routine-main */
+    padding: 0 15px; /* Same horizontal padding as .routine-main */
+}
+
+/* Ensure the universal card inside this container takes full width and has clean spacing */
+.buddy-card-container .buddy-section {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.buddy-card-container .buddy-card {
+    margin: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .buddy-card-container {
+        width: 100%;
+        padding: 0 20px;
+    }
 }

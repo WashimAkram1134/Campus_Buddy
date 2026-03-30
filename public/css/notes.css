@@ -103,10 +103,10 @@ body {
 .notes-container {
     display: flex;
     align-items: flex-start;
-    max-width: 1400px;
+    max-width: 1650px; /* Increased from 1400px */
     margin: 0 auto;
-    gap: 30px;
-    padding: 80px 30px;
+    gap: 60px; /* Increased from 30px for more separation */
+    padding: 60px 40px;
     position: relative;
     z-index: 20;
 }
@@ -610,94 +610,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
-
-/* ================= PERSONALIZED ROUTINE BANNER ================= */
-.personalized-banner {
-    max-width: 1400px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.banner-content {
-    background: white;
-    border-radius: 20px;
-    padding: 10px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    position: relative;
-    overflow: visible;
-}
-
-.banner-title {
-    font-size: 24px;
-    font-weight: 800;
-    color: #1a1e29;
-    margin: 0;
-}
-
-.banner-chat-btn {
-    background: #00AAFF;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 15px;
-    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.banner-chat-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.4);
-    background: #0088cc;
-}
-
-.banner-mascot {
-    height: 100px;
-    /* Large buddy image */
-    width: auto;
-    position: relative;
-    margin-right: -10px;
-    /* Pull button closer to image */
-    transition: transform 0.3s ease;
-}
-
-.banner-mascot:hover {
-    transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
-    .banner-content {
-        flex-direction: row;
-        /* Force same row */
-        padding: 15px 15px;
-        gap: 10px;
-        /* Tighten gap for mobile */
-        width: 95%;
-        margin: 0 auto;
-    }
-
-    .banner-title {
-        font-size: 15px;
-        /* Scaled down for mobile row */
-    }
-
-    .banner-chat-btn {
-        padding: 8px 15px;
-        font-size: 12px;
-    }
-
-    .banner-mascot {
-        height: 60px;
-        /* Still clearly visible but proportional */
-        margin-right: -5px;
-    }
-}
+/* Personalized banner replaced by universal x-buddy-card */
 
 /* ================= MODAL STYLES ================= */
 .modal {
