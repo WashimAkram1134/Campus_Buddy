@@ -123,8 +123,9 @@
 
         <!-- Buddy Section -->
         <x-buddy-card 
-            title="🤖 Need Help with Questions?" 
-            description="Based on your department, you might want to check the latest questions and solutions!" 
+            title="✨ Practice Smarter with AI" 
+            description="Ask Buddy to generate practice quizzes from past questions, explain difficult course code concepts, or find exactly what you need!" 
+            button_text="Practice with AI"
         />
     </div>
 
