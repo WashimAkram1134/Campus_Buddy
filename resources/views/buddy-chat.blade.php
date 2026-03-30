@@ -229,7 +229,7 @@
             </svg>
           </button>
           <div class="buddy-avatar">
-            🤖
+            <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
           </div>
           <div class="chat-bot-info">
             <h2>Buddy AI</h2>
@@ -274,7 +274,7 @@
       <!-- Welcome Stage (Empty State) -->
       <div class="welcome-section" id="welcomeSection">
         <div class="welcome-avatar">
-          <img src="{{ asset('images/eventImage/logo.png') }}" alt="Buddy">
+          <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy">
           <div class="avatar-pulse-ring"></div>
         </div>
         <div class="welcome-text">
@@ -470,7 +470,7 @@
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         row.innerHTML = `
-                <div class="msg-avatar ${sender}-avatar">${sender === 'bot' ? '🤖' : '👤'}</div>
+                <div class="msg-avatar ${sender}-avatar">${sender === 'bot' ? `<img src="{{ asset('assets/landing/character.png') }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : '👤'}</div>
                 <div class="msg-content-wrap">
                     <span class="msg-sender-name">${sender === 'bot' ? 'Buddy' : 'You'}</span>
                     <div class="msg-bubble">${text}</div>
@@ -487,7 +487,7 @@
         row.className = 'message-row bot-row typing-row';
         row.id = 'typingIndicator';
         row.innerHTML = `
-                <div class="msg-avatar bot-avatar">🤖</div>
+                <div class="msg-avatar bot-avatar"><img src="{{ asset('assets/landing/character.png') }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"></div>
                 <div class="msg-content-wrap">
                     <div class="typing-indicator">
                         <div class="typing-dot"></div>
