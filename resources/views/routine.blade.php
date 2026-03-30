@@ -265,8 +265,9 @@
       <!-- ================= PERSONALIZED ROUTINE BUDDY ================= -->
       <div class="buddy-card-container">
           <x-buddy-card 
-              title="🤖 Need Help with your Routine?" 
-              description="Ask Buddy to find your next class, check room availability, or manage your schedule!" 
+              title="✨ Personalize your Routine with AI" 
+              description="Ask Buddy to organize your week, find your next class, or explain your schedule with AI power!" 
+              button_text="Personalize with AI"
           />
       </div>
 
