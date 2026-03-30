@@ -35,7 +35,7 @@
 
 .footer-logo {
     display: inline-flex;
-    align-items: center;
+    align-items: flex-end; /* Align text with bottom of logo */
     gap: 12px;
     margin-bottom: 25px;
     text-decoration: none;
@@ -47,21 +47,23 @@
 }
 
 .footer-logo img {
-    height: 45px;
+    height: 50px;
     width: auto;
     object-fit: contain;
-    filter: brightness(0) invert(1); /* Force the logo to be pure white */
+    filter: brightness(0) invert(1); /* Ensure logo image is white as requested earlier */
 }
 
 .footer-logo-text {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 800;
     color: white;
     letter-spacing: -0.5px;
+    line-height: 1; /* Match bottom alignment */
+    margin-bottom: 4px; /* Slight nudge for visual alignment */
 }
 
 .footer-logo-text span:last-child {
-    color: white; /* Changed to white as per user's request */
+    color: #00AAFF; /* Brand Buddy Color */
 }
 
 .brand-description {

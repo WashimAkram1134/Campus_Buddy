@@ -101,7 +101,10 @@ Route::get('/dashboard', function () {
 
         $events = \App\Models\Event::latest()->get();
 
-        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule', 'events'));
+        // 4. Latest Community Posts
+        $latestPosts = \App\Models\Post::with(['user', 'likes', 'comments'])->latest()->take(4)->get();
+
+        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule', 'events', 'latestPosts'));
     })->name('dashboard')->middleware('auth');
 
 Route::get('/cr-dashboard', function () {

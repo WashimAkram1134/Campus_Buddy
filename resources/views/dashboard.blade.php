@@ -290,36 +290,52 @@ Standardized structure matching all pages
         {{-- ── RIGHT SIDEBAR ───────────────────────────── --}}
         <div class="side-col animate-right delay-5">
 
-          {{-- BUDDY AI CHATBOX (replaces "Course Instructors" from Pic 1) --}}
+          {{-- LATEST COMMUNITY POSTS --}}
           <div class="section-head">
-            <h2 class="section-title">Chat with Buddy</h2>
+            <h2 class="section-title">Community Feed</h2>
+            <a href="{{ route('community') }}" class="section-link">View all</a>
           </div>
 
-          <div class="chatbox-widget">
-            <div class="chatbox-header">
-              <img src="{{ asset('images/menuicons/Buddy.png') }}" alt="Buddy Avatar">
-              <h3>Buddy AI Assistant</h3>
-            </div>
-
-            <div class="chatbox-body" id="chatBody">
-              <div class="chat-bubble buddy-bubble">
-                Hi {{ Auth::user()->name ?? 'there' }}! 👋 How can I help you with your studies today?
+          <div class="community-posts-list animate-right delay-5">
+            @forelse($latestPosts as $index => $post)
+            <a href="{{ route('community') }}#post-{{ $post->id }}" class="latest-post-card">
+              @if($index === 0)
+              <div class="post-badge">Newest</div>
+              @endif
+              <div class="post-user-info">
+                  <div class="post-avatar">
+                      @if($post->user->profile_image)
+                          <img src="{{ asset('storage/' . $post->user->profile_image) }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($post->user->name) }}&color=00AAFF&background=E0F7FA'">
+                      @else
+                          👨‍🎓
+                      @endif
+                  </div>
+                  <div class="post-user-details">
+                      <h4>{{ $post->user->name }}</h4>
+                      <span>{{ $post->created_at->diffForHumans() }}</span>
+                  </div>
               </div>
-              <div class="chat-bubble buddy-bubble">
-                You have a <strong>Data Structure</strong> class at 9:00 AM. Don't forget your notes! 📚
-              </div>
-            </div>
 
-            <div class="chatbox-footer">
-              <input id="chatInput" type="text" class="chat-input" placeholder="Ask Buddy anything...">
-              <button id="chatSend" class="chat-send-btn" aria-label="Send">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
+              <div class="post-content-preview">
+                  {{ $post->content }}
+              </div>
+
+              <div class="post-card-footer">
+                  <div class="post-stats">
+                      <span><i class="far fa-heart"></i> {{ $post->likes->count() }}</span>
+                      <span><i class="far fa-comment"></i> {{ $post->comments->count() }}</span>
+                  </div>
+                  <div class="view-post-link">
+                      Read more <i class="fas fa-arrow-right"></i>
+                  </div>
+              </div>
+            </a>
+            @empty
+            <div class="latest-post-card" style="justify-content: center; align-items: center; min-height: 200px; border-style: dashed; opacity: 0.7;">
+              <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">No community posts yet.</p>
+              <a href="{{ route('community') }}" class="section-link" style="margin-top: 10px;">Be the first to post!</a>
             </div>
+            @endforelse
           </div>
 
         </div>{{-- /side-col --}}
@@ -403,23 +419,6 @@ Standardized structure matching all pages
 
   <script>
     (function () {
-      const sendBtn = document.getElementById('chatSend');
-      const chatInput = document.getElementById('chatInput');
-      const chatBody = document.getElementById('chatBody');
-
-      function sendMessage() {
-        const text = chatInput.value.trim();
-        if (!text) return;
-
-        // Redirect to Buddy Chat with the message
-        window.location.href = "{{ route('buddy-chat') }}?message=" + encodeURIComponent(text);
-      }
-
-      if (sendBtn) sendBtn.addEventListener('click', sendMessage);
-      if (chatInput) chatInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') sendMessage();
-      });
-
       // Event Detail Viewer Logic
       const viewer = document.getElementById('imageViewer');
       const viewerImg = document.getElementById('viewerImage');
