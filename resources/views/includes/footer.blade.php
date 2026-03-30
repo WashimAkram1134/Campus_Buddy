@@ -51,13 +51,54 @@
                 <div class="footer-col">
                     <h4>Admin</h4>
                     <ul>
-                        <li><a href="{{ route('cr-dashboard') }}"><i class="fas fa-user-shield"></i> CR Portal</a></li>
-                        <li><a href="/admin"><i class="fas fa-lock"></i> Admin Login</a></li>
+                        <li>
+                            @if(Auth::check() && (Auth::user()->role === 'cr' || Auth::user()->role === 'admin'))
+                                <a href="{{ route('cr-dashboard') }}"><i class="fas fa-user-shield"></i> CR Portal</a>
+                            @else
+                                <a href="javascript:void(0)" class="restricted-link" data-message="Access Restricted: Only Class Representatives and Admins can access the CR Portal."><i class="fas fa-user-shield"></i> CR Portal</a>
+                            @endif
+                        </li>
+                        <li>
+                            @if(Auth::check() && Auth::user()->role === 'admin')
+                                <a href="/admin"><i class="fas fa-lock"></i> Admin Login</a>
+                            @else
+                                <a href="javascript:void(0)" class="restricted-link" data-message="Access Denied: Only Workspace Administrators can access the Admin Panel."><i class="fas fa-lock"></i> Admin Login</a>
+                            @endif
+                        </li>
                         <li><a href="#"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+
+        {{-- Access Control Toast --}}
+        <div id="footer-toast" class="footer-toast">
+            <i class="fas fa-shield-alt"></i>
+            <span id="footer-toast-message">Access Restricted</span>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toast = document.getElementById('footer-toast');
+                const toastMsg = document.getElementById('footer-toast-message');
+                let toastTimeout;
+
+                document.querySelectorAll('.restricted-link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const message = this.getAttribute('data-message');
+                        
+                        toastMsg.textContent = message;
+                        toast.classList.add('show');
+
+                        if (toastTimeout) clearTimeout(toastTimeout);
+                        toastTimeout = setTimeout(() => {
+                            toast.classList.remove('show');
+                        }, 4000);
+                    });
+                });
+            });
+        </script>
 
         <div class="footer-bottom">
             <div class="copyright">
