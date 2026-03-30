@@ -216,7 +216,7 @@
           </a>
           @endif
 
-          <button class="dropdown-item" onclick="openModal('profileModal')">
+          <a href="{{ route('profile.settings') }}" class="dropdown-item">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3"></circle>
@@ -225,7 +225,7 @@
               </path>
             </svg>
             Account Settings
-          </button>
+          </a>
         </div>
 
         <div class="dropdown-divider"></div>
@@ -246,171 +246,7 @@
     </div>
   </div>
 
-  <!-- ================= PROFILE/ACCOUNT MODAL ================= -->
-  <div id="profileModal" class="account-settings-modal">
-    <div class="account-settings-modal-content">
-      <div class="account-settings-modal-header">
-        <h2>Account Settings</h2>
-        <span class="close-account-modal" onclick="closeModal('profileModal')">&times;</span>
-      </div>
-      <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-          <label for="profile_image_update">Profile Picture</label>
-          <input type="file" name="profile_image" id="profile_image_update" accept="image/*">
-        </div>
-        <div class="form-group">
-          <label for="dept_update">Department</label>
-          <input type="text" name="department" id="dept_update" value="{{ Auth::user()->department }}" required>
-        </div>
-        <div class="form-group">
-          <label for="batch_update">Batch</label>
-          <input type="text" name="batch" id="batch_update" value="{{ Auth::user()->batch }}" required>
-        </div>
-        <div class="form-group">
-          <label for="semester_update">Semester</label>
-          <input type="text" name="semester" id="semester_update" value="{{ Auth::user()->semester }}" required>
-        </div>
-        <div class="form-group">
-          <label for="section_update">Section</label>
-          <input type="text" name="section" id="section_update" value="{{ Auth::user()->section }}" required>
-        </div>
-        <div class="form-group">
-          <label for="major_update">Major (Optional)</label>
-          <input type="text" name="major" id="major_update" value="{{ Auth::user()->major }}"
-            placeholder="e.g. DS, CS, Robotics">
-        </div>
-        <button type="submit" class="submit-btn">Update Profile</button>
-      </form>
-    </div>
-  </div>
-
-  <style>
-    /* Unique modal styles to avoid conflicts */
-    .account-settings-modal {
-      display: none;
-      position: fixed;
-      z-index: 1000000 !important; /* Above everything including filter bar */
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7) !important;
-      backdrop-filter: blur(8px);
-      align-items: center;
-      justify-content: center;
-    }
-
-    .account-settings-modal.show {
-        display: flex !important;
-    }
-
-    .account-settings-modal-content {
-      background: white;
-      margin: auto;
-      padding: 35px;
-      width: 90%;
-      max-width: 420px;
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      position: relative;
-      transform: translateY(-20px);
-      animation: accountModalIn 0.3s ease-out;
-    }
-
-    @keyframes accountModalIn {
-        from { opacity: 0; transform: translateY(0); }
-        to { opacity: 1; transform: translateY(-20px); }
-    }
-
-    .account-settings-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-    }
-
-    .account-settings-modal-header h2 {
-      margin: 0;
-      font-size: 22px;
-      color: #000000 !important;
-      font-weight: 800;
-    }
-
-    .close-account-modal {
-      font-size: 28px;
-      cursor: pointer;
-      color: #aaa;
-      transition: color 0.2s;
-    }
-
-    .close-account-modal:hover {
-        color: #000;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-header h2 {
-      margin: 0;
-      font-size: 20px;
-      color: #1b5c7a;
-    }
-
-    .close {
-      font-size: 24px;
-      cursor: pointer;
-      color: #aaa;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      color: #000000 !important; /* Force black text */
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      color: #000000; /* Input text black */
-      font-size: 15px;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus {
-        border-color: #00AAFF;
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 170, 255, 0.1);
-    }
-
-    .modal-header h2 {
-        color: #000000 !important;
-        font-weight: 800;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 12px;
-      background: #00AAFF;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-  </style>
+  <!-- Mobile Sidebar integration -->
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
