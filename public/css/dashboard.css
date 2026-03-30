@@ -1377,7 +1377,7 @@ body {
    COMMUNITY FEED CARD (SINGLE CARD VERSION)
    ============================================================ */
 .community-feed-card {
-    background: var(--bg);
+    background: transparent;
     border-radius: var(--r-card);
     border: 3px solid #ffffff;
     box-shadow: none;
@@ -1397,12 +1397,12 @@ body {
 }
 
 .feed-post-item {
-    padding: 24px;
-    transition: all 0.2s ease;
+    padding: 20px;
+    transition: all 0.3s ease;
     text-decoration: none;
     color: inherit;
     display: block;
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .feed-post-item:last-child {
@@ -1410,8 +1410,7 @@ body {
 }
 
 .feed-post-item:hover {
-    background: rgba(255, 255, 255, 0.4);
-    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .post-user-info {
