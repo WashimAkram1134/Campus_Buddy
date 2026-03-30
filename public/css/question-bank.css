@@ -1,6 +1,5 @@
-/* ================= RESET ================= */
 body {
-    background: #d9edf7;
+    background: #f8fafc; /* Changed to cleaner white-ish background */
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -515,13 +514,14 @@ body {
 }
 
 .buddy-card {
-    background: #d7ecf8;
+    background: #ffffff;
     padding: 25px;
     border-radius: 14px;
     margin: 20px 0;
     text-align: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -559,9 +559,9 @@ body {
 }
 
 .buddy-card:hover {
-    background: #c8e6f5;
+    background: #f8fafc;
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
 }
 
 .buddy-card h3 {
