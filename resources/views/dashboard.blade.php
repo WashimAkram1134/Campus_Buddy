@@ -293,13 +293,13 @@ Standardized structure matching all pages
           {{-- COMMUNITY FEED (Single Card Version) --}}
           <div class="section-head">
             <h2 class="section-title">Community Feed</h2>
-            <a href="{{ route('community') }}" class="section-link">View all</a>
+            <a href="{{ route('community') }}#posts-section" class="section-link">View all</a>
           </div>
 
-          <div class="community-feed-card animate-right delay-5">
+          <div class="community-feed-card animate-right delay-5" style="cursor: pointer;" onclick="window.location.href='{{ route('community') }}#posts-section'">
             <div class="community-posts-list">
                 @forelse($latestPosts as $index => $post)
-                <a href="{{ route('community') }}#post-{{ $post->id }}" class="feed-post-item">
+                <div class="feed-post-item">
                   <div class="post-user-info">
                       <div class="post-avatar">
                           @if($post->user->profile_image)
@@ -323,11 +323,11 @@ Standardized structure matching all pages
                           <span><i class="far fa-heart"></i> {{ $post->likes->count() }}</span>
                           <span><i class="far fa-comment"></i> {{ $post->comments->count() }}</span>
                       </div>
-                      <div class="view-post-link">
+                      <a href="{{ route('community') }}#post-{{ $post->id }}" class="view-post-link" onclick="event.stopPropagation();">
                           Read more <i class="fas fa-arrow-right"></i>
-                      </div>
+                      </a>
                   </div>
-                </a>
+                </div>
                 @empty
                 <div style="padding: 40px; text-align: center; color: var(--text-muted);">
                   <p style="font-size: 14px; font-weight: 600;">No community posts yet.</p>
