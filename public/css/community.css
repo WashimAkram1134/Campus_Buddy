@@ -262,6 +262,7 @@ body {
     padding-bottom: 14px;
     border-bottom: 2px solid #e0e0e0;
     opacity: 0;
+    scroll-margin-top: 100px;
 }
 
 .recent-posts-heading.animate-in { opacity: 1; animation: slideUpFade 0.5s ease backwards; }
@@ -281,6 +282,7 @@ body {
     opacity: 0;
     transition: all 0.3s ease;
     border: 1px solid #f0f4f8;
+    scroll-margin-top: 100px;
 }
 
 .extra-post {
