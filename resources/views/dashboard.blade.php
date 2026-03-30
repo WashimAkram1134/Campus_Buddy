@@ -24,7 +24,7 @@ Standardized structure matching all pages
             <div class="hero-content">
                 <span class="hero-date">{{ now()->format('F j, Y') }}</span>
                 <span class="hero-tag">STUDENT PORTAL</span>
-                <h1>Start your day with <span>campusBuddy, {{ Auth::user()->name }}!</span></h1>
+                <h1>Start your day with <span>CampusBuddy, {{ Auth::user()->name }}!</span></h1>
                 <p class="hero-desc">Our goal is to empower your journey by providing essential campus information.</p>
             </div>
         </div>

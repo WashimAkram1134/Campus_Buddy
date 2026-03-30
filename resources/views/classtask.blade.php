@@ -60,7 +60,7 @@
                 <span class="count">{{ $tasks->where('type', 'assignment')->count() }}</span>
             </button>
             <button class="filter-btn" data-filter="quiz">
-                <i class="fas fa-vial filter-icon"></i>
+                 <i class="fas fa-clipboard-check filter-icon"></i>
                 Quizzes
                 <span class="count">{{ $tasks->where('type', 'quiz')->count() }}</span>
             </button>
@@ -77,7 +77,7 @@
         @php
             $types = [
                 'assignment' => ['title' => 'Assignments', 'desc' => 'Courseworks and projects', 'icon' => 'fa-file-alt', 'color' => 'assignment'],
-                'quiz' => ['title' => 'Quizzes', 'desc' => 'Class tests', 'icon' => 'fa-vial', 'color' => 'quiz'],
+                'quiz' => ['title' => 'Quizzes', 'desc' => 'Class tests', 'icon' => 'fa-clipboard-check', 'color' => 'quiz'],
                 'presentation' => ['title' => 'Presentations', 'desc' => 'Team projects', 'icon' => 'fa-chalkboard-teacher', 'color' => 'presentation']
             ];
         @endphp
