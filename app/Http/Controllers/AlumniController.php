@@ -13,7 +13,30 @@ class AlumniController extends Controller
     public function index()
     {
         $approvedAlumni = AlumniRegistration::approved()->latest()->get();
-        return view('alumni', compact('approvedAlumni'));
+        $user = auth()->user();
+        $pendingRegistration = null;
+        $justApproved = false;
+
+        if ($user) {
+            // Check for pending registration
+            $pendingRegistration = AlumniRegistration::where('email', $user->email)
+                ->where('status', 'pending')
+                ->first();
+
+            // Check if just approved (status approved but not yet notified)
+            $newlyApproved = AlumniRegistration::where('email', $user->email)
+                ->where('status', 'approved')
+                ->where('is_notified', false)
+                ->first();
+
+            if ($newlyApproved) {
+                $justApproved = true;
+                // Mark as notified so it doesn't show again on next refresh
+                $newlyApproved->update(['is_notified' => true]);
+            }
+        }
+
+        return view('alumni', compact('approvedAlumni', 'pendingRegistration', 'justApproved'));
     }
 
     /**

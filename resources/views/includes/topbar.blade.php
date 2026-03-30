@@ -23,8 +23,25 @@
         $item->notif_label = 'New Material';
         return $item;
     });
+
+    $alumniNotif = collect();
+    if (Auth::check()) {
+        $approved = \App\Models\AlumniRegistration::where('email', Auth::user()->email)
+            ->where('status', 'approved')
+            ->where('is_notified', false)
+            ->first();
+        if ($approved) {
+            $alumniNotif = collect([(object)[
+                'notif_type' => 'alumni',
+                'notif_icon' => 'alert',
+                'notif_label' => 'System',
+                'title' => 'Alumni registration approved!',
+                'created_at' => $approved->updated_at
+            ]]);
+        }
+    }
     
-    $notifications = $recentAnnouncements->concat($recentTasks)->concat($recentMaterials)
+    $notifications = $recentAnnouncements->concat($recentTasks)->concat($recentMaterials)->concat($alumniNotif)
         ->sortByDesc('created_at')
         ->values();
         

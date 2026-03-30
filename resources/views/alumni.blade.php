@@ -54,6 +54,39 @@
             </div>
         </div>
     </section>
+    
+    {{-- Status Messages --}}
+    <div class="container message-container" style="margin-top: -20px; position: relative; z-index: 10;">
+        @if($pendingRegistration)
+            <div class="registration-status-banner pending animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #FAC35A; margin-bottom: 30px;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="background: #FFF9EB; color: #FAC35A; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Registration Pending Approval</h4>
+                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Your application as an alumni mentor is currently being reviewed by our administration. Once approved, your profile will be live in the network.</p>
+                    </div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: #FAC35A; text-transform: uppercase; background: #FFF9EB; padding: 5px 12px; border-radius: 50px;">Under Review</div>
+            </div>
+        @endif
+
+        @if($justApproved)
+            <div id="approvalToast" class="registration-status-banner approved animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #10b981; margin-bottom: 30px; animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="background: #ECFDF5; color: #10b981; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Congratulations, {{ auth()->user()->name }}!</h4>
+                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Your alumni registration has been approved. You are now officially a part of our premier mentor network.</p>
+                    </div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Approved</div>
+            </div>
+        @endif
+    </div>
 
     <!-- ================= ALUMNI NETWORK SECTION ================= -->
     <section id="alumni-network" class="alumni-header-section reveal">
@@ -872,6 +905,30 @@
             const openModalBtn = document.getElementById('registerTodayBtn');
             const modal = document.getElementById('registrationModal');
             const closeModalSpan = document.getElementById('closeModal');
+            const approvalToast = document.getElementById('approvalToast');
+
+            // HIDE APPROVAL TOAST AFTER 3 SECONDS
+            if (approvalToast) {
+                setTimeout(() => {
+                    approvalToast.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    approvalToast.style.opacity = '0';
+                    approvalToast.style.transform = 'translateY(-20px)';
+                    setTimeout(() => approvalToast.style.display = 'none', 800);
+                }, 3000);
+            }
+
+            // Disable registration button if pending
+            @if($pendingRegistration || (auth()->user() && auth()->user()->role === 'alumni'))
+                if (openModalBtn) {
+                    openModalBtn.style.opacity = '0.7';
+                    openModalBtn.style.cursor = 'not-allowed';
+                    openModalBtn.innerText = 'Application {{ $pendingRegistration ? "Pending" : "Approved" }}';
+                    openModalBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                }
+            @endif
 
             if (openModalBtn && modal) {
                 openModalBtn.addEventListener('click', function(e) {

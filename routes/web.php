@@ -115,7 +115,7 @@ use App\Http\Controllers\EventController;
 
 Route::post('/assignments', [ClassTaskController::class , 'store'])->name('assignments.store')->middleware('auth');
 Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
-Route::post('/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
+Route::match(['post', 'patch'], '/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
 Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings')->middleware('auth');
 Route::patch('/profile/settings', [ProfileController::class, 'updateSettings'])->name('profile.settings.update')->middleware('auth');
 Route::delete('/profile/image', [ProfileController::class, 'deleteProfileImage'])->name('profile.image.delete')->middleware('auth');
