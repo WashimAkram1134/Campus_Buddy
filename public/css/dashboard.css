@@ -1377,10 +1377,10 @@ body {
    COMMUNITY FEED CARD (SINGLE CARD VERSION)
    ============================================================ */
 .community-feed-card {
-    background: var(--surface);
+    background: var(--bg);
     border-radius: var(--r-card);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-card);
+    border: 3px solid #ffffff;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     overflow: hidden;
