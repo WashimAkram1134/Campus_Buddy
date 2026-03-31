@@ -12,7 +12,8 @@ class AlumniController extends Controller
      */
     public function index()
     {
-        $approvedAlumni = AlumniRegistration::approved()->latest()->get();
+        // Fetch approved alumni, sorting by the newest at the top
+        $approvedAlumni = AlumniRegistration::approved()->orderBy('created_at', 'desc')->get();
         $user = auth()->user();
         $pendingRegistration = null;
         $justApproved = false;
@@ -46,7 +47,7 @@ class AlumniController extends Controller
     {
         $validated = $request->validate([
             'full_name'        => 'required|string|max:255',
-            'email'            => 'required|email|unique:alumni_registrations,email',
+            'email'            => 'required|email',
             'phone'            => 'nullable|string|max:20',
             'profile_image'    => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'student_id'       => 'required|string|max:50',
@@ -73,8 +74,12 @@ class AlumniController extends Controller
         }
 
         $validated['status'] = 'pending';
+        $validated['is_notified'] = false; // Reset notification for re-approvals
 
-        AlumniRegistration::create($validated);
+        AlumniRegistration::updateOrCreate(
+            ['email' => $validated['email']],
+            $validated
+        );
 
         return back()->with('success', 'Your alumni registration has been submitted! It will be reviewed by admin.');
     }

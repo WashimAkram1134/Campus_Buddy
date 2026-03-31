@@ -810,36 +810,46 @@
             
             <form action="{{ route('alumni.register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+
+                @if($errors->any())
+                    <div style="background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
+                        <ul style="margin: 0; padding-left: 20px;">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Full Name *</label>
-                        <input type="text" name="full_name" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+                        <input type="text" name="full_name" value="{{ auth()->user()->name }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
                     </div>
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Email *</label>
-                        <input type="email" name="email" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <input type="email" name="email" value="{{ auth()->user()->email }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
                     </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Student ID *</label>
-                        <input type="text" name="student_id" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <input type="text" name="student_id" value="{{ auth()->user()->student_id }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
                     </div>
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Phone</label>
-                        <input type="text" name="phone" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
                     </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Department *</label>
-                        <input type="text" name="department" required placeholder="e.g. CSE" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <input type="text" name="department" value="{{ auth()->user()->department }}" required placeholder="e.g. CSE" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
                     </div>
                     <div>
                         <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Batch *</label>
-                        <input type="text" name="batch" required placeholder="e.g. 52" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                        <input type="text" name="batch" value="{{ auth()->user()->batch }}" required placeholder="e.g. 52" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
                     </div>
                 </div>
 
@@ -906,6 +916,11 @@
             const modal = document.getElementById('registrationModal');
             const closeModalSpan = document.getElementById('closeModal');
             const approvalToast = document.getElementById('approvalToast');
+
+            // AUTO-OPEN MODAL IF THERE ARE ERRORS
+            @if($errors->any())
+                if (modal) modal.style.display = 'flex';
+            @endif
 
             // HIDE APPROVAL TOAST AFTER 3 SECONDS
             if (approvalToast) {

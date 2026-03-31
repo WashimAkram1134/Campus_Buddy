@@ -94,26 +94,38 @@ class AlumniRegistrationResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->after(function (AlumniRegistration $record) {
-                        // Hook: automatically create in user table if approved
+                        // Hook: occur automatically if status is changed to approved
                         if ($record->status === 'approved') {
-                            $userExists = User::where('email', $record->email)->exists();
+                            $user = User::where('email', $record->email)->first();
                             
-                            if (!$userExists) {
+                            if (!$user) {
+                                // Create new user if they don't exist
                                 User::create([
                                     'name' => $record->full_name,
                                     'email' => $record->email,
                                     'student_id' => $record->student_id,
-                                    'role' => 'alumni', // designated role for creators loop
+                                    'role' => 'alumni', 
                                     'is_approved' => true,
                                     'department' => $record->department,
                                     'batch' => $record->batch,
                                     'profile_image' => $record->profile_image ?? '',
-                                    'password' => bcrypt('AlumniPhone123@#'), // Default temp password
+                                    'password' => bcrypt('AlumniPhone123@#'), 
                                 ]);
 
                                 Notification::make()
                                     ->title('User Created Successfully')
-                                    ->body('The approved alumni will now be added in the Users Table and displays cards globally.')
+                                    ->body('A new alumni user has been created for ' . $record->full_name)
+                                    ->success()
+                                    ->send();
+                            } else {
+                                // Update existing user role to alumni if they were already in the system
+                                if ($user->role !== 'admin') { // Don't demote admins
+                                    $user->update(['role' => 'alumni']);
+                                }
+
+                                Notification::make()
+                                    ->title('User Role Updated')
+                                    ->body($record->full_name . ' has been updated to Alumni status.')
                                     ->success()
                                     ->send();
                             }
