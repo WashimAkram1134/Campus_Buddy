@@ -130,7 +130,7 @@
     <div class="alumni-grid reveal">
         @foreach($approvedAlumni as $alumni)
         <div class="alumni-card featured-card reveal animate-item up" data-category="{{ $alumni->category }}">
-            <div class="card-top" style="overflow: hidden;">
+            <div class="card-top">
                 @if($alumni->company_logo)
                     <img src="{{ asset('storage/' . $alumni->company_logo) }}" alt="{{ $alumni->company }}" class="field-img" style="width: 100%; height: 100%; object-fit: cover;">
                 @elseif($alumni->card_bg_image)
