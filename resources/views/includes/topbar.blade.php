@@ -44,7 +44,8 @@
                     'notif_icon' => 'alert',
                     'notif_label' => 'System',
                     'title' => 'Alumni registration approved!',
-                    'created_at' => $approvedAlumni->updated_at
+                    'created_at' => $approvedAlumni->updated_at,
+                    'id' => $approvedAlumni->id
                 ]]);
             }
         }
@@ -120,6 +121,7 @@
         <div class="notif-body">
           @forelse($notifications as $notif)
           @php
+            $notifId = ($notif->notif_type ?? 'gen') . '-' . ($notif->id ?? '0');
             $notifUrl = 'javascript:void(0)';
             switch($notif->notif_type) {
                 case 'announcement': $notifUrl = route('dashboard') . '#announcement-' . $notif->id; break;
@@ -128,7 +130,7 @@
                 case 'alumni': $notifUrl = route('alumni'); break;
             }
           @endphp
-          <a href="{{ $notifUrl }}" class="notif-item unread" style="text-decoration: none; display: flex; transition: background 0.2s;">
+          <a href="{{ $notifUrl }}" class="notif-item unread notif-link-item" data-notif-id="{{ $notifId }}" style="text-decoration: none; display: flex; transition: background 0.2s;">
             <div class="notif-icon {{ $notif->notif_icon }}">
               @if($notif->notif_icon === 'submission')
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -290,17 +292,49 @@
         });
       }
 
-      // Notification toggle
+      // Notification management (Read status & Badge synchronization)
       const notifBtn = document.getElementById('notificationBtn');
       const notifDropdown = document.getElementById('notificationDropdown');
       const markAllBtn = document.getElementById('markAllRead');
       const notifBadge = document.getElementById('notifBadge');
+      const notifItems = document.querySelectorAll('.notif-item');
+
+      // Persistence helper: localStorage
+      const getReadNotifs = () => JSON.parse(localStorage.getItem('campus_buddy_read_notifs') || '[]');
+      const saveReadNotif = (id) => {
+          const reads = getReadNotifs();
+          if (!reads.includes(id)) {
+              reads.push(id);
+              localStorage.setItem('campus_buddy_read_notifs', JSON.stringify(reads));
+          }
+      };
+
+      const updateNotifBadge = () => {
+          if (!notifBadge) return;
+          const unreadCount = document.querySelectorAll('.notif-item.unread').length;
+          if (unreadCount > 0) {
+              notifBadge.textContent = unreadCount;
+              notifBadge.style.cssText = 'display: flex !important;';
+          } else {
+              notifBadge.style.display = 'none';
+          }
+      };
+
+      // INIT: Toggle unread based on saved state
+      const readsInit = getReadNotifs();
+      notifItems.forEach(item => {
+          const id = item.dataset.notifId;
+          if (readsInit.includes(id)) {
+              item.classList.remove('unread');
+          }
+      });
+      updateNotifBadge();
 
       if (notifBtn && notifDropdown) {
         notifBtn.addEventListener('click', function (e) {
           e.stopPropagation();
           notifDropdown.classList.toggle('show');
-          if (dropdown) dropdown.classList.remove('show'); // Hide user dropdown if open
+          if (dropdown) dropdown.classList.remove('show');
         });
 
         document.addEventListener('click', function (e) {
@@ -310,15 +344,24 @@
         });
       }
 
+      // Handle Individual Notification Click (Mark as Read)
+      document.querySelectorAll('.notif-link-item').forEach(link => {
+          link.addEventListener('click', function() {
+              const id = this.dataset.notifId;
+              saveReadNotif(id);
+              this.classList.remove('unread');
+              updateNotifBadge();
+          });
+      });
+
       if (markAllBtn) {
         markAllBtn.addEventListener('click', function() {
-          if (notifBadge) {
-            notifBadge.style.display = 'none';
-          }
-          const unreadItems = document.querySelectorAll('.notif-item.unread');
-          unreadItems.forEach(item => {
-            item.classList.remove('unread');
+          notifItems.forEach(item => {
+              const id = item.dataset.notifId;
+              saveReadNotif(id);
+              item.classList.remove('unread');
           });
+          updateNotifBadge();
         });
       }
 
