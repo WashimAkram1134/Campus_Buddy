@@ -831,7 +831,7 @@ body {
     /* Exactly 2 cards visible with 20px gap */
     height: 260px;
     /* Resized to be slightly smaller */
-    background: var(--surface);
+    background: #0f172a; /* Frame with deep background */
     border-radius: var(--r-card);
     overflow: hidden;
     position: relative;
@@ -849,7 +849,7 @@ body {
 .event-card-scroll img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 

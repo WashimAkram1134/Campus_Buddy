@@ -119,7 +119,14 @@
         </div>
         <div class="notif-body">
           @forelse($notifications as $notif)
-          <div class="notif-item unread">
+          @php
+            $notifLink = 'javascript:void(0)';
+            if($notif->notif_type === 'alumni') $notifLink = route('alumni');
+            elseif($notif->notif_type === 'task') $notifLink = route('classtask');
+            elseif($notif->notif_type === 'announcement') $notifLink = route('dashboard');
+            elseif($notif->notif_type === 'material') $notifLink = route('notes');
+          @endphp
+          <a href="{{ $notifLink }}" class="notif-item unread" style="text-decoration: none; color: inherit; display: flex;">
             <div class="notif-icon {{ $notif->notif_icon }}">
               @if($notif->notif_icon === 'submission')
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -146,7 +153,7 @@
               <p class="notif-text">{{ $notif->notif_label }}: <strong>{{ $notif->title }}</strong></p>
               <span class="notif-time">{{ $notif->created_at->diffForHumans() }}</span>
             </div>
-          </div>
+          </a>
           @empty
           <div class="notif-empty" style="padding: 30px 20px; text-align: center; color: #718096;">
             <p>No new notifications</p>
