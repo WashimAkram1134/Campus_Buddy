@@ -24,20 +24,29 @@
         return $item;
     });
 
+    /* 4. Alumni Approval Notification */
     $alumniNotif = collect();
     if (Auth::check()) {
-        $approved = \App\Models\AlumniRegistration::where('email', Auth::user()->email)
+        // Show approval if newly approved OR if it was approved recently (within 24 hours)
+        $approvedAlumni = \App\Models\AlumniRegistration::where('email', Auth::user()->email)
             ->where('status', 'approved')
-            ->where('is_notified', false)
+            ->orderBy('updated_at', 'desc')
             ->first();
-        if ($approved) {
-            $alumniNotif = collect([(object)[
-                'notif_type' => 'alumni',
-                'notif_icon' => 'alert',
-                'notif_label' => 'System',
-                'title' => 'Alumni registration approved!',
-                'created_at' => $approved->updated_at
-            ]]);
+
+        if ($approvedAlumni) {
+            $isNotified = $approvedAlumni->is_notified;
+            $wasRecentlyUpdated = $approvedAlumni->updated_at->diffInHours(now()) < 24;
+
+            // Show in notification if NEVER notified, or just show as an item if it was recent
+            if (!$isNotified || $wasRecentlyUpdated) {
+                $alumniNotif = collect([(object)[
+                    'notif_type' => 'alumni',
+                    'notif_icon' => 'alert',
+                    'notif_label' => 'System',
+                    'title' => 'Alumni registration approved!',
+                    'created_at' => $approvedAlumni->updated_at
+                ]]);
+            }
         }
     }
     

@@ -73,54 +73,115 @@ Standardized structure matching all pages
             $currentTime = now();
 
             foreach($todaySchedule as $class) {
-            // Parse time_slot like "08:30 AM - 09:50 AM" or just "08:30 AM"
-            $parts = explode('-', $class->time_slot);
-            $startTimeStr = trim($parts[0]);
-            $endTimeStr = isset($parts[1]) ? trim($parts[1]) : $startTimeStr;
+                // Parse time_slot like "08:30 AM - 09:50 AM" or "8.30 am - 10.00 am"
+                $parts = explode('-', $class->time_slot);
+                $startTimeStr = trim(str_replace('.', ':', $parts[0]));
+                $endTimeStr = isset($parts[1]) ? trim(str_replace('.', ':', $parts[1])) : $startTimeStr;
+    
+                try {
+                    // Try parsing with uppercase (AM/PM) and lowercase (am/pm) formats
+                    $startTime = null;
+                    $endTime = null;
 
-            try {
-            $startTime = \Carbon\Carbon::createFromFormat('h:i A', $startTimeStr);
-            $endTime = \Carbon\Carbon::createFromFormat('h:i A', $endTimeStr);
+                    foreach(['h:i A', 'h.i A', 'h:i a', 'h.i a'] as $format) {
+                        try {
+                            if (!$startTime) $startTime = \Carbon\Carbon::createFromFormat($format, $startTimeStr);
+                            if (!$endTime) $endTime = \Carbon\Carbon::createFromFormat($format, $endTimeStr);
+                        } catch (\Exception $e) {}
+                    }
 
-            // If it's currently during this class
-            if ($currentTime->between($startTime, $endTime)) {
-            $currentClass = $class;
-            break;
-            }
-            // If this class is in the future
-            if ($startTime->isAfter($currentTime)) {
-            $nextClass = $class;
-            break;
-            }
-            } catch (\Exception $e) { continue; }
+                    if (!$startTime || !$endTime) continue;
+    
+                    // If it's currently during this class
+                    if ($currentTime->between($startTime, $endTime)) {
+                        $currentClass = $class;
+                        break;
+                    }
+                    // If this class is in the future
+                    if ($startTime->isAfter($currentTime)) {
+                        $nextClass = $class;
+                        break;
+                    }
+                } catch (\Exception $e) { continue; }
             }
             @endphp
 
-            <a href="{{ route('routine') }}"
-              class="stat-card schedule-card animate-scale delay-2 {{ $currentClass ? 'is-class-now' : '' }}">
-              <div class="stat-icon">
+            @php
+              $tasksDueToday = $assignments->filter(function($task) {
+                  return \Carbon\Carbon::parse($task->deadline)->isToday();
+              });
+            @endphp
+
+            <div class="stat-card schedule-card animate-scale delay-2 {{ $currentClass ? 'is-class-now' : '' }}" style="justify-content: flex-start; padding: 18px 15px; height: auto;">
+              <div class="stat-icon" style="margin-bottom: 8px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
                 </svg>
               </div>
 
-              @if($currentClass)
-              <div class="live-indicator">LIVE</div>
-              <p class="stat-value">{{ Str::limit($currentClass->course_title, 14) }}</p>
-              <p class="stat-sub">Room {{ $currentClass->room_no }} · Class Now</p>
-              @elseif($nextClass)
-              <p class="stat-value">{{ Str::limit($nextClass->course_title, 14) }}</p>
-              <p class="stat-sub">{{ $nextClass->time_slot }} · Room {{ $nextClass->room_no }}</p>
-              @else
-              <p class="stat-value">No Class</p>
-              <p class="stat-sub">🎉 All classes done for today!</p>
-              @endif
-              <p class="stat-label">Smart Schedule</p>
-            </a>
+              <div class="day-tasks-list" style="width: 100%; text-align: left; overflow-y: auto; max-height: 140px; padding-right: 5px;">
+                @php
+                    $todayItemsCount = 0;
+                @endphp
+
+                @foreach($todaySchedule as $class)
+                    @php
+                        $parts = explode('-', $class->time_slot);
+                        $startTimeStr = trim(str_replace('.', ':', $parts[0]));
+                        $endTimeStr = isset($parts[1]) ? trim(str_replace('.', ':', $parts[1])) : $startTimeStr;
+                        $startTime = null;
+                        $endTime = null;
+                        foreach(['h:i A', 'h.i A', 'h:i a', 'h.i a'] as $format) {
+                            try {
+                                if (!$startTime) $startTime = \Carbon\Carbon::createFromFormat($format, $startTimeStr);
+                                if (!$endTime) $endTime = \Carbon\Carbon::createFromFormat($format, $endTimeStr);
+                            } catch (\Exception $e) {}
+                        }
+                        if (!$startTime || !$endTime) continue;
+                        
+                        $isPast = $endTime->isPast();
+                        $isNow = $currentTime->between($startTime, $endTime);
+                        if(!$isPast) $todayItemsCount++;
+                    @endphp
+
+                    @if(!$isPast)
+                    <div class="schedule-mini-item {{ $isNow ? 'is-now' : '' }}" style="margin-bottom: 8px; padding: 8px; border-radius: 10px; background: {{ $isNow ? '#e0f2fe' : 'rgba(255,255,255,0.5)' }}; border-left: 3px solid {{ $isNow ? '#0ea5e9' : '#e2e8f0' }};">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800; color: #0ea5e9; text-transform: uppercase;">{{ $isNow ? 'LIVE' : 'Upcoming' }}</span>
+                            <span style="font-size: 10px; color: #64748b; font-weight: 600;">{{ $class->time_slot }}</span>
+                        </div>
+                        <h4 style="font-size: 13px; font-weight: 700; color: #1e293b; margin: 2px 0;">{{ Str::limit($class->course_title, 25) }}</h4>
+                        <p style="font-size: 10px; color: #64748b; margin: 0;">Room {{ $class->room_no }}</p>
+                    </div>
+                    @endif
+                @endforeach
+
+                @foreach($tasksDueToday as $task)
+                    @php $todayItemsCount++; @endphp
+                    <div class="schedule-mini-item" style="margin-bottom: 8px; padding: 8px; border-radius: 10px; background: #fff1f2; border-left: 3px solid #f43f5e;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 11px; font-weight: 800; color: #f43f5e; text-transform: uppercase;">DUE TODAY</span>
+                            <span style="font-size: 10px; color: #64748b; font-weight: 600;">Today</span>
+                        </div>
+                        <h4 style="font-size: 13px; font-weight: 700; color: #1e293b; margin: 2px 0;">{{ Str::limit($task->title, 25) }}</h4>
+                        <p style="font-size: 10px; color: #64748b; margin: 0;">{{ strtoupper($task->type) }}</p>
+                    </div>
+                @endforeach
+
+                @if($todayItemsCount === 0)
+                    <div style="text-align: center; padding: 20px 0;">
+                        <p class="stat-value" style="font-size: 16px;">All Clear!</p>
+                        <p class="stat-sub" style="font-size: 12px; margin: 0;">No more items for today</p>
+                    </div>
+                @endif
+              </div>
+
+              <p class="stat-label" style="border-top: 1px solid #e0f2fe; width: 100%; margin-top: 10px; padding-top: 8px;">Day Tasks</p>
+            </div>
 
             {{-- 2. PRIORITY TASK CARD (Center) --}}
             @php $urgentTask = $assignments->first(); @endphp

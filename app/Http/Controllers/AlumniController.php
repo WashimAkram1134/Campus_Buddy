@@ -17,6 +17,7 @@ class AlumniController extends Controller
         $user = auth()->user();
         $pendingRegistration = null;
         $justApproved = false;
+        $isAlumni = false;
 
         if ($user) {
             // Check for pending registration
@@ -32,12 +33,17 @@ class AlumniController extends Controller
 
             if ($newlyApproved) {
                 $justApproved = true;
-                // Mark as notified so it doesn't show again on next refresh
+                // Mark as notified so the toast only shows once, but persistent badge remains
                 $newlyApproved->update(['is_notified' => true]);
             }
+            
+            // Check if user is ALREADY a verified alumni (approved and notified or not)
+            $isAlumni = AlumniRegistration::where('email', $user->email)
+                ->where('status', 'approved')
+                ->exists() || $user->role === 'alumni';
         }
 
-        return view('alumni', compact('approvedAlumni', 'pendingRegistration', 'justApproved'));
+        return view('alumni', compact('approvedAlumni', 'pendingRegistration', 'justApproved', 'isAlumni'));
     }
 
     /**

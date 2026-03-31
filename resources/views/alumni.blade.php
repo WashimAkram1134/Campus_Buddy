@@ -83,7 +83,20 @@
                         <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Your alumni registration has been approved. You are now officially a part of our premier mentor network.</p>
                     </div>
                 </div>
-                <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Approved</div>
+                <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Just Approved</div>
+            </div>
+        @elseif(isset($isAlumni) && $isAlumni)
+            <div class="registration-status-banner verified-alumni animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #00AAFF; margin-bottom: 30px;">
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div style="background: #EBF8FF; color: #00AAFF; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div>
+                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Verified Alumni Status</h4>
+                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">You are currently an active member of the Campus Buddy Alumni Network. Welcome back!</p>
+                    </div>
+                </div>
+                <div style="font-size: 11px; font-weight: 800; color: #00AAFF; text-transform: uppercase; background: #EBF8FF; padding: 5px 12px; border-radius: 50px;">Verified Mentor</div>
             </div>
         @endif
     </div>
