@@ -120,13 +120,15 @@
         <div class="notif-body">
           @forelse($notifications as $notif)
           @php
-            $notifLink = 'javascript:void(0)';
-            if($notif->notif_type === 'alumni') $notifLink = route('alumni');
-            elseif($notif->notif_type === 'task') $notifLink = route('classtask');
-            elseif($notif->notif_type === 'announcement') $notifLink = route('dashboard');
-            elseif($notif->notif_type === 'material') $notifLink = route('notes');
+            $notifUrl = 'javascript:void(0)';
+            switch($notif->notif_type) {
+                case 'announcement': $notifUrl = route('dashboard'); break;
+                case 'task': $notifUrl = route('classtask'); break;
+                case 'material': $notifUrl = route('notes'); break;
+                case 'alumni': $notifUrl = route('alumni'); break;
+            }
           @endphp
-          <a href="{{ $notifLink }}" class="notif-item unread" style="text-decoration: none; color: inherit; display: flex;">
+          <a href="{{ $notifUrl }}" class="notif-item unread" style="text-decoration: none; display: flex; transition: background 0.2s;">
             <div class="notif-icon {{ $notif->notif_icon }}">
               @if($notif->notif_icon === 'submission')
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
