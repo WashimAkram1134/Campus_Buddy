@@ -104,7 +104,7 @@
                             if ($isCompleted) $statusClass = 'status-completed';
                             elseif ($isPast) $statusClass = 'status-overdue';
                         @endphp
-                        <div class="task-card {{ $statusClass }} active" data-type="{{ $type }}">
+                        <div id="task-{{ $task->id }}" class="task-card {{ $statusClass }} active" data-type="{{ $type }}">
                             <div class="card-status-bar {{ $type }}-bar"></div>
                             <div class="card-header">
                                 <h3 class="card-title">{{ $task->title }}</h3>

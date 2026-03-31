@@ -291,7 +291,7 @@ Standardized structure matching all pages
               @if($announcements->isNotEmpty())
               <div class="announcement-mini-feed">
                 @foreach($announcements as $announcement)
-                <div class="mini-announcement-item"
+                <div id="announcement-{{ $announcement->id }}" class="mini-announcement-item"
                   onclick="openAnnouncementModal('{{ addslashes($announcement->title) }}', '{{ addslashes($announcement->content) }}', '{{ $announcement->created_at->diffForHumans() }}')">
                   @if($announcement->created_at->diffInHours(now()) <= 2) <span class="new-dot">NEW</span>
                     @endif

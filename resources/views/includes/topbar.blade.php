@@ -122,9 +122,9 @@
           @php
             $notifUrl = 'javascript:void(0)';
             switch($notif->notif_type) {
-                case 'announcement': $notifUrl = route('dashboard'); break;
-                case 'task': $notifUrl = route('classtask'); break;
-                case 'material': $notifUrl = route('notes'); break;
+                case 'announcement': $notifUrl = route('dashboard') . '#announcement-' . $notif->id; break;
+                case 'task': $notifUrl = route('classtask') . '#task-' . $notif->id; break;
+                case 'material': $notifUrl = route('notes') . '#material-' . $notif->id; break;
                 case 'alumni': $notifUrl = route('alumni'); break;
             }
           @endphp

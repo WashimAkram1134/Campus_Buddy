@@ -136,7 +136,7 @@
             </div>
             <div class="resources-grid collapsed" id="pdfGrid">
                 @foreach($classMaterials as $index => $material)
-                    <div class="resource-card pdf-card animate-up" 
+                    <div id="material-{{ $material->id }}" class="resource-card pdf-card animate-up" 
                          data-dept="{{ strtolower($material->department) }}"
                          data-course="{{ strtolower($material->course_code) }}"
                          style="animation-delay: {{ 0.1 * ($index + 1) }}s">
@@ -231,7 +231,7 @@
 
             <div class="resources-grid collapsed" id="notesGrid">
                 @foreach($handNotes as $index => $material)
-                    <div class="resource-card notebook-card animate-up" 
+                    <div id="material-{{ $material->id }}" class="resource-card notebook-card animate-up" 
                          data-dept="{{ strtolower($material->department) }}"
                          data-course="{{ strtolower($material->course_code) }}"
                          style="animation-delay: {{ 0.1 * ($index + 1) }}s">
