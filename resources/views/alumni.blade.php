@@ -58,7 +58,7 @@
     {{-- Status Messages --}}
     <div class="container message-container" style="margin-top: -20px; position: relative; z-index: 10;">
         @if($pendingRegistration)
-            <div class="registration-status-banner pending animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #FAC35A; margin-bottom: 30px;">
+            <div class="registration-status-banner pending animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #FAC35A; margin: 0 auto 30px; max-width: 1000px;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="background: #FFF9EB; color: #FAC35A; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                         <i class="fas fa-clock"></i>
@@ -73,7 +73,7 @@
         @endif
 
         @if($justApproved)
-            <div id="approvalToast" class="registration-status-banner approved animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #10b981; margin-bottom: 30px; animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div id="approvalToast" class="registration-status-banner approved animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #10b981; margin: 0 auto 30px; max-width: 1000px; animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="background: #ECFDF5; color: #10b981; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                         <i class="fas fa-check-circle"></i>
@@ -86,7 +86,7 @@
                 <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Just Approved</div>
             </div>
         @elseif(isset($isAlumni) && $isAlumni)
-            <div class="registration-status-banner verified-alumni animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #00AAFF; margin-bottom: 30px;">
+            <div class="registration-status-banner verified-alumni animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #00AAFF; margin: 0 auto 30px; max-width: 1000px;">
                 <div style="display: flex; align-items: center; gap: 20px;">
                     <div style="background: #EBF8FF; color: #00AAFF; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
                         <i class="fas fa-award"></i>
