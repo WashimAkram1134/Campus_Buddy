@@ -553,9 +553,15 @@
                 <h2 style="font-size: 28px; font-weight: 800; color: #1A202C; margin-bottom: 5px;">🔥 Talents</h2>
                 <p style="font-size: 14px; color: #718096; font-style: italic; max-width: 600px;">"Talent isn't just about high CGPA—it's about passion, problem-solving, and unique skills."</p>
             </div>
-            <button id="open-talent-modal" style="padding: 12px 28px; background: #00AAFF; color: white; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3); transition: all 0.3s ease; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px;">
-                Eager to help
-            </button>
+            <div style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+                <div class="search-wrap" style="position: relative;">
+                    <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A0AEC0;"></i>
+                    <input type="text" id="talent-search" placeholder="Search by dept or skill..." style="padding: 10px 15px 10px 38px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 13px; outline: none; width: 220px; background: #F8FAFC; transition: all 0.3s ease;">
+                </div>
+                <button id="open-talent-modal" style="padding: 11px 24px; background: #00AAFF; color: white; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3); transition: all 0.3s ease; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px;">
+                    Eager to help
+                </button>
+            </div>
         </div>
 
         @if(session('success'))
@@ -566,7 +572,10 @@
 
         <div class="talents-grid" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: center;">
             @forelse($talents as $talent)
-                <div class="id-card" style="width: 300px; background: #1e293b; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.25); color: white; display: flex; flex-direction: column; transition: all 0.3s ease; padding-bottom: 0;">
+                <div class="id-card" 
+                     data-dept="{{ strtolower($talent->user->department ?? '') }}" 
+                     data-skill="{{ strtolower($talent->designation ?? '') }}"
+                     style="width: 300px; background: #1e293b; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.25); color: white; display: flex; flex-direction: column; transition: all 0.3s ease; padding-bottom: 0;">
                     <div class="card-top-bg" style="background: white; height: 150px; position: relative;">
                         <div class="lanyard-hole" style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 45px; height: 10px; background: #e2e8f0; border-radius: 10px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); z-index: 10;"></div>
                         
@@ -1300,6 +1309,32 @@
                 });
             } else if (viewMorePostsBtn) {
                 viewMorePostsBtn.style.display = 'none';
+            }
+
+            // Talent Search Logic (Word by word match)
+            const talentSearch = document.getElementById('talent-search');
+            const talentCards = document.querySelectorAll('#talents-section .id-card');
+
+            if (talentSearch) {
+                talentSearch.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    const words = query.split(/\s+/).filter(w => w.length > 0);
+                    
+                    talentCards.forEach(card => {
+                        if (words.length === 0) {
+                            card.style.display = 'flex';
+                            return;
+                        }
+
+                        const dept = (card.dataset.dept || '').toLowerCase();
+                        const skill = (card.dataset.skill || '').toLowerCase();
+                        const name = card.querySelector('h2') ? card.querySelector('h2').textContent.toLowerCase() : '';
+                        const searchableText = dept + ' ' + skill + ' ' + name;
+                        
+                        const isMatch = words.every(word => searchableText.includes(word));
+                        card.style.display = isMatch ? 'flex' : 'none';
+                    });
+                });
             }
         });
     </script>

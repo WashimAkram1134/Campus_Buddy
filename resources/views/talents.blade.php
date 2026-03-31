@@ -297,9 +297,18 @@
         </div>
     @endif
 
+    <div style="margin: 0 35px 40px; display: flex; justify-content: center;">
+        <div class="search-wrap" style="position: relative; width: 100%; max-width: 500px;">
+            <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 16px;"></i>
+            <input type="text" id="talent-search" placeholder="Search by dept or skill (e.g. CSE development)..." style="width: 100%; padding: 14px 15px 14px 45px; border-radius: 30px; border: 1.5px solid #E2E8F0; font-size: 15px; outline: none; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+        </div>
+    </div>
+
     <div class="talents-grid">
         @forelse($talents as $talent)
-            <div class="id-card">
+            <div class="id-card" 
+                 data-dept="{{ strtolower($talent->user->department ?? '') }}" 
+                 data-skill="{{ strtolower($talent->designation ?? '') }}">
                 
                 <div class="card-top-bg">
                     <div class="lanyard-hole"></div>
@@ -440,6 +449,32 @@
                     if (e.target === modal) {
                         modal.classList.remove('active');
                     }
+                });
+            }
+
+            // Talent Search Logic (Word by word match)
+            const talentSearch = document.getElementById('talent-search');
+            const talentCards = document.querySelectorAll('.id-card');
+
+            if (talentSearch) {
+                talentSearch.addEventListener('input', function() {
+                    const query = this.value.toLowerCase().trim();
+                    const words = query.split(/\s+/).filter(w => w.length > 0);
+                    
+                    talentCards.forEach(card => {
+                        if (words.length === 0) {
+                            card.style.display = 'flex';
+                            return;
+                        }
+
+                        const dept = (card.dataset.dept || '').toLowerCase();
+                        const skill = (card.dataset.skill || '').toLowerCase();
+                        const name = card.querySelector('.card-name') ? card.querySelector('.card-name').textContent.toLowerCase() : '';
+                        const searchableText = dept + ' ' + skill + ' ' + name;
+                        
+                        const isMatch = words.every(word => searchableText.includes(word));
+                        card.style.display = isMatch ? 'flex' : 'none';
+                    });
                 });
             }
         });
