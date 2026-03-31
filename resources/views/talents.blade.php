@@ -297,10 +297,14 @@
         </div>
     @endif
 
-    <div style="margin: 0 35px 40px; display: flex; justify-content: center;">
-        <div class="search-wrap" style="position: relative; width: 100%; max-width: 500px;">
-            <i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 16px;"></i>
-            <input type="text" id="talent-search" placeholder="Search by dept or skill (e.g. CSE development)..." style="width: 100%; padding: 14px 15px 14px 45px; border-radius: 30px; border: 1.5px solid #E2E8F0; font-size: 15px; outline: none; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;">
+    <div style="margin: 0 35px 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+        <div class="search-wrap" style="position: relative; width: 100%; max-width: 250px;">
+            <i class="fas fa-university" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 14px;"></i>
+            <input type="text" id="talent-dept-search" placeholder="Filter by Dept (e.g. CSE)" style="width: 100%; padding: 12px 15px 12px 42px; border-radius: 30px; border: 1.5px solid #E2E8F0; font-size: 14px; outline: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: all 0.3s ease;">
+        </div>
+        <div class="search-wrap" style="position: relative; width: 100%; max-width: 300px;">
+            <i class="fas fa-star" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 14px;"></i>
+            <input type="text" id="talent-skill-search" placeholder="Filter by Skill (starts with...)" style="width: 100%; padding: 12px 15px 12px 42px; border-radius: 30px; border: 1.5px solid #E2E8F0; font-size: 14px; outline: none; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: all 0.3s ease;">
         </div>
     </div>
 
@@ -452,31 +456,32 @@
                 });
             }
 
-            // Talent Search Logic (Word by word match)
-            const talentSearch = document.getElementById('talent-search');
+            // Talent Search Logic (Separate Dept and Skill boxes)
+            const deptSearch = document.getElementById('talent-dept-search');
+            const skillSearch = document.getElementById('talent-skill-search');
             const talentCards = document.querySelectorAll('.id-card');
 
-            if (talentSearch) {
-                talentSearch.addEventListener('input', function() {
-                    const query = this.value.toLowerCase().trim();
-                    const words = query.split(/\s+/).filter(w => w.length > 0);
+            const filterTalents = () => {
+                const deptQuery = deptSearch.value.toLowerCase().trim();
+                const skillQuery = skillSearch.value.toLowerCase().trim();
+                
+                talentCards.forEach(card => {
+                    const cardDept = (card.dataset.dept || '').toLowerCase();
+                    const cardSkill = (card.dataset.skill || '').toLowerCase();
                     
-                    talentCards.forEach(card => {
-                        if (words.length === 0) {
-                            card.style.display = 'flex';
-                            return;
-                        }
+                    // Match Dept (Contains)
+                    const deptMatch = cardDept.includes(deptQuery);
+                    
+                    // Match Skill (Starts-with logic: check if designation starts with query OR any word in it starts with query)
+                    const skillWords = cardSkill.split(/[\s,/-]+/);
+                    const skillMatch = skillQuery === '' || skillWords.some(word => word.startsWith(skillQuery));
 
-                        const dept = (card.dataset.dept || '').toLowerCase();
-                        const skill = (card.dataset.skill || '').toLowerCase();
-                        const name = card.querySelector('.card-name') ? card.querySelector('.card-name').textContent.toLowerCase() : '';
-                        const searchableText = dept + ' ' + skill + ' ' + name;
-                        
-                        const isMatch = words.every(word => searchableText.includes(word));
-                        card.style.display = isMatch ? 'flex' : 'none';
-                    });
+                    card.style.display = (deptMatch && skillMatch) ? 'flex' : 'none';
                 });
-            }
+            };
+
+            if (deptSearch) deptSearch.addEventListener('input', filterTalents);
+            if (skillSearch) skillSearch.addEventListener('input', filterTalents);
         });
     </script>
 @endpush

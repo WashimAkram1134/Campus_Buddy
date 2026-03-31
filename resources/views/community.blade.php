@@ -553,12 +553,16 @@
                 <h2 style="font-size: 28px; font-weight: 800; color: #1A202C; margin-bottom: 5px;">🔥 Talents</h2>
                 <p style="font-size: 14px; color: #718096; font-style: italic; max-width: 600px;">"Talent isn't just about high CGPA—it's about passion, problem-solving, and unique skills."</p>
             </div>
-            <div style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+            <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
                 <div class="search-wrap" style="position: relative;">
-                    <i class="fas fa-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A0AEC0;"></i>
-                    <input type="text" id="talent-search" placeholder="Search by dept or skill..." style="padding: 10px 15px 10px 38px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 13px; outline: none; width: 220px; background: #F8FAFC; transition: all 0.3s ease;">
+                    <i class="fas fa-university" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 12px;"></i>
+                    <input type="text" id="talent-dept-search" placeholder="By Dept (e.g. CSE)" style="padding: 9px 12px 9px 34px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 12px; outline: none; width: 150px; background: #F8FAFC; transition: all 0.3s ease;">
                 </div>
-                <button id="open-talent-modal" style="padding: 11px 24px; background: #00AAFF; color: white; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 170, 255, 0.3); transition: all 0.3s ease; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px;">
+                <div class="search-wrap" style="position: relative;">
+                    <i class="fas fa-star" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #A0AEC0; font-size: 12px;"></i>
+                    <input type="text" id="talent-skill-search" placeholder="By Skill (starts with...)" style="padding: 9px 12px 9px 34px; border-radius: 20px; border: 1px solid #E2E8F0; font-size: 12px; outline: none; width: 170px; background: #F8FAFC; transition: all 0.3s ease;">
+                </div>
+                <button id="open-talent-modal" style="padding: 10px 20px; background: #00AAFF; color: white; border: none; border-radius: 25px; font-weight: 700; cursor: pointer; box-shadow: 0 5px 12px rgba(0, 170, 255, 0.25); transition: all 0.3s ease; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">
                     Eager to help
                 </button>
             </div>
@@ -1311,31 +1315,31 @@
                 viewMorePostsBtn.style.display = 'none';
             }
 
-            // Talent Search Logic (Word by word match)
-            const talentSearch = document.getElementById('talent-search');
+            // Talent Search Logic (Separate Dept and Skill boxes)
+            const deptSearch = document.getElementById('talent-dept-search');
+            const skillSearch = document.getElementById('talent-skill-search');
             const talentCards = document.querySelectorAll('#talents-section .id-card');
 
-            if (talentSearch) {
-                talentSearch.addEventListener('input', function() {
-                    const query = this.value.toLowerCase().trim();
-                    const words = query.split(/\s+/).filter(w => w.length > 0);
+            const filterTalents = () => {
+                const deptQuery = deptSearch.value.toLowerCase().trim();
+                const skillQuery = skillSearch.value.toLowerCase().trim();
+                
+                talentCards.forEach(card => {
+                    const cardDept = (card.dataset.dept || '').toLowerCase();
+                    const cardSkill = (card.dataset.skill || '').toLowerCase();
+                    // Match Dept (Contains)
+                    const deptMatch = cardDept.includes(deptQuery);
                     
-                    talentCards.forEach(card => {
-                        if (words.length === 0) {
-                            card.style.display = 'flex';
-                            return;
-                        }
+                    // Match Skill (Starts-with logic: check if designation starts with query OR any word in it starts with query)
+                    const skillWords = cardSkill.split(/[\s,/-]+/);
+                    const skillMatch = skillQuery === '' || skillWords.some(word => word.startsWith(skillQuery));
 
-                        const dept = (card.dataset.dept || '').toLowerCase();
-                        const skill = (card.dataset.skill || '').toLowerCase();
-                        const name = card.querySelector('h2') ? card.querySelector('h2').textContent.toLowerCase() : '';
-                        const searchableText = dept + ' ' + skill + ' ' + name;
-                        
-                        const isMatch = words.every(word => searchableText.includes(word));
-                        card.style.display = isMatch ? 'flex' : 'none';
-                    });
+                    card.style.display = (deptMatch && skillMatch) ? 'flex' : 'none';
                 });
-            }
+            };
+
+            if (deptSearch) deptSearch.addEventListener('input', filterTalents);
+            if (skillSearch) skillSearch.addEventListener('input', filterTalents);
         });
     </script>
 @endpush
