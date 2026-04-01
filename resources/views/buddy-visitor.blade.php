@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Campus Buddy | Admission Help')
+@section('title', 'Campus Buddy | DIU Admission Help')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/buddy-chat.css') }}">
@@ -13,6 +13,12 @@
         body, html {
             overflow: hidden;
             background: #ffffff !important;
+        }
+
+        /* Hide unwanted topbar elements for visitors */
+        .topbar .desktop-nav, 
+        .topbar .top-right-section {
+            display: none !important;
         }
 
         .main {
@@ -171,7 +177,7 @@
     <!-- Sidebar: Admission FAQs -->
     <aside class="chat-sidebar" style="width: 320px;">
         <div class="sidebar-header">
-            <span class="sidebar-title">Admission Guide</span>
+            <span class="sidebar-title">DIU Admission Guide</span>
             <div class="visitor-badge" style="margin-bottom: 0;">Visitor Mode</div>
         </div>
         
@@ -180,34 +186,34 @@
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-            <input type="text" placeholder="Search admission topics…">
+            <input type="text" placeholder="Search DIU admission topics…">
         </div>
         
-        <div class="sidebar-label">Most Asked Questions</div>
+        <div class="sidebar-label">DIU Frequents Questions</div>
         
-        <div class="faq-item" onclick="askFAQ('Can I get a scholarship with 4.50 GPA?')">
-            <span>💰 GPA & Scholarships</span>
-            <p>Requirements for tuition waivers and merit-based grants.</p>
+        <div class="faq-item" onclick="askFAQ('What are the scholarship requirements at DIU?')">
+            <span>💰 DIU Scholarship & Waivers</span>
+            <p>60%+ students get waivers! Check GPA 5.00 & special cases.</p>
         </div>
 
-        <div class="faq-item" onclick="askFAQ('What are the computer science lab facilities?')">
-            <span>💻 Tech Lab Tours</span>
-            <p>Explore our state-of-the-art computing and networking labs.</p>
+        <div class="faq-item" onclick="askFAQ('Tell me about the CSE department labs and research')">
+            <span>💻 FSIT & CSE Department</span>
+            <p>IoT, AR/VR, Health Informatics, and the unique FAB LAB.</p>
         </div>
 
-        <div class="faq-item" onclick="askFAQ('How to apply for hostel accommodation?')">
-            <span>🏠 Residential Life</span>
-            <p>Information about campus housing and hostel costs.</p>
+        <div class="faq-item" onclick="askFAQ('How is the DIU Smart City campus at Ashulia?')">
+            <span>🏫 Smart City Campus</span>
+            <p>Explore the green, 20+ acre permanent campus world.</p>
         </div>
 
-        <div class="faq-item" onclick="askFAQ('Show me the top events in campus life')">
-            <span>🎭 Events & Culture</span>
-            <p>See major fests, sports meets, and cultural programs.</p>
+        <div class="faq-item" onclick="askFAQ('What is the total fee for B.Sc. in CSE?')">
+            <span>💳 Tuition & Fee Structure</span>
+            <p>See program-wise breakdown and credit-based costs.</p>
         </div>
         
-        <div class="faq-item" onclick="askFAQ('Which department has the best alumni network?')">
-            <span>🤝 Alumni Connections</span>
-            <p>Learn about career paths and corporate tie-ups.</p>
+        <div class="faq-item" onclick="askFAQ('Does DIU provide transport from Green Road?')">
+            <span>🚌 Transport & Logistics</span>
+            <p>DIU Bus network covering major parts of Dhaka city.</p>
         </div>
     </aside>
 
@@ -225,8 +231,8 @@
                     <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
                 </div>
                 <div class="chat-bot-info">
-                    <h2>Buddy AI <span style="font-size: 10px; background: #f0fdf4; color: #16a34a; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">Admission Assist</span></h2>
-                    <div class="chat-bot-status"><span></span> I'm online to help you!</div>
+                    <h2>Buddy AI <span style="font-size: 10px; background: #f0fdf4; color: #16a34a; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">DIU Export Assist</span></h2>
+                    <div class="chat-bot-status"><span></span> Online to help you join DIU!</div>
                 </div>
             </div>
             <div class="chat-top-actions">
@@ -245,38 +251,38 @@
                 <div class="avatar-pulse-ring"></div>
             </div>
             <div class="welcome-text">
-                <div class="visitor-badge">Future Buddy Counselor</div>
-                <h1 class="welcome-title">Thinking of joining <span>Our University?</span></h1>
-                <p class="welcome-subtitle">Ask me anything about admission deadlines, departments, fees, or how it feels to be a student here. I'm your guide to the campus!</p>
+                <div class="visitor-badge">Daffodil Int. University Counselor</div>
+                <h1 class="welcome-title">Welcome to <span>Daffodil Smart City!</span></h1>
+                <p class="welcome-subtitle">I'm your DIU Buddy. Explore our 20+ acre eco-campus at Ashulia or ask about our scholarships, labs, and modern departments.</p>
             </div>
 
             <div class="quick-prompts">
-                <div class="quick-prompt-chip" onclick="askFAQ('Tell me about the CSE department')">
-                    <span class="chip-icon">🏢</span>
+                <div class="quick-prompt-chip" onclick="askFAQ('Waiver policy for GPA 5.00')">
+                    <span class="chip-icon">🏆</span>
                     <div class="chip-content">
-                        <span class="chip-title">Department</span>
-                        <span class="chip-desc">"Explore Computer Science"</span>
+                        <span class="chip-title">Scholarships</span>
+                        <span class="chip-desc">"GPA 5.00 Waiver Details"</span>
                     </div>
                 </div>
-                <div class="quick-prompt-chip" onclick="askFAQ('Admission deadline 2024')">
+                <div class="quick-prompt-chip" onclick="askFAQ('Explore FSIT Faculty')">
+                    <span class="chip-icon">💻</span>
+                    <div class="chip-content">
+                        <span class="chip-title">FSIT Faculty</span>
+                        <span class="chip-desc">"CSE, Soft. Eng, ESDM"</span>
+                    </div>
+                </div>
+                <div class="quick-prompt-chip" onclick="askFAQ('Admission deadline for Fall 2024')">
                     <span class="chip-icon">📅</span>
                     <div class="chip-content">
                         <span class="chip-title">Apply</span>
-                        <span class="chip-desc">"Current Admission Deadlines"</span>
+                        <span class="chip-desc">"Current Deadlines"</span>
                     </div>
                 </div>
-                <div class="quick-prompt-chip" onclick="askFAQ('Fee structure for BBA')">
-                    <span class="chip-icon">💰</span>
+                <div class="quick-prompt-chip" onclick="askFAQ('Hostel facilities for boys and girls')">
+                    <span class="chip-icon">🏠</span>
                     <div class="chip-content">
-                        <span class="chip-title">Fees</span>
-                        <span class="chip-desc">"How much does it cost?"</span>
-                    </div>
-                </div>
-                <div class="quick-prompt-chip" onclick="askFAQ('Is there a sports club?')">
-                    <span class="chip-icon">⚽</span>
-                    <div class="chip-content">
-                        <span class="chip-title">Clubs</span>
-                        <span class="chip-desc">"Sports and Extra-curricular"</span>
+                        <span class="chip-title">Hotels</span>
+                        <span class="chip-desc">"Residential Halls info"</span>
                     </div>
                 </div>
             </div>
@@ -288,47 +294,47 @@
         <!-- Input Area -->
         <div class="chat-input-section">
             <div class="input-form-container">
-                <textarea id="chatInput" placeholder="Ask about Admission, Fees, or Department..." rows="1"></textarea>
+                <textarea id="chatInput" placeholder="Ask about DIU Admission, Waivers, or Campus..." rows="1"></textarea>
                 <button class="main-send-btn" id="sendBtn">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
                 </button>
             </div>
-            <p class="input-info-text">Buddy AI provides general guidance. Please verify official dates from the university website.</p>
+            <p class="input-info-text">DIU Buddy AI refers to official DIU data. Verify latest dates on daffodilvarsity.edu.bd.</p>
         </div>
     </main>
 
     <!-- Right Sidebar: Facts and Quick Stats -->
     <aside class="options-sidebar">
         <div class="section-card">
-            <h3>University at a Glance</h3>
+            <h3>DIU Smart Facts</h3>
             <div style="font-size: 13px; color: #4a5568; line-height: 1.8;">
-                <p><strong>🏆 Status:</strong> Top Rated (A Grade)</p>
-                <p><strong>🏢 Campus:</strong> 20+ Acre Eco-Campus</p>
-                <p><strong>👨‍🏫 Expertise:</strong> 300+ Expert Faculties</p>
-                <p><strong>🤝 Partners:</strong> 50+ Global Universities</p>
-                <p><strong>📍 Center:</strong> Green Road, Dhaka</p>
+                <p><strong>🏆 Ranking:</strong> Top in UI GreenMetric</p>
+                <p><strong>🌐 Connectivity:</strong> 10Gbps Campus Wi-Fi</p>
+                <p><strong>👨‍🔬 Research:</strong> IoT, AR/VR, Health Labs</p>
+                <p><strong>🤝 Alumni:</strong> 30,000+ Strong Network</p>
+                <p><strong>📍 Location:</strong> Ashulia, Savar (Smart City)</p>
             </div>
         </div>
 
         <div class="section-card">
-            <h3>Key Resources</h3>
+            <h3>Visitor Resources</h3>
             <div class="res-links">
-                <a href="#" class="res-link">🎓 Scholarship Policy 2024</a>
-                <a href="#" class="res-link">📂 Department Roadmaps</a>
-                <a href="#" class="res-link">🏗️ Campus Facility Map</a>
-                <a href="#" class="res-link">📞 Visit Helpdesk</a>
+                <a href="https://daffodilvarsity.edu.bd" target="_blank" class="res-link">🎓 DIU Official Portal</a>
+                <a href="#" class="res-link">📂 Credit Fee Calculator</a>
+                <a href="#" class="res-link">🏗️ Virtual Campus Drone Tour</a>
+                <a href="#" class="res-link">📞 Admission Helpline</a>
             </div>
         </div>
         
         <div class="become-pro-card" style="background: linear-gradient(135deg, #16a34a, #0f7632);">
-            <div class="pro-badge" style="background: rgba(255,255,255,0.2);">JOIN US</div>
+            <div class="pro-badge" style="background: rgba(255,255,255,0.2);">JOIN DIU</div>
             <div class="pro-content">
-                <h4>Ready to join?</h4>
-                <p>Fall-2024 admission is now open! Limited seats left.</p>
+                <h4>Apply Now</h4>
+                <p>Join the digital revolution at Daffodil Smart City!</p>
             </div>
-            <a href="{{ route('signup') }}" style="display: block; text-align: center; text-decoration: none; padding: 11px; background: #fff; color: #16a34a; border-radius: 10px; font-weight: 700; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Apply for Admission</a>
+            <a href="https://admission.daffodilvarsity.edu.bd/" target="_blank" style="display: block; text-align: center; text-decoration: none; padding: 11px; background: #fff; color: #16a34a; border-radius: 10px; font-weight: 700; margin-top: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">Start Online Application</a>
         </div>
     </aside>
 </div>
@@ -344,7 +350,6 @@
         const toggleSidebarsBtn = document.getElementById('toggleSidebarsBtn');
         const sidebarToggle = document.getElementById('sidebarToggle');
         
-        // Auto-resize textarea
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
@@ -363,12 +368,11 @@
             if(!text) chatInput.value = '';
             chatInput.style.height = 'auto';
 
-            // Simulate Buddy Response
             setTimeout(() => {
                 showTyping();
                 setTimeout(() => {
                     hideTyping();
-                    const response = getBuddyResponse(rawText.toLowerCase());
+                    const response = getDIUResponse(rawText.toLowerCase());
                     addMessage(response, 'bot');
                 }, 1200);
             }, 400);
@@ -394,7 +398,7 @@
             row.innerHTML = `
                 <div class="msg-avatar ${sender}-avatar">${sender === 'bot' ? `<img src="{{ asset('assets/landing/character.png') }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '👤'}</div>
                 <div class="msg-content-wrap">
-                    <span class="msg-sender-name">${sender === 'bot' ? 'Buddy' : 'Future Student'}</span>
+                    <span class="msg-sender-name">${sender === 'bot' ? 'DIU Buddy' : 'Future Student'}</span>
                     <div class="msg-bubble">${text}</div>
                     <span class="msg-time">${time}</span>
                 </div>
@@ -422,21 +426,25 @@
             if (indicator) indicator.remove();
         }
 
-        function getBuddyResponse(query) {
-            if (query.includes('cse')) return "Actually our Computer Science (CSE) department is our pride! We have 8 specialized labs, including AI and IoT centers. The GPA requirement is usually 3.50+ for merit admission.";
-            if (query.includes('deadline')) return "The Fall-2024 general admission deadline is October 25th. However, early bird scholarships are available if you apply before Sept 30th!";
-            if (query.includes('scholarship') || query.includes('waiver')) return "We offer up to 100% tuition waivers for Golden GPA 5.00 holders. Even with 4.50, you might qualify for a 25-40% merit scholarship.";
-            if (query.includes('bba')) return "The BBA program is accredited internationally. Fees are approximately 140,000 per semester before any waivers.";
-            if (query.includes('sport') || query.includes('club')) return "We have a very active Sports Club, Photography Club, and a Debate Society. Campus life is quite vibrant with fests every semester!";
-            return "That's a great question! For specific admission details, I recommend browsing our Admission Resource list on the right, or you can ask about specific departments!";
+        function getDIUResponse(query) {
+            if (query.includes('cse') || query.includes('department')) return "Our Department of Computer Science and Engineering is recognized for excellence. With advanced research centers like the IoT Lab, AR/VR Lab, and Health Informatics Lab, students gain hands-on experience. The B.Sc. in CSE total fee is approximately 952,500 BDT (before waivers).";
+            if (query.includes('scholarship') || query.includes('waiver')) return "DIU offers generous waivers! Over 60% of our students receive some form of financial aid. For GPA 5.00 in SSC & HSC, you may get a 100% tuition waiver. We also have special waivers for siblings, spouses, and tribal communities.";
+            if (query.includes('campus') || query.includes('ashulia') || query.includes('smart city')) return "The Daffodil Smart City at Ashulia is our 20+ acre permanent campus! It features lush greenery, 10Gbps Wi-Fi, modern golf-course, and the best residential facilities for students. It's a true hub for innovation.";
+            if (query.includes('fee') || query.includes('cost')) return "Fees at DIU are credit-based. For popular programs like CSE, the total cost is around 9.5 Lakh BDT, while BBA is competitive as well. Remember, performance-based waivers can reduce this cost significantly every semester!";
+            if (query.includes('deadline')) return "The Fall-2024 intake is currently active. Regular deadlines are usually around late October, but we recommend applying early to secure early-bird scholarship benefits!";
+            if (query.includes('hostel') || query.includes('accommodation')) return "We have high-quality residential halls for both male and female students at the Smart City campus. They provide a secure environment with standard dining, gym, and high-speed internet.";
+            return "That's a great question about DIU! I'm programmed with facts about our departments, labs, and the Ashulia Smart City. You can check the resources on the right sidebar or ask about specific scholarship policies!";
         }
 
-        // Toggle Logic
         sidebarToggle.addEventListener('click', () => {
             document.body.classList.toggle('show-left-sidebar');
         });
         toggleSidebarsBtn.addEventListener('click', () => {
-            document.body.classList.toggle('sidebars-hidden');
+            if (window.innerWidth <= 768) {
+                document.body.classList.toggle('show-right-sidebar');
+            } else {
+                document.body.classList.toggle('sidebars-hidden');
+            }
         });
     });
 </script>
