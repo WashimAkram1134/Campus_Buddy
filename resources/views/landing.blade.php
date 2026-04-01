@@ -26,7 +26,12 @@
                 <span>Buddy</span>
             </div>
         </div>
-        <div class="nav-links">
+        <div class="nav-middle" style="flex: 1; display: flex; justify-content: center;">
+            <a href="{{ route('buddy-visitor') }}" class="btn-visitor" style="background: rgba(0, 170, 255, 0.08); color: #00aaff; border: 1.5px solid #00aaff; padding: 8px 22px; border-radius: 25px; font-weight: 800; text-decoration: none; font-size: 15px; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);">
+                <i class="fas fa-robot"></i> Admission & Campus Helper
+            </a>
+        </div>
+        <div class="nav-links" style="display: flex; align-items: center; gap: 20px;">
             <a href="{{ route('login') }}" class="nav-link">Log In</a>
             <a href="{{ route('signup') }}" class="btn btn-primary">Sign Up</a>
         </div>
