@@ -195,3 +195,4 @@ Route::post('/classtask/{task}/complete', [ClassTaskController::class , 'complet
 Route::get('/buddy-chat', function () {
     return view('buddy-chat');
 })->name('buddy-chat')->middleware('auth');
+Route::get('/buddy-visitor', function () { return view('buddy-visitor'); })->name('buddy-visitor');
