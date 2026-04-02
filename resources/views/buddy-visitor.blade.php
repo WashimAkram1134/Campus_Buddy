@@ -323,7 +323,7 @@
             <div class="res-links">
                 <a href="https://daffodilvarsity.edu.bd" target="_blank" class="res-link">🎓 DIU Official Portal</a>
                 <a href="#" class="res-link">📂 Credit Fee Calculator</a>
-                <a href="#" class="res-link">🏗️ Virtual Campus Drone Tour</a>
+                <a href="https://annisulhuq.daffodil.university/vt/" target="_blank" class="res-link">🏗️ Virtual Campus Drone Tour</a>
                 <a href="#" class="res-link">📞 Admission Helpline</a>
             </div>
         </div>

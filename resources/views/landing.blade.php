@@ -27,8 +27,9 @@
             </div>
         </div>
         <div class="nav-middle" style="flex: 1; display: flex; justify-content: center;">
-            <a href="{{ route('buddy-visitor') }}" class="btn-visitor" style="background: rgba(0, 170, 255, 0.08); color: #00aaff; border: 1.5px solid #00aaff; padding: 8px 22px; border-radius: 25px; font-weight: 800; text-decoration: none; font-size: 15px; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);">
-                <i class="fas fa-robot"></i> DIU Admission Helper
+            <a href="{{ route('buddy-visitor') }}" class="btn-visitor" style="background: rgba(0, 170, 255, 0.08); color: #00aaff; border: 2.2px solid #00aaff; padding: 6px 25px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 15px; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);">
+                <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy" style="width: 32px; height: 32px; object-fit: contain;">
+                <span>Not a Student? Ask Buddy AI Everything!</span>
             </a>
         </div>
         <div class="nav-links" style="display: flex; align-items: center; gap: 20px;">
