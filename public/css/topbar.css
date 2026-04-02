@@ -832,19 +832,19 @@ body .main {
 }
 
 @keyframes buddyPeek {
-    0%, 75%, 100% {
+    0%, 65%, 100% {
         opacity: 0;
         top: 50%;
         transform: translate(-50%, -50%) scale(0.5);
     }
-    82% {
+    72% {
         opacity: 1;
-        top: -18px; /* Peeks out from top */
-        transform: translate(-50%, -50%) scale(1.1);
+        top: -8px; /* Slightly lower peak */
+        transform: translate(-50%, -50%) scale(1.05);
     }
-    94% {
+    92% {
         opacity: 1;
-        top: -18px;
-        transform: translate(-50%, -50%) scale(1.1);
+        top: -8px;
+        transform: translate(-50%, -50%) scale(1.05);
     }
 }
