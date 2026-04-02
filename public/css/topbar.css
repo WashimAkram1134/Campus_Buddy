@@ -806,3 +806,45 @@ body .main {
         right: 20px;
     }
 }
+/* ================= PEEKING BUDDY ANIMATION ================= */
+.buddy-nav-item {
+    position: relative;
+    z-index: 10;
+}
+
+.buddy-nav-item a {
+    position: relative;
+    z-index: 15;
+}
+
+.peeking-buddy {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    object-fit: contain;
+    animation: buddyPeek 7s infinite ease-in-out;
+}
+
+@keyframes buddyPeek {
+    0%, 75%, 100% {
+        opacity: 0;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    82% {
+        opacity: 1;
+        top: -18px; /* Peeks out from top */
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    94% {
+        opacity: 1;
+        top: -18px;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}

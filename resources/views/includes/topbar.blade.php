@@ -87,7 +87,10 @@
     <a href="{{ route('alumni') }}" class="{{ $currentRoute === 'alumni' ? 'active' : '' }}">Alumni</a>
     <a href="{{ route('question-bank') }}" class="{{ $currentRoute === 'question-bank' ? 'active' : '' }}">Q Bank</a>
 
-    <a href="{{ route('buddy-chat') }}" class="{{ $currentRoute === 'buddy-chat' ? 'active' : '' }}">Buddy AI</a>
+    <div class="buddy-nav-item" style="position: relative; display: flex; align-items: center;">
+      <img src="{{ asset('assets/landing/character.png') }}" class="peeking-buddy" alt="Buddy">
+      <a href="{{ route('buddy-chat') }}" class="{{ $currentRoute === 'buddy-chat' ? 'active' : '' }}">Buddy AI</a>
+    </div>
   </nav>
 
   <div class="top-right-section">
