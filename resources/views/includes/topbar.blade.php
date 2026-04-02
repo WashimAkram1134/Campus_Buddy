@@ -68,13 +68,13 @@
     </svg>
   </button>
 
-  <div class="logo">
+  <a href="{{ Auth::check() ? route('dashboard') : url('/') }}" class="logo">
     <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
     <div class="logo-text">
       <span>Campus</span>
       <span>Buddy</span>
     </div>
-  </div>
+  </a>
 
   <!-- Desktop inline nav -->
   <nav class="desktop-nav">
