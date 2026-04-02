@@ -171,6 +171,7 @@
     </div>
 
     <!-- Vertical Divider -->
+    @auth
     <div class="topbar-divider"></div>
 
     <div class="user-profile-container">
@@ -187,8 +188,8 @@
         </div>
 
         <div class="user-info">
-          <span class="user-name">{{ Auth::user()->name ?? 'Test User' }}</span>
-          <span class="user-role">{{ Auth::user()->role ?? '3rd year' }}</span>
+          <span class="user-name">{{ Auth::user()->name ?? 'User' }}</span>
+          <span class="user-role">{{ Auth::user()->role ?? 'Student' }}</span>
         </div>
 
         <svg class="chevron-down" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4a5568"
@@ -271,6 +272,7 @@
       </div>
     </div>
   </div>
+  @endauth
 
   <!-- Mobile Sidebar integration -->
 
