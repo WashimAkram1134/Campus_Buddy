@@ -1,32 +1,38 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\ClassTaskController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AlumniController;
-use App\Models\ClassTask;
-use App\Models\Announcement;
-use App\Models\Schedule;
+use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\ClubController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
-// Show landing page on root
-Route::get('/', function () {
-    return view('landing');
-});
+// ==================== PUBLIC ROUTES ====================
 
-// Auth routes
-Route::get('/login', [LoginController::class , 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class , 'login']);
-Route::post('/logout', [LoginController::class , 'logout'])->name('logout');
+// Landing Page
+Route::get('/', [PageController::class, 'landing'])->name('landing');
 
-Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'showRegistrationForm'])->name('signup');
-Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'register']);
+// Buddy Visitor (no auth required)
+Route::get('/buddy-visitor', [PageController::class, 'buddyVisitor'])->name('buddy-visitor');
 
-// Placeholders for other auth routes shown in the UI
-use App\Http\Controllers\Auth\ForgotPasswordController;
+// ==================== AUTH ROUTES ====================
 
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'showRegistrationForm'])->name('signup');
+Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'register']);
+
+// Password Reset
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetCode'])->name('password.email');
 Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset.form');
@@ -36,106 +42,45 @@ Route::post('/login/guest', function () {
     return 'Guest Login Route';
 })->name('login.guest');
 
-Route::get('/dashboard', function () {
-    $user = auth()->user();
+// ==================== AUTHENTICATED ROUTES ====================
 
-    // 1. Announcements: Filtered by group, latest first
-    $announcements = Announcement::where('department', $user->department)
-        ->where('batch', $user->batch)
-        ->where('section', $user->section)
-        ->where(function ($query) use ($user) {
-            if ($user->major) {
-                // Show if major matches OR if it's a general announcement
-                $query->where('major', $user->major)
-                    ->orWhereNull('major')
-                    ->orWhere('major', '');
-            }
-            else {
-                $query->whereNull('major')->orWhere('major', '');
-            }
-        }
-        )
-            ->latest()
-            ->get();
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
 
-        // 2. Class Tasks: Filtered by group, sorted by URGENCY (deadline ASC)
-        if ($user && $user->role === 'admin') {
-            $assignments = ClassTask::orderBy('deadline', 'asc')->get();
-        } else {
-            $assignments = ClassTask::where('department', $user->department)
-                ->where('batch', $user->batch)
-                ->where('section', $user->section)
-                ->where(function ($query) use ($user) {
-                    if ($user->major) {
-                        $query->where('major', $user->major)
-                            ->orWhereNull('major')
-                            ->orWhere('major', '');
-                    } else {
-                        $query->whereNull('major')->orWhere('major', '');
-                    }
-                })
-                ->orderBy('deadline', 'asc') // Most urgent first!
-                ->get();
-        }
+// CR Dashboard
+Route::get('/cr-dashboard', [PageController::class, 'crDashboard'])->name('cr-dashboard')->middleware('auth');
 
-        // 3. Today's Schedule: Filtered by group and day (ascending by time)
-        if ($user && $user->role === 'admin') {
-            $todaySchedule = \App\Models\Schedule::where('day', now()->format('l'))
-                ->orderBy('time_slot', 'asc')
-                ->get();
-        } else {
-            $todaySchedule = \App\Models\Schedule::where('day', now()->format('l'))
-                ->where('section', $user->section)
-                ->where('department', $user->department)
-                ->where(function ($query) use ($user) {
-                    $query->where('batch', $user->batch)
-                        ->orWhereNull('batch');
-                })
-                ->where(function ($query) use ($user) {
-                    if ($user->major) {
-                        $query->where('major', $user->major)->orWhereNull('major')->orWhere('major', '');
-                    } else {
-                        $query->whereNull('major')->orWhere('major', '');
-                    }
-                })
-                ->orderBy('time_slot', 'asc')
-                ->get();
-        }
+// Buddy AI Chat
+Route::get('/buddy-chat', [PageController::class, 'buddyChat'])->name('buddy-chat')->middleware('auth');
 
-        $events = \App\Models\Event::latest()->get();
+// Schedule/Routine
+Route::get('/routine', [ScheduleController::class, 'index'])->name('routine')->middleware('auth');
+Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store')->middleware('auth');
+Route::put('/schedule/{schedule}', [ScheduleController::class, 'update'])->name('schedule.update')->middleware('auth');
+Route::delete('/schedule/{schedule}', [ScheduleController::class, 'destroy'])->name('schedule.destroy')->middleware('auth');
 
-        // 4. Latest Community Posts
-        $latestPosts = \App\Models\Post::with(['user', 'likes', 'comments'])->latest()->take(4)->get();
+// Class Tasks
+Route::get('/classtask', [ClassTaskController::class, 'index'])->name('classtask')->middleware('auth');
+Route::post('/assignments', [ClassTaskController::class, 'store'])->name('assignments.store')->middleware('auth');
+Route::put('/classtask/{task}', [ClassTaskController::class, 'update'])->name('classtask.update')->middleware('auth');
+Route::delete('/classtask/{task}', [ClassTaskController::class, 'destroy'])->name('classtask.destroy')->middleware('auth');
+Route::post('/classtask/{task}/complete', [ClassTaskController::class, 'complete'])->name('classtask.complete')->middleware('auth');
 
-        return view('dashboard', compact('announcements', 'assignments', 'todaySchedule', 'events', 'latestPosts'));
-    })->name('dashboard')->middleware('auth');
+// Announcements
+Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store')->middleware('auth');
 
-Route::get('/cr-dashboard', function () {
-    return view('cr-dashboard');
-})->name('cr-dashboard')->middleware('auth');
+// Notes/Materials
+Route::get('/notes', [NotesController::class, 'index'])->name('notes')->middleware('auth');
+Route::post('/materials', [\App\Http\Controllers\MaterialController::class, 'store'])->name('materials.store')->middleware('auth');
 
-use App\Http\Controllers\EventController;
+// Clubs
+Route::get('/clubs', [ClubController::class, 'index'])->name('clubs')->middleware('auth');
 
-Route::post('/assignments', [ClassTaskController::class , 'store'])->name('assignments.store')->middleware('auth');
-Route::post('/announcements', [AnnouncementController::class , 'store'])->name('announcements.store')->middleware('auth');
-Route::match(['post', 'patch'], '/profile/update', [ProfileController::class , 'update'])->name('profile.update')->middleware('auth');
-Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings')->middleware('auth');
-Route::patch('/profile/settings', [ProfileController::class, 'updateSettings'])->name('profile.settings.update')->middleware('auth');
-Route::delete('/profile/image', [ProfileController::class, 'deleteProfileImage'])->name('profile.image.delete')->middleware('auth');
-Route::post('/materials', [\App\Http\Controllers\MaterialController::class , 'store'])->name('materials.store')->middleware('auth');
-Route::post('/events', [EventController::class , 'store'])->name('events.store')->middleware('auth');
-
-
-Route::get('/routine', [ScheduleController::class , 'index'])->name('routine')->middleware('auth');
-Route::post('/schedule', [ScheduleController::class , 'store'])->name('schedule.store')->middleware('auth');
-Route::put('/schedule/{schedule}', [ScheduleController::class , 'update'])->name('schedule.update')->middleware('auth');
-Route::delete('/schedule/{schedule}', [ScheduleController::class , 'destroy'])->name('schedule.destroy')->middleware('auth');
-
+// Question Bank
 Route::get('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'index'])->name('question-bank')->middleware('auth');
 Route::post('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'store'])->name('question-bank.store')->middleware('auth');
 
-use App\Http\Controllers\CommunityController;
-
+// Community
 Route::get('/community', [CommunityController::class, 'index'])->name('community')->middleware('auth');
 Route::post('/community/post', [CommunityController::class, 'storePost'])->name('community.post.store')->middleware('auth');
 Route::post('/community/post/{post}/like', [CommunityController::class, 'like'])->name('community.post.like')->middleware('auth');
@@ -145,57 +90,19 @@ Route::delete('/community/comment/{comment}', [CommunityController::class, 'dest
 Route::post('/community/comment/{comment}/like', [CommunityController::class, 'likeComment'])->name('community.comment.like')->middleware('auth');
 Route::post('/community/comment/{comment}/reply', [CommunityController::class, 'replyComment'])->name('community.comment.reply')->middleware('auth');
 
+// Talents
 Route::get('/talents', [\App\Http\Controllers\TalentController::class, 'index'])->name('talents')->middleware('auth');
 Route::post('/talents', [\App\Http\Controllers\TalentController::class, 'store'])->name('talents.store')->middleware('auth');
 
-Route::get('/notes', function () {
-    $user = auth()->user();
-
-    if (!$user->department || !$user->section || !$user->batch) {
-        $classMaterials = collect();
-        $handNotes = collect();
-        return view('notes', compact('classMaterials', 'handNotes'))
-        ->with('error', 'Please update your profile with Department, Batch, and Section to see materials.');
-    }
-
-    $query = \App\Models\Material::where('department', $user->department)
-        ->where('batch', $user->batch)
-        ->where('section', $user->section);
-
-    if ($user->major) {
-        $query->where(function ($q) use ($user) {
-                    $q->whereNull('major')->orWhere('major', '')->orWhere('major', $user->major);
-                }
-                );
-            }
-            else {
-                $query->where(function ($q) {
-                    $q->whereNull('major')->orWhere('major', '');
-                }
-                );
-            }
-
-            $allMaterials = $query->latest()->get();
-            $classMaterials = $allMaterials->where('type', 'class_material');
-            $handNotes = $allMaterials->where('type', 'hand_note');
-
-            return view('notes', compact('classMaterials', 'handNotes'));
-        })->name('notes')->middleware('auth');
-
+// Alumni
 Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni')->middleware('auth');
 Route::post('/alumni/register', [AlumniController::class, 'store'])->name('alumni.register')->middleware('auth');
 
-Route::get('/clubs', function () {
-    $clubs = \App\Models\Club::all();
-    return view('clubs', compact('clubs'));
-})->name('clubs')->middleware('auth');
+// Events
+Route::post('/events', [EventController::class, 'store'])->name('events.store')->middleware('auth');
 
-Route::get('/classtask', [ClassTaskController::class , 'index'])->name('classtask')->middleware('auth');
-Route::put('/classtask/{task}', [ClassTaskController::class , 'update'])->name('classtask.update')->middleware('auth');
-Route::delete('/classtask/{task}', [ClassTaskController::class , 'destroy'])->name('classtask.destroy')->middleware('auth');
-Route::post('/classtask/{task}/complete', [ClassTaskController::class , 'complete'])->name('classtask.complete')->middleware('auth');
-
-Route::get('/buddy-chat', function () {
-    return view('buddy-chat');
-})->name('buddy-chat')->middleware('auth');
-Route::get('/buddy-visitor', function () { return view('buddy-visitor'); })->name('buddy-visitor');
+// Profile
+Route::match(['post', 'patch'], '/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings')->middleware('auth');
+Route::patch('/profile/settings', [ProfileController::class, 'updateSettings'])->name('profile.settings.update')->middleware('auth');
+Route::delete('/profile/image', [ProfileController::class, 'deleteProfileImage'])->name('profile.image.delete')->middleware('auth');
