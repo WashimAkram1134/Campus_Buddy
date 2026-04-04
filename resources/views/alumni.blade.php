@@ -148,629 +148,234 @@
     <!-- ================= ALUMNI GRID ================= -->
     <div class="alumni-grid reveal">
         @foreach($approvedAlumni as $alumni)
-        <div class="alumni-card featured-card reveal animate-item up" data-category="{{ $alumni->category }}">
-            <div class="card-top">
-                @if($alumni->company_logo)
-                    <img src="{{ asset('storage/' . $alumni->company_logo) }}" alt="{{ $alumni->company }}" class="field-img" style="width: 100%; height: 100%; object-fit: cover;">
-                @elseif($alumni->card_bg_image)
-                    <img src="{{ asset('storage/' . $alumni->card_bg_image) }}" alt="{{ $alumni->company }}" class="field-img">
-                @else
-                    <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="{{ $alumni->company }}" class="field-img">
-                @endif
-                <div class="premium-badge">ALUMNI</div>
-                <div class="profile-img-wrap">
-                    @if($alumni->profile_image)
-                        <img src="{{ asset('storage/' . $alumni->profile_image) }}" alt="{{ $alumni->full_name }}" class="profile-img">
-                    @else
-                        <img src="{{ asset('images/alumni/profile_placeholder.png') }}" alt="{{ $alumni->full_name }}" class="profile-img">
-                    @endif
-                </div>
-                <div class="card-category">{{ ucfirst(str_replace('-', ' ', $alumni->category)) }}</div>
-            </div>
-            <div class="card-body">
-                <h3>{{ $alumni->current_position }} @ {{ $alumni->company }}</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>{{ $alumni->department }}</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of {{ $alumni->graduation_year }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                @if($alumni->linkedin_url)
-                    <a href="{{ $alumni->linkedin_url }}" target="_blank" rel="noopener noreferrer" class="connect-btn">Connect</a>
-                @else
-                    <a href="#" class="connect-btn">Connect</a>
-                @endif
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">{{ $alumni->full_name }}</div>
-            </div>
-        </div>
+            <x-alumni-card :alumni="$alumni" />
         @endforeach
 
-        <!-- Alumni Card: Journalism (New) -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-1" data-category="journalism">
-            <div class="card-top">
-                <img src="{{ asset('images/alumni/alumni_journalism.png') }}" alt="ATN News"
-                    class="field-img journalism-bg">
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_journalism.png') }}" alt="Md. Imdadullah Siddiquee"
-                        class="profile-img journalism-profile">
-                </div>
-                <div class="card-category">Journalism</div>
-            </div>
-            <div class="card-body">
-                <h3>Chief Reporter at ATN Bangla</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Journalism</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of 2015</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md. Imdadullah
-                    Siddiquee</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="journalism"
+            stagger="stagger-1"
+            topImg="{{ asset('images/alumni/alumni_journalism.png') }}"
+            topImgClass="field-img journalism-bg"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_journalism.png') }}"
+            profileImgClass="profile-img journalism-profile"
+            cardCategory="Journalism"
+            title="Chief Reporter at ATN Bangla"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Journalism'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Class of 2015']
+            ]"
+            name="Md. Imdadullah Siddiquee"
+        />
 
-        <!-- Alumni Card: CSE / Upay (New) -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-2"
-            data-category="software-engineering data-science">
-            <div class="card-top">
-                <div class="field-img-container"
-                    style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
-                    <img src="{{ asset('images/alumni/upay_logo.png') }}" alt="Upay Logo"
-                        style="width: 70%; object-fit: contain;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_cse_harun.png') }}" alt="Md. Harun-Ur-Rashid"
-                        class="profile-img" style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Engineering</div>
-            </div>
-            <div class="card-body">
-                <h3>Software Engineer at Upay</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Computer Science and Engineering</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-code"></i>
-                        <span>FinTech Specialist</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md.
-                    Harun-Ur-Rashid</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="software-engineering data-science"
+            stagger="stagger-2"
+            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topImg="{{ asset('images/alumni/upay_logo.png') }}"
+            topImgStyle="width: 70%; object-fit: contain;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_cse_harun.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Engineering"
+            title="Software Engineer at Upay"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Computer Science and Engineering'],
+                ['icon' => 'fas fa-code', 'text' => 'FinTech Specialist']
+            ]"
+            name="Md. Harun-Ur-Rashid"
+        />
 
-        <!-- Alumni Card: Research Excellence / SWE (New) -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-3" data-category="software-engineering">
-            <div class="card-top">
-                <!-- DIU Building Background -->
-                <div class="field-img-container"
-                    style="background: #00AAFF; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="{{ asset('images/alumni/diu_building.png') }}" alt="DIU Building"
-                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;">
-                </div>
-                <div class="premium-badge" style="background: #FFD700; color: #1a1e29;">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_swe_javed.png') }}" alt="Mr. F. M. Javed Mehedi Shamrat"
-                        class="profile-img" style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Research</div>
-            </div>
-            <div class="card-body">
-                <h3>Visiting Researcher at DIU & Research Assistant at USQ, Australia</h3>
-                <p style="font-size: 11px; color: #00AAFF; font-weight: 700; margin-top: -5px; margin-bottom: 10px;">
-                    World's Top 2% Scientist (Stanford List 2024-25)</p>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Software Engineering</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-microscope"></i>
-                        <span>Global Scientific Recognition</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">F. M. Javed
-                    Mehedi Shamrat</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="software-engineering"
+            stagger="stagger-3"
+            topBg="background: #00AAFF; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topImg="{{ asset('images/alumni/diu_building.png') }}"
+            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;"
+            badge="PREMIUM"
+            badgeStyle="background: #FFD700; color: #1a1e29;"
+            profileImg="{{ asset('images/alumni/alumni_swe_javed.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Research"
+            title="Visiting Researcher at DIU & Research Assistant at USQ, Australia"
+            subtitle="World's Top 2% Scientist (Stanford List 2024-25)"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Software Engineering'],
+                ['icon' => 'fas fa-microscope', 'text' => 'Global Scientific Recognition']
+            ]"
+            name="F. M. Javed Mehedi Shamrat"
+        />
 
-        <!-- Alumni Card: NFE 2 (New) -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-4" data-category="nfe">
-            <div class="card-top">
-                <div class="field-img-container"
-                    style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
-                    <img src="{{ asset('images/alumni/nestle_logo_blue.png') }}" alt="Nestle Logo"
-                        style="width: 80%; object-fit: contain;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_nfe_2.png') }}" alt="Tofa Firdaosi Mim" class="profile-img"
-                        style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Nutrition</div>
-            </div>
-            <div class="card-body">
-                <h3>Area Nutrition Officer at Nestle Bangladesh PLC</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Nutrition and Food Engineering</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-user-tag"></i>
-                        <span>Tofa Firdaosi Mim</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">DIU Proud
-                    Alumna</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="nfe"
+            stagger="stagger-4"
+            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topImg="{{ asset('images/alumni/nestle_logo_blue.png') }}"
+            topImgStyle="width: 80%; object-fit: contain;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_nfe_2.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Nutrition"
+            title="Area Nutrition Officer at Nestle Bangladesh PLC"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Nutrition and Food Engineering'],
+                ['icon' => 'fas fa-user-tag', 'text' => 'Tofa Firdaosi Mim']
+            ]"
+            name="DIU Proud Alumna"
+        />
 
-        <!-- Alumni Card: NFE 1 -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-5" data-category="nfe">
-            <div class="card-top">
-                <div class="field-img-container"
-                    style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
-                    <img src="{{ asset('images/alumni/nestle_logo.png') }}" alt="Nestle Logo"
-                        style="width: 80%; object-fit: contain;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_nfe_1.png') }}" alt="Sayma Sultana Sworna"
-                        class="profile-img" style="object-position: center 15%;">
-                </div>
-                <div class="card-category">Nutrition</div>
-            </div>
-            <div class="card-body">
-                <h3>Area Nutrition Officer at Nestle Bangladesh PLC</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Nutrition and Food Engineering</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-user-tag"></i>
-                        <span>Sayma Sultana Sworna</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">DIU Proud
-                    Alumna</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="nfe"
+            stagger="stagger-5"
+            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topImg="{{ asset('images/alumni/nestle_logo.png') }}"
+            topImgStyle="width: 80%; object-fit: contain;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_nfe_1.png') }}"
+            profileImgStyle="object-position: center 15%;"
+            cardCategory="Nutrition"
+            title="Area Nutrition Officer at Nestle Bangladesh PLC"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Nutrition and Food Engineering'],
+                ['icon' => 'fas fa-user-tag', 'text' => 'Sayma Sultana Sworna']
+            ]"
+            name="DIU Proud Alumna"
+        />
 
-        <!-- Alumni Card: BCS / Textile (New) -->
-        <div class="alumni-card featured-card reveal animate-item up stagger-6" data-category="textile bcs-govt">
-            <div class="card-top">
-                <!-- Government Seal Background -->
-                <div class="field-img-container"
-                    style="background: #006a4e; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="{{ asset('images/alumni/gov_seal_bd.png') }}" alt="BD Gov Seal"
-                        style="width: 45%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));">
-                </div>
-                <div class="premium-badge" style="background: #bd2130;">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_textile_1.png') }}" alt="Md. Faysal Hasan" class="profile-img"
-                        style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Government</div>
-            </div>
-            <div class="card-body">
-                <h3>Assistant Commissioner of Taxes (BCS)</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Textile Engineering</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-award"></i>
-                        <span>Recommended: 45th BCS</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md. Faysal
-                    Hasan</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="textile bcs-govt"
+            stagger="stagger-6"
+            topBg="background: #006a4e; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topImg="{{ asset('images/alumni/gov_seal_bd.png') }}"
+            topImgStyle="width: 45%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));"
+            badge="PREMIUM"
+            badgeStyle="background: #bd2130;"
+            profileImg="{{ asset('images/alumni/alumni_textile_1.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Government"
+            title="Assistant Commissioner of Taxes (BCS)"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Textile Engineering'],
+                ['icon' => 'fas fa-award', 'text' => 'Recommended: 45th BCS']
+            ]"
+            name="Md. Faysal Hasan"
+        />
 
-        <!-- Alumni Card: BBA (New) -->
-        <div class="alumni-card featured-card" data-category="bba">
-            <div class="card-top">
-                <!-- Using the logo image as part of the background logic -->
-                <div class="field-img-container"
-                    style="background: #f8f9fa; height: 180px; display: flex; align-items: center; justify-content: center;">
-                    <img src="{{ asset('images/alumni/imcd_logo.png') }}" alt="IMCD"
-                        style="width: 70%; object-fit: contain;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_bba_1.png') }}" alt="Alumni BBA" class="profile-img"
-                        style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Business</div>
-            </div>
-            <div class="card-body">
-                <h3>Commercial Manager at IMCD Group</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of BBA</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of 2016</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Alumni Graduate
-                </div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="bba"
+            topBg="background: #f8f9fa; height: 180px; display: flex; align-items: center; justify-content: center;"
+            topImg="{{ asset('images/alumni/imcd_logo.png') }}"
+            topImgStyle="width: 70%; object-fit: contain;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_bba_1.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Business"
+            title="Commercial Manager at IMCD Group"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of BBA'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Class of 2016']
+            ]"
+            name="Alumni Graduate"
+        />
 
-        <!-- Alumni Card: BBA 2 (New) -->
-        <div class="alumni-card featured-card" data-category="bba">
-            <div class="card-top">
-                <div class="field-img-container"
-                    style="background: #0077B5; height: 180px; display: flex; align-items: center; justify-content: center;">
-                    <img src="{{ asset('images/alumni/ace_logo.png') }}" alt="ACE Advisory"
-                        style="width: 50%; object-fit: contain;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_bba_joy.png') }}" alt="Mr. Joy Saha ACA"
-                        class="profile-img journalism-profile">
-                </div>
-                <div class="card-category">Business</div>
-            </div>
-            <div class="card-body">
-                <h3>Head of Tax Advisory & VAT at ACE Advisory</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Business Administration</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Joy Saha ACA</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Mr. Joy Saha
-                    ACA</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="bba"
+            topBg="background: #0077B5; height: 180px; display: flex; align-items: center; justify-content: center;"
+            topImg="{{ asset('images/alumni/ace_logo.png') }}"
+            topImgStyle="width: 50%; object-fit: contain;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_bba_joy.png') }}"
+            profileImgClass="profile-img journalism-profile"
+            cardCategory="Business"
+            title="Head of Tax Advisory & VAT at ACE Advisory"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Business Administration'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Joy Saha ACA']
+            ]"
+            name="Mr. Joy Saha ACA"
+        />
 
-        <!-- Alumni Card: Pharmacy 2 (New) -->
-        <div class="alumni-card featured-card reveal animate-item up" data-category="pharmacy">
-            <div class="card-top">
-                <!-- Renata PLC Background -->
-                <div class="field-img-container"
-                    style="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;">
-                    <img src="{{ asset('images/alumni/renata_logo.png') }}" alt="Renata PLC"
-                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
-                </div>
-                <div class="premium-badge">PREMIUM</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_pharmacy_2.png') }}" alt="Md. Mozahidul Islam"
-                        class="profile-img" style="object-position: center 10%;">
-                </div>
-                <div class="card-category">Pharmacy</div>
-            </div>
-            <div class="card-body">
-                <h3>Officer - Product Development (Analytical) at Renata PLC</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Pharmacy</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-flask"></i>
-                        <span>Product Development</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>5.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Md. Mozahidul
-                    Islam</div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="pharmacy"
+            stagger="reveal animate-item up"
+            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topImg="{{ asset('images/alumni/renata_logo.png') }}"
+            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;"
+            badge="PREMIUM"
+            profileImg="{{ asset('images/alumni/alumni_pharmacy_2.png') }}"
+            profileImgStyle="object-position: center 10%;"
+            cardCategory="Pharmacy"
+            title="Officer - Product Development (Analytical) at Renata PLC"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Pharmacy'],
+                ['icon' => 'fas fa-flask', 'text' => 'Product Development']
+            ]"
+            name="Md. Mozahidul Islam"
+        />
 
-        <!-- Alumni Card: Pharmacy 1 -->
-        <div class="alumni-card reveal animate-item up" data-category="pharmacy">
-            <div class="card-top">
-                <div class="field-img-container"
-                    style="background: #1a3a5a; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="{{ asset('images/alumni/alumni_pharmacy_1.png') }}" alt="Pharmacy Background"
-                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: blur(2px);">
-                    <div
-                        style="position: absolute; color: white; font-weight: 800; font-size: 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">
-                        Isabah Plastic</div>
-                </div>
-                <div class="premium-badge badge-title">EXECUTIVE</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/alumni_pharmacy_1.png') }}" alt="Md. Tanjimul Ahasan"
-                        class="profile-img" style="object-position: center 25%;">
-                </div>
-                <div class="card-category">Pharmacy</div>
-            </div>
-            <div class="card-body">
-                <h3>Senior Executive (Business Development) at Isabah Plastic Industries Ltd.</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of Pharmacy</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>Md. Tanjimul Ahasan</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>4.0</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">DIU Alumnus
-                </div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="pharmacy"
+            stagger="reveal animate-item up"
+            topBg="background: #1a3a5a; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topImg="{{ asset('images/alumni/alumni_pharmacy_1.png') }}"
+            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: blur(2px);"
+            badge="EXECUTIVE"
+            profileImg="{{ asset('images/alumni/alumni_pharmacy_1.png') }}"
+            profileImgStyle="object-position: center 25%;"
+            cardCategory="Pharmacy"
+            title="Senior Executive (Business Development) at Isabah Plastic Industries Ltd."
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of Pharmacy'],
+                ['icon' => 'fas fa-user-graduate', 'text' => 'Md. Tanjimul Ahasan']
+            ]"
+            rating="4.0"
+            name="DIU Alumnus"
+        />
 
-        <!-- Alumni Card 1 -->
-        <div class="alumni-card reveal animate-item up" data-category="software-engineering">
-            <div class="card-top">
-                <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
-                <div class="premium-badge badge-title">SOFTWARE ENGINEER</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Profile" class="profile-img">
-                </div>
-                <div class="card-category">Science</div>
-            </div>
-            <div class="card-body">
-                <h3>Senior Software Engineer at Google</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of CSE</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of 2018</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>4.9</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Jason Williams
-                </div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="software-engineering"
+            topImg="{{ asset('images/alumni/alumni_tech_bg.png') }}"
+            badge="SOFTWARE ENGINEER"
+            profileImg="{{ asset('images/alumni/profile_1.png') }}"
+            cardCategory="Science"
+            title="Senior Software Engineer at Google"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of CSE'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Class of 2018']
+            ]"
+            rating="4.9"
+            name="Jason Williams"
+        />
 
-        <!-- Alumni Card 2 -->
-        <div class="alumni-card reveal animate-item up" data-category="uiux-design">
-            <div class="card-top">
-                <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
-                <div class="premium-badge badge-title">UX DESIGN LEAD</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/profile_2.png') }}" alt="Profile" class="profile-img">
-                </div>
-                <div class="card-category">Science</div>
-            </div>
-            <div class="card-body">
-                <h3>UX Design Lead at Adobe</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of SWE</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of 2019</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>4.8</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Pamela Foster
-                </div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="uiux-design"
+            topImg="{{ asset('images/alumni/alumni_tech_bg.png') }}"
+            badge="UX DESIGN LEAD"
+            profileImg="{{ asset('images/alumni/profile_2.png') }}"
+            cardCategory="Science"
+            title="UX Design Lead at Adobe"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of SWE'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Class of 2019']
+            ]"
+            rating="4.8"
+            name="Pamela Foster"
+        />
 
-        <!-- Alumni Card 3 -->
-        <div class="alumni-card reveal animate-item up" data-category="finance">
-            <div class="card-top">
-                <img src="{{ asset('images/alumni/alumni_tech_bg.png') }}" alt="Tech" class="field-img">
-                <div class="premium-badge badge-title">FINANCIAL ANALYST</div>
-                <div class="profile-img-wrap">
-                    <img src="{{ asset('images/alumni/profile_1.png') }}" alt="Profile" class="profile-img">
-                </div>
-                <div class="card-category">Business</div>
-            </div>
-            <div class="card-body">
-                <h3>Financial Analyst at Goldman Sachs</h3>
-                <div class="alumni-details">
-                    <div class="detail-item">
-                        <i class="fas fa-university"></i>
-                        <span>Dept. of BBA</span>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>Class of 2020</span>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#" class="connect-btn">Connect</a>
-                <div class="rating">
-                    <span>4.2</span>
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                    </div>
-                </div>
-                <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">Rose Simmons
-                </div>
-            </div>
-        </div>
+        <x-alumni-card 
+            category="finance"
+            topImg="{{ asset('images/alumni/alumni_tech_bg.png') }}"
+            badge="FINANCIAL ANALYST"
+            profileImg="{{ asset('images/alumni/profile_1.png') }}"
+            cardCategory="Business"
+            title="Financial Analyst at Goldman Sachs"
+            :details="[
+                ['icon' => 'fas fa-university', 'text' => 'Dept. of BBA'],
+                ['icon' => 'fas fa-graduation-cap', 'text' => 'Class of 2020']
+            ]"
+            rating="4.2"
+            name="Rose Simmons"
+        />
     </div>
 
     <div class="load-more-container">

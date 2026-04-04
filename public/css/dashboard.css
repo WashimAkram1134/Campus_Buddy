@@ -26,101 +26,6 @@
 }
 
 /* ============================================================
-   ANIMATIONS
-   ============================================================ */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.animate-up {
-    animation: fadeInUp 0.6s ease forwards;
-}
-
-.animate-right {
-    animation: fadeInRight 0.6s ease forwards;
-}
-
-.animate-scale {
-    animation: scaleIn 0.5s ease forwards;
-}
-
-.delay-1 {
-    animation-delay: 0.1s;
-    opacity: 0;
-}
-
-.delay-2 {
-    animation-delay: 0.2s;
-    opacity: 0;
-}
-
-.delay-3 {
-    animation-delay: 0.3s;
-    opacity: 0;
-}
-
-.delay-4 {
-    animation-delay: 0.4s;
-    opacity: 0;
-}
-
-.delay-5 {
-    animation-delay: 0.5s;
-    opacity: 0;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text-dark);
-}
-
-/* Layout wrapper handled globally in app.blade.php / topbar.css */
-.dashboard-container {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 40px 30px 40px;
-}
-
-/* ============================================================
    HERO BANNER — page-specific overrides
    Base hero layout/text/colors now in hero-common.css
    ============================================================ */
@@ -128,32 +33,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-/* Entrance Animations */
-.fade-in {
-    animation: fadeInUp 0.8s ease forwards;
-    opacity: 0;
-}
-
-.fade-in-delay-1 {
-    animation: fadeInUp 0.8s ease forwards 0.2s;
-    opacity: 0;
-}
-
-.fade-in-delay-2 {
-    animation: fadeInUp 0.8s ease forwards 0.4s;
-    opacity: 0;
-}
-
-.fade-in-delay-3 {
-    animation: fadeInUp 0.8s ease forwards 0.6s;
-    opacity: 0;
-}
-
-.fade-in-delay-4 {
-    animation: fadeInUp 0.8s ease forwards 0.8s;
-    opacity: 0;
+    overflow: visible !important;
 }
 
 /* Dashboard Hero Right Layout Override */
@@ -162,7 +42,9 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin: 0;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
 .hero-banner {
@@ -418,26 +300,36 @@ body {
 
 
 
+.dashboard-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
 /* ============================================================
    MAIN GRID
    ============================================================ */
 .dashboard-grid {
     display: flex;
-    gap: 24px;
-    align-items: stretch;
+    gap: 30px;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .main-col {
     flex: 1;
-    min-width: 0;
+    min-width: 0; /* Ensures it can shrink */
 }
 
 .side-col {
-    width: 400px;
+    width: 380px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    max-height: 100%; /* Ensure it does not exceed the grid height */
+    position: sticky;
+    top: 120px; /* Adjust for topbar height */
+    max-height: calc(100vh - 140px);
 }
 
 .community-posts-list {
@@ -1033,17 +925,22 @@ body {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1100px) {
+    .dashboard-container {
+        padding: 0 20px;
+    }
+
     .dashboard-grid {
         flex-direction: column;
     }
 
     .side-col {
         width: 100%;
-        flex-direction: row;
+        position: static;
+        max-height: none;
     }
 
-    .chatbox-widget {
-        flex: 1;
+    .community-feed-card {
+        max-height: 500px;
     }
 }
 

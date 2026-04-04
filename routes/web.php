@@ -7,7 +7,8 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\AlumniController;
-use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ClubController;
@@ -26,11 +27,11 @@ Route::get('/buddy-visitor', [PageController::class, 'buddyVisitor'])->name('bud
 // ==================== AUTH ROUTES ====================
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'showRegistrationForm'])->name('signup');
-Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'register']);
+Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class, 'register'])->middleware('throttle:signup');
 
 // Password Reset
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
@@ -51,7 +52,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/cr-dashboard', [PageController::class, 'crDashboard'])->name('cr-dashboard')->middleware('auth');
 
 // Buddy AI Chat
-Route::get('/buddy-chat', [PageController::class, 'buddyChat'])->name('buddy-chat')->middleware('auth');
+Route::get('/buddy-chat', [PageController::class, 'buddyChat'])->name('buddy-chat')->middleware(['auth', 'throttle:buddy-chat']);
 
 // Schedule/Routine
 Route::get('/routine', [ScheduleController::class, 'index'])->name('routine')->middleware('auth');
@@ -81,14 +82,15 @@ Route::get('/question-bank', [\App\Http\Controllers\QuestionBankController::clas
 Route::post('/question-bank', [\App\Http\Controllers\QuestionBankController::class, 'store'])->name('question-bank.store')->middleware('auth');
 
 // Community
-Route::get('/community', [CommunityController::class, 'index'])->name('community')->middleware('auth');
-Route::post('/community/post', [CommunityController::class, 'storePost'])->name('community.post.store')->middleware('auth');
-Route::post('/community/post/{post}/like', [CommunityController::class, 'like'])->name('community.post.like')->middleware('auth');
-Route::post('/community/post/{post}/comment', [CommunityController::class, 'comment'])->name('community.post.comment')->middleware('auth');
-Route::put('/community/comment/{comment}', [CommunityController::class, 'updateComment'])->name('community.comment.update')->middleware('auth');
-Route::delete('/community/comment/{comment}', [CommunityController::class, 'destroyComment'])->name('community.comment.destroy')->middleware('auth');
-Route::post('/community/comment/{comment}/like', [CommunityController::class, 'likeComment'])->name('community.comment.like')->middleware('auth');
-Route::post('/community/comment/{comment}/reply', [CommunityController::class, 'replyComment'])->name('community.comment.reply')->middleware('auth');
+Route::get('/community', [PostController::class, 'index'])->name('community')->middleware('auth');
+Route::post('/community/post', [PostController::class, 'store'])->name('community.post.store')->middleware('auth');
+Route::post('/community/post/{post}/like', [PostController::class, 'like'])->name('community.post.like')->middleware('auth');
+
+Route::post('/community/post/{post}/comment', [CommentController::class, 'store'])->name('community.post.comment')->middleware('auth');
+Route::put('/community/comment/{comment}', [CommentController::class, 'update'])->name('community.comment.update')->middleware('auth');
+Route::delete('/community/comment/{comment}', [CommentController::class, 'destroy'])->name('community.comment.destroy')->middleware('auth');
+Route::post('/community/comment/{comment}/like', [CommentController::class, 'like'])->name('community.comment.like')->middleware('auth');
+Route::post('/community/comment/{comment}/reply', [CommentController::class, 'reply'])->name('community.comment.reply')->middleware('auth');
 
 // Talents
 Route::get('/talents', [\App\Http\Controllers\TalentController::class, 'index'])->name('talents')->middleware('auth');
