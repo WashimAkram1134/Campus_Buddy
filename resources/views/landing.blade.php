@@ -12,31 +12,14 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="logo">
-            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
-            <div class="logo-text">
-                <span>Campus</span>
-                <span>Buddy</span>
-            </div>
-        </div>
-        <div class="nav-middle" style="flex: 1; display: flex; justify-content: center;">
-            <a href="{{ route('buddy-visitor') }}" class="btn-visitor" style="background: rgba(0, 170, 255, 0.08); color: #00aaff; border: 2.2px solid #00aaff; padding: 6px 25px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 15px; transition: all 0.3s ease; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1);">
-                <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy" style="width: 32px; height: 32px; object-fit: contain;">
-                <span>Not a Student? Ask Buddy AI Everything!</span>
-            </a>
-        </div>
-        <div class="nav-links" style="display: flex; align-items: center; gap: 20px;">
-            <a href="{{ route('login') }}" class="nav-link">Log In</a>
-            <a href="{{ route('signup') }}" class="btn btn-primary">Sign Up</a>
-        </div>
-    </nav>
+    @include('includes.topbar')
 
     <!-- Global Character Container -->
     <!-- This character will follow the scroll and move between sections using GSAP -->

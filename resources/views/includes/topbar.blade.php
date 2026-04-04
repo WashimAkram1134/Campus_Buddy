@@ -76,6 +76,7 @@
     </div>
   </a>
 
+  @auth
   <!-- Desktop inline nav -->
   <nav class="desktop-nav">
     <a href="{{ route('dashboard') }}" class="{{ $currentRoute === 'dashboard' ? 'active' : '' }}">Home</a>
@@ -92,8 +93,19 @@
       <a href="{{ route('buddy-chat') }}" class="{{ $currentRoute === 'buddy-chat' ? 'active' : '' }}">Buddy AI</a>
     </div>
   </nav>
+  @endauth
+
+  @guest
+  <div class="nav-middle" style="flex: 1; display: flex; justify-content: center; margin: 0 40px;">
+    <a href="{{ route('buddy-visitor') }}" class="btn-visitor-central" style="background: rgba(0, 170, 255, 0.08); color: #00aaff; border: 2.2px solid #00aaff; padding: 6px 20px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 13px; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.1); white-space: nowrap;">
+        <img src="{{ asset('assets/landing/character.png') }}" alt="Buddy" style="width: 24px; height: 24px; object-fit: contain;">
+        <span>Not a Student? Ask Buddy AI Everything!</span>
+    </a>
+  </div>
+  @endguest
 
   <div class="top-right-section">
+    @auth
     <!-- Search Icon -->
     <a href="#" class="top-action-btn" aria-label="Search">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4a5568" stroke-width="2"
@@ -172,6 +184,14 @@
         </div>
       </div>
     </div>
+    @endauth
+
+    @guest
+    <div class="guest-auth-actions" style="display: flex; align-items: center; gap: 15px;">
+        <a href="{{ route('login') }}" style="color: #4a5568; font-weight: 700; text-decoration: none; font-size: 15px; padding: 8px 16px;">Log In</a>
+        <a href="{{ route('signup') }}" style="background: #00AAFF; color: white; padding: 8px 22px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 15px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.25); transition: all 0.3s ease;">Sign Up</a>
+    </div>
+    @endguest
 
     <!-- Vertical Divider -->
     @auth

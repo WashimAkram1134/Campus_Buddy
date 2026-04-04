@@ -933,3 +933,87 @@
         font-size: 28px;
     }
 }
+/* ================= NETWORK STATS BUBBLES ================= */
+.network-stats-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.stat-bubble {
+    background: white;
+    padding: 8px 18px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.05);
+    border: 1.5px solid rgba(0, 170, 255, 0.08);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: default;
+    user-select: none;
+}
+
+.stat-bubble i {
+    color: #00AAFF;
+    font-size: 16px;
+    filter: drop-shadow(0 2px 4px rgba(0, 170, 255, 0.2));
+}
+
+.stat-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1;
+}
+
+.stat-text strong {
+    font-size: 15px;
+    color: #1a1e29;
+    font-weight: 800;
+}
+
+.stat-text span {
+    font-size: 9px;
+    color: #718096;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}
+
+.stat-bubble.highlight {
+    background: #00AAFF;
+    border-color: #00AAFF;
+    box-shadow: 0 8px 20px rgba(0, 170, 255, 0.2);
+}
+
+.stat-bubble.highlight i {
+    color: white;
+    filter: none;
+}
+
+.stat-bubble.highlight strong {
+    color: white;
+}
+
+.stat-bubble.highlight span {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-bubble:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(0, 170, 255, 0.15);
+    border-color: #00AAFF;
+}
+
+.stat-bubble.highlight:hover {
+    box-shadow: 0 15px 35px rgba(0, 170, 255, 0.3);
+}
+
+@media (max-width: 992px) {
+    .network-stats-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}

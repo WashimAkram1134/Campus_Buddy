@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Join the Buddy!</title>
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -16,15 +17,7 @@
 </head>
 
 <body>
-    <header class="page-header">
-        <a class="logo" href="{{ url('/') }}" aria-label="Campus Buddy home">
-            <img src="{{ asset('images/eventImage/logo.png') }}" alt="Campus Buddy Logo" class="logo-img">
-            <div class="logo-text">
-                <span>Campus</span>
-                <span>Buddy</span>
-            </div>
-        </a>
-    </header>
+    @include('includes.topbar')
 
     <main class="page">
         <section class="card" aria-labelledby="signup-title">

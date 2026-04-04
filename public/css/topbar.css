@@ -848,3 +848,29 @@ body .main {
         transform: translate(-50%, -50%) scale(1.05);
     }
 }
+
+/* ================= TOPBAR GUEST STYLES ================= */
+.btn-visitor-central:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.2);
+    background: rgba(0, 170, 255, 0.12) !important;
+}
+
+.guest-auth-actions a:last-child:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 170, 255, 0.4);
+    background: #0099ee !important;
+}
+
+.guest-auth-actions a:first-child:hover {
+    color: #00AAFF !important;
+}
+
+@media (max-width: 768px) {
+    .btn-visitor-central span {
+        display: none;
+    }
+    .btn-visitor-central {
+        padding: 8px !important;
+    }
+}

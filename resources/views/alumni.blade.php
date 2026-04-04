@@ -85,19 +85,6 @@
                 </div>
                 <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Just Approved</div>
             </div>
-        @elseif(isset($isAlumni) && $isAlumni)
-            <div class="registration-status-banner verified-alumni animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #00AAFF; margin: 0 auto 30px; max-width: 1000px;">
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div style="background: #EBF8FF; color: #00AAFF; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <div>
-                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Verified Alumni Status</h4>
-                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">You are currently an active member of the Campus Buddy Alumni Network. Welcome back!</p>
-                    </div>
-                </div>
-                <div style="font-size: 11px; font-weight: 800; color: #00AAFF; text-transform: uppercase; background: #EBF8FF; padding: 5px 12px; border-radius: 50px;">Verified Mentor</div>
-            </div>
         @endif
     </div>
 
@@ -107,9 +94,28 @@
             <div class="section-title animate-item left stagger-1">
                 <h2>Alumni <span>Network</span> of Campus Buddy</h2>
             </div>
-            <div class="search-box animate-item right stagger-1">
-                <input type="text" placeholder="Search alumni, companies, or skills...">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
+            <div class="network-stats-row animate-item right stagger-1">
+                <div class="stat-bubble">
+                    <i class="fas fa-globe-americas"></i>
+                    <div class="stat-text">
+                        <strong>12+</strong>
+                        <span>Countries</span>
+                    </div>
+                </div>
+                <div class="stat-bubble">
+                    <i class="fas fa-building"></i>
+                    <div class="stat-text">
+                        <strong>50+</strong>
+                        <span>Companies</span>
+                    </div>
+                </div>
+                <div class="stat-bubble highlight">
+                    <i class="fas fa-user-check"></i>
+                    <div class="stat-text">
+                        <strong>1.2k+</strong>
+                        <span>Mentors</span>
+                    </div>
+                </div>
             </div>
         </div>
 
