@@ -25,9 +25,12 @@ Route::get('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'sho
 Route::post('/signup', [\App\Http\Controllers\Auth\SignupController::class , 'register']);
 
 // Placeholders for other auth routes shown in the UI
-Route::get('/forgot-password', function () {
-    return 'Forgot Password Page';
-})->name('password.request');
+use App\Http\Controllers\Auth\ForgotPasswordController;
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetCode'])->name('password.email');
+Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset'])->name('password.reset.update');
 
 Route::post('/login/guest', function () {
     return 'Guest Login Route';
