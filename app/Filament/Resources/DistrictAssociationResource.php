@@ -21,6 +21,17 @@ class DistrictAssociationResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $districtsByDivision = [
+            'Dhaka' => ['Dhaka' => 'Dhaka', 'Gazipur' => 'Gazipur', 'Kishoreganj' => 'Kishoreganj', 'Manikganj' => 'Manikganj', 'Munshiganj' => 'Munshiganj', 'Narayanganj' => 'Narayanganj', 'Narsingdi' => 'Narsingdi', 'Tangail' => 'Tangail', 'Faridpur' => 'Faridpur', 'Gopalganj' => 'Gopalganj', 'Madaripur' => 'Madaripur', 'Rajbari' => 'Rajbari', 'Shariatpur' => 'Shariatpur'],
+            'Chattogram' => ['Chattogram' => 'Chattogram', 'Cox\'s Bazar' => 'Cox\'s Bazar', 'Rangamati' => 'Rangamati', 'Bandarban' => 'Bandarban', 'Khagrachhari' => 'Khagrachhari', 'Feni' => 'Feni', 'Lakshmipur' => 'Lakshmipur', 'Noakhali' => 'Noakhali', 'Brahmanbaria' => 'Brahmanbaria', 'Cumilla' => 'Cumilla', 'Chandpur' => 'Chandpur'],
+            'Rajshahi' => ['Rajshahi' => 'Rajshahi', 'Sirajganj' => 'Sirajganj', 'Pabna' => 'Pabna', 'Bogura' => 'Bogura', 'Chapai Nawabganj' => 'Chapai Nawabganj', 'Naogaon' => 'Naogaon', 'Joypurhat' => 'Joypurhat', 'Natore' => 'Natore'],
+            'Khulna' => ['Khulna' => 'Khulna', 'Jashore' => 'Jashore', 'Satkhira' => 'Satkhira', 'Meherpur' => 'Meherpur', 'Narail' => 'Narail', 'Chuadanga' => 'Chuadanga', 'Kushtia' => 'Kushtia', 'Magura' => 'Magura', 'Bagerhat' => 'Bagerhat', 'Jhenaidah' => 'Jhenaidah'],
+            'Barishal' => ['Barishal' => 'Barishal', 'Patuakhali' => 'Patuakhali', 'Bhola' => 'Bhola', 'Pirojpur' => 'Pirojpur', 'Barguna' => 'Barguna', 'Jhalokati' => 'Jhalokati'],
+            'Sylhet' => ['Sylhet' => 'Sylhet', 'Moulvibazar' => 'Moulvibazar', 'Habiganj' => 'Habiganj', 'Sunamganj' => 'Sunamganj'],
+            'Rangpur' => ['Rangpur' => 'Rangpur', 'Panchagarh' => 'Panchagarh', 'Dinajpur' => 'Dinajpur', 'Lalmonirhat' => 'Lalmonirhat', 'Nilphamari' => 'Nilphamari', 'Kurigram' => 'Kurigram', 'Thakurgaon' => 'Thakurgaon', 'Gaibandha' => 'Gaibandha'],
+            'Mymensingh' => ['Mymensingh' => 'Mymensingh', 'Jamalpur' => 'Jamalpur', 'Netrokona' => 'Netrokona', 'Sherpur' => 'Sherpur'],
+        ];
+
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
@@ -38,26 +49,17 @@ class DistrictAssociationResource extends Resource
                         'Mymensingh' => 'Mymensingh',
                     ])
                     ->required()
-                    ->searchable(),
+                    ->live()
+                    ->searchable()
+                    ->afterStateUpdated(fn (Forms\Set $set) => $set('district', null)),
                 Forms\Components\Select::make('district')
-                    ->options([
-                        // Dhaka Division
-                        'Dhaka' => 'Dhaka', 'Gazipur' => 'Gazipur', 'Kishoreganj' => 'Kishoreganj', 'Manikganj' => 'Manikganj', 'Munshiganj' => 'Munshiganj', 'Narayanganj' => 'Narayanganj', 'Narsingdi' => 'Narsingdi', 'Tangail' => 'Tangail', 'Faridpur' => 'Faridpur', 'Gopalganj' => 'Gopalganj', 'Madaripur' => 'Madaripur', 'Rajbari' => 'Rajbari', 'Shariatpur' => 'Shariatpur',
-                        // Chattogram Division
-                        'Chattogram' => 'Chattogram', 'Cox\'s Bazar' => 'Cox\'s Bazar', 'Rangamati' => 'Rangamati', 'Bandarban' => 'Bandarban', 'Khagrachhari' => 'Khagrachhari', 'Feni' => 'Feni', 'Lakshmipur' => 'Lakshmipur', 'Noakhali' => 'Noakhali', 'Brahmanbaria' => 'Brahmanbaria', 'Cumilla' => 'Cumilla', 'Chandpur' => 'Chandpur',
-                        // Rajshahi Division
-                        'Rajshahi' => 'Rajshahi', 'Sirajganj' => 'Sirajganj', 'Pabna' => 'Pabna', 'Bogura' => 'Bogura', 'Chapai Nawabganj' => 'Chapai Nawabganj', 'Naogaon' => 'Naogaon', 'Joypurhat' => 'Joypurhat', 'Natore' => 'Natore',
-                        // Khulna Division
-                        'Khulna' => 'Khulna', 'Jashore' => 'Jashore', 'Satkhira' => 'Satkhira', 'Meherpur' => 'Meherpur', 'Narail' => 'Narail', 'Chuadanga' => 'Chuadanga', 'Kushtia' => 'Kushtia', 'Magura' => 'Magura', 'Bagerhat' => 'Bagerhat', 'Jhenaidah' => 'Jhenaidah',
-                        // Barishal Division
-                        'Barishal' => 'Barishal', 'Patuakhali' => 'Patuakhali', 'Bhola' => 'Bhola', 'Pirojpur' => 'Pirojpur', 'Barguna' => 'Barguna', 'Jhalokati' => 'Jhalokati',
-                        // Sylhet Division
-                        'Sylhet' => 'Sylhet', 'Moulvibazar' => 'Moulvibazar', 'Habiganj' => 'Habiganj', 'Sunamganj' => 'Sunamganj',
-                        // Rangpur Division
-                        'Rangpur' => 'Rangpur', 'Panchagarh' => 'Panchagarh', 'Dinajpur' => 'Dinajpur', 'Lalmonirhat' => 'Lalmonirhat', 'Nilphamari' => 'Nilphamari', 'Kurigram' => 'Kurigram', 'Thakurgaon' => 'Thakurgaon', 'Gaibandha' => 'Gaibandha',
-                        // Mymensingh Division
-                        'Mymensingh' => 'Mymensingh', 'Jamalpur' => 'Jamalpur', 'Netrokona' => 'Netrokona', 'Sherpur' => 'Sherpur',
-                    ])
+                    ->options(function (Forms\Get $get) use ($districtsByDivision) {
+                        $division = $get('division');
+                        if (!$division) {
+                            return [];
+                        }
+                        return $districtsByDivision[$division] ?? [];
+                    })
                     ->required()
                     ->searchable()
                     ->label('District'),
