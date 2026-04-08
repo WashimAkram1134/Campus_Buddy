@@ -138,54 +138,30 @@
             </div>
             <form action="{{ route('question-bank.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Department</label>
-                        <input type="text" name="department" placeholder="e.g., SWE" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Course Code</label>
-                        <input type="text" name="course_code" placeholder="e.g., SWE441" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Course Name</label>
-                        <input type="text" name="course_name" placeholder="e.g., Object Oriented Programming" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Semester/Year</label>
-                        <input type="text" name="year_semester" placeholder="e.g., Fall 2025" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Card Title</label>
-                        <input type="text" name="title" placeholder="e.g., OOP - Midterm" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Difficulty</label>
-                        <select name="difficulty">
-                            <option value="Easy">Easy</option>
-                            <option value="Medium" selected>Medium</option>
-                            <option value="Hard">Hard</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Tags (comma separated)</label>
-                        <input type="text" name="tags" placeholder="Abstraction, Polymorphism">
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Question Heading</label>
-                        <input type="text" name="question_heading" placeholder="e.g., Q1: Object-Oriented Principles" required>
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Sub Questions (One per line)</label>
-                        <textarea name="sub_questions" rows="4" placeholder="Difference between abstraction and encapsulation?" required></textarea>
-                    </div>
-                    <div class="form-group full-width">
-                        <label>Attach PDF (Optional)</label>
-                        <input type="file" name="file" accept=".pdf">
+                <div class="upload-guide-card">
+                    <div class="guide-icon">📁</div>
+                    <div class="guide-text">
+                        <h3>Simple Upload</h3>
+                        <p>Just upload the question PDF. Our admins will verify and fill in the details (Department, Year, etc.) for you.</p>
                     </div>
                 </div>
+
+                <div class="form-group full-width" style="margin-top: 20px;">
+                    <label>Select Question PDF</label>
+                    <div class="file-drop-zone" id="dropZone">
+                        <input type="file" name="file" accept=".pdf" required id="fileInput">
+                        <div class="drop-zone-content">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00AAFF" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            <p>Click or drag PDF here to upload</p>
+                            <span class="file-name-display" id="fileNameDisplay">No file chosen</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="modal-footer">
-                    <button type="submit" class="submit-btn">Publish Question Card</button>
+                    <button type="submit" class="submit-btn" style="width: 100%;">Upload for Review</button>
                 </div>
             </form>
         </div>
@@ -331,6 +307,25 @@
                 if (e.target === uploadModal) uploadModal.style.display = 'none';
                 if (e.target === viewModal) viewModal.style.display = 'none';
             });
+
+            // ================= FILE DROP ZONE LOGIC =================
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+            const dropZone = document.getElementById('dropZone');
+
+            if (fileInput && fileNameDisplay) {
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files.length > 0) {
+                        fileNameDisplay.textContent = 'Selected: ' + this.files[0].name;
+                        fileNameDisplay.style.color = '#10b981'; // Green for success
+                        if (dropZone) dropZone.style.borderColor = '#10b981';
+                    } else {
+                        fileNameDisplay.textContent = 'No file chosen';
+                        fileNameDisplay.style.color = '#00AAFF';
+                        if (dropZone) dropZone.style.borderColor = '#e2e8f0';
+                    }
+                });
+            }
         });
 
         function closeModal(id) {

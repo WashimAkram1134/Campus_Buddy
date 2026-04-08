@@ -34,24 +34,25 @@ class QuestionBankController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'department' => 'required|string',
-            'course_code' => 'required|string',
-            'course_name' => 'required|string',
-            'title' => 'required|string',
-            'difficulty' => 'required|string',
-            'question_heading' => 'required|string',
-            'sub_questions' => 'required|string',
-            'year_semester' => 'required|string',
-            'file' => 'nullable|file|max:10240', // 10MB max
+            'file' => 'required|file|max:10240|mimes:pdf', // Required now for direct upload
+            'department' => 'nullable|string',
+            'course_code' => 'nullable|string',
+            'course_name' => 'nullable|string',
+            'title' => 'nullable|string',
+            'difficulty' => 'nullable|string',
+            'question_heading' => 'nullable|string',
+            'sub_questions' => 'nullable|string',
+            'year_semester' => 'nullable|string',
         ]);
 
         $data = $request->only([
             'department', 'course_code', 'course_name', 'title', 
             'difficulty', 'question_heading', 'sub_questions', 'year_semester'
         ]);
+        
         $data['user_id'] = auth()->id();
-        $data['tags'] = $request->tags; // Optional
-        $data['status'] = 'pending'; // New uploads need admin approval
+        $data['tags'] = $request->tags; 
+        $data['status'] = 'pending'; 
 
         if ($request->hasFile('file')) {
             $data['file_path'] = $request->file('file')->store('question_banks', 'public');
@@ -59,6 +60,6 @@ class QuestionBankController extends Controller
 
         QuestionBank::create($data);
 
-        return redirect()->back()->with('success', 'Question Bank entry added successfully!');
+        return redirect()->back()->with('success', 'Question PDF uploaded successfully! It will appear once approved by admin.');
     }
 }
