@@ -66,7 +66,8 @@
                      data-subs="{{ $question->sub_questions }}"
                      data-tags="{{ $question->tags }}"
                      data-course="{{ $question->course_name }}"
-                     data-date="{{ $question->year_semester }}">
+                     data-date="{{ $question->year_semester }}"
+                     data-files="{{ json_encode($question->file_path) }}">
                     <div class="question-header">
                         <div class="card-meta">
                             <span class="dept">{{ $question->department }}</span>
@@ -170,6 +171,8 @@
                 </div>
             </form>
         </div>
+    </div>
+
     <!-- View Question Modal -->
     <div id="viewQuestionModal" class="modal">
         <div class="modal-content view-modal-content">
@@ -197,6 +200,12 @@
                     <div class="question-footer">
                         <span class="course" id="viewCourse"></span>
                         <span class="date" id="viewDate"></span>
+                    </div>
+
+                    <!-- File Preview Section -->
+                    <div id="viewFileSection" class="view-file-section" style="display:none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; text-align: left;">
+                        <h4 style="font-size: 14px; color: #1e293b; margin-bottom: 10px;">Attached Files:</h4>
+                        <div id="viewFileLinks" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
                     </div>
                 </div>
             </div>
@@ -306,6 +315,42 @@
                     }
 
                     if (viewModal) viewModal.style.display = 'flex';
+
+                    // Handle Files in Modal
+                    const fileSection = document.getElementById('viewFileSection');
+                    const fileLinksDiv = document.getElementById('viewFileLinks');
+                    if (fileSection && fileLinksDiv && data.files) {
+                        fileLinksDiv.innerHTML = '';
+                        try {
+                            const files = JSON.parse(data.files);
+                            if (files && Array.isArray(files) && files.length > 0) {
+                                fileSection.style.display = 'block';
+                                files.forEach(file => {
+                                    const isImage = /\.(jpg|jpeg|png|webp)$/i.test(file);
+                                    const link = document.createElement('a');
+                                    link.href = '/storage/' + file;
+                                    link.target = '_blank';
+                                    link.className = 'modal-file-link';
+                                    
+                                    if (isImage) {
+                                        link.innerHTML = `<img src="/storage/${file}" class="modal-preview-img">`;
+                                    } else {
+                                        link.innerHTML = `
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                                            </svg>
+                                            <span>PDF Document</span>
+                                        `;
+                                    }
+                                    fileLinksDiv.appendChild(link);
+                                });
+                            } else {
+                                fileSection.style.display = 'none';
+                            }
+                        } catch (e) {
+                            fileSection.style.display = 'none';
+                        }
+                    }
                 }
 
                 // Handle outside clicks
