@@ -54,7 +54,7 @@ Standardized structure matching all pages
     </div>
 </section>
 
-<div class="dashboard-container mt-10">
+<div class="dashboard-container page-container mt-10">
       <div class="dashboard-grid">
 
         {{-- ── LEFT COLUMN ─────────────────────────────── --}}

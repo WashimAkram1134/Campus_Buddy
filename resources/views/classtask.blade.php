@@ -73,7 +73,7 @@
     </div>
 
     <!-- ================= MAIN CONTAINER ================= -->
-    <div class="classtask-container">
+    <div class="classtask-container page-container">
         @php
             $types = [
                 'assignment' => ['title' => 'Assignments', 'desc' => 'Courseworks and projects', 'icon' => 'fa-file-alt', 'color' => 'assignment'],

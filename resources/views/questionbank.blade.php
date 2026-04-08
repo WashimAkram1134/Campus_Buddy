@@ -31,7 +31,7 @@
         </div>
     </section>
 
-    <div class="qb-content" id="qb-content">
+    <div class="qb-content page-container" id="qb-content">
         @if (session('success'))
             <div class="alert alert-success">
                 ✅ {{ session('success') }}

@@ -28,7 +28,7 @@
 </section>
 
 <div class="clubs-page">
-    <div class="dashboard-container mt-10">
+    <div class="page-container mt-10">
 
             <!-- ================= CLUBS GRID DIRECTORY ================= -->
             <section id="explore-clubs" class="clubs-section">

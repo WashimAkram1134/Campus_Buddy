@@ -105,3 +105,23 @@
 .custom-scrollbar-light::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
 }
+
+/* ------------------------------------------------------------
+   UNIVERSAL LAYOUT GRID (Matching Dashboard/Routine)
+   ------------------------------------------------------------/* Standardized Application Layout Grid */
+.page-container {
+    max-width: 1600px !important;
+    width: 96% !important;
+    margin: 40px auto !important;
+    padding: 0 15px !important;
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .page-container {
+        width: 100% !important;
+        padding: 0 20px !important;
+        margin: 20px auto !important;
+    }
+}

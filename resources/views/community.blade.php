@@ -123,6 +123,8 @@
             </div>
         </div>
     </section>
+    
+    <div class="page-container">
 
     <!-- ================= 4 FEATURE CARDS ================= -->
     <section class="community-cards" id="community-cards">
@@ -582,6 +584,8 @@
             #MachineLearning &nbsp; #CodeTrap2025
         </p>
     </section>
+
+    </div> {{-- End page-container --}}
     <!-- Create Post Modal -->
     <div id="post-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: center; padding: 15px;">
         <div style="background: white; width: 100%; max-width: 500px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); position: relative; animation: modalZoom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">

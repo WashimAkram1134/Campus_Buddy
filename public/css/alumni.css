@@ -387,8 +387,7 @@
 
 /* ================= SECTION HEADER ================= */
 .alumni-header-section {
-    padding: 80px 40px 40px;
-    max-width: 1400px;
+    padding: 80px 0 40px;
     margin: 0 auto;
 }
 
@@ -531,9 +530,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 40px 80px;
+    padding: 0 0 80px;
 }
 
 .alumni-card {
@@ -756,8 +754,7 @@
 
 /* ================= CTA SECTION ================= */
 .join-mentor-section {
-    padding: 0 40px 100px;
-    max-width: 1400px;
+    padding: 0 0 100px;
     margin: 0 auto;
 }
 

@@ -55,8 +55,9 @@
         </div>
     </section>
     
+    <div class="page-container">
     {{-- Status Messages --}}
-    <div class="container message-container" style="margin-top: -20px; position: relative; z-index: 10;">
+    <div class="message-container" style="margin-top: -20px; position: relative; z-index: 10;">
         @if($pendingRegistration)
             <div class="registration-status-banner pending animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #FAC35A; margin: 0 auto 30px; max-width: 1000px;">
                 <div style="display: flex; align-items: center; gap: 20px;">
@@ -528,6 +529,8 @@
             </form>
         </div>
     </div>
+
+    </div> {{-- End page-container --}}
 
     @if(session('success'))
         <div style="position: fixed; bottom: 30px; right: 30px; background: #10b981; color: #fff; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(16,185,129,0.3); z-index: 10000; animation: slideIn 0.3s ease;">

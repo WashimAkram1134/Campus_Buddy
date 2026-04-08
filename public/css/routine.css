@@ -1,11 +1,7 @@
-/* ================= MAIN LAYOUT TWO-COLUMN ================= */
+/* MAIN LAYOUT TWO-COLUMN — layout grid handled by .page-container */
 .routine-main {
-    max-width: 1600px;
-    width: 96%;
-    margin: 40px auto;
     position: relative;
     z-index: 10;
-    padding: 0 15px;
     display: flex;
     gap: 25px;
     align-items: flex-start;

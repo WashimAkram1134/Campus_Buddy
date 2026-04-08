@@ -82,8 +82,8 @@
         </div>
       </section>
 
-      <!-- ================= MAIN LAYOUT ================= -->
-      <section class="routine-main" id="routineMain">
+      <!-- ================= MAIN LAYOUT — using universal grid ================= -->
+      <section class="routine-main page-container" id="routineMain">
 
         <!-- LEFT SIDEBAR: TODAY'S SCHEDULE -->
         <aside class="today-sidebar">

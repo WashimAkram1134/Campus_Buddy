@@ -48,6 +48,7 @@
         </div>
     </section>
 
+    <div class="page-container">
     @if(session('success'))
         <div class="alert-success">
             ✅ {{ session('success') }}
@@ -388,6 +389,7 @@
             </form>
         </div>
     </div>
+    </div> {{-- End page-container --}}
 @endsection
 
 @push('scripts')

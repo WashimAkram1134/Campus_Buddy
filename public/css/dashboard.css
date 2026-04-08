@@ -299,13 +299,10 @@
     height: 20px;
 }
 
-
-
+/* MAIN LAYOUT — standardized layout grid is now handled by .page-container */
 .dashboard-container {
-    width: 96%;
-    max-width: 1600px;
-    margin: 40px auto;
-    padding: 0 15px;
+    position: relative;
+    z-index: 10;
     transition: all 0.3s ease;
 }
 
