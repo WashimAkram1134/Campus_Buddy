@@ -26,9 +26,41 @@ class DistrictAssociationResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('division')
+                Forms\Components\Select::make('division')
+                    ->options([
+                        'Dhaka' => 'Dhaka',
+                        'Chattogram' => 'Chattogram',
+                        'Rajshahi' => 'Rajshahi',
+                        'Khulna' => 'Khulna',
+                        'Barishal' => 'Barishal',
+                        'Sylhet' => 'Sylhet',
+                        'Rangpur' => 'Rangpur',
+                        'Mymensingh' => 'Mymensingh',
+                    ])
                     ->required()
-                    ->maxLength(255),
+                    ->searchable(),
+                Forms\Components\Select::make('district')
+                    ->options([
+                        // Dhaka Division
+                        'Dhaka' => 'Dhaka', 'Gazipur' => 'Gazipur', 'Kishoreganj' => 'Kishoreganj', 'Manikganj' => 'Manikganj', 'Munshiganj' => 'Munshiganj', 'Narayanganj' => 'Narayanganj', 'Narsingdi' => 'Narsingdi', 'Tangail' => 'Tangail', 'Faridpur' => 'Faridpur', 'Gopalganj' => 'Gopalganj', 'Madaripur' => 'Madaripur', 'Rajbari' => 'Rajbari', 'Shariatpur' => 'Shariatpur',
+                        // Chattogram Division
+                        'Chattogram' => 'Chattogram', 'Cox\'s Bazar' => 'Cox\'s Bazar', 'Rangamati' => 'Rangamati', 'Bandarban' => 'Bandarban', 'Khagrachhari' => 'Khagrachhari', 'Feni' => 'Feni', 'Lakshmipur' => 'Lakshmipur', 'Noakhali' => 'Noakhali', 'Brahmanbaria' => 'Brahmanbaria', 'Cumilla' => 'Cumilla', 'Chandpur' => 'Chandpur',
+                        // Rajshahi Division
+                        'Rajshahi' => 'Rajshahi', 'Sirajganj' => 'Sirajganj', 'Pabna' => 'Pabna', 'Bogura' => 'Bogura', 'Chapai Nawabganj' => 'Chapai Nawabganj', 'Naogaon' => 'Naogaon', 'Joypurhat' => 'Joypurhat', 'Natore' => 'Natore',
+                        // Khulna Division
+                        'Khulna' => 'Khulna', 'Jashore' => 'Jashore', 'Satkhira' => 'Satkhira', 'Meherpur' => 'Meherpur', 'Narail' => 'Narail', 'Chuadanga' => 'Chuadanga', 'Kushtia' => 'Kushtia', 'Magura' => 'Magura', 'Bagerhat' => 'Bagerhat', 'Jhenaidah' => 'Jhenaidah',
+                        // Barishal Division
+                        'Barishal' => 'Barishal', 'Patuakhali' => 'Patuakhali', 'Bhola' => 'Bhola', 'Pirojpur' => 'Pirojpur', 'Barguna' => 'Barguna', 'Jhalokati' => 'Jhalokati',
+                        // Sylhet Division
+                        'Sylhet' => 'Sylhet', 'Moulvibazar' => 'Moulvibazar', 'Habiganj' => 'Habiganj', 'Sunamganj' => 'Sunamganj',
+                        // Rangpur Division
+                        'Rangpur' => 'Rangpur', 'Panchagarh' => 'Panchagarh', 'Dinajpur' => 'Dinajpur', 'Lalmonirhat' => 'Lalmonirhat', 'Nilphamari' => 'Nilphamari', 'Kurigram' => 'Kurigram', 'Thakurgaon' => 'Thakurgaon', 'Gaibandha' => 'Gaibandha',
+                        // Mymensingh Division
+                        'Mymensingh' => 'Mymensingh', 'Jamalpur' => 'Jamalpur', 'Netrokona' => 'Netrokona', 'Sherpur' => 'Sherpur',
+                    ])
+                    ->required()
+                    ->searchable()
+                    ->label('District'),
                 Forms\Components\FileUpload::make('image')
                     ->id('logo_image_field')
                     ->image()
@@ -58,11 +90,14 @@ class DistrictAssociationResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('division')
+                    ->badge()
+                    ->color('primary')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('district')
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Logo'),
                 Tables\Columns\ImageColumn::make('cover_image')->label('Hero Image'),
-                Tables\Columns\TextColumn::make('link')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('members_count')
                     ->numeric()
                     ->sortable(),
@@ -70,13 +105,19 @@ class DistrictAssociationResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('division')
+                    ->options([
+                        'Dhaka' => 'Dhaka',
+                        'Chattogram' => 'Chattogram',
+                        'Rajshahi' => 'Rajshahi',
+                        'Khulna' => 'Khulna',
+                        'Barishal' => 'Barishal',
+                        'Sylhet' => 'Sylhet',
+                        'Rangpur' => 'Rangpur',
+                        'Mymensingh' => 'Mymensingh',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

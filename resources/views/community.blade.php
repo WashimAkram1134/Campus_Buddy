@@ -381,7 +381,7 @@
 
         <div class="district-grid" id="district-cards-container">
             @foreach($districtAssociations as $district)
-                <div class="district-card" data-division="{{ $district->division }}">
+                <div class="district-card" data-division="{{ $district->division }}" data-district="{{ strtolower($district->district) }}">
                     <div class="card-cover" style="{{ $district->cover_image ? 'background: url(\'' . asset('storage/' . $district->cover_image) . '\') center/cover no-repeat;' : '' }}"></div>
                     <div class="district-logo-wrap">
                         <img src="{{ $district->image ? asset('storage/' . $district->image) : asset('images/alumni/profile_1.png') }}" alt="{{ $district->name }}"

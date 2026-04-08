@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class DistrictAssociation extends Model
 {
-    protected $fillable = ['name', 'division', 'image', 'link', 'members_count', 'cover_image'];
+    protected $fillable = ['name', 'division', 'district', 'image', 'link', 'members_count', 'cover_image'];
 }

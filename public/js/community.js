@@ -263,7 +263,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             cards.forEach(card => {
                 const cardName = card.querySelector('h3').innerText.trim().toLowerCase();
-                if (cardName.startsWith(query)) {
+                const cardDistrict = (card.dataset.district || '').toLowerCase();
+                
+                if (cardName.includes(query) || cardDistrict.includes(query)) {
                     card.style.display = 'block';
                     card.classList.add('animate-in');
                 } else {
