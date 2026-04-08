@@ -88,10 +88,13 @@ class QuestionBankResource extends Resource
                             ->searchable()
                             ->label('Uploaded By'),
                         Forms\Components\FileUpload::make('file_path')
-                            ->label('Question PDF')
+                            ->label('Question Files (PDF/Images)')
                             ->directory('question_banks')
-                            ->acceptedFileTypes(['application/pdf'])
-                            ->maxSize(10240),
+                            ->multiple()
+                            ->reorderable()
+                            ->appendFiles()
+                            ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'])
+                            ->maxSize(15360),
                         Forms\Components\Select::make('status')
                             ->options([
                                 'pending' => 'Pending',

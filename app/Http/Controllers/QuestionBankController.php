@@ -34,7 +34,7 @@ class QuestionBankController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|max:10240|mimes:pdf', // Required now for direct upload
+            'files.*' => 'required|file|max:15360|mimes:pdf,jpg,jpeg,png', // 15MB max per file, allowing images
             'department' => 'nullable|string',
             'course_code' => 'nullable|string',
             'course_name' => 'nullable|string',
@@ -51,15 +51,18 @@ class QuestionBankController extends Controller
         ]);
         
         $data['user_id'] = auth()->id();
-        $data['tags'] = $request->tags; 
         $data['status'] = 'pending'; 
 
-        if ($request->hasFile('file')) {
-            $data['file_path'] = $request->file('file')->store('question_banks', 'public');
+        $filePaths = [];
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $filePaths[] = $file->store('question_banks', 'public');
+            }
         }
+        $data['file_path'] = $filePaths;
 
         QuestionBank::create($data);
 
-        return redirect()->back()->with('success', 'Question PDF uploaded successfully! It will appear once approved by admin.');
+        return redirect()->back()->with('success', 'Question files uploaded successfully! They will appear once approved by admin.');
     }
 }

@@ -100,13 +100,18 @@
                     </div>
                     <div class="card-action-overlay">
                         <button type="button" class="action-btn view-btn">View</button>
-                        @if($question->file_path)
-                            <a href="{{ asset('storage/' . $question->file_path) }}" 
-                               class="action-btn download-btn stop-prop" 
-                               download 
-                               onclick="event.stopPropagation()">
-                                Download
-                            </a>
+                        @if($question->file_path && is_array($question->file_path))
+                            @if(count($question->file_path) === 1)
+                                <a href="{{ asset('storage/' . $question->file_path[0]) }}" 
+                                   class="action-btn download-btn stop-prop" 
+                                   download onclick="event.stopPropagation()">
+                                    Download
+                                </a>
+                            @else
+                                <div class="multi-download-badge">
+                                    {{ count($question->file_path) }} Files
+                                </div>
+                            @endif
                         @endif
                     </div>
                 </div>
@@ -141,21 +146,21 @@
                 <div class="upload-guide-card">
                     <div class="guide-icon">📁</div>
                     <div class="guide-text">
-                        <h3>Simple Upload</h3>
-                        <p>Just upload the question PDF. Our admins will verify and fill in the details (Department, Year, etc.) for you.</p>
+                        <h3>Easy Upload</h3>
+                        <p>Upload your question files (PDF or Images). You can select multiple files if the question spans multiple pages.</p>
                     </div>
                 </div>
 
                 <div class="form-group full-width" style="margin-top: 20px;">
-                    <label>Select Question PDF</label>
+                    <label>Select Question Files (PDF/Images)</label>
                     <div class="file-drop-zone" id="dropZone">
-                        <input type="file" name="file" accept=".pdf" required id="fileInput">
+                        <input type="file" name="files[]" accept=".pdf,image/*" multiple required id="fileInput">
                         <div class="drop-zone-content">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00AAFF" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
                             </svg>
-                            <p>Click or drag PDF here to upload</p>
-                            <span class="file-name-display" id="fileNameDisplay">No file chosen</span>
+                            <p>Click or drag files here to upload</p>
+                            <span class="file-name-display" id="fileNameDisplay">No files chosen</span>
                         </div>
                     </div>
                 </div>
@@ -316,7 +321,8 @@
             if (fileInput && fileNameDisplay) {
                 fileInput.addEventListener('change', function() {
                     if (this.files && this.files.length > 0) {
-                        fileNameDisplay.textContent = 'Selected: ' + this.files[0].name;
+                        const count = this.files.length;
+                        fileNameDisplay.textContent = count > 1 ? count + ' files selected' : 'Selected: ' + this.files[0].name;
                         fileNameDisplay.style.color = '#10b981'; // Green for success
                         if (dropZone) dropZone.style.borderColor = '#10b981';
                     } else {

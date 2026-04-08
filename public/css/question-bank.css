@@ -816,3 +816,13 @@ body {
     color: #00AAFF;
     font-weight: 700;
 }
+
+.multi-download-badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid #bae6fd;
+}
