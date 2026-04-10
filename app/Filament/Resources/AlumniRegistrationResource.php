@@ -58,12 +58,24 @@ class AlumniRegistrationResource extends Resource
                                 'pending' => 'Pending',
                                 'approved' => 'Approve & Create Card',
                                 'rejected' => 'Reject',
-                            ])
+                             ])
                             ->required(),
                         Forms\Components\Textarea::make('admin_note')
                             ->placeholder('Verification notes...')
                             ->rows(2),
-                    ])
+                    ]),
+
+                Forms\Components\Section::make('Card Customization & Styling (Advanced)')
+                    ->schema([
+                        Forms\Components\TextInput::make('badge_text')->placeholder('e.g. PREMIUM, EXECUTIVE')->nullable(),
+                        Forms\Components\TextInput::make('badge_style')->placeholder('e.g. badge-gold, badge-red')->nullable(),
+                        Forms\Components\TextInput::make('subtitle')->placeholder('Optional award or sub-info')->nullable(),
+                        Forms\Components\TextInput::make('top_img_class')->placeholder('e.g. img-contain-70, img-cover-full')->nullable(),
+                        Forms\Components\TextInput::make('profile_img_class')->placeholder('e.g. profile-pos-10')->nullable(),
+                        Forms\Components\TextInput::make('container_class')->placeholder('e.g. card-top-logo-container')->nullable(),
+                    ])->columns([
+                        'default' => 2,
+                    ])->collapsed()
             ]);
     }
 

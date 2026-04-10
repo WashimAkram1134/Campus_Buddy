@@ -24,6 +24,12 @@ class AlumniRegistration extends Model
         'category',
         'linkedin_url',
         'card_bg_image',
+        'badge_text',
+        'badge_style',
+        'top_img_class',
+        'profile_img_class',
+        'container_class',
+        'subtitle',
         'status',
         'admin_note',
     ];

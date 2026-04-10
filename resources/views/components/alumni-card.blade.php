@@ -32,13 +32,25 @@ if ($alumni) {
     if (!$topImg) {
         if ($alumni->company_logo) {
             $topImg = asset('storage/' . $alumni->company_logo);
-            $topImgStyle = $topImgStyle ?: 'width: 100%; height: 100%; object-fit: cover;';
+            $topImgClass = $alumni->top_img_class ?: 'img-contain-80';
+            $containerClass = $alumni->container_class ?: 'card-top-logo-container';
+            $topBg = $topBg ?: 'background: #ffffff;';
         } elseif ($alumni->card_bg_image) {
             $topImg = asset('storage/' . $alumni->card_bg_image);
+            $topImgClass = $alumni->top_img_class ?: 'img-cover-full';
+            $topImgStyle = $topImgStyle ?: 'width: 100%; height: 100%; object-fit: cover;';
         } else {
             $topImg = asset('images/alumni/alumni_tech_bg.png');
+            $topImgClass = 'img-cover-full';
         }
     }
+    
+    // Manual overrides from database if not already provided via props
+    $badge = $badge === 'ALUMNI' ? ($alumni->badge_text ?: $badge) : $badge;
+    $badgeStyle = $badgeStyle ?: $alumni->badge_style;
+    $topImgClass = $topImgClass === 'field-img' ? ($alumni->top_img_class ?: $topImgClass) : $topImgClass;
+    $profileImgClass = $profileImgClass === 'profile-img' ? ($alumni->profile_img_class ?: $profileImgClass) : $profileImgClass;
+    $subtitle = $subtitle ?: $alumni->subtitle;
     
     if (!$profileImg) {
         $profileImg = $alumni->profile_image ? asset('storage/' . $alumni->profile_image) : asset('images/alumni/profile_placeholder.png');
