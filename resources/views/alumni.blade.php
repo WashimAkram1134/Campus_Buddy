@@ -430,70 +430,71 @@
     </section>
 
     <!-- ================= ALUMNI REGISTRATION MODAL ================= -->
-    <div id="registrationModal" class="alumni-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; align-items: center; justify-content: center;">
-        <div class="modal-content" style="background: #fff; width: 90%; max-width: 600px; max-height: 85vh; border-radius: 20px; overflow-y: auto; padding: 30px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); position: relative; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-            <span id="closeModal" style="position: absolute; top: 15px; right: 20px; font-size: 24px; font-weight: bold; cursor: pointer; color: #777;">&times;</span>
-            <h2 style="font-size: 24px; font-weight: 800; color: #1a1e29; margin-bottom: 20px; text-align: center;">Alumni <span>Registration</span></h2>
+    <div id="registrationModal" class="alumni-modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close-btn">&times;</span>
+            <h2>Alumni <span>Registration</span></h2>
             
             <form action="{{ route('alumni.register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 @if($errors->any())
-                    <div style="background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
-                        <ul style="margin: 0; padding-left: 20px;">
+                    <div class="error-list">
+                        <ul>
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Full Name *</label>
-                        <input type="text" name="full_name" value="{{ auth()->user()->name }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" name="full_name" value="{{ auth()->user()->name }}" required>
                     </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Email *</label>
-                        <input type="email" name="email" value="{{ auth()->user()->email }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" value="{{ auth()->user()->email }}" required>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Student ID *</label>
-                        <input type="text" name="student_id" value="{{ auth()->user()->student_id }}" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Student ID *</label>
+                        <input type="text" name="student_id" value="{{ auth()->user()->student_id }}" required>
                     </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Phone</label>
-                        <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Department *</label>
-                        <input type="text" name="department" value="{{ auth()->user()->department }}" required placeholder="e.g. CSE" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                    </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Batch *</label>
-                        <input type="text" name="batch" value="{{ auth()->user()->batch }}" required placeholder="e.g. 52" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}">
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Graduation Year *</label>
-                        <input type="text" name="graduation_year" required placeholder="e.g. 2020" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Department *</label>
+                        <input type="text" name="department" value="{{ auth()->user()->department }}" required placeholder="e.g. CSE">
                     </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Linkedin URL</label>
-                        <input type="url" name="linkedin_url" placeholder="https://" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <div class="form-group">
+                        <label>Batch *</label>
+                        <input type="text" name="batch" value="{{ auth()->user()->batch }}" required placeholder="e.g. 52">
                     </div>
                 </div>
 
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Select Category *</label>
-                    <select name="category" required style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Graduation Year *</label>
+                        <input type="text" name="graduation_year" required placeholder="e.g. 2020">
+                    </div>
+                    <div class="form-group">
+                        <label>Linkedin URL</label>
+                        <input type="url" name="linkedin_url" placeholder="https://">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Category *</label>
+                    <select name="category" required>
                         <option value="software-engineering">Software Engineering</option>
                         <option value="data-science">Data Science</option>
                         <option value="marketing">Marketing</option>
@@ -503,29 +504,29 @@
                     </select>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Current Position *</label>
-                        <input type="text" name="current_position" required placeholder="e.g. Software Engineer" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Current Position *</label>
+                        <input type="text" name="current_position" required placeholder="e.g. Software Engineer">
                     </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Company *</label>
-                        <input type="text" name="company" required placeholder="e.g. Google" style="width:100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                    </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Profile Image</label>
-                        <input type="file" name="profile_image" style="width:100%; font-size: 12px;">
-                    </div>
-                    <div>
-                        <label style="display:block; font-size: 13px; font-weight: 600; color: #444; margin-bottom: 5px;">Company Logo</label>
-                        <input type="file" name="company_logo" style="width:100%; font-size: 12px;">
+                    <div class="form-group">
+                        <label>Company *</label>
+                        <input type="text" name="company" required placeholder="e.g. Google">
                     </div>
                 </div>
 
-                <button type="submit" style="background: #00AAFF; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 15px; box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);">Submit for Approval</button>
+                <div class="form-grid" style="margin-bottom: 25px;">
+                    <div class="form-group">
+                        <label>Profile Image</label>
+                        <input type="file" name="profile_image">
+                    </div>
+                    <div class="form-group">
+                        <label>Company Logo</label>
+                        <input type="file" name="company_logo">
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-reg-btn">Submit for Approval</button>
             </form>
         </div>
     </div>
