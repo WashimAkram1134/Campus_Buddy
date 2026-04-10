@@ -1,7 +1,4 @@
-/**
- * Alumni Page JavaScript
- * Handles: Registration Modal, Approval Toast, Category Filtering, Load More, Scroll Reveal
- */
+
 document.addEventListener('DOMContentLoaded', function () {
     // ==================== REGISTRATION MODAL ====================
     const openModalBtn = document.getElementById('registerTodayBtn');
