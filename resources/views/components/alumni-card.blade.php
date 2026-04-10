@@ -17,7 +17,8 @@
     'details' => [], 
     'connectUrl' => '#',
     'rating' => '5.0',
-    'name' => ''
+    'name' => '',
+    'containerClass' => 'field-img-container'
 ])
 
 @php
@@ -55,7 +56,7 @@ if ($alumni) {
 <div class="alumni-card featured-card reveal animate-item up {{ $stagger ? $stagger : '' }}" data-category="{{ $category }}">
     <div class="card-top">
         @if($topBg)
-            <div class="field-img-container" style="{{ $topBg }}">
+            <div class="{{ $containerClass }}" style="{{ $topBg }}">
                 <img src="{{ $topImg }}" alt="Logo" class="{{ $topImgClass }}" style="{{ $topImgStyle }}">
             </div>
         @else
@@ -74,7 +75,7 @@ if ($alumni) {
     <div class="card-body">
         <h3>{{ $title }}</h3>
         @if($subtitle)
-            <p style="font-size: 11px; color: #00AAFF; font-weight: 700; margin-top: -5px; margin-bottom: 10px;">{{ $subtitle }}</p>
+            <p class="card-subtitle">{{ $subtitle }}</p>
         @endif
         <div class="alumni-details">
             @foreach($details as $detail)
@@ -96,7 +97,7 @@ if ($alumni) {
                 @endfor
             </div>
         </div>
-        <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">
+        <div class="alumni-name alumni-name-footer">
             {{ $name }} <span class="verified-badge"><i class="fas fa-check"></i></span>
         </div>
     </div>

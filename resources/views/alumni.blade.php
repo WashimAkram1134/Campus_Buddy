@@ -57,34 +57,34 @@
     
     <div class="page-container">
     {{-- Status Messages --}}
-    <div class="message-container" style="margin-top: -20px; position: relative; z-index: 10;">
+    <div class="message-container message-container-offset">
         @if($pendingRegistration)
-            <div class="registration-status-banner pending animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #FAC35A; margin: 0 auto 30px; max-width: 1000px;">
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div style="background: #FFF9EB; color: #FAC35A; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div class="registration-status-banner pending animate-up">
+                <div class="status-icon-wrapper">
+                    <div class="status-icon pending">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <div>
-                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Registration Pending Approval</h4>
-                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Your application as an alumni mentor is currently being reviewed by our administration. Once approved, your profile will be live in the network.</p>
+                    <div class="status-info">
+                        <h4>Registration Pending Approval</h4>
+                        <p>Your application as an alumni mentor is currently being reviewed by our administration. Once approved, your profile will be live in the network.</p>
                     </div>
                 </div>
-                <div style="font-size: 11px; font-weight: 800; color: #FAC35A; text-transform: uppercase; background: #FFF9EB; padding: 5px 12px; border-radius: 50px;">Under Review</div>
+                <div class="status-badge pending">Under Review</div>
             </div>
         @endif
 
         @if($justApproved)
-            <div id="approvalToast" class="registration-status-banner approved animate-up" style="background: white; border-radius: 16px; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-left: 6px solid #10b981; margin: 0 auto 30px; max-width: 1000px; animation: slideInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                <div style="display: flex; align-items: center; gap: 20px;">
-                    <div style="background: #ECFDF5; color: #10b981; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <div id="approvalToast" class="registration-status-banner approved animate-up">
+                <div class="status-icon-wrapper">
+                    <div class="status-icon approved">
                         <i class="fas fa-check-circle"></i>
                     </div>
-                    <div>
-                        <h4 style="margin: 0; color: #1a1e29; font-weight: 800;">Congratulations, {{ auth()->user()->name }}!</h4>
-                        <p style="margin: 5px 0 0; color: #64748b; font-size: 14px;">Your alumni registration has been approved. You are now officially a part of our premier mentor network.</p>
+                    <div class="status-info">
+                        <h4>Congratulations, {{ auth()->user()->name }}!</h4>
+                        <p>Your alumni registration has been approved. You are now officially a part of our premier mentor network.</p>
                     </div>
                 </div>
-                <div style="font-size: 11px; font-weight: 800; color: #10b981; text-transform: uppercase; background: #ECFDF5; padding: 5px 12px; border-radius: 50px;">Just Approved</div>
+                <div class="status-badge approved">Just Approved</div>
             </div>
         @endif
     </div>
@@ -172,12 +172,13 @@
         <x-alumni-card 
             category="software-engineering data-science"
             stagger="stagger-2"
-            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topBg="background: #ffffff;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/upay_logo.png') }}"
-            topImgStyle="width: 70%; object-fit: contain;"
+            topImgClass="img-contain-70"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_cse_harun.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Engineering"
             title="Software Engineer at Upay"
             :details="[
@@ -190,13 +191,15 @@
         <x-alumni-card 
             category="software-engineering"
             stagger="stagger-3"
-            topBg="background: #00AAFF; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topBg="background: #00AAFF;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/diu_building.png') }}"
-            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;"
+            topImgClass="img-cover-full"
+            topImgStyle="opacity: 0.8;"
             badge="PREMIUM"
-            badgeStyle="background: #FFD700; color: #1a1e29;"
+            badgeStyle="badge-gold"
             profileImg="{{ asset('images/alumni/alumni_swe_javed.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Research"
             title="Visiting Researcher at DIU & Research Assistant at USQ, Australia"
             subtitle="World's Top 2% Scientist (Stanford List 2024-25)"
@@ -210,12 +213,13 @@
         <x-alumni-card 
             category="nfe"
             stagger="stagger-4"
-            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topBg="background: #ffffff;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/nestle_logo_blue.png') }}"
-            topImgStyle="width: 80%; object-fit: contain;"
+            topImgClass="img-contain-80"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_nfe_2.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Nutrition"
             title="Area Nutrition Officer at Nestle Bangladesh PLC"
             :details="[
@@ -228,12 +232,13 @@
         <x-alumni-card 
             category="nfe"
             stagger="stagger-5"
-            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topBg="background: #ffffff;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/nestle_logo.png') }}"
-            topImgStyle="width: 80%; object-fit: contain;"
+            topImgClass="img-contain-80"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_nfe_1.png') }}"
-            profileImgStyle="object-position: center 15%;"
+            profileImgClass="profile-img profile-pos-15"
             cardCategory="Nutrition"
             title="Area Nutrition Officer at Nestle Bangladesh PLC"
             :details="[
@@ -246,13 +251,15 @@
         <x-alumni-card 
             category="textile bcs-govt"
             stagger="stagger-6"
-            topBg="background: #006a4e; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topBg="background: #006a4e;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/gov_seal_bd.png') }}"
-            topImgStyle="width: 45%; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));"
+            topImgClass="img-contain-45"
+            topImgStyle="filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));"
             badge="PREMIUM"
-            badgeStyle="background: #bd2130;"
+            badgeStyle="badge-red"
             profileImg="{{ asset('images/alumni/alumni_textile_1.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Government"
             title="Assistant Commissioner of Taxes (BCS)"
             :details="[
@@ -264,12 +271,13 @@
 
         <x-alumni-card 
             category="bba"
-            topBg="background: #f8f9fa; height: 180px; display: flex; align-items: center; justify-content: center;"
+            topBg="background: #f8f9fa;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/imcd_logo.png') }}"
-            topImgStyle="width: 70%; object-fit: contain;"
+            topImgClass="img-contain-70"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_bba_1.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Business"
             title="Commercial Manager at IMCD Group"
             :details="[
@@ -281,9 +289,10 @@
 
         <x-alumni-card 
             category="bba"
-            topBg="background: #0077B5; height: 180px; display: flex; align-items: center; justify-content: center;"
+            topBg="background: #0077B5;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/ace_logo.png') }}"
-            topImgStyle="width: 50%; object-fit: contain;"
+            topImgClass="img-contain-50"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_bba_joy.png') }}"
             profileImgClass="profile-img journalism-profile"
@@ -299,12 +308,14 @@
         <x-alumni-card 
             category="pharmacy"
             stagger="reveal animate-item up"
-            topBg="background: #ffffff; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 20px;"
+            topBg="background: #ffffff;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/renata_logo.png') }}"
-            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;"
+            topImgClass="img-cover-full"
+            topImgStyle="opacity: 0.9;"
             badge="PREMIUM"
             profileImg="{{ asset('images/alumni/alumni_pharmacy_2.png') }}"
-            profileImgStyle="object-position: center 10%;"
+            profileImgClass="profile-img profile-pos-10"
             cardCategory="Pharmacy"
             title="Officer - Product Development (Analytical) at Renata PLC"
             :details="[
@@ -317,12 +328,14 @@
         <x-alumni-card 
             category="pharmacy"
             stagger="reveal animate-item up"
-            topBg="background: #1a3a5a; height: 180px; display: flex; align-items: center; justify-content: center; overflow: hidden;"
+            topBg="background: #1a3a5a;"
+            containerClass="card-top-logo-container"
             topImg="{{ asset('images/alumni/alumni_pharmacy_1.png') }}"
-            topImgStyle="width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: blur(2px);"
+            topImgClass="img-cover-full"
+            topImgStyle="opacity: 0.6; filter: blur(2px);"
             badge="EXECUTIVE"
             profileImg="{{ asset('images/alumni/alumni_pharmacy_1.png') }}"
-            profileImgStyle="object-position: center 25%;"
+            profileImgClass="profile-img profile-pos-25"
             cardCategory="Pharmacy"
             title="Senior Executive (Business Development) at Isabah Plastic Industries Ltd."
             :details="[
@@ -439,8 +452,8 @@
                 @csrf
 
                 @if($errors->any())
-                    <div class="error-list">
-                        <ul style="margin: 0; padding-left: 20px;">
+                    <div class="error-list error-list-container">
+                        <ul>
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -514,14 +527,14 @@
                     </div>
                 </div>
 
-                <div class="form-grid" style="margin-bottom: 25px;">
+                <div class="form-grid form-grid-mb">
                     <div class="input-group">
                         <label>Profile Image</label>
-                        <input type="file" name="profile_image" style="font-size: 12px;">
+                        <input type="file" name="profile_image" class="input-file-small">
                     </div>
                     <div class="input-group">
                         <label>Company Logo</label>
-                        <input type="file" name="company_logo" style="font-size: 12px;">
+                        <input type="file" name="company_logo" class="input-file-small">
                     </div>
                 </div>
 
@@ -533,7 +546,7 @@
     </div> {{-- End page-container --}}
 
     @if(session('success'))
-        <div style="position: fixed; bottom: 30px; right: 30px; background: #10b981; color: #fff; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(16,185,129,0.3); z-index: 10000; animation: slideIn 0.3s ease;">
+        <div class="success-toast-notification">
             {{ session('success') }}
         </div>
     @endif
@@ -546,16 +559,6 @@
         document.body.dataset.registrationLabel = 'Application {{ $pendingRegistration ? "Pending" : "Approved" }}';
     </script>
     <script src="{{ asset('js/alumni.js') }}"></script>
-    <style>
-        @keyframes modalPop {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes slideIn {
-            from { transform: translateX(50px); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-    </style>
     @endpush
 
 @endsection
