@@ -174,6 +174,9 @@ Standardized structure matching all pages
 
                 @if($todayItemsCount === 0)
                     <div class="all-clear-empty">
+                        <div class="all-clear-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
                         <p class="stat-value">All Clear!</p>
                         <p class="stat-sub">No more items for today</p>
                     </div>
