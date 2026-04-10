@@ -1389,3 +1389,252 @@
     background: var(--border);
     border-radius: 10px;
 }
+
+/* ============================================================
+   REFACTORED DASHBOARD CLASSES (Moved from Inline)
+   ============================================================ */
+
+.day-tasks-list {
+    width: 100%;
+    text-align: left;
+    overflow-y: auto;
+    max-height: 140px;
+    padding-right: 5px;
+}
+
+.schedule-mini-item {
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.schedule-mini-item.is-now {
+    background: #e0f2fe;
+    border-left: 3px solid #0ea5e9;
+}
+
+.schedule-mini-item.upcoming {
+    background: rgba(255, 255, 255, 0.5);
+    border-left: 3px solid #e2e8f0;
+}
+
+.schedule-mini-item.due-today {
+    background: #fff1f2;
+    border-left: 3px solid #f43f5e;
+}
+
+.mini-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mini-item-type {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.mini-item-type.live { color: #0ea5e9; }
+.mini-item-type.due { color: #f43f5e; }
+
+.mini-item-time {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.mini-item-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 2px 0;
+}
+
+.mini-item-sub {
+    font-size: 10px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Priority Task Card Refactoring */
+.task-card .card-header {
+    padding: 15px 20px;
+    position: relative;
+}
+
+.task-card .card-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 80px;
+}
+
+.task-card .card-course {
+    font-size: 10px;
+    padding: 2px 6px;
+    background: rgba(0, 170, 255, 0.1);
+    color: #00AAFF;
+    font-weight: 800;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.task-card .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.task-card .card-progress {
+    background: #f0eded;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    width: fit-content;
+    margin-top: 4px;
+}
+
+.task-card .task-type-badge {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 50px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.task-card .card-timeline {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #faf8f5;
+    margin: 0 15px 15px 15px;
+    border-radius: 10px;
+    gap: 8px;
+}
+
+.task-card .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1;
+}
+
+.task-card .timeline-icon {
+    font-size: 14px;
+}
+
+.task-card .timeline-label {
+    font-size: 10px;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.task-card .timeline-value {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.task-card .timeline-divider {
+    width: 1px;
+    height: 30px;
+    background: #e0ddd8;
+}
+
+.task-card .card-topic {
+    padding: 10px 20px;
+    border-top: 1px solid #f0eded;
+    flex: 1;
+}
+
+.task-card .topic-label {
+    font-size: 10px;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.task-card .topic-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.task-card .priority-label {
+    padding: 10px 20px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8b5cf6;
+    font-weight: 800;
+    border-top: 1px solid #f0eded;
+    margin: 0;
+}
+
+/* Empty State / Shared Utilites */
+.empty-msg {
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 20px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.empty-state-card {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.empty-state-card p {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.empty-state-card .section-link {
+    margin-top: 10px;
+    display: block;
+}
+
+/* Flash Notifications */
+.flash-message {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 99999;
+    animation: slideInRight 0.3s ease;
+}
+
+.flash-message.success { background: #22c55e; }
+.flash-message.error { background: #ef4444; }
+
+.all-clear-empty {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.stat-label-footer {
+    border-top: 1px solid #e0f2fe;
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+}

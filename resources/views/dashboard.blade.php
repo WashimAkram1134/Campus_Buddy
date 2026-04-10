@@ -123,7 +123,7 @@ Standardized structure matching all pages
                 </svg>
               </div>
 
-              <div class="day-tasks-list" style="width: 100%; text-align: left; overflow-y: auto; max-height: 140px; padding-right: 5px;">
+              <div class="day-tasks-list">
                 @php
                     $todayItemsCount = 0;
                 @endphp
@@ -149,38 +149,38 @@ Standardized structure matching all pages
                     @endphp
 
                     @if(!$isPast)
-                    <div class="schedule-mini-item {{ $isNow ? 'is-now' : '' }}" style="margin-bottom: 8px; padding: 8px; border-radius: 10px; background: {{ $isNow ? '#e0f2fe' : 'rgba(255,255,255,0.5)' }}; border-left: 3px solid {{ $isNow ? '#0ea5e9' : '#e2e8f0' }};">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; font-weight: 800; color: #0ea5e9; text-transform: uppercase;">{{ $isNow ? 'LIVE' : 'Upcoming' }}</span>
-                            <span style="font-size: 10px; color: #64748b; font-weight: 600;">{{ $class->time_slot }}</span>
+                    <div class="schedule-mini-item {{ $isNow ? 'is-now' : 'upcoming' }}">
+                        <div class="mini-item-header">
+                            <span class="mini-item-type {{ $isNow ? 'live' : '' }}">{{ $isNow ? 'LIVE' : 'Upcoming' }}</span>
+                            <span class="mini-item-time">{{ $class->time_slot }}</span>
                         </div>
-                        <h4 style="font-size: 13px; font-weight: 700; color: #1e293b; margin: 2px 0;">{{ Str::limit($class->course_title, 25) }}</h4>
-                        <p style="font-size: 10px; color: #64748b; margin: 0;">Room {{ $class->room_no }}</p>
+                        <h4 class="mini-item-title">{{ Str::limit($class->course_title, 25) }}</h4>
+                        <p class="mini-item-sub">Room {{ $class->room_no }}</p>
                     </div>
                     @endif
                 @endforeach
 
                 @foreach($tasksDueToday as $task)
                     @php $todayItemsCount++; @endphp
-                    <div class="schedule-mini-item" style="margin-bottom: 8px; padding: 8px; border-radius: 10px; background: #fff1f2; border-left: 3px solid #f43f5e;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="font-size: 11px; font-weight: 800; color: #f43f5e; text-transform: uppercase;">DUE TODAY</span>
-                            <span style="font-size: 10px; color: #64748b; font-weight: 600;">Today</span>
+                    <div class="schedule-mini-item due-today">
+                        <div class="mini-item-header">
+                            <span class="mini-item-type due">DUE TODAY</span>
+                            <span class="mini-item-time">Today</span>
                         </div>
-                        <h4 style="font-size: 13px; font-weight: 700; color: #1e293b; margin: 2px 0;">{{ Str::limit($task->title, 25) }}</h4>
-                        <p style="font-size: 10px; color: #64748b; margin: 0;">{{ strtoupper($task->type) }}</p>
+                        <h4 class="mini-item-title">{{ Str::limit($task->title, 25) }}</h4>
+                        <p class="mini-item-sub">{{ strtoupper($task->type) }}</p>
                     </div>
                 @endforeach
 
                 @if($todayItemsCount === 0)
-                    <div style="text-align: center; padding: 20px 0;">
-                        <p class="stat-value" style="font-size: 16px;">All Clear!</p>
-                        <p class="stat-sub" style="font-size: 12px; margin: 0;">No more items for today</p>
+                    <div class="all-clear-empty">
+                        <p class="stat-value">All Clear!</p>
+                        <p class="stat-sub">No more items for today</p>
                     </div>
                 @endif
               </div>
 
-              <p class="stat-label" style="border-top: 1px solid #e0f2fe; width: 100%; margin-top: 10px; padding-top: 8px;">Day Tasks</p>
+              <p class="stat-label-footer">Day Tasks</p>
             </div>
 
             {{-- 2. PRIORITY TASK CARD (Center) --}}
@@ -200,43 +200,33 @@ Standardized structure matching all pages
               $remaining = round($remaining);
               @endphp
 
-              <div class="card-header" style="padding: 15px 20px; position: relative;">
-                <div class="card-title-group"
-                  style="display: flex; flex-direction: column; gap: 4px; padding-right: 80px;">
-                  <span class="card-course"
-                    style="font-size: 10px; padding: 2px 6px; background: rgba(0, 170, 255, 0.1); color: #00AAFF; font-weight: 800; border-radius: 4px; width: fit-content;">{{
-                    $urgentTask->course_code }}</span>
-                  <h3 class="card-title" style="font-size: 16px; font-weight: 700; color: #1a1a1a; margin: 0;">{{
-                    Str::limit($urgentTask->title, 25) }}</h3>
-                  <span class="card-progress {{ $urgentTask->type === 'quiz' ? 'quiz-progress' : '' }}"
-                    style="background: #f0eded; color: #666; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; width: fit-content; margin-top: 4px;">{{
-                    $percentage }}%</span>
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-course">{{ $urgentTask->course_code }}</span>
+                  <h3 class="card-title">{{ Str::limit($urgentTask->title, 25) }}</h3>
+                  <span class="card-progress {{ $urgentTask->type === 'quiz' ? 'quiz-progress' : '' }}">{{ $percentage }}%</span>
                 </div>
 
                 <div class="task-type-badge"
-                  style="position: absolute; top: 15px; right: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 10px; border-radius: 50px; background: {{ $urgentTask->type === 'assignment' ? '#ff6b6b' : ($urgentTask->type === 'quiz' ? '#6496ff' : '#64c850') }}; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                  style="background: {{ $urgentTask->type === 'assignment' ? '#ff6b6b' : ($urgentTask->type === 'quiz' ? '#6496ff' : '#64c850') }};">
                   {{ $urgentTask->type }}
                 </div>
               </div>
 
-              <div class="card-timeline"
-                style="display: flex; align-items: center; padding: 10px 15px; background: #faf8f5; margin: 0 15px 15px 15px; border-radius: 10px; gap: 8px;">
-                <div class="timeline-item" style="display: flex; align-items: flex-start; gap: 8px; flex: 1;">
-                  <span class="timeline-icon" style="font-size: 14px;">📅</span>
+              <div class="card-timeline">
+                <div class="timeline-item">
+                  <span class="timeline-icon">📅</span>
                   <div>
-                    <p class="timeline-label"
-                      style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase;">Due</p>
-                    <p class="timeline-value" style="font-size: 12px; font-weight: 700;">{{ $deadline->format('d M') }}
-                    </p>
+                    <p class="timeline-label">Due</p>
+                    <p class="timeline-value">{{ $deadline->format('d M') }}</p>
                   </div>
                 </div>
-                <div class="timeline-divider" style="width: 1px; height: 30px; background: #e0ddd8;"></div>
-                <div class="timeline-item" style="display: flex; align-items: flex-start; gap: 8px; flex: 1;">
-                  <span class="timeline-icon" style="font-size: 14px;">⏰</span>
+                <div class="timeline-divider"></div>
+                <div class="timeline-item">
+                  <span class="timeline-icon">⏰</span>
                   <div>
-                    <p class="timeline-label"
-                      style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase;">Left</p>
-                    <p class="timeline-value" style="font-size: 12px; font-weight: 700;">
+                    <p class="timeline-label">Left</p>
+                    <p class="timeline-value">
                       @if($remaining > 0) {{ $remaining }}d @elseif($remaining == 0) <span
                         style="color:#ef4444;">Today</span> @else <span style="color:#666;">Overdue</span> @endif
                     </p>
@@ -245,18 +235,13 @@ Standardized structure matching all pages
               </div>
 
               @if($urgentTask->topic)
-              <div class="card-topic" style="padding: 10px 20px; border-top: 1px solid #f0eded; flex: 1;">
-                <p class="topic-label"
-                  style="font-size: 10px; color: #999; font-weight: 600; text-transform: uppercase; margin-bottom: 4px;">
-                  Topic</p>
-                <p class="topic-value" style="font-size: 13px; font-weight: 600; color: #1a1a1a;">{{
-                  Str::limit($urgentTask->topic, 40) }}</p>
+              <div class="card-topic">
+                <p class="topic-label">Topic</p>
+                <p class="topic-value">{{ Str::limit($urgentTask->topic, 40) }}</p>
               </div>
               @endif
 
-              <p class="stat-label"
-                style="padding: 10px 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8b5cf6; font-weight: 800; border-top: 1px solid #f0eded; margin: 0;">
-                Priority Task</p>
+              <p class="priority-label">Priority Task</p>
               @else
               <div
                 style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
@@ -342,7 +327,7 @@ Standardized structure matching all pages
                 </div>
               </div>
             @empty
-              <p style="color:var(--text-muted); font-size:14px; padding: 20px;">No recent events uploaded by Admin.</p>
+              <p class="empty-msg">No recent events uploaded by Admin.</p>
             @endforelse
           </div>
 
@@ -357,7 +342,7 @@ Standardized structure matching all pages
             <a href="{{ route('community') }}#posts-section" class="section-link">View all</a>
           </div>
 
-          <div class="community-feed-card animate-right delay-5" style="cursor: pointer;" onclick="window.location.href='{{ route('community') }}#posts-section'">
+          <div class="community-feed-card animate-right delay-5 clickable" onclick="window.location.href='{{ route('community') }}#posts-section'">
             <div class="community-posts-list">
                 @forelse($latestPosts as $index => $post)
                 <div class="feed-post-item">
@@ -390,9 +375,9 @@ Standardized structure matching all pages
                   </div>
                 </div>
                 @empty
-                <div style="padding: 40px; text-align: center; color: var(--text-muted);">
-                  <p style="font-size: 14px; font-weight: 600;">No community posts yet.</p>
-                  <a href="{{ route('community') }}" class="section-link" style="margin-top: 10px; display: block;">Be the first to post!</a>
+                <div class="empty-state-card">
+                  <p>No community posts yet.</p>
+                  <a href="{{ route('community') }}" class="section-link">Be the first to post!</a>
                 </div>
                 @endforelse
             </div>
@@ -404,15 +389,13 @@ Standardized structure matching all pages
 
 
   @if(session('success'))
-  <div
-    style="position: fixed; bottom: 80px; right: 20px; background: #22c55e; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 99999; animation: slideInRight 0.3s ease;">
+  <div class="flash-message success">
     {{ session('success') }}
   </div>
   @endif
 
   @if(session('error'))
-  <div
-    style="position: fixed; bottom: 80px; right: 20px; background: #ef4444; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); z-index: 99999; animation: slideInRight 0.3s ease;">
+  <div class="flash-message error">
     {{ session('error') }}
   </div>
   @endif
