@@ -440,59 +440,58 @@
 
                 @if($errors->any())
                     <div class="error-list">
-                        <ul>
+                        <ul style="margin: 0; padding-left: 20px;">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 @endif
-
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Full Name *</label>
                         <input type="text" name="full_name" value="{{ auth()->user()->name }}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Email *</label>
                         <input type="email" name="email" value="{{ auth()->user()->email }}" required>
                     </div>
                 </div>
 
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Student ID *</label>
                         <input type="text" name="student_id" value="{{ auth()->user()->student_id }}" required>
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Phone</label>
                         <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}">
                     </div>
                 </div>
 
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Department *</label>
                         <input type="text" name="department" value="{{ auth()->user()->department }}" required placeholder="e.g. CSE">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Batch *</label>
                         <input type="text" name="batch" value="{{ auth()->user()->batch }}" required placeholder="e.g. 52">
                     </div>
                 </div>
 
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Graduation Year *</label>
                         <input type="text" name="graduation_year" required placeholder="e.g. 2020">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Linkedin URL</label>
                         <input type="url" name="linkedin_url" placeholder="https://">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="input-group">
                     <label>Select Category *</label>
                     <select name="category" required>
                         <option value="software-engineering">Software Engineering</option>
@@ -505,28 +504,28 @@
                 </div>
 
                 <div class="form-grid">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Current Position *</label>
                         <input type="text" name="current_position" required placeholder="e.g. Software Engineer">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Company *</label>
                         <input type="text" name="company" required placeholder="e.g. Google">
                     </div>
                 </div>
 
                 <div class="form-grid" style="margin-bottom: 25px;">
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Profile Image</label>
-                        <input type="file" name="profile_image">
+                        <input type="file" name="profile_image" style="font-size: 12px;">
                     </div>
-                    <div class="form-group">
+                    <div class="input-group">
                         <label>Company Logo</label>
-                        <input type="file" name="company_logo">
+                        <input type="file" name="company_logo" style="font-size: 12px;">
                     </div>
                 </div>
 
-                <button type="submit" class="submit-reg-btn">Submit for Approval</button>
+                <button type="submit" class="submit-btn">Submit for Approval</button>
             </form>
         </div>
     </div>

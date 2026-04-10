@@ -52,7 +52,7 @@ if ($alumni) {
 }
 @endphp
 
-<div class="alumni-card featured-card reveal animate-item up {{ $stagger ? $stagger : '' }} {{ $badge === 'PREMIUM' ? 'mentor-glow' : '' }}" data-category="{{ $category }}">
+<div class="alumni-card featured-card reveal animate-item up {{ $stagger ? $stagger : '' }}" data-category="{{ $category }}">
     <div class="card-top">
         @if($topBg)
             <div class="field-img-container" style="{{ $topBg }}">
@@ -96,6 +96,8 @@ if ($alumni) {
                 @endfor
             </div>
         </div>
-        <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">{{ $name }}</div>
+        <div class="alumni-name" style="font-size: 13px; font-weight: 600; color: #666;">
+            {{ $name }} <span class="verified-badge"><i class="fas fa-check"></i></span>
+        </div>
     </div>
 </div>
