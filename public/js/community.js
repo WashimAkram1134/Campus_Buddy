@@ -346,8 +346,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div style="display: flex; gap: 12px; font-size: 11px; color: #718096; margin-top: 4px; margin-left: 10px; font-weight: 600;">
                                 <span>Just now</span>
-                                <span style="cursor: pointer; color: #4A5568;">Like</span>
-                                <span style="cursor: pointer; color: #4A5568;">Reply</span>
+                                <span class="comment-like-btn" data-id="${data.comment.id}" style="cursor: pointer; color: #4A5568;">
+                                    Like <span class="like-count"></span>
+                                </span>
+                                <span class="comment-reply-btn" data-id="${data.comment.id}" data-username="${data.comment.user.name}" style="cursor: pointer; color: #4A5568;">Reply</span>
                             </div>
                         </div>
                     `;

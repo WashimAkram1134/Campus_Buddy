@@ -110,12 +110,13 @@
             @endforelse
         </div>
 
-        <!-- Add Comment Input (Fixed Height) -->
-        <div class="add-comment" style="display: flex; gap: 8px; align-items: center;">
-            <input type="text" class="comment-input" placeholder="Write a comment..." data-id="{{ $post->id }}" style="flex: 1; padding: 8px 15px; border: 1px solid #E2E8F0; border-radius: 20px; font-size: 13px; outline: none; transition: border-color 0.2s ease;">
-            <button class="send-comment-btn" data-id="{{ $post->id }}" style="width: 32px; height: 32px; border-radius: 50%; background: #00AAFF; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s ease;">
+        <!-- Add Comment Form -->
+        <form class="comment-form" data-id="{{ $post->id }}" style="display: flex; gap: 8px; align-items: center; margin-top: 10px;">
+            <input type="hidden" name="parent_id" value="">
+            <input type="text" name="content" class="comment-input" placeholder="Write a comment..." style="flex: 1; padding: 8px 15px; border: 1px solid #E2E8F0; border-radius: 20px; font-size: 13px; outline: none; transition: border-color 0.2s ease;">
+            <button type="submit" class="send-comment-btn" style="width: 32px; height: 32px; border-radius: 50%; background: #00AAFF; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s ease;">
                 <i class="fas fa-paper-plane" style="font-size: 12px;"></i>
             </button>
-        </div>
+        </form>
     </div>
 </div>

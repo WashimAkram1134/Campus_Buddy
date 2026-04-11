@@ -124,6 +124,17 @@
   </div>
 
   <script>
+    // Global Modal Functions
+    window.openModal = function(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('show');
+    };
+
+    window.closeModal = function(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('show');
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
       // Toggle User Dropdown
       const profileTrigger = document.getElementById('userProfileIcon');
