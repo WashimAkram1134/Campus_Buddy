@@ -181,7 +181,7 @@
                   </div>
                 </div>
 
-                @if(auth()->user()->role === 'cr')
+                @if(auth()->id() === $class->user_id || auth()->user()->role === 'admin')
                 <div class="class-actions">
                   <button onclick="openEditModal({{ json_encode($class) }})" class="action-btn edit-btn">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -271,7 +271,7 @@
           />
       </div>
 
-  @if(auth()->user()->role === 'cr')
+  @if(auth()->user()->role === 'cr' || auth()->user()->role === 'admin')
   <!-- ================= EDIT SCHEDULE MODAL ================= -->
   <div id="editScheduleModal" class="routine-modal">
     <div class="modal-content">

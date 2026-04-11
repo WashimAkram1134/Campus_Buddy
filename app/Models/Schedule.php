@@ -19,5 +19,11 @@ class Schedule extends Model
         'lab_section',
         'day',
         'time_slot',
+        'user_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -57,6 +57,7 @@ class ScheduleController extends Controller
         $data['batch'] = $user->batch;
         $data['section'] = $user->section;
         $data['major'] = $user->major;
+        $data['user_id'] = $user->id;
 
         Schedule::create($data);
 
@@ -66,11 +67,11 @@ class ScheduleController extends Controller
     public function update(Request $request, Schedule $schedule)
     {
         $user = auth()->user();
-        if ($user->role !== 'cr' ||
-        $schedule->department !== $user->department ||
-        $schedule->batch !== $user->batch ||
-        $schedule->section !== $user->section) {
-            return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
+        $isOwner = $schedule->user_id === $user->id;
+        $isAdmin = $user->role === 'admin';
+
+        if (!$isAdmin && !$isOwner) {
+            return back()->with('error', 'Unauthorized. You can only manage your own submissions.');
         }
 
         $request->validate([
@@ -99,11 +100,11 @@ class ScheduleController extends Controller
     public function destroy(Schedule $schedule)
     {
         $user = auth()->user();
-        if ($user->role !== 'cr' ||
-        $schedule->department !== $user->department ||
-        $schedule->batch !== $user->batch ||
-        $schedule->section !== $user->section) {
-            return back()->with('error', 'Unauthorized. You can only manage your own group\'s schedule.');
+        $isOwner = $schedule->user_id === $user->id;
+        $isAdmin = $user->role === 'admin';
+
+        if (!$isAdmin && !$isOwner) {
+            return back()->with('error', 'Unauthorized. You can only manage your own submissions.');
         }
 
         $schedule->delete();
