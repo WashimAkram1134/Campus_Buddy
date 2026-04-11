@@ -99,6 +99,7 @@ Route::post('/talents', [\App\Http\Controllers\TalentController::class, 'store']
 // Alumni
 Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni')->middleware('auth');
 Route::post('/alumni/register', [AlumniController::class, 'store'])->name('alumni.register')->middleware('auth');
+Route::delete('/alumni/{alumni}', [AlumniController::class, 'destroy'])->name('alumni.destroy')->middleware('auth');
 
 // Events
 Route::post('/events', [EventController::class, 'store'])->name('events.store')->middleware('auth');

@@ -207,7 +207,10 @@
     <div id="registrationModal" class="alumni-modal">
         <div class="modal-content">
             <span id="closeModal" class="close-btn">&times;</span>
-            <h2>Alumni <span>Registration</span></h2>
+            <h2>Alumni <span>{{ $isAlumni ? 'Information' : 'Registration' }}</span></h2>
+            @if($isAlumni)
+                <p class="edit-info-note">You are already a registered alumnus. You can update your information below or delete your card if you wish.</p>
+            @endif
             
             <form action="{{ route('alumni.register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -224,67 +227,67 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Full Name *</label>
-                        <input type="text" name="full_name" value="{{ auth()->user()->name }}" required>
+                        <input type="text" name="full_name" value="{{ $existingRegistration->full_name ?? auth()->user()->name }}" required>
                     </div>
                     <div class="input-group">
                         <label>Email *</label>
-                        <input type="email" name="email" value="{{ auth()->user()->email }}" required>
+                        <input type="email" name="email" value="{{ $existingRegistration->email ?? auth()->user()->email }}" required>
                     </div>
                 </div>
 
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Student ID *</label>
-                        <input type="text" name="student_id" value="{{ auth()->user()->student_id }}" required>
+                        <input type="text" name="student_id" value="{{ $existingRegistration->student_id ?? auth()->user()->student_id }}" required>
                     </div>
                     <div class="input-group">
                         <label>Phone</label>
-                        <input type="text" name="phone" value="{{ auth()->user()->phone ?? '' }}">
+                        <input type="text" name="phone" value="{{ $existingRegistration->phone ?? (auth()->user()->phone ?? '') }}">
                     </div>
                 </div>
 
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Department *</label>
-                        <input type="text" name="department" value="{{ auth()->user()->department }}" required placeholder="e.g. CSE">
+                        <input type="text" name="department" value="{{ $existingRegistration->department ?? auth()->user()->department }}" required placeholder="e.g. CSE">
                     </div>
                     <div class="input-group">
                         <label>Batch *</label>
-                        <input type="text" name="batch" value="{{ auth()->user()->batch }}" required placeholder="e.g. 52">
+                        <input type="text" name="batch" value="{{ $existingRegistration->batch ?? auth()->user()->batch }}" required placeholder="e.g. 52">
                     </div>
                 </div>
 
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Graduation Year *</label>
-                        <input type="text" name="graduation_year" required placeholder="e.g. 2020">
+                        <input type="text" name="graduation_year" value="{{ $existingRegistration->graduation_year ?? '' }}" required placeholder="e.g. 2020">
                     </div>
                     <div class="input-group">
                         <label>Linkedin URL</label>
-                        <input type="url" name="linkedin_url" placeholder="https://">
+                        <input type="url" name="linkedin_url" value="{{ $existingRegistration->linkedin_url ?? '' }}" placeholder="https://">
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>Select Category *</label>
                     <select name="category" required>
-                        <option value="software-engineering">Software Engineering</option>
-                        <option value="data-science">Data Science</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="finance">Finance</option>
-                        <option value="journalism">Journalism</option>
-                        <option value="bba">BBA</option>
+                        <option value="software-engineering" {{ ($existingRegistration->category ?? '') == 'software-engineering' ? 'selected' : '' }}>Software Engineering</option>
+                        <option value="data-science" {{ ($existingRegistration->category ?? '') == 'data-science' ? 'selected' : '' }}>Data Science</option>
+                        <option value="marketing" {{ ($existingRegistration->category ?? '') == 'marketing' ? 'selected' : '' }}>Marketing</option>
+                        <option value="finance" {{ ($existingRegistration->category ?? '') == 'finance' ? 'selected' : '' }}>Finance</option>
+                        <option value="journalism" {{ ($existingRegistration->category ?? '') == 'journalism' ? 'selected' : '' }}>Journalism</option>
+                        <option value="bba" {{ ($existingRegistration->category ?? '') == 'bba' ? 'selected' : '' }}>BBA</option>
                     </select>
                 </div>
 
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Current Position *</label>
-                        <input type="text" name="current_position" required placeholder="e.g. Software Engineer">
+                        <input type="text" name="current_position" value="{{ $existingRegistration->current_position ?? '' }}" required placeholder="e.g. Software Engineer">
                     </div>
                     <div class="input-group">
                         <label>Company *</label>
-                        <input type="text" name="company" required placeholder="e.g. Google">
+                        <input type="text" name="company" value="{{ $existingRegistration->company ?? '' }}" required placeholder="e.g. Google">
                     </div>
                 </div>
 
@@ -299,8 +302,21 @@
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn">Submit for Approval</button>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">{{ $isAlumni ? 'Update My Info' : 'Submit for Approval' }}</button>
+                    
+                    @if($existingRegistration)
+                        <button type="button" class="delete-alumni-btn" onclick="confirmDeleteAlumni()">Delete My Card</button>
+                    @endif
+                </div>
             </form>
+
+            @if($existingRegistration)
+                <form id="deleteAlumniForm" action="{{ route('alumni.destroy', $existingRegistration->id) }}" method="POST" style="display: none;">
+                    @csrf
+                    @method('DELETE')
+                </form>
+            @endif
         </div>
     </div>
 
@@ -316,8 +332,8 @@
     <script>
         // Pass Blade data to external JS via data attributes
         document.body.dataset.hasErrors = '{{ $errors->any() ? "true" : "false" }}';
-        document.body.dataset.registrationDisabled = '{{ ($pendingRegistration || (auth()->user() && auth()->user()->role === "alumni")) ? "true" : "false" }}';
-        document.body.dataset.registrationLabel = 'Application {{ $pendingRegistration ? "Pending" : "Approved" }}';
+        document.body.dataset.registrationStatus = '{{ $pendingRegistration ? "pending" : ($isAlumni ? "approved" : "none") }}';
+        document.body.dataset.registrationLabel = '{{ $pendingRegistration ? "Application Pending" : ($isAlumni ? "Manage Alumni Card" : "Register Today") }}';
     </script>
     <script src="{{ asset('js/alumni.js') }}"></script>
     @endpush

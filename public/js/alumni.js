@@ -21,18 +21,30 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 3000);
     }
 
-    // Disable registration button if pending/approved (data attribute set in Blade)
-    if (document.body.dataset.registrationDisabled === 'true') {
-        if (openModalBtn) {
+    // Handle registration button status
+    const registrationStatus = document.body.dataset.registrationStatus;
+    if (openModalBtn) {
+        if (registrationStatus === 'pending') {
             openModalBtn.style.opacity = '0.7';
             openModalBtn.style.cursor = 'not-allowed';
-            openModalBtn.innerText = document.body.dataset.registrationLabel || 'Application Pending';
+            openModalBtn.innerText = 'Application Pending';
+            openModalBtn.classList.remove('pulse-primary');
             openModalBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
             });
+        } else if (registrationStatus === 'approved') {
+            openModalBtn.innerText = 'Manage Alumni Card';
+            openModalBtn.classList.add('manage-mode');
         }
     }
+
+    // Global function for deletion confirmation
+    window.confirmDeleteAlumni = function() {
+        if (confirm('Are you sure you want to delete your alumni card? This action cannot be undone.')) {
+            document.getElementById('deleteAlumniForm').submit();
+        }
+    };
 
     if (openModalBtn && modal) {
         openModalBtn.addEventListener('click', function (e) {

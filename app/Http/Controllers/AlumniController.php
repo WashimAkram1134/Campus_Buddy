@@ -16,34 +16,35 @@ class AlumniController extends Controller
         $approvedAlumni = AlumniRegistration::approved()->orderBy('created_at', 'desc')->get();
         $user = auth()->user();
         $pendingRegistration = null;
+        $existingRegistration = null;
         $justApproved = false;
         $isAlumni = false;
 
         if ($user) {
-            // Check for pending registration
-            $pendingRegistration = AlumniRegistration::where('email', $user->email)
-                ->where('status', 'pending')
-                ->first();
+            // Check for any existing registration (pending or approved)
+            $existingRegistration = AlumniRegistration::where('email', $user->email)->first();
 
-            // Check if just approved (status approved but not yet notified)
-            $newlyApproved = AlumniRegistration::where('email', $user->email)
-                ->where('status', 'approved')
-                ->where('is_notified', false)
-                ->first();
-
-            if ($newlyApproved) {
-                $justApproved = true;
-                // Mark as notified so the toast only shows once, but persistent badge remains
-                $newlyApproved->update(['is_notified' => true]);
+            if ($existingRegistration) {
+                if ($existingRegistration->status === 'pending') {
+                    $pendingRegistration = $existingRegistration;
+                } elseif ($existingRegistration->status === 'approved') {
+                    $isAlumni = true;
+                    
+                    // Check if just approved (not yet notified)
+                    if (!$existingRegistration->is_notified) {
+                        $justApproved = true;
+                        $existingRegistration->update(['is_notified' => true]);
+                    }
+                }
             }
             
-            // Check if user is ALREADY a verified alumni (approved and notified or not)
-            $isAlumni = AlumniRegistration::where('email', $user->email)
-                ->where('status', 'approved')
-                ->exists() || $user->role === 'alumni';
+            // Legacy role check
+            if ($user->role === 'alumni') {
+                $isAlumni = true;
+            }
         }
 
-        return view('alumni', compact('approvedAlumni', 'pendingRegistration', 'justApproved', 'isAlumni'));
+        return view('alumni', compact('approvedAlumni', 'pendingRegistration', 'existingRegistration', 'justApproved', 'isAlumni'));
     }
 
     /**
@@ -88,5 +89,19 @@ class AlumniController extends Controller
         );
 
         return back()->with('success', 'Your alumni registration has been submitted! It will be reviewed by admin.');
+    }
+
+    /**
+     * Delete an alumni registration.
+     */
+    public function destroy(AlumniRegistration $alumni)
+    {
+        if (auth()->user()->email !== $alumni->email && auth()->user()->role !== 'admin') {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        $alumni->delete();
+
+        return redirect()->route('alumni.index')->with('success', 'Your alumni card has been removed.');
     }
 }
