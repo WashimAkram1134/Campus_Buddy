@@ -46,7 +46,7 @@ class PostController extends Controller
 
         Post::create([
             'user_id' => Auth::id(),
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'attachment' => $attachmentPath,
             'type' => $request->type ?? 'general',
             'action_text' => $request->action_text,

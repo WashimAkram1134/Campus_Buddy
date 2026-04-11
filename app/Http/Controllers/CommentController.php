@@ -23,7 +23,7 @@ class CommentController extends Controller
         $comment = Comment::create([
             'post_id' => $post->id,
             'user_id' => Auth::id(),
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'parent_id' => $request->parent_id,
         ]);
 
@@ -52,7 +52,7 @@ class CommentController extends Controller
         ]);
 
         $comment->update([
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
 
         return response()->json([
@@ -119,7 +119,7 @@ class CommentController extends Controller
             'post_id' => $comment->post_id,
             'user_id' => Auth::id(),
             'parent_id' => $comment->id,
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
 
         return response()->json([

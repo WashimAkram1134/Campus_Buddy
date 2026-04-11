@@ -21,7 +21,7 @@ class AnnouncementController extends Controller
         Announcement::create([
             'user_id' => auth()->id(),
             'title' => $request->title,
-            'content' => $request->content,
+            'content' => $request->input('content'),
             'department' => auth()->user()->department,
             'batch' => auth()->user()->batch,
             'section' => auth()->user()->section,
