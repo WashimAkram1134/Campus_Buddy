@@ -42,9 +42,8 @@ class SignupController extends Controller
 
         $profileImagePath = null;
         if ($request->hasFile('profile_image')) {
-            $imageName = time() . '_' . uniqid() . '.' . $request->file('profile_image')->getClientOriginalExtension();
-            $request->file('profile_image')->move(public_path('images/profile'), $imageName);
-            $profileImagePath = 'images/profile/' . $imageName;
+            // Store the image in the 'profile_images' directory on the 'public' disk
+            $profileImagePath = $request->file('profile_image')->store('profile_images', 'public');
         }
 
         $user = User::create([
@@ -66,12 +65,11 @@ class SignupController extends Controller
             // Do NOT log in - CR must wait for admin approval
             return redirect()->route('login')->with(
                 'success',
-                '✅ CR account created! Your account is pending admin approval. You will be notified once approved.'
+                '✅ Account created successfully! As a Class Representative, your account is pending admin approval. Please wait for an administrator to verify your request.'
             );
         }
 
-        // Auto-login for regular students
-        Auth::login($user);
-        return redirect()->route('dashboard');
+        // Redirect to login page with success message instead of auto-login to dashboard
+        return redirect()->route('login')->with('success', '✅ Account created successfully! Please sign in with your credentials.');
     }
 }
