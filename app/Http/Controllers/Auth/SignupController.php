@@ -26,7 +26,15 @@ class SignupController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => [
+                'required', 
+                'string', 
+                'lowercase', 
+                'email', 
+                'max:255', 
+                'unique:' . User::class,
+                'ends_with:@diu.edu.bd'
+            ],
             'student_id' => ['required', 'string', 'max:20', 'unique:' . User::class],
             'role' => ['required', 'string', 'in:student,cr'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -36,6 +44,8 @@ class SignupController extends Controller
             'section' => ['required', 'string', 'max:10'],
             'major' => ['nullable', 'string', 'max:100'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+        ], [
+            'email.ends_with' => 'Please use your official university email (ending in @diu.edu.bd).',
         ]);
 
         $isCr = $request->role === 'cr';
