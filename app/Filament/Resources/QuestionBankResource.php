@@ -32,21 +32,17 @@ class QuestionBankResource extends Resource
                 Forms\Components\Section::make('Academic Details')
                     ->schema([
                         Forms\Components\TextInput::make('department')
-                            ->required()
-                            ->placeholder('e.g. SWE')
+                            ->placeholder('e.g. SWE (AI will auto-fill)')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('course_code')
-                            ->required()
-                            ->placeholder('e.g. SWE441')
+                            ->placeholder('e.g. SWE441 (AI will auto-fill)')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('course_name')
-                            ->required()
-                            ->placeholder('e.g. Software Quality Assurance')
+                            ->placeholder('e.g. Software Quality Assurance (AI will auto-fill)')
                             ->maxLength(255),
                         Forms\Components\TextInput::make('year_semester')
                             ->label('Semester/Year')
-                            ->required()
-                            ->placeholder('e.g. Fall 2025')
+                            ->placeholder('e.g. Fall 2025 (AI will auto-fill)')
                             ->maxLength(255),
                     ])->columns(2),
 
@@ -54,8 +50,7 @@ class QuestionBankResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->label('Card Title')
-                            ->required()
-                            ->placeholder('e.g. Midterm 2025')
+                            ->placeholder('e.g. Midterm 2025 (AI will auto-fill)')
                             ->maxLength(255),
                         Forms\Components\Select::make('difficulty')
                             ->options([
@@ -66,13 +61,11 @@ class QuestionBankResource extends Resource
                             ->required()
                             ->default('Medium'),
                         Forms\Components\TextInput::make('question_heading')
-                            ->required()
-                            ->placeholder('e.g. Q1: Testing Fundamentals')
+                            ->placeholder('e.g. Q1: Testing Fundamentals (AI will auto-fill)')
                             ->maxLength(255),
                         Forms\Components\Textarea::make('sub_questions')
                             ->label('Sub Questions (One per line)')
-                            ->placeholder("Explain white-box testing.\nWhat is black-box testing?")
-                            ->required()
+                            ->placeholder("AI will automatically extract the core questions.")
                             ->rows(5)
                             ->columnSpanFull(),
                         Forms\Components\TextInput::make('tags')

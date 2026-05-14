@@ -45,6 +45,14 @@
             background: #f8fafc;
         }
 
+        /* Sidebar toggle states */
+        body.left-sidebar-hidden .chat-sidebar {
+            display: none !important;
+        }
+        body.right-sidebar-hidden .options-sidebar {
+            display: none !important;
+        }
+
         /* Visitor Specific Overrides */
         .welcome-avatar {
             background: linear-gradient(135deg, #16a34a, #00aaff);
@@ -186,7 +194,7 @@
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-            <input type="text" placeholder="Search DIU admission topics…">
+            <input type="text" id="searchVisitorChats" placeholder="Search DIU admission topics…">
         </div>
         
         <div class="sidebar-label">DIU Frequents Questions</div>
@@ -215,6 +223,20 @@
             <span>🚌 Transport & Logistics</span>
             <p>DIU Bus network covering major parts of Dhaka city.</p>
         </div>
+
+        @if(isset($chats) && $chats->count() > 0)
+            <div class="sidebar-label" style="margin-top:20px;">Recent Chats</div>
+            <div id="chatHistoryList">
+                @foreach($chats as $chat)
+                    <div class="faq-item chat-history-item" data-id="{{ $chat->id }}" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                        </svg>
+                        <span style="font-size:13px; font-weight:500; color:#1e293b; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ $chat->title }}</span>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </aside>
 
     <!-- Main Chat Area -->
@@ -224,7 +246,8 @@
             <div class="chat-top-left">
                 <button class="menu-toggle-btn" id="sidebarToggle" title="Toggle Sidebar">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="9" y1="3" x2="9" y2="21"/>
                     </svg>
                 </button>
                 <div class="buddy-avatar">
@@ -238,7 +261,8 @@
             <div class="chat-top-actions">
                 <button class="chat-action-btn" id="toggleSidebarsBtn" title="Toggle Features">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M9 3v18M15 3v18"/>
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="15" y1="3" x2="15" y2="21"/>
                     </svg>
                 </button>
             </div>
@@ -349,15 +373,27 @@
         const welcomeSection = document.getElementById('welcomeSection');
         const toggleSidebarsBtn = document.getElementById('toggleSidebarsBtn');
         const sidebarToggle = document.getElementById('sidebarToggle');
+
+        // CSRF token for POST requests
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        // Conversation history for context
+        let conversationHistory = [];
+        let currentChatId = null;
+        let isProcessing = false;
         
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
         });
 
-        function sendMessage(text) {
+        async function sendMessage(text) {
             const rawText = text || chatInput.value.trim();
-            if (rawText === '') return;
+            if (rawText === '' || isProcessing) return;
+
+            isProcessing = true;
+            sendBtn.disabled = true;
+            sendBtn.style.opacity = '0.6';
 
             if (welcomeSection.style.display !== 'none') {
                 welcomeSection.style.display = 'none';
@@ -368,19 +404,116 @@
             if(!text) chatInput.value = '';
             chatInput.style.height = 'auto';
 
-            setTimeout(() => {
-                showTyping();
-                setTimeout(() => {
-                    hideTyping();
-                    const response = getDIUResponse(rawText.toLowerCase());
-                    addMessage(response, 'bot');
-                }, 1200);
-            }, 400);
+            // Show typing indicator
+            showTyping();
+
+            try {
+                const response = await fetch('/api/buddy-visitor', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: currentChatId,
+                        message: rawText,
+                        history: conversationHistory.slice(-16),
+                    }),
+                });
+
+                hideTyping();
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    const fallback = errData.response || "I'm having trouble connecting right now. For immediate help, visit daffodilvarsity.edu.bd 🔄";
+                    addMessage(fallback, 'bot');
+                    conversationHistory.push({ role: 'user', content: rawText });
+                    conversationHistory.push({ role: 'assistant', content: fallback });
+                } else {
+                    const data = await response.json();
+                    if (data.chat_id) {
+                        currentChatId = data.chat_id;
+                    }
+                    const aiResponse = data.response || "I couldn't generate a response. Please try again.";
+                    addMessage(aiResponse, 'bot');
+                    conversationHistory.push({ role: 'user', content: rawText });
+                    conversationHistory.push({ role: 'assistant', content: aiResponse });
+                }
+            } catch (error) {
+                hideTyping();
+                console.error('Visitor AI Error:', error);
+                addMessage("Something went wrong while connecting. Please check your connection and try again, or visit daffodilvarsity.edu.bd directly. 🔄", 'bot');
+            }
+
+            isProcessing = false;
+            sendBtn.disabled = false;
+            sendBtn.style.opacity = '1';
         }
 
         window.askFAQ = function(question) {
             sendMessage(question);
         };
+
+        // Handle loading chat history
+        document.querySelectorAll('.chat-history-item').forEach(item => {
+            item.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const id = item.dataset.id;
+                if (!id) return;
+
+                document.querySelectorAll('.chat-history-item').forEach(i => i.style.background = '#fff');
+                item.style.background = '#f1f5f9';
+
+                try {
+                    const res = await fetch(`/api/ai-chat/${id}`);
+                    const chatData = await res.json();
+                    
+                    currentChatId = chatData.id;
+                    conversationHistory = chatData.history || [];
+                    
+                    // Clear UI
+                    chatMessages.innerHTML = '';
+                    welcomeSection.style.display = 'none';
+                    chatMessages.style.display = 'flex';
+                    
+                    // Render history
+                    conversationHistory.forEach(msg => {
+                        addMessage(msg.content, msg.role === 'assistant' ? 'bot' : 'user');
+                    });
+                } catch (err) {
+                    console.error("Failed to load chat", err);
+                }
+            });
+        });
+
+        // Search functionality
+        const searchVisitorChats = document.getElementById('searchVisitorChats');
+        if (searchVisitorChats) {
+            searchVisitorChats.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                
+                // Filter FAQs
+                document.querySelectorAll('.faq-item:not(.chat-history-item)').forEach(item => {
+                    const text = item.querySelector('span').textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Filter History
+                document.querySelectorAll('.chat-history-item').forEach(item => {
+                    const text = item.querySelector('span').textContent.toLowerCase().trim();
+                    if (text.startsWith(query)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        }
 
         sendBtn.addEventListener('click', () => sendMessage());
         chatInput.addEventListener('keypress', (e) => {
@@ -390,16 +523,34 @@
             }
         });
 
+        /**
+         * Simple Markdown-to-HTML renderer for AI responses.
+         */
+        function renderMarkdown(text) {
+            let html = text;
+            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+            html = html.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:0.9em;">$1</code>');
+            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+            html = html.replace(/^### (.+)$/gm, '<strong style="font-size:1.05em;display:block;margin:8px 0 4px;">$1</strong>');
+            html = html.replace(/^## (.+)$/gm, '<strong style="font-size:1.1em;display:block;margin:10px 0 4px;">$1</strong>');
+            html = html.replace(/^\d+\.\s+(.+)$/gm, '<div style="padding-left:16px;margin:2px 0;">• $1</div>');
+            html = html.replace(/^[-*]\s+(.+)$/gm, '<div style="padding-left:16px;margin:2px 0;">• $1</div>');
+            html = html.replace(/\n/g, '<br>');
+            return html;
+        }
+
         function addMessage(text, sender) {
             const row = document.createElement('div');
             row.className = `message-row ${sender}-row`;
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const renderedText = sender === 'bot' ? renderMarkdown(text) : text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
             
             row.innerHTML = `
                 <div class="msg-avatar ${sender}-avatar">${sender === 'bot' ? `<img src="{{ asset('assets/landing/character.png') }}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">` : '👤'}</div>
                 <div class="msg-content-wrap">
                     <span class="msg-sender-name">${sender === 'bot' ? 'DIU Buddy' : 'Future Student'}</span>
-                    <div class="msg-bubble">${text}</div>
+                    <div class="msg-bubble">${renderedText}</div>
                     <span class="msg-time">${time}</span>
                 </div>
             `;
@@ -426,24 +577,18 @@
             if (indicator) indicator.remove();
         }
 
-        function getDIUResponse(query) {
-            if (query.includes('cse') || query.includes('department')) return "Our Department of Computer Science and Engineering is recognized for excellence. With advanced research centers like the IoT Lab, AR/VR Lab, and Health Informatics Lab, students gain hands-on experience. The B.Sc. in CSE total fee is approximately 952,500 BDT (before waivers).";
-            if (query.includes('scholarship') || query.includes('waiver')) return "DIU offers generous waivers! Over 60% of our students receive some form of financial aid. For GPA 5.00 in SSC & HSC, you may get a 100% tuition waiver. We also have special waivers for siblings, spouses, and tribal communities.";
-            if (query.includes('campus') || query.includes('ashulia') || query.includes('smart city')) return "The Daffodil Smart City at Ashulia is our 20+ acre permanent campus! It features lush greenery, 10Gbps Wi-Fi, modern golf-course, and the best residential facilities for students. It's a true hub for innovation.";
-            if (query.includes('fee') || query.includes('cost')) return "Fees at DIU are credit-based. For popular programs like CSE, the total cost is around 9.5 Lakh BDT, while BBA is competitive as well. Remember, performance-based waivers can reduce this cost significantly every semester!";
-            if (query.includes('deadline')) return "The Fall-2024 intake is currently active. Regular deadlines are usually around late October, but we recommend applying early to secure early-bird scholarship benefits!";
-            if (query.includes('hostel') || query.includes('accommodation')) return "We have high-quality residential halls for both male and female students at the Smart City campus. They provide a secure environment with standard dining, gym, and high-speed internet.";
-            return "That's a great question about DIU! I'm programmed with facts about our departments, labs, and the Ashulia Smart City. You can check the resources on the right sidebar or ask about specific scholarship policies!";
-        }
-
         sidebarToggle.addEventListener('click', () => {
-            document.body.classList.toggle('show-left-sidebar');
+            if (window.innerWidth <= 768) {
+                document.body.classList.toggle('show-left-sidebar');
+            } else {
+                document.body.classList.toggle('left-sidebar-hidden');
+            }
         });
         toggleSidebarsBtn.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
                 document.body.classList.toggle('show-right-sidebar');
             } else {
-                document.body.classList.toggle('sidebars-hidden');
+                document.body.classList.toggle('right-sidebar-hidden');
             }
         });
     });

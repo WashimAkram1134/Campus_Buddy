@@ -52,8 +52,10 @@
         }
 
         /* Sidebar toggle states */
-        body.sidebars-hidden .chat-sidebar,
-        body.sidebars-hidden .options-sidebar {
+        body.left-sidebar-hidden .chat-sidebar {
+            display: none !important;
+        }
+        body.right-sidebar-hidden .options-sidebar {
             display: none !important;
         }
 
@@ -185,33 +187,21 @@
         <input type="text" id="searchChats" placeholder="Search conversations…">
       </div>
 
-      <span class="sidebar-label">Today</span>
-
-      <a href="#" class="chat-history-item active">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-        <span class="history-text">Assignment Q1 help</span>
-        <span class="history-time">2:30 PM</span>
-      </a>
-
-      <a href="#" class="chat-history-item">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-        <span class="history-text">Tomorrow's Routine?</span>
-        <span class="history-time">10:15 AM</span>
-      </a>
-
-      <span class="sidebar-label">Yesterday</span>
-
-      <a href="#" class="chat-history-item">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
-        <span class="history-text">Math notes for mid - Fall</span>
-        <span class="history-time">Yesterday</span>
-      </a>
+      <div id="chatHistoryList" style="overflow-y: auto; flex: 1;">
+        @if(isset($chats) && $chats->count() > 0)
+            @foreach($chats as $chat)
+                <a href="#" class="chat-history-item" data-id="{{ $chat->id }}">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                  <span class="history-text">{{ $chat->title }}</span>
+                  <span class="history-time">{{ $chat->created_at->shortAbsoluteDiffForHumans() }}</span>
+                </a>
+            @endforeach
+        @else
+            <span class="sidebar-label" style="text-align:center; display:block; margin-top:20px;">No recent chats</span>
+        @endif
+      </div>
     </aside>
 
     <!-- ================= MAIN CHAT AREA ================= -->
@@ -221,11 +211,9 @@
       <div class="chat-top-header">
         <div class="chat-top-left">
           <button class="menu-toggle-btn" id="sidebarToggle" title="Toggle Chats">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="18" x2="21" y2="18" />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <line x1="9" y1="3" x2="9" y2="21"/>
             </svg>
           </button>
           <div class="buddy-avatar">
@@ -240,32 +228,22 @@
         </div>
 
         <div class="chat-top-actions">
-          <button class="chat-action-btn" title="Export Chat" id="exportBtn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-          </button>
-          <button class="chat-action-btn" title="Chat Settings">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              stroke-linecap="round" stroke-linejoin="round">
+          <a href="{{ route('profile.settings') }}" class="chat-action-btn" title="Chat Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3" />
-              <path
-                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
             </svg>
-          </button>
+          </a>
           <button class="chat-action-btn" id="toggleTopbarBtn" title="Toggle Topbar Display">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 8h16M4 16h16"/>
               <path d="M12 4v16" class="toggle-icon-dash" style="opacity: 0.3;"/>
             </svg>
           </button>
-          <button class="chat-action-btn" id="toggleSidebarsBtn" title="Toggle Sidebars Display">
+          <button class="chat-action-btn" id="toggleSidebarsBtn" title="Toggle Right Sidebar Display">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <path d="M9 3v18M15 3v18"/>
+              <line x1="15" y1="3" x2="15" y2="21"/>
             </svg>
           </button>
         </div>
@@ -393,8 +371,14 @@
       const sidebarToggle = document.getElementById('sidebarToggle');
       const charSidebar = document.querySelector('.chat-sidebar');
       const optionsSidebar = document.querySelector('.options-sidebar');
-      const focusModeBtn = document.getElementById('focusModeBtn');
-      const restoreBtn = document.getElementById('restoreBtn');
+
+      // CSRF token for POST requests
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+      // Conversation history for context
+      let conversationHistory = [];
+      let currentChatId = null;
+      let isProcessing = false;
 
       // Auto-resize textarea
       chatInput.addEventListener('input', function () {
@@ -408,9 +392,13 @@
       });
 
       // Handle sending messages
-      function sendMessage() {
+      async function sendMessage() {
         const text = chatInput.value.trim();
-        if (text === '') return;
+        if (text === '' || isProcessing) return;
+
+        isProcessing = true;
+        sendBtn.disabled = true;
+        sendBtn.style.opacity = '0.6';
 
         // Hide welcome if first message
         if (welcomeSection.style.display !== 'none') {
@@ -418,29 +406,58 @@
           chatMessages.style.display = 'flex';
         }
 
-        // Add User Message
+        // Add User Message to UI
         addMessage(text, 'user');
         chatInput.value = '';
         chatInput.style.height = 'auto';
 
-        // Bot response logic
-        setTimeout(() => {
-          showTyping();
-          setTimeout(() => {
-            hideTyping();
-            
-            let response = "I'm looking into that for your specific section " + @json(Auth::user()->section ?? 'D') + ". Give me a moment!";
-            // Custom responses
-            const lowerText = text.toLowerCase();
-            if (lowerText === 'hi') {
-                response = "Hello " + @json(Auth::user()->name ?? 'Student') + ", how can I help you?";
-            } else if (lowerText.includes('who are you') || lowerText.includes('who wre you')) {
-                response = "I am your buddy Ai";
+        // Show typing indicator
+        showTyping();
+
+        try {
+          const response = await fetch('/api/buddy-chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': csrfToken,
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: currentChatId,
+              message: text,
+              history: conversationHistory.slice(-16), // Send last 16 messages for context
+            }),
+          });
+
+          hideTyping();
+
+          if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            const fallback = errData.response || "I'm having trouble connecting right now. Please try again. 🔄";
+            addMessage(fallback, 'bot');
+            // Add to history
+            conversationHistory.push({ role: 'user', content: text });
+            conversationHistory.push({ role: 'assistant', content: fallback });
+          } else {
+            const data = await response.json();
+            if (data.chat_id) {
+                currentChatId = data.chat_id;
             }
-            
-            addMessage(response, 'bot');
-          }, 1500);
-        }, 500);
+            const aiResponse = data.response || "I couldn't generate a response. Please try again.";
+            addMessage(aiResponse, 'bot');
+            // Add to conversation history
+            conversationHistory.push({ role: 'user', content: text });
+            conversationHistory.push({ role: 'assistant', content: aiResponse });
+          }
+        } catch (error) {
+          hideTyping();
+          console.error('Buddy AI Error:', error);
+          addMessage("Something went wrong while reaching Buddy AI. Please check your connection and try again. 🔄", 'bot');
+        }
+
+        isProcessing = false;
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = '1';
       }
 
       sendBtn.addEventListener('click', sendMessage);
@@ -451,16 +468,97 @@
         }
       });
 
+      // Handle loading chat history
+      document.querySelectorAll('.chat-history-item').forEach(item => {
+          item.addEventListener('click', async (e) => {
+              e.preventDefault();
+              const id = item.dataset.id;
+              if (!id) return;
+              
+              document.querySelectorAll('.chat-history-item').forEach(i => i.classList.remove('active'));
+              item.classList.add('active');
+
+              try {
+                  const res = await fetch(`/api/ai-chat/${id}`);
+                  const chatData = await res.json();
+                  
+                  currentChatId = chatData.id;
+                  conversationHistory = chatData.history || [];
+                  
+                  // Clear UI
+                  chatMessages.innerHTML = '';
+                  welcomeSection.style.display = 'none';
+                  chatMessages.style.display = 'flex';
+                  
+                  // Render history
+                  conversationHistory.forEach(msg => {
+                      addMessage(msg.content, msg.role === 'assistant' ? 'bot' : 'user');
+                  });
+              } catch (err) {
+                  console.error("Failed to load chat", err);
+              }
+          });
+      });
+      
+      // New Chat button
+      document.getElementById('newChatBtn').addEventListener('click', () => {
+          currentChatId = null;
+          conversationHistory = [];
+          chatMessages.innerHTML = '';
+          welcomeSection.style.display = 'flex';
+          chatMessages.style.display = 'none';
+          document.querySelectorAll('.chat-history-item').forEach(i => i.classList.remove('active'));
+      });
+
+      // Search functionality
+      const searchChats = document.getElementById('searchChats');
+      searchChats.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          document.querySelectorAll('.chat-history-item').forEach(item => {
+              const text = item.querySelector('.history-text').textContent.toLowerCase().trim();
+              if (text.startsWith(query)) {
+                  item.style.display = 'flex';
+              } else {
+                  item.style.display = 'none';
+              }
+          });
+      });
+
       // ================= AUTOMATIC SEND FROM URL =================
       const urlParams = new URLSearchParams(window.location.search);
       const urlMessage = urlParams.get('message');
       
       if (urlMessage) {
           chatInput.value = urlMessage;
-          // Run on a slight delay to allow layout transitions
           setTimeout(() => {
               sendMessage();
           }, 300);
+      }
+
+      /**
+       * Simple Markdown-to-HTML renderer for AI responses.
+       * Handles: bold, italic, bullet points, numbered lists, code blocks, line breaks.
+       */
+      function renderMarkdown(text) {
+        let html = text;
+        // Code blocks (```...```)
+        html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+        // Inline code (`...`)
+        html = html.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;font-size:0.9em;">$1</code>');
+        // Bold (**...**)
+        html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        // Italic (*...*)
+        html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
+        // Headers (## ...)
+        html = html.replace(/^### (.+)$/gm, '<strong style="font-size:1.05em;display:block;margin:8px 0 4px;">$1</strong>');
+        html = html.replace(/^## (.+)$/gm, '<strong style="font-size:1.1em;display:block;margin:10px 0 4px;">$1</strong>');
+        // Numbered lists
+        html = html.replace(/^\d+\.\s+(.+)$/gm, '<div style="padding-left:16px;margin:2px 0;">• $1</div>');
+        // Bullet points (- or *)
+        html = html.replace(/^[-*]\s+(.+)$/gm, '<div style="padding-left:16px;margin:2px 0;">• $1</div>');
+        // Line breaks
+        html = html.replace(/\n/g, '<br>');
+        return html;
       }
 
       function addMessage(text, sender) {
@@ -468,12 +566,13 @@
         row.className = `message-row ${sender}-row`;
 
         const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const renderedText = sender === 'bot' ? renderMarkdown(text) : text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
         row.innerHTML = `
                 <div class="msg-avatar ${sender}-avatar">${sender === 'bot' ? `<img src="{{ asset('assets/landing/character.png') }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">` : '👤'}</div>
                 <div class="msg-content-wrap">
                     <span class="msg-sender-name">${sender === 'bot' ? 'Buddy' : 'You'}</span>
-                    <div class="msg-bubble">${text}</div>
+                    <div class="msg-bubble">${renderedText}</div>
                     <span class="msg-time">${time}</span>
                 </div>
             `;
@@ -505,9 +604,13 @@
         if (indicator) indicator.remove();
       }
 
-      // Sidebar Toggle
+      // Left Sidebar Toggle
       sidebarToggle.addEventListener('click', () => {
-        charSidebar.classList.toggle('collapsed');
+        if (window.innerWidth <= 768) {
+          document.body.classList.toggle('show-left-sidebar');
+        } else {
+          document.body.classList.toggle('left-sidebar-hidden');
+        }
       });
 
       // Granular UI Toggle logic
@@ -519,14 +622,12 @@
         document.body.classList.toggle('topbar-hidden');
       });
 
+      // Right Sidebar Toggle
       toggleSidebarsBtn.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
-          // On mobile, toggle both or cycles them?
-          // Let's toggle both for simplicity or just show the history one as primary
-          document.body.classList.toggle('show-left-sidebar');
           document.body.classList.toggle('show-right-sidebar');
         } else {
-          document.body.classList.toggle('sidebars-hidden');
+          document.body.classList.toggle('right-sidebar-hidden');
         }
       });
 
@@ -536,16 +637,6 @@
           document.body.classList.remove('show-right-sidebar');
         });
       }
-
-      // Also allow history toggle button on mobile to work specifically
-      sidebarToggle.addEventListener('click', () => {
-        if (window.innerWidth <= 768) {
-          document.body.classList.toggle('show-left-sidebar');
-        } else {
-          // Desktop behavior
-          charSidebar.classList.toggle('collapsed');
-        }
-      });
 
       // Toggle functionality for the Smart Context switch
       const contextSwitch = document.querySelector('.switch');

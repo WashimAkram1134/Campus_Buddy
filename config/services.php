@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Groq AI Service (Campus Buddy AI)
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for the Groq Cloud API used by Buddy AI (student chat)
+    | and Visitor AI (public admission assistant). Uses OpenAI-compatible
+    | endpoints with Llama models hosted on Groq's LPU infrastructure.
+    |
+    */
+    'groq' => [
+        'api_key'     => env('GROQ_API_KEY'),
+        'base_url'    => env('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'),
+        'model'       => env('GROQ_MODEL', 'llama-3.3-70b-versatile'),
+        'max_tokens'  => (int) env('GROQ_MAX_TOKENS', 1024),
+        'temperature' => (float) env('GROQ_TEMPERATURE', 0.7),
+    ],
+
 ];

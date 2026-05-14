@@ -41,8 +41,7 @@
         <div class="filter-container reveal">
             <div class="filter-bar">
                 <form action="{{ route('question-bank') }}" method="GET" style="display: flex; gap: 15px; flex: 1;">
-                    <input type="text" name="department" placeholder="Department" class="filter-input" value="{{ request('department') }}">
-                    <input type="text" name="course" placeholder="Course" class="filter-input" value="{{ request('course') }}">
+                    <input type="text" name="course" placeholder="Course Code" class="filter-input" value="{{ request('course') }}">
                     <input type="text" name="semester" placeholder="Semester" class="filter-input" value="{{ request('semester') }}">
                     <button type="submit" class="filter-btn">Search</button>
                 </form>
@@ -74,8 +73,13 @@
                             <span class="code">{{ $question->course_code }}</span>
                         </div>
                         <div class="title-row">
-                            <h3>{{ $question->title }}</h3>
-                            <span class="difficulty {{ strtolower($question->difficulty) }}">{{ $question->difficulty }}</span>
+                            <h3>{{ $question->course_name ?: 'Course Name' }}</h3>
+                            <div style="display:flex; gap: 8px;">
+                                <span class="difficulty {{ strtolower($question->difficulty ?? 'medium') }}">{{ $question->difficulty ?? 'Medium' }}</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 4px; margin-bottom: 8px; color: #0284c7; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                            {{ $question->title ?: 'Question Paper' }}
                         </div>
                     </div>
                     <div class="question-content">
@@ -127,12 +131,43 @@
             <button class="load-more-btn">Load More Questions</button>
         </div>
 
-        <!-- Buddy Section -->
-        <x-buddy-card 
-            title="✨ Practice Smarter with AI" 
-            description="Ask Buddy to generate practice quizzes from past questions, explain difficult course code concepts, or find exactly what you need!" 
-            button_text="Practice with AI"
-        />
+        <!-- AI Practice Generator -->
+        <div class="buddy-section reveal" id="practiceGeneratorSection">
+            <div class="buddy-card" style="cursor: default; text-align: left;">
+                <h3>✨ AI Practice Generator</h3>
+                <p style="margin-bottom: 12px; opacity: 0.85;">Generate practice quizzes, get explanations, or discover frequently tested topics.</p>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; position:relative; z-index:10; pointer-events:auto; background: rgba(99,102,241,0.03); padding: 10px; border-radius: 10px; border: 1px solid rgba(99,102,241,0.1);">
+                    <input type="text" id="aiFilterCourse" placeholder="Course Code (e.g. CSE421)" style="flex:1; min-width:150px; padding:8px 12px; border-radius:8px; border:1px solid rgba(99,102,241,0.2); font-size:13px; outline:none;">
+                    <select id="aiFilterTerm" style="flex:1; min-width:150px; padding:8px 12px; border-radius:8px; border:1px solid rgba(99,102,241,0.2); font-size:13px; outline:none; background:white;">
+                        <option value="">Any Term</option>
+                        <option value="Mid">Midterm</option>
+                        <option value="Final">Final</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; position:relative; z-index:10; pointer-events:auto;">
+                    <button class="practice-ai-pill" onclick="askPracticeAI('Generate 5 practice MCQ questions from the question bank')">📝 5 MCQs</button>
+                    <button class="practice-ai-pill" onclick="askPracticeAI('What are the most frequently tested topics based on the question bank?')">📊 Most tested topics</button>
+                    <button class="practice-ai-pill" onclick="askPracticeAI('Create a mini practice quiz with short answer questions')">✍️ Short answer quiz</button>
+                    <button class="practice-ai-pill" onclick="askPracticeAI('Suggest a study strategy based on the question patterns and difficulty levels')">🧠 Study strategy</button>
+                </div>
+                
+                <div style="display: flex; gap: 8px; position:relative; z-index:10; pointer-events:auto;">
+                    <input type="text" id="practiceAiInput" placeholder="Ask about any course or topic..." 
+                           style="flex:1; padding:10px 14px; border-radius:10px; border:1px solid rgba(99,102,241,0.2); background:rgba(99,102,241,0.05); color:#334155; font-size:14px; outline:none;"
+                           onkeypress="if(event.key==='Enter') askPracticeAI(this.value)">
+                    <button onclick="askPracticeAI(document.getElementById('practiceAiInput').value)" 
+                            style="padding:10px 18px; border-radius:10px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-weight:600; cursor:pointer; font-size:14px; white-space:nowrap;">
+                        Generate ✨
+                    </button>
+                </div>
+                
+                <div id="practiceAiResponse" style="display:none; margin-top:14px; padding:14px; background:rgba(99,102,241,0.05); border-radius:12px; border:1px solid rgba(99,102,241,0.1); max-height:450px; overflow-y:auto; position:relative; z-index:10; pointer-events:auto;">
+                    <div id="practiceAiText" style="color:#334155; font-size:14px; line-height:1.7;"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Upload Modal -->
@@ -188,9 +223,12 @@
                             <span class="code" id="viewCode"></span>
                         </div>
                         <div class="title-row">
-                            <h3 id="viewTitle"></h3>
-                            <span class="difficulty" id="viewDifficulty"></span>
+                            <h3 id="viewCourseHeading"></h3>
+                            <div style="display:flex; gap: 8px;">
+                                <span class="difficulty" id="viewDifficulty"></span>
+                            </div>
                         </div>
+                        <div id="viewTitle" style="margin-top: 4px; margin-bottom: 8px; color: #0284c7; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;"></div>
                     </div>
                     <div class="question-content">
                         <p class="main-question"><strong id="viewHeading"></strong></p>
@@ -269,6 +307,7 @@
                     const fields = {
                         'viewDept': data.dept,
                         'viewCode': data.code,
+                        'viewCourseHeading': data.course,
                         'viewTitle': data.title,
                         'viewDifficulty': data.difficulty,
                         'viewHeading': data.heading,
@@ -382,5 +421,101 @@
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
         }
+
+        // ==================== AI PRACTICE GENERATOR ====================
+        let practiceAiHistory = [];
+
+        async function askPracticeAI(message) {
+            if (!message || !message.trim()) return;
+            
+            const responseBox = document.getElementById('practiceAiResponse');
+            const responseText = document.getElementById('practiceAiText');
+            const input = document.getElementById('practiceAiInput');
+            
+            responseBox.style.display = 'block';
+            
+            // If it's a new conversation, clear the box. Otherwise just append.
+            if (practiceAiHistory.length === 0) {
+                responseText.innerHTML = '';
+            } else {
+                // Remove any previous error messages if present
+                const errorMsg = document.getElementById('practiceAiError');
+                if (errorMsg) errorMsg.remove();
+            }
+
+            // Append user message
+            const userHtml = `<div style="margin-top:15px; margin-bottom:5px; color:#4338ca; font-weight:600;">You: ${message}</div>`;
+            const loadingHtml = `<div id="practiceAiLoading" style="opacity:0.6; margin-bottom:15px;">🧠 Generating...</div>`;
+            responseText.innerHTML += userHtml + loadingHtml;
+            
+            if (input) input.value = '';
+            
+            responseBox.scrollTop = responseBox.scrollHeight;
+
+            try {
+                const res = await fetch('/api/ai/practice-generator', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify({ 
+                        message: message.trim(),
+                        history: practiceAiHistory,
+                        course_code: document.getElementById('aiFilterCourse')?.value || '',
+                        term: document.getElementById('aiFilterTerm')?.value || ''
+                    })
+                });
+
+                const data = await res.json();
+                
+                // Remove loading indicator
+                const loadingIndicator = document.getElementById('practiceAiLoading');
+                if (loadingIndicator) loadingIndicator.remove();
+                let html = (data.response || 'Unable to generate practice content.')
+                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                    .replace(/### (.+)/g, '<h4 style="margin:10px 0 6px;color:#4f46e5;">$1</h4>')
+                    .replace(/## (.+)/g, '<h4 style="margin:12px 0 6px;color:#4f46e5;">$1</h4>')
+                    .replace(/# (.+)/g, '<h3 style="margin:14px 0 8px;color:#6366f1;">$1</h3>')
+                    .replace(/- (.+)/g, '• $1')
+                    .replace(/\n/g, '<br>');
+
+                responseText.innerHTML += `<div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px solid rgba(0,0,0,0.05);">${html}</div>`;
+                responseBox.scrollTop = responseBox.scrollHeight;
+
+                // Save to history
+                if (data.response) {
+                    practiceAiHistory.push({ role: 'user', content: message.trim() });
+                    practiceAiHistory.push({ role: 'assistant', content: data.response });
+                }
+
+            } catch (error) {
+                console.error(error);
+                const loadingIndicator = document.getElementById('practiceAiLoading');
+                if (loadingIndicator) loadingIndicator.remove();
+                responseText.innerHTML += `<div id="practiceAiError" style="color:#ef4444; margin-top:10px;">Failed to generate content. Please try again.</div>`;
+                responseBox.scrollTop = responseBox.scrollHeight;
+            }
+        }
     </script>
+
+    <style>
+        .practice-ai-pill {
+            padding: 7px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(99,102,241,0.3);
+            background: rgba(99,102,241,0.1);
+            color: #4f46e5;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .practice-ai-pill:hover {
+            background: rgba(102,126,234,0.3);
+            border-color: rgba(102,126,234,0.6);
+            transform: translateY(-1px);
+        }
+    </style>
 @endpush

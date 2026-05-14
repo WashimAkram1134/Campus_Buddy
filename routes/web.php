@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\BuddyAIController;
+use App\Http\Controllers\AIFeaturesController;
 use App\Http\Controllers\ClassTaskController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
@@ -23,6 +25,9 @@ Route::get('/', [PageController::class, 'landing'])->name('landing');
 
 // Buddy Visitor (no auth required)
 Route::get('/buddy-visitor', [PageController::class, 'buddyVisitor'])->name('buddy-visitor');
+
+// Documentation / Pitch Deck (public with admin-controlled access)
+Route::get('/docs', [\App\Http\Controllers\DocsController::class, 'index'])->name('docs');
 
 // ==================== AUTH ROUTES ====================
 
@@ -109,3 +114,47 @@ Route::match(['post', 'patch'], '/profile/update', [ProfileController::class, 'u
 Route::get('/profile/settings', [ProfileController::class, 'settings'])->name('profile.settings')->middleware('auth');
 Route::patch('/profile/settings', [ProfileController::class, 'updateSettings'])->name('profile.settings.update')->middleware('auth');
 Route::delete('/profile/image', [ProfileController::class, 'deleteProfileImage'])->name('profile.image.delete')->middleware('auth');
+
+// ==================== AI CHAT API ROUTES ====================
+
+// Buddy AI (authenticated students — personalized with RAG context)
+Route::post('/api/buddy-chat', [BuddyAIController::class, 'chat'])
+    ->middleware(['auth', 'throttle:30,1'])
+    ->name('api.buddy-chat');
+
+// Visitor AI (public — DIU admission assistant, no auth needed)
+Route::post('/api/buddy-visitor', [BuddyAIController::class, 'visitorChat'])
+    ->middleware('throttle:20,1')
+    ->name('api.buddy-visitor');
+
+// Get specific chat history
+Route::get('/api/ai-chat/{chat}', [BuddyAIController::class, 'getChat'])
+    ->middleware('throttle:30,1')
+    ->name('api.ai-chat.get');
+
+// ==================== AI FEATURE API ROUTES ====================
+
+// Daily Dashboard Briefing (auto-loads on dashboard)
+Route::get('/api/ai/daily-briefing', [AIFeaturesController::class, 'dailyBriefing'])
+    ->middleware(['auth', 'throttle:10,1'])
+    ->name('api.ai.daily-briefing');
+
+// Personalized Routine Advisor
+Route::post('/api/ai/routine-advisor', [AIFeaturesController::class, 'routineAdvisor'])
+    ->middleware(['auth', 'throttle:20,1'])
+    ->name('api.ai.routine-advisor');
+
+// Dynamic Task Tips Generator
+Route::post('/api/ai/task-tips', [AIFeaturesController::class, 'taskTips'])
+    ->middleware(['auth', 'throttle:20,1'])
+    ->name('api.ai.task-tips');
+
+// PDF & Notes Summarizer
+Route::post('/api/ai/summarize-notes', [AIFeaturesController::class, 'summarizeNotes'])
+    ->middleware(['auth', 'throttle:15,1'])
+    ->name('api.ai.summarize-notes');
+
+// Question Bank Practice Generator
+Route::post('/api/ai/practice-generator', [AIFeaturesController::class, 'practiceGenerator'])
+    ->middleware(['auth', 'throttle:15,1'])
+    ->name('api.ai.practice-generator');

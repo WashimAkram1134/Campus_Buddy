@@ -108,6 +108,22 @@
                 transform: translateY(0);
             }
         }
+
+        /* Custom scrollbar for AI Response */
+        #notesSummaryResponse::-webkit-scrollbar {
+            width: 8px;
+        }
+        #notesSummaryResponse::-webkit-scrollbar-track {
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 4px;
+        }
+        #notesSummaryResponse::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 4px;
+        }
+        #notesSummaryResponse::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
     </style>
 
     <!-- ================= SPLIT SECTION ================= -->
@@ -165,6 +181,16 @@
                             <div class="card-meta-row">
                                 <span class="size-badge">{{ strtoupper($material->file_extension) }}</span>
                                 <div class="card-actions-mini">
+                                    <button class="mini-ai-btn" 
+                                        data-ai-title="{{ $material->title }}" 
+                                        data-ai-course="{{ $material->course_code }}" 
+                                        data-ai-dept="{{ $material->department }}" 
+                                        data-ai-filetype="{{ $material->file_extension }}" 
+                                        data-ai-type="class_material" 
+                                        data-ai-filepath="{{ $material->file_path }}"
+                                        onclick="summarizeFromBtn(this)" title="AI Summary">
+                                        ✨
+                                    </button>
                                     <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank"
                                         class="mini-view-btn pdf">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -250,6 +276,16 @@
                             <div class="card-meta-row">
                                 <span class="size-badge note">{{ strtoupper($material->file_extension) }}</span>
                                 <div class="card-actions-mini">
+                                    <button class="mini-ai-btn" 
+                                        data-ai-title="{{ $material->title }}" 
+                                        data-ai-course="{{ $material->course_code }}" 
+                                        data-ai-dept="{{ $material->department }}" 
+                                        data-ai-filetype="{{ $material->file_extension }}" 
+                                        data-ai-type="hand_note" 
+                                        data-ai-filepath="{{ $material->file_path }}"
+                                        onclick="summarizeFromBtn(this)" title="AI Summary">
+                                        ✨
+                                    </button>
                                     <a href="{{ asset('storage/' . $material->file_path) }}" target="_blank"
                                         class="mini-view-btn note">
                                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -295,13 +331,18 @@
         </div>
     </div>
 
-    <!-- ================= SUMMARIZE BUDDY ================= -->
-    <div class="buddy-card-container">
-        <x-buddy-card 
-            title="✨ Summarize & Learn with AI" 
-            description="Ask Buddy to summarize long PDFs, explain complex topics, or generate practice questions from your notes using AI power!" 
-            button_text="Summarize with AI"
-        />
+    <!-- ================= AI NOTES SUMMARIZER ================= -->
+    <div class="buddy-card-container" id="notesSummarizerSection">
+        <div class="buddy-section reveal">
+            <div class="buddy-card" style="cursor: default; text-align: left;">
+                <h3>✨ AI Notes Summarizer</h3>
+                <p style="margin-bottom: 10px; opacity: 0.85;">Click the ✨ button on any PDF or note above to get an AI-powered summary, key topics, and practice questions.</p>
+                <div id="notesSummaryResponse" style="display:none; margin-top:12px; padding:18px; background:rgba(99,102,241,0.05); border-radius:12px; border:1px solid rgba(99,102,241,0.15); max-height: 500px; overflow-y: auto;">
+                    <div id="notesSummaryTitle" style="font-weight:700; color:#4338ca; margin-bottom:16px; font-size:18px; border-bottom:1px solid rgba(99,102,241,0.2); padding-bottom:10px;"></div>
+                    <div id="notesSummaryText" style="color:#334155; font-size:14px; line-height:1.7;"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ================= PDF UPLOAD MODAL ================= -->
@@ -512,4 +553,80 @@
             });
         });
     </script>
+
+    <!-- AI Notes Summarizer Script -->
+    <script>
+        function summarizeFromBtn(btn) {
+            summarizeNote({
+                title: btn.dataset.aiTitle,
+                course_code: btn.dataset.aiCourse,
+                department: btn.dataset.aiDept,
+                file_type: btn.dataset.aiFiletype,
+                type: btn.dataset.aiType,
+                file_path: btn.dataset.aiFilepath
+            });
+        }
+
+        async function summarizeNote(materialData) {
+            const responseBox = document.getElementById('notesSummaryResponse');
+            const titleEl = document.getElementById('notesSummaryTitle');
+            const textEl = document.getElementById('notesSummaryText');
+            
+            responseBox.style.display = 'block';
+            titleEl.textContent = `📝 Summarizing: ${materialData.title}`;
+            textEl.innerHTML = '<span style="opacity:0.6;">Generating AI summary... This may take a moment. ✨</span>';
+            
+            // Scroll to the response
+            responseBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            try {
+                const res = await fetch('/api/ai/summarize-notes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify(materialData)
+                });
+
+                const data = await res.json();
+                let html = (data.response || 'Could not generate summary.')
+                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                    .replace(/### (.+)/g, '<h4 style="margin:10px 0 6px;color:#4f46e5;">$1</h4>')
+                    .replace(/## (.+)/g, '<h4 style="margin:12px 0 6px;color:#4f46e5;">$1</h4>')
+                    .replace(/# (.+)/g, '<h3 style="margin:14px 0 8px;color:#6366f1;">$1</h3>')
+                    .replace(/- (.+)/g, '• $1')
+                    .replace(/\d+\. /g, (match) => `<br>${match}`)
+                    .replace(/\n/g, '<br>');
+
+                titleEl.textContent = `✨ Summary: ${materialData.title} (${materialData.course_code})`;
+                textEl.innerHTML = html;
+            } catch (e) {
+                textEl.innerHTML = '<span style="color:#f87171;">Could not connect to AI. Please try again. 🔄</span>';
+            }
+        }
+    </script>
+
+    <style>
+        .mini-ai-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: 1px solid rgba(167,139,250,0.3);
+            background: rgba(167,139,250,0.12);
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+        .mini-ai-btn:hover {
+            background: rgba(167,139,250,0.3);
+            transform: scale(1.1);
+            border-color: rgba(167,139,250,0.6);
+        }
+    </style>
 @endpush

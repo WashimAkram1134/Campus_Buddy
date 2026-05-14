@@ -11,12 +11,20 @@ class PageController extends Controller
 
     public function buddyChat()
     {
-        return view('buddy-chat');
+        $chats = \App\Models\AiChat::where('user_id', auth()->id())
+                    ->where('type', 'buddy')
+                    ->latest()
+                    ->get();
+        return view('buddy-chat', compact('chats'));
     }
 
     public function buddyVisitor()
     {
-        return view('buddy-visitor');
+        $chats = \App\Models\AiChat::where('session_id', session()->getId())
+                    ->where('type', 'visitor')
+                    ->latest()
+                    ->get();
+        return view('buddy-visitor', compact('chats'));
     }
 
     public function landing()

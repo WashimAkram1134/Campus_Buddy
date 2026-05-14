@@ -262,13 +262,35 @@
         </div>
       </section>
 
-      <!-- ================= PERSONALIZED ROUTINE BUDDY ================= -->
-      <div class="buddy-card-container">
-          <x-buddy-card 
-              title="✨ Personalize your Routine with AI" 
-              description="Ask Buddy to organize your week, find your next class, or explain your schedule with AI power!" 
-              button_text="Personalize with AI"
-          />
+      <!-- ================= AI ROUTINE ADVISOR ================= -->
+      <div class="buddy-card-container" id="routineAdvisorSection">
+        <div class="buddy-section reveal">
+          <div class="buddy-card" style="cursor: default; text-align: left;">
+            <h3>✨ AI Routine Advisor</h3>
+            <p style="margin-bottom: 12px; opacity: 0.85;">Ask Buddy to analyze your schedule, find free slots, or plan your study time.</p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+              <button class="routine-ai-pill" onclick="askRoutineAI('Generate a personalized study routine for me based on my upcoming classes, tasks, and events.')">🎯 Personalized Routine</button>
+              <button class="routine-ai-pill" onclick="askRoutineAI('What is my next class today?')">📍 Next class</button>
+              <button class="routine-ai-pill" onclick="askRoutineAI('Find my free time slots today for studying')">🕐 Free time today</button>
+              <button class="routine-ai-pill" onclick="askRoutineAI('Which day is the heaviest and which is lightest?')">⚖️ Load analysis</button>
+            </div>
+            
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="routineAiInput" placeholder="Ask anything about your routine..." 
+                     style="flex:1; padding:10px 14px; border-radius:10px; border:1px solid rgba(99,102,241,0.2); background:rgba(99,102,241,0.05); color:#334155; font-size:14px; outline:none;" 
+                     onkeypress="if(event.key==='Enter') askRoutineAI(this.value)">
+              <button onclick="askRoutineAI(document.getElementById('routineAiInput').value)" 
+                      style="padding:10px 18px; border-radius:10px; border:none; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; font-weight:600; cursor:pointer; font-size:14px; white-space:nowrap;">
+                Ask ✨
+              </button>
+            </div>
+            
+            <div id="routineAiResponse" style="display:none; margin-top:14px; padding:14px; background:rgba(99,102,241,0.05); border-radius:12px; border:1px solid rgba(99,102,241,0.1);">
+              <div id="routineAiText" style="color:#334155; font-size:14px; line-height:1.7;"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
   @if(auth()->user()->role === 'cr' || auth()->user()->role === 'admin')
@@ -488,5 +510,61 @@
         }
       });
     });
+
+    // ==================== AI ROUTINE ADVISOR ====================
+    async function askRoutineAI(message) {
+      if (!message || !message.trim()) return;
+      
+      const responseBox = document.getElementById('routineAiResponse');
+      const responseText = document.getElementById('routineAiText');
+      const input = document.getElementById('routineAiInput');
+      
+      responseBox.style.display = 'block';
+      responseText.innerHTML = '<span style="opacity:0.6;">🤔 Analyzing your schedule...</span>';
+      if (input) input.value = '';
+
+      try {
+        const res = await fetch('/api/ai/routine-advisor', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+          },
+          body: JSON.stringify({ message: message.trim() })
+        });
+        
+        const data = await res.json();
+        let html = (data.response || 'Unable to analyze your routine right now.')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/### (.+)/g, '<h4 style="margin:8px 0 4px;color:#4f46e5;">$1</h4>')
+          .replace(/## (.+)/g, '<h4 style="margin:10px 0 4px;color:#4f46e5;">$1</h4>')
+          .replace(/- (.+)/g, '• $1')
+          .replace(/\n/g, '<br>');
+        
+        responseText.innerHTML = html;
+      } catch (e) {
+        responseText.innerHTML = '<span style="color:#f87171;">Could not connect to AI. Please try again. 🔄</span>';
+      }
+    }
   </script>
+
+  <style>
+    .routine-ai-pill {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(99,102,241,0.3);
+      background: rgba(99,102,241,0.1);
+      color: #4f46e5;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .routine-ai-pill:hover {
+      background: rgba(102,126,234,0.3);
+      border-color: rgba(102,126,234,0.6);
+      transform: translateY(-1px);
+    }
+  </style>
 @endpush

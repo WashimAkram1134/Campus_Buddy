@@ -143,9 +143,12 @@
                                         <span class="buddy-label">Buddy's Tip</span>
                                         <span class="buddy-subtitle">Study Assistant</span>
                                     </div>
+                                    <button class="ai-tip-btn" onclick='generateAITips(this, @json($task))' title="Get AI-powered tips">
+                                        ✨ AI Tips
+                                    </button>
                                 </div>
                                 <div class="buddy-content">
-                                    <p class="buddy-tip-text">{{ $task->tip_1 }}</p>
+                                    <p class="buddy-tip-text" id="tip-text-{{ $task->id }}">{{ $task->tip_1 }}</p>
                                 </div>
                                 <div class="card-footer-actions">
                                     <button class="buddy-help-btn" onclick='showTaskDetails(@json($task))'>View Details</button>
@@ -220,5 +223,72 @@
                 });
             });
         });
+
+        // ==================== AI TASK TIPS ====================
+        async function generateAITips(btn, task) {
+            const tipEl = document.getElementById('tip-text-' + task.id);
+            if (!tipEl) return;
+            
+            const originalText = tipEl.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Generating...';
+            tipEl.style.opacity = '0.5';
+            tipEl.textContent = 'Generating AI-powered tips...';
+
+            try {
+                const res = await fetch('/api/ai/task-tips', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify({
+                        title: task.title || '',
+                        type: task.type || 'task',
+                        course_code: task.course_code || '',
+                        topic: task.topic || '',
+                        deadline: task.deadline || '',
+                        description: task.description || ''
+                    })
+                });
+
+                const data = await res.json();
+                tipEl.innerHTML = `<strong>✨ Tip 1:</strong> ${data.tip_1}<br><br><strong>✨ Tip 2:</strong> ${data.tip_2}`;
+                tipEl.style.opacity = '1';
+                btn.textContent = '✅ Done';
+                setTimeout(() => { btn.textContent = '✨ AI Tips'; btn.disabled = false; }, 3000);
+            } catch (e) {
+                tipEl.textContent = originalText;
+                tipEl.style.opacity = '1';
+                btn.textContent = '❌ Failed';
+                setTimeout(() => { btn.textContent = '✨ AI Tips'; btn.disabled = false; }, 2000);
+            }
+        }
     </script>
+
+    <style>
+        .ai-tip-btn {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(167,139,250,0.4);
+            background: rgba(167,139,250,0.15);
+            color: #a78bfa;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .ai-tip-btn:hover {
+            background: rgba(167,139,250,0.3);
+            transform: scale(1.05);
+        }
+        .ai-tip-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
 @endpush

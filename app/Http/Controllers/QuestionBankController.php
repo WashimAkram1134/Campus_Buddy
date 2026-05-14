@@ -11,8 +11,8 @@ class QuestionBankController extends Controller
     {
         $query = QuestionBank::query()->where('status', 'approved');
 
-        if ($request->filled('department')) {
-            $query->where('department', 'like', '%' . $request->department . '%');
+        if (auth()->check() && auth()->user()->department) {
+            $query->where('department', auth()->user()->department);
         }
 
         if ($request->filled('course')) {

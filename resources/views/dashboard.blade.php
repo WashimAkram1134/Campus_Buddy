@@ -39,13 +39,20 @@ Standardized structure matching all pages
                     <div class="glass-dot"></div>
                 </div>
                 <div class="glass-content">
-                    <span class="glass-tag">Buddy(AI assistant)</span>
-                    <h3>Need a helping hand?</h3>
-                    <p>Buddy AI can guide you through campus life, clarify assignments, and help you stay ahead in your studies.</p>
-                    <a href="{{ route('buddy-chat') }}" class="glass-btn">
-                        <span>Let's Talk</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </a>
+                    <span class="glass-tag">Buddy AI — Daily Briefing ✨</span>
+                    <div id="aiBriefingContent">
+                        <p style="color: rgba(255,255,255,0.6); font-size: 13px; line-height: 1.6;">
+                            <span class="briefing-skeleton" style="display:inline-block;width:90%;height:12px;background:rgba(255,255,255,0.15);border-radius:4px;animation:pulse 1.5s infinite;margin-bottom:6px;"></span>
+                            <span class="briefing-skeleton" style="display:inline-block;width:75%;height:12px;background:rgba(255,255,255,0.1);border-radius:4px;animation:pulse 1.5s infinite;margin-bottom:6px;"></span>
+                            <span class="briefing-skeleton" style="display:inline-block;width:60%;height:12px;background:rgba(255,255,255,0.08);border-radius:4px;animation:pulse 1.5s infinite;"></span>
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-top: 10px;">
+                        <a href="{{ route('buddy-chat') }}" class="glass-btn">
+                            <span>Let's Talk</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        </a>
+                    </div>
                 </div>
                 <div class="glass-shimmer"></div>
             </div>
@@ -520,5 +527,37 @@ Standardized structure matching all pages
       }
     }) ();
   </script>
+
+  <!-- AI Daily Briefing Auto-Fetch -->
+  <script>
+    (async function() {
+      const briefingEl = document.getElementById('aiBriefingContent');
+      if (!briefingEl) return;
+
+      try {
+        const res = await fetch('/api/ai/daily-briefing', {
+          headers: { 'Accept': 'application/json' }
+        });
+        const data = await res.json();
+        const text = data.response || 'Welcome back! Check your routine and tasks for today.';
+        
+        let html = text
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/\n/g, '<br>');
+        
+        briefingEl.innerHTML = `<p style="color: rgba(255,255,255,0.9); font-size: 13.5px; line-height: 1.65; margin: 0;">${html}</p>`;
+      } catch (e) {
+        briefingEl.innerHTML = `<p style="color: rgba(255,255,255,0.75); font-size: 13px; line-height: 1.6; margin: 0;">Welcome back! 👋 Check your routine and tasks pages for today's details.</p>`;
+      }
+    })();
+  </script>
+
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+  </style>
+
 </div>
 @endsection
