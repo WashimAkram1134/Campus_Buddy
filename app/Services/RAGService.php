@@ -56,14 +56,14 @@ Your tone is warm, professional, and helpful — like a knowledgeable senior stu
 ## TODAY'S SCHEDULE
 {$context['schedule']}
 
-## PENDING TASKS & DEADLINES
+## UPCOMING TASKS & DEADLINES (today or future only)
 {$context['tasks']}
 
 ## RECENT ANNOUNCEMENTS
 {$context['announcements']}
 
 ## YOUR RULES
-1. Always use the student's actual schedule and task data above when answering questions about their routine or deadlines.
+1. Always use the student's actual schedule and task data above when answering questions about their routine or deadlines. The tasks listed are ONLY upcoming (deadline today or in the future) — never mention past/overdue assignments as upcoming.
 2. Do NOT make up class times, course names, or deadlines. If data is not available, say so honestly.
 3. Keep answers concise and actionable. Use bullet points for lists.
 4. Format your responses with clear structure — use headings, bullet points, and bold text for emphasis.
@@ -223,6 +223,11 @@ PROMPT;
         }
 
         $tasks = $tasksQuery
+            ->where(function ($q) {
+                // Only include tasks with deadline today or in the future, or with no deadline set
+                $q->where('deadline', '>=', now()->toDateString())
+                  ->orWhereNull('deadline');
+            })
             ->orderBy('deadline')
             ->limit(5)
             ->get(['title', 'deadline', 'type', 'course_code'])
@@ -295,7 +300,7 @@ Student: {$context['department']}, Batch {$context['batch']}, Section {$context[
 ## TODAY'S SCHEDULE
 {$context['schedule']}
 
-## PENDING TASKS & DEADLINES
+## UPCOMING TASKS & DEADLINES (today or future only)
 {$context['tasks']}
 
 ## RECENT ANNOUNCEMENTS
