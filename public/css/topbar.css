@@ -458,14 +458,14 @@
 
 /* ================= DESKTOP RESPONSIVENESS ================= */
 /* Large Desktop (Extra wide) */
-@media (min-width: 1601px) {
+@media (min-width: 1281px) {
     .topbar {
         padding: 0 48px;
     }
 }
 
 /* Medium Desktop (Laptops) */
-@media (max-width: 1600px) {
+@media (max-width: 1280px) {
     .topbar {
         padding: 0 24px;
         height: 90px;
@@ -492,7 +492,7 @@
 }
 
 /* Small Laptops (Menu starts to get crowded) */
-@media (max-width: 1350px) {
+@media (max-width: 1080px) {
     .desktop-nav {
         gap: 8px;
         padding: 0 10px;
@@ -515,7 +515,7 @@
 }
 
 /* Very Small Laptops (Switch to Hamburger or hide text) */
-@media (max-width: 1200px) {
+@media (max-width: 960px) {
     .topbar {
         height: 65px;
         padding: 0 15px;
@@ -578,19 +578,19 @@ body .main {
     margin: 0;
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1280px) {
     body .layout {
         padding-top: 90px !important;
     }
 }
 
-@media (max-width: 1350px) {
+@media (max-width: 1080px) {
     body .layout {
         padding-top: 90px !important;
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 960px) {
     /* Adjust layout padding for the new 65px topbar height */
     body .layout {
         padding-top: 65px !important;
