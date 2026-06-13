@@ -38,11 +38,6 @@
     box-sizing: border-box;
 }
 
-html {
-    zoom: 0.8;
-    overflow-x: hidden;
-}
-
 body {
     font-family: var(--font-main);
     background-color: var(--clr-bg-dark);

@@ -23,11 +23,6 @@ body {
   height: 100%;
 }
 
-html {
-  zoom: 0.8;
-  overflow-x: hidden;
-}
-
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
